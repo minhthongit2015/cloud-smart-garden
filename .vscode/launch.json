@@ -7,6 +7,20 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "no babel",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/src/server/server.js",
+      "args": ["--exclude", "${workspaceFolder}/src/client", "-w", "${workspaceFolder}/src"],
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "DEBUG": "app:server app:ws-core"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "nodemon",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/dist/build/server-bundle.js",

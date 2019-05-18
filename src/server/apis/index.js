@@ -1,9 +1,10 @@
-import express from 'express';
-
-const router = express.Router();
+const router = require('express').Router();
+const EnvironmentRouter = require('./environment');
 
 router.get('/', async (req, res) => {
   res.send('hello API');
 });
 
-export default router;
+router.use('/environment', EnvironmentRouter);
+
+module.exports = router;

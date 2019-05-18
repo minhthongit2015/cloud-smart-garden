@@ -1,20 +1,19 @@
 // Libraries / Modules
-// import '@babel/polyfill';
-const express = require('express');
-const http = require('http');
-const path = require('path');
-const debug = require('debug');
-const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
-const socketIO = require('socket.io');
-const routes = require('./routes');
-const apis = require('./apis');
-const WebsocketManager = require('./websocket');
-const Gardener = require('./services/gardener');
-const SystemInfo = require('./helpers/system-info');
+import '@babel/polyfill';
+import express from 'express';
+import http from 'http';
+import path from 'path';
+import debug from 'debug';
+import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
+import routes from './routes';
+import apis from './apis';
+import WebsocketManager from './websocket';
 
 // Global Config
-const serverConfig = require('../config').Server;
+import { Server as serverConfig } from '../config';
+
+const socketIO = require('socket.io');
 
 // Setup Debugging
 const serverDebug = debug('app:server');
@@ -45,12 +44,8 @@ WebsocketManager.setup(io);
 server.listen(serverConfig.port);
 server.on('listening', () => {
   const address = server.address();
-  if (typeof address === 'string') {
-    serverDebug(`Server running at pipe: ${address}`);
-  } else {
-    SystemInfo.showServerPorts(address.port, serverDebug);
-  }
-  Gardener.startWorking();
+  const bind = typeof address === 'string' ? `pipe ${address}` : `port + ${address.port}`;
+  serverDebug(`Server running at: ${bind}`);
 });
 
 

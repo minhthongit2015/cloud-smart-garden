@@ -1,4 +1,5 @@
 // const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 const serverConfig = require('./src/config').Server;
@@ -39,7 +40,7 @@ const config = {
         ]
       },
       {
-        test: /\.(jsx|js)?$/,
+        test: /\.(js|jsx)$/,
         use: [
           {
             loader: 'babel-loader',
@@ -50,7 +51,11 @@ const config = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new CopyPlugin([
+    ])
+  ]
 };
 
 module.exports = config;
