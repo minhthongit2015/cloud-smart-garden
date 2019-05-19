@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "babel.config.js",
+  "engines": {
+    "node": "v10.15.0"
+  },
   "scripts": {
     "watch": "webpack -w",
     "build": "webpack",
