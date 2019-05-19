@@ -6,6 +6,9 @@ const path = require('path');
 const debug = require('debug');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const cors = require('cors');
+const CookieParser = require('cookie-parser');
+const Session = require('express-session');
 const socketIO = require('socket.io');
 const routes = require('./routes');
 const apis = require('./apis');
@@ -14,13 +17,33 @@ const Gardener = require('./services/gardener');
 const SystemInfo = require('./helpers/system-info');
 
 // Global Config
-const serverConfig = require('../config').Server;
+const serverConfig = require('../config/server');
 
 // Setup Debugging
 const serverDebug = debug('app:server');
 
 // Init the Server
 const app = express();
+
+// Setup for CORS | Session | Cookie
+const session = Session({
+  // store: new PgSession({ conObject }),
+  key: 'user_sid',
+  secret: 'HkF1KkHBQ8',
+  resave: true,
+  secure: true,
+  httpOnly: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 365 * 86400000 // 365 days
+  },
+  rolling: true
+});
+
+const cookieParser = CookieParser();
+app.use(cookieParser);
+app.use(session);
+app.use(cors());
 
 // Setup for POST parser
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
@@ -33,7 +56,7 @@ app.use(fileUpload());
 const PUBLIC_FOLDER = path.resolve(process.cwd(), serverConfig.publicFolder);
 app.get('*.*', express.static(PUBLIC_FOLDER));
 
-app.use('/api', apis);
+app.use('/apis', apis);
 app.use('/', routes);
 
 // Setup HTTP Server

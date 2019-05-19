@@ -26,9 +26,9 @@ module.exports = class Gardener {
     setInterval(() => {
       const first = WebsocketManager.clientArray[0];
       Gardener.dispatchCommand({
-        state1: Math.random(),
-        state2: Math.random() > 0.5,
-        state3: Math.random().toString()
+        server1: Math.random(),
+        server2: Math.random() > 0.5,
+        server3: Math.random().toString()
       }, first);
     }, 2000);
   }

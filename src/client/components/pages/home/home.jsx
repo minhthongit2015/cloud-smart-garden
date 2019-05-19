@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './styles.scss';
 import { WS_EVENTS } from '../../../../shared/constants';
+import ClientConfig from '../../../../config/client';
 
 export default class Dashboard extends Component {
   componentDidMount() {
     document.title = 'Home';
     
     // eslint-disable-next-line no-undef
-    this.socket = io('http://localhost:4000');
+    this.socket = io(`http://localhost:${ClientConfig.backendPort}`);
     this.socket.on(WS_EVENTS.command, (msg) => {
       const messages = document.getElementById('messages');
       messages.value += `\r\n[Command]: ${JSON.stringify(msg)}`;
