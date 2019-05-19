@@ -13,8 +13,8 @@ const config = {
   mode: 'development',
   devtool: 'source-map',
   entry: {
-    client: `${APP_DIR}/client.jsx`,
-    server: `${SERVER_DIR}/server.js`
+    client: `${APP_DIR}/client.jsx`
+    // server: `${SERVER_DIR}/server.js`
   },
   output: {
     filename: '[name]-bundle.js',

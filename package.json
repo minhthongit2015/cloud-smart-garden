@@ -9,7 +9,7 @@
   "scripts": {
     "watch": "webpack -w",
     "build": "webpack",
-    "start": "node dist/build/server-bundle.js"
+    "start": "node src/server/server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
