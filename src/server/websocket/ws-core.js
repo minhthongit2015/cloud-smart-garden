@@ -25,14 +25,14 @@ module.exports = class WebsocketManagerCore {
 
   static pushHandler(handler) {
     WebsocketManagerCore.handlers.push(handler);
-    handler.setup(WebsocketManagerCore.io, WebsocketManagerCore.clients);
+    handler.setup(WebsocketManagerCore.io, WebsocketManagerCore.clients, this);
     Object.keys(WebsocketManagerCore.clients).forEach((clientId, index, clients) => {
       handler.attach(clients[clientId]);
     });
   }
 
   static pushHandlers(handlers) {
-    WebsocketManagerCore.handlers.push(...handlers);
+    handlers.forEach(handler => WebsocketManagerCore.pushHandler(handler));
   }
 
   static setup(wsServer) {
@@ -42,11 +42,11 @@ module.exports = class WebsocketManagerCore {
         serverDebug('User connected: ', socket.id, socket.conn.remoteAddress);
         WebsocketManagerCore.accept(socket);
   
-        socket.on(WS_EVENTS.disconnect, (event) => {
+        socket.on(WS_EVENTS.disconnect, () => {
           serverDebug('User disconnected: ', socket.id, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
-        LoggerService.error(wsClientError);
+        LoggerService.error({ message: wsClientError.message, stack: wsClientError.stack });
       }
     });
   }

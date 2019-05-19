@@ -9,7 +9,13 @@ const common = {
   dbPostgresPort: 5432,
   dbPostgresSSLPort: 5572,
   dbPostgresDialect: 'postgres',
-  dbPostgresURI: 'postgres://uedoajrdoowuzt:b0392e59e8e25102b9fdc25d94ced9e438bf2a140a61797e8d3b80b03e2fae05@ec2-23-21-129-125.compute-1.amazonaws.com:5432/dbusihubg613d4'
+  dbPostgresURI: 'postgres://uedoajrdoowuzt:b0392e59e8e25102b9fdc25d94ced9e438bf2a140a61797e8d3b80b03e2fae05@ec2-23-21-129-125.compute-1.amazonaws.com:5432/dbusihubg613d4',
+
+  dbPostgresOptions: {
+    define: {
+      underscored: true
+    }
+  }
 };
 
 module.exports = {

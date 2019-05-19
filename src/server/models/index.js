@@ -15,9 +15,9 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize(process.env[config.use_env_variable], config.dbPostgresOptions);
 } else {
-  sequelize = new Sequelize(config.dbPostgresURI);
+  sequelize = new Sequelize(config.dbPostgresURI, config.dbPostgresOptions);
 }
 
 db.User = User(sequelize, Sequelize);

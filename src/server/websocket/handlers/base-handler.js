@@ -9,9 +9,10 @@ module.exports = class WebsocketHandler {
     this.callbacks = [];
   }
 
-  setup(io, clients) {
+  setup(io, clients, manager) {
     this.io = io;
     this.clients = clients;
+    this.manager = manager;
     return this;
   }
 

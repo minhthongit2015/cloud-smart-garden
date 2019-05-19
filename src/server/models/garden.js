@@ -7,13 +7,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     avatar: DataTypes.STRING,
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
     description: DataTypes.STRING,
     type: DataTypes.INTEGER,
-    stripe_customer_id: DataTypes.STRING
-  }, {});
+    local_ip: DataTypes.STRING,
+    location: DataTypes.STRING,
+    physical_address: DataTypes.STRING
+  }, {
+    underscored: true
+  });
   Garden.associate = (models) => {
-    Garden.belongsToMany(models.User, { through: models.UserGarden });
+    Garden.belongsToMany(models.User, { through: models.UserGarden, foreignKey: 'garden_id', otherKey: 'user_id' });
   };
   return Garden;
 };

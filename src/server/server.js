@@ -6,7 +6,6 @@ const path = require('path');
 const debug = require('debug');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const ConnectPgSimple = require('connect-pg-simple');
 const ConnectSessionSequelize = require('connect-session-sequelize');
 const cors = require('cors');
 const CookieParser = require('cookie-parser');
@@ -17,7 +16,6 @@ const apis = require('./apis');
 const WebsocketManager = require('./websocket');
 const Gardener = require('./services/gardener');
 const SystemInfo = require('./helpers/system-info');
-const dbConfigs = require('../config/db');
 
 // Global Config
 const serverConfig = require('../config/server');
@@ -29,36 +27,19 @@ const serverDebug = debug('app:server');
 const app = express();
 
 // Setup DB
-const env = process.env.NODE_ENV || 'development';
-const dbConfig = dbConfigs[env];
-
-// const sequelize = new Sequelize(dbConfig.dbPostgresURI, {
-//   'dialect': dbConfig.dbPostgresDialect
-// });
 const sequelizeDB = require('./models');
 
 const SequelizeStore = ConnectSessionSequelize(Session.Store);
 
 // Setup for CORS | Session | Cookie
-const PgSession = ConnectPgSimple(Session);
-const conObject = {
-  user: dbConfig.dbPostgresUsername,
-  password: dbConfig.dbPostgresPassword,
-  host: dbConfig.dbPostgresHost,
-  port: dbConfig.dbPostgresPort,
-  database: dbConfig.dbPostgresDatabase,
-  conString: dbConfig.dbPostgresURI,
-  ssl: true
-  // uri: dbConfig.dbPostgresURI
-};
 const session = Session({
   store: new SequelizeStore({ db: sequelizeDB.sequelize }),
   // store: new PgSession({ conObject }),
   key: 'user_sid',
   secret: 'HkF1KkHBQ8',
   resave: true,
-  secure: true,
-  httpOnly: true,
+  // secure: true,
+  // httpOnly: true,
   saveUninitialized: false,
   cookie: {
     maxAge: 365 * 86400000 // 365 days
@@ -68,8 +49,8 @@ const session = Session({
 
 const cookieParser = CookieParser();
 app.use(cookieParser);
-app.use(session);
 app.use(cors());
+app.use(session);
 
 // Prevent Browser Cache
 function noCache(req, res, next) {
@@ -111,6 +92,14 @@ server.on('listening', () => {
   Gardener.startWorking();
 });
 
+
+
+const test = require('./models/test');
+
+(async () => {
+  const createdUserAndGardens = await test();
+  console.log(createdUserAndGardens);
+})();
 
 // setInterval(() => {
 //   http.get('http://power-manager.herokuapp.com/');
