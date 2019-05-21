@@ -1,20 +1,15 @@
 
 
 
-let tf = require("@tensorflow/tfjs");
+const tf = require('@tensorflow/tfjs-node');
 
-exports.generatePPM = function(numPoints, coeff, sigma = 0.04) {
+exports.generatePPM = function generatePPM(numPoints, coeff, sigma = 0.04) {
   return tf.tidy(() => {
-    const xs = tf.randomUniform([numPoints, 4], -1, 1); // Random Data Point
-    const coefficient = tf.tensor2d(coeff, [4, 1]);     // Hệ số
-
-    // Generate polynomial data
+    const xs = tf.randomUniform([numPoints, coeff.length], -1, 1); // Random Data Point
+    const coefficient = tf.tensor2d(coeff, [coeff.length, 1]);     // Hệ số
     const ys = xs.matMul(coefficient)
-      // Add random noise to the generated data
-      // to make the problem a bit more interesting
-      .add(tf.randomNormal([numPoints, 4], 0, sigma));
+      .add(tf.randomNormal([numPoints, coeff.length], 0, sigma));
 
-    // Normalize the y values to the range 0 to 1.
     const ymin = ys.min();
     const ymax = ys.max();
     const yrange = ymax.sub(ymin);
@@ -24,5 +19,5 @@ exports.generatePPM = function(numPoints, coeff, sigma = 0.04) {
       xs, 
       ys: ysNormalized
     };
-  })
-}
+  });
+};

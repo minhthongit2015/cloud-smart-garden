@@ -1,7 +1,8 @@
+/* eslint-disable class-methods-use-this */
 
 
 
-const tf = require('@tensorflow/tfjs');
+const tf = require('@tensorflow/tfjs-node');
 
 exports.LinearRegression = class LinearRegression {
   constructor(numDim) {
@@ -40,15 +41,15 @@ exports.LinearRegression = class LinearRegression {
   async train(xs, ys, numIterations, learningRate) {
     const optimizer = this.getSGDOptimizer(learningRate);
 
-    for (let iter = 0; iter < numIterations; iter++) {
+    for (let iter = 0; iter < numIterations; iter += 1) {
       optimizer.minimize(() => {
         const pred = this.predict(xs);
-        let loss = this.getMSEloss(pred, ys);
-        console.log(iter, "loss: ", loss.dataSync());
+        const loss = this.getMSEloss(pred, ys);
+        console.log(iter, 'loss: ', loss.dataSync());
         return loss;
       });
       await tf.nextFrame();
     }
   }
 
-}
+};
