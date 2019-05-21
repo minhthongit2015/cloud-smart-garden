@@ -3,8 +3,6 @@
 
 const BaseHandler = require('./base-handler');
 const { WS_EVENTS } = require('../../../shared/constants');
-const GardenService = require('../../services/garden');
-const AuthService = require('../../services/authenticator');
 
 module.exports = class MessageHandler extends BaseHandler {
   setup(io, clients, manager) {
@@ -13,24 +11,9 @@ module.exports = class MessageHandler extends BaseHandler {
     this.addListener(this.handleMobileToCloud.bind(this));
   }
 
-  async handleMobileToCloud(socket, type, message, res) {
+  async handleMobileToCloud(socket, type, message) {
     console.log(WS_EVENTS.mobile2Cloud, message);
     switch (type) {
-    case 'connect':
-    {
-      const user = await AuthService.authenticateByToken(message);
-      if (!user) {
-        if (res) {
-          socket.user = user;
-          socket.userId = user.id;
-          res(user);
-          break;
-        }
-      } else if (res) {
-        res(null);
-      }
-      break;
-    }
     case 'watch':
       socket.gardens = message;
       break;

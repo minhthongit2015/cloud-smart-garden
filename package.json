@@ -8,7 +8,7 @@
   },
   "scripts": {
     "watch": "webpack -w",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "start": "node src/server/server.js"
   },
   "dependencies": {

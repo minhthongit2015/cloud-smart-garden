@@ -9,8 +9,10 @@ module.exports = class WebsocketManager extends WebsocketManagerCore {
     try {
       super.setup(wsServer);
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.message));
+      WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.gardenConnect));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.garden2Cloud));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.garden2Mobile));
+      WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobileConnect));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Cloud));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Garden));
     } catch (setupError) {

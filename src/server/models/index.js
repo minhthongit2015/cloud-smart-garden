@@ -1,7 +1,3 @@
-// const pg = require('pg');
-
-// pg.defaults.ssl = true;
-
 const Sequelize = require('sequelize');
 const dbConfigs = require('../../config/db');
 const User = require('./user');

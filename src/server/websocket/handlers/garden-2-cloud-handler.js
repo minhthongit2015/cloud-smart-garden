@@ -3,7 +3,6 @@
 
 const BaseHandler = require('./base-handler');
 const { WS_EVENTS } = require('../../../shared/constants');
-const GardenService = require('../../services/garden');
 
 module.exports = class MessageHandler extends BaseHandler {
   setup(io, clients, manager) {
@@ -15,16 +14,9 @@ module.exports = class MessageHandler extends BaseHandler {
   async handleGardenToCloud(socket, type, message) {
     console.log(WS_EVENTS.garden2Cloud, message);
     switch (type) {
-    case 'connect':
-    {
-      socket.gardenPhysicalAddress = message;
-      socket.type = 'garden';
-      const garden = await GardenService.getGardenByPhysicalAddress(message);
-      socket.gardenId = garden.id;
-      break;
-    }
+    
     default:
-      break;
+      return null;
     }
   }
 };
