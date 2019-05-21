@@ -21,6 +21,10 @@ module.exports = class MessageHandler extends BaseHandler {
     if (!garden || !message.secretKey|| !message.secretKey.includes('Sec_')) {
       return !res ? null : res('Connection Denied!');
     }
+    if (garden.local_ip !== message.localIP) {
+      garden.local_ip = message.localIP;
+      GardenService.updateLocalIP(message.localIP);
+    }
     socket.gardenPhysicalAddress = message.physicalAddress;
     socket.type = 'garden';
     socket.gardenId = garden.id;

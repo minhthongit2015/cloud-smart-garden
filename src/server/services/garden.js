@@ -31,4 +31,14 @@ module.exports = class {
       }
     }).then(garden => SerializerFactory.get('garden').serialze(garden));
   }
+
+  static async updateLocalIP(id, localIP) {
+    return Garden.update({
+      local_ip: localIP
+    }, {
+      where: {
+        id
+      }
+    });
+  }
 };
