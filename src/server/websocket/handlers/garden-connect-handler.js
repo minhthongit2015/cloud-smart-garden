@@ -19,7 +19,7 @@ module.exports = class MessageHandler extends BaseHandler {
     }
     const garden = await GardenService.getGardenByPhysicalAddress(message.physicalAddress);
     if (!garden || !message.secretKey|| !message.secretKey.includes('Sec_')) {
-      return !res ? null : res('Connection Denied!');
+      return !res ? null : res('Access Denied!');
     }
     if (garden.local_ip !== message.localIP) {
       garden.local_ip = message.localIP;
@@ -29,6 +29,6 @@ module.exports = class MessageHandler extends BaseHandler {
     socket.type = 'garden';
     socket.gardenId = garden.id;
     socket.garden = garden;
-    return !res ? null : res(true);
+    return !res ? null : res('Accepted');
   }
 };

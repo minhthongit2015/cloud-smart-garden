@@ -5,7 +5,7 @@
 const tf = require('@tensorflow/tfjs-node');
 
 exports.LinearRegression = class LinearRegression {
-  constructor(numDim) {
+  constructor(/* numDim */) {
     // Khởi tạo hệ số ngẫu nhiên
     const coeffTensor = tf.tensor2d([Math.random(), Math.random(), Math.random(), Math.random()], [4, 1]);
     this.coefficient = tf.variable(coeffTensor);
@@ -48,7 +48,7 @@ exports.LinearRegression = class LinearRegression {
         console.log(iter, 'loss: ', loss.dataSync());
         return loss;
       });
-      await tf.nextFrame();
+      // await tf.nextFrame();
     }
   }
 

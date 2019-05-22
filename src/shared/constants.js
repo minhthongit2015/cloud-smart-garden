@@ -21,6 +21,8 @@ const WS_EVENTS = {
 
   // Station <-> Garden
   stationConnect: 'stationConnect',
+  stationAccepted: 'stationAccepted',
+  stationState: 'stationState',
   station2Garden: 'station2garden',
   garden2Station: 'garden2station'
 };

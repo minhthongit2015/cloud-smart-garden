@@ -26,11 +26,14 @@ module.exports = class Gardener {
     setInterval(() => {
       const first = WebsocketManager.clientArray[0];
       Gardener.dispatchCommand({
-        server1: Math.random(),
-        server2: Math.random() > 0.5,
-        server3: Math.random().toString()
+        targetType: 'station',
+        targetId: 'A1-01',
+        pump: Math.random() > 0.5,
+        led: Math.random() > 0.5,
+        fan: Math.random() > 0.5,
+        misting: Math.random() > 0.5
       }, first);
-    }, 2000);
+    }, 5000);
   }
 
 };
