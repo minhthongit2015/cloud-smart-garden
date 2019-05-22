@@ -8,10 +8,32 @@ const Neural = require('./lib/neural');
 module.exports = class {
   static async test() {
     // 1.Temperature, 2.Humidity, 3.Light, 4.Days, 5.Time
-    const trainingSet = DataGenerator.generatePPM(1000, [.2, .3, .25, .4, .5]);
-    const model = Neural.generateModel([5, 32, 16, 1]);
-    const firstPredict = model.predict(trainingSet.xs);
-    return [trainingSet, model, firstPredict];
+    const numRecords = 15;
+    const numberOfParameters = 5;
+    const numberOfPosibility = 2; // "1.Yes" or "0.No"
+    const numTestPoints = 3;
+    const trainingSet = DataGenerator.generatePPM(numRecords, numberOfParameters, numberOfPosibility, numTestPoints);
+    const model = Neural.generateModel([numberOfParameters, 50, 25, 2]);
+    const firstPredict = model.predict(trainingSet.xtest);
+    model.compile({
+      optimizer: 'sgd',
+      loss: 'categoricalCrossentropy',
+      metrics: ['accuracy']
+    });
+    const trainHistory = await model.fit(trainingSet.xs, trainingSet.ys, {
+      epochs: 5,
+      batchSize: 5,
+      callbacks: {
+        onEpochEnd: (epoch, logs) => {
+          console.log('epoch-end', epoch, logs);
+        },
+        onBatchEnd: (batch, logs) => {
+          console.log('Accuracy', logs.acc);
+        }
+      }
+    });
+    const afterTrainPredict = model.predict(trainingSet.xtest);
+    return {trainingSet, model, trainHistory, firstPredict, afterTrainPredict};
   }
 
   static async testPredictPPM() {
@@ -37,7 +59,7 @@ module.exports = class {
     console.log(colors.yellow(`ppm = ${coeff[0].toFixed(2)}*day + ${coeff[1].toFixed(2)}*temperature + ${coeff[2].toFixed(2)}*humidity + ${coeff[3].toFixed(2)}*light`));
     console.log('------------------------------------------------------------------------------------\r\n');
 
-    const saveResult = ppm.save('file://./assets/ppm-model');
+    const saveResult = ppm.save('file://./exported_models/ppm-model');
     return saveResult;
   }
 };

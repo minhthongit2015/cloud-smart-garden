@@ -3,12 +3,14 @@
 
 const tf = require('@tensorflow/tfjs-node');
 
-exports.generatePPM = function generatePPM(numPoints, coeff, sigma = 0.04) {
+exports.generatePPM = function generatePPM(numPoints, numberOfParameters, numberOfPosibility, numTestPoints, sigma = 0.4) {
   return tf.tidy(() => {
-    const xs = tf.randomUniform([numPoints, coeff.length], -1, 1); // Random Data Point
-    const coefficient = tf.tensor2d(coeff, [coeff.length, 1]);     // Hệ số
+    const xs = tf.randomUniform([numPoints, numberOfParameters], -1, 1); // Random Data Point
+    const coefficient = tf.randomUniform([numberOfParameters, numberOfPosibility], 0, 1);     // Hệ số
     const ys = xs.matMul(coefficient)
-      .add(tf.randomNormal([numPoints, coeff.length], 0, sigma));
+      .add(tf.randomNormal([numPoints, numberOfPosibility], 0, sigma));
+
+    const xtest = tf.randomUniform([numTestPoints, numberOfParameters], -1, 1); 
 
     const ymin = ys.min();
     const ymax = ys.max();
@@ -17,7 +19,8 @@ exports.generatePPM = function generatePPM(numPoints, coeff, sigma = 0.04) {
 
     return {
       xs, 
-      ys: ysNormalized
+      ys: ysNormalized,
+      xtest
     };
   });
 };

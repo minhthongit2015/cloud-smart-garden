@@ -6,6 +6,7 @@ const path = require('path');
 const debug = require('debug');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const expressEasyZip = require('express-easy-zip');
 const ConnectSessionSequelize = require('connect-session-sequelize');
 const cors = require('cors');
 const CookieParser = require('cookie-parser');
@@ -25,6 +26,9 @@ const serverDebug = debug('app:server');
 
 // Init the Server
 const app = express();
+
+// Setup Easy Zip
+app.use(expressEasyZip());
 
 // Setup DB
 const sequelizeDB = require('./models');

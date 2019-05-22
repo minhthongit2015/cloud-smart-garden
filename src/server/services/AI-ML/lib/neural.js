@@ -2,6 +2,8 @@
 const tf = require('@tensorflow/tfjs-node');
 
 module.exports = class Neural {
+  constructor() { }
+
   static generateSequentialModel(layers = [32, 24, 12, 1]) {
     if (!layers || layers.length < 2) return null;
     const model = tf.sequential({
