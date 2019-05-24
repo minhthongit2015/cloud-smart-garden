@@ -17,11 +17,11 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    // Connection.socket.on('environment', (msg) => {
-    //   this.setState((state) => ({
-    //     trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
-    //   }));
-    // });
+    Connection.socket.on('environment', (msg) => {
+      this.setState((state) => ({
+        trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
+      }));
+    });
     Connection.socket.on('command', (msg) => {
       this.setState((state) => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
