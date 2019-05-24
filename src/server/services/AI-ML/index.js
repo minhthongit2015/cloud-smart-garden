@@ -6,12 +6,13 @@ const DataGenerator = require('./lib/data_generator');
 const Neural = require('./lib/neural');
 
 module.exports = class {
-  static async test() {
+  // eslint-disable-next-line no-unused-vars
+  static async test(listeners = { onBatchEnd: (log) => { }, onEpochEnd: (log) => {}}) {
     // 1.Temperature, 2.Humidity, 3.Light, 4.Days, 5.Time
-    const numRecords = 15;
+    const numRecords = 30;
     const numberOfParameters = 5;
     const numberOfPosibility = 2; // "1.Yes" or "0.No"
-    const numTestPoints = 3;
+    const numTestPoints = 10;
     const trainingSet = DataGenerator.generatePPM(numRecords, numberOfParameters, numberOfPosibility, numTestPoints);
     const model = Neural.generateModel([numberOfParameters, 50, 25, 2]);
     const firstPredict = model.predict(trainingSet.xtest);
@@ -26,9 +27,15 @@ module.exports = class {
       callbacks: {
         onEpochEnd: (epoch, logs) => {
           console.log('epoch-end', epoch, logs);
+          if (listeners.onEpochEnd) {
+            listeners.onEpochEnd(epoch, logs);
+          }
         },
         onBatchEnd: (batch, logs) => {
           console.log('Accuracy', logs.acc);
+          if (listeners.onBatchEnd) {
+            listeners.onBatchEnd(batch, logs);
+          }
         }
       }
     });

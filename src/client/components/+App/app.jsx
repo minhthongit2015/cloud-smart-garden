@@ -6,7 +6,8 @@ import Header from '../+layout/header/header';
 import SideBar from '../+layout/sidebar/sidebar';
 import Home from '../pages/home/home';
 import AIMLManager from '../pages/AI-ML-Manager/AIMLManager';
-import Connection from '../../connection/connection';
+import GardenManager from '../pages/Garden-Manager/Garden-Manager';
+import Connection from '../../connection';
 
 class App extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class App extends Component {
           <div id="content">
             <Route path="/" exact component={Home} />
             <Route path="/AI-ML-Manager" exact component={AIMLManager} />
+            <Route path="/my-garden" exact component={GardenManager} />
           </div>
         </div>
       </React.Fragment>

@@ -23,17 +23,17 @@ module.exports = class Gardener {
   }
 
   static test() {
-    setInterval(() => {
-      const first = WebsocketManager.clientArray[0];
-      Gardener.dispatchCommand({
-        targetType: 'station',
-        targetId: 'A1-01',
-        pump: Math.random() > 0.5,
-        led: Math.random() > 0.5,
-        fan: Math.random() > 0.5,
-        misting: Math.random() > 0.5
-      }, first);
-    }, 5000);
+    // setInterval(() => {
+    //   const first = WebsocketManager.clientArray[0];
+    //   Gardener.dispatchCommand({
+    //     targetType: 'station',
+    //     targetId: 'A1-01',
+    //     pump: Math.random() > 0.5,
+    //     led: Math.random() > 0.5,
+    //     fan: Math.random() > 0.5,
+    //     misting: Math.random() > 0.5
+    //   }, first);
+    // }, 5000);
   }
 
 };

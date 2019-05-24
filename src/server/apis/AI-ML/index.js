@@ -3,11 +3,16 @@ const router = require('express').Router();
 // const AuthService = require('../services/authenticator');
 const AIMLService = require('../../services/AI-ML');
 const AIMLManager = require('../../services/AI-ML/manager');
+const WSManager = require('../../websocket');
 
-router.get('/test', async (req, res) => {
-  const result = await AIMLService.test();
+router.get('/train', async (req, res) => {
+  const result = await AIMLService.test({
+    onBatchEnd: (batch, logs) => {
+      WSManager.io.emit('train-progress', logs);
+    }
+  });
   const output = result.trainHistory;
-  const saveResult = await result.model.save('file://./src/server/exported_models/ppm-predict', );
+  const saveResult = await result.model.save(`file://${AIMLManager.modelsPath}/ppm`, );
   return res.send({output, saveResult});
 });
 

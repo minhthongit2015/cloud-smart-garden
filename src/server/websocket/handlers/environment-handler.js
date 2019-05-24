@@ -15,5 +15,10 @@ module.exports = class EnvironmentHandler extends BaseHandler {
 
   async handleEnvironment(socket, message) {
     debug(colors.green('[Garden]'), WS_EVENTS.environment, message.stationId);
+    this.manager.clientArray.forEach(client => {
+      if (!client.gardenId) {
+        client.emit(WS_EVENTS.environment, message);
+      }
+    });
   }
 };

@@ -44,7 +44,7 @@ export default class extends Component {
     }
     this.showSpiner();
     this.fetchPromise = fetch(
-      `${this.props.dataEndPoint}/${this.device}?viewMode=${viewMode ||
+      `${this.props.dataEndPoint}/?viewMode=${viewMode ||
         this.state.viewMode}&time=${time || this.state.time}`,
       {
         signal: this.fetchCtr.signal
@@ -71,15 +71,15 @@ export default class extends Component {
             this.appendDataSerie(data[i].records, data[i].name, 'stackedArea');
           }
         } else {
-          const first = data.records[0];
-          const last = data.records[data.records.length - 1];
-          const max = parseFloat(data.max);
-          if (first != null && last != null && max != null) {
-            this.appendDataSerie(
-              [{ x: first.x, y: max }, { x: last.x, y: max }],
-              'Max'
-            );
-          }
+          // const first = data.records[0];
+          // const last = data.records[data.records.length - 1];
+          // const max = parseFloat(data.max);
+          // if (first != null && last != null && max != null) {
+          //   this.appendDataSerie(
+          //     [{ x: first.x, y: max }, { x: last.x, y: max }],
+          //     'Max'
+          //   );
+          // }
           this.appendDataSerie(data.records, data.name);
         }
         this.chart.render();
@@ -183,7 +183,7 @@ export default class extends Component {
   render() {
     const options = {
       title: {
-        text: 'Power (Watts)'
+        text: this.props.title
       },
       toolTip: {
         shared: true
@@ -306,7 +306,7 @@ export default class extends Component {
           </button>
           <button type="button" className="btn p-0 btn-sm btn-primary ripe-malinka-gradient waves-effect waves-light">
             <label
-              htmlFor="inport-file"
+              htmlFor="import-file"
               className="m-0"
               style={{ padding: '.5rem 1.6rem', cursor: 'pointer' }}
             >

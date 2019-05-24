@@ -18,6 +18,12 @@ module.exports = class Mobile2GardenHandler extends BaseHandler {
     debug(colors.blue('[Mobile]'), WS_EVENTS.mobile2Garden, message);
     const socketGarden = this.manager.clientArray.find(client => client.gardenId === message.gardenId);
     if (!socketGarden) return null;
+
+    this.manager.clientArray.forEach(client => {
+      if (!client.gardenId && !client.userId) {
+        client.emit(WS_EVENTS.command, message);
+      }
+    });
     return socketGarden.emit(WS_EVENTS.command, message);
   }
 };
