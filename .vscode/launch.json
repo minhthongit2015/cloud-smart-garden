@@ -15,7 +15,8 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
-        "DEBUG": "app:server app:ws-core"
+        "DEBUG": "app:server app:ws-core",
+        "NODE_ENV": "development"
       }
     },
     {

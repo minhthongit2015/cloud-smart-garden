@@ -7,7 +7,8 @@ export default class Connection {
 
   static setup() {
     // eslint-disable-next-line no-undef
-    Connection._socket = io(`http://localhost:${ClientConfig.backendPort}`, {
+    Connection._socket = io('http://cloud-smart-garden.herokuapp.com', {
+    // Connection._socket = io(`http://localhost:${ClientConfig.backendPort}`, {
       transports: ['websocket']
     });
     Connection._socket.on(WS_EVENTS.cloudConnect, () => {
