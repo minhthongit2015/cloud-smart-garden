@@ -1,6 +1,7 @@
 const common = {
   dbMongoUrl: 'mongodb://root:rootpassword123@ds145356.mlab.com:45356',
   dbMongoName: 'heroku_vzk3sf9h',
+  dbMongoUri: 'mongodb://root:rootpassword123@ds145356.mlab.com:45356/heroku_vzk3sf9h',
 
   dbPostgresUsername: 'uedoajrdoowuzt',
   dbPostgresPassword: 'b0392e59e8e25102b9fdc25d94ced9e438bf2a140a61797e8d3b80b03e2fae05',
@@ -19,7 +20,8 @@ const common = {
     protocol: 'postgres',
     dialectOptions: {
       ssl: true
-    }
+    },
+    logging: false
   }
 };
 

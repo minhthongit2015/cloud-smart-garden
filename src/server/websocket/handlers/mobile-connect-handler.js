@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 
+const colors = require('colors/safe');
+const debug = require('debug')('app:server');
 const BaseHandler = require('./base-handler');
 const { WS_EVENTS } = require('../../../shared/constants');
 const AuthService = require('../../services/authenticator');
 
-module.exports = class extends BaseHandler {
+module.exports = class MobileConnectHandler extends BaseHandler {
   setup(io, clients, manager) {
     super.setup(io, clients, manager);
     this.addEvent(WS_EVENTS.mobileConnect);
@@ -13,7 +15,7 @@ module.exports = class extends BaseHandler {
   }
 
   async handleMobileToCloud(socket, message, res) {
-    console.log(WS_EVENTS.mobileConnect, message);
+    debug(colors.blue('[Mobile]'), WS_EVENTS.mobileConnect, message);
     const user = await AuthService.authenticateByToken(message);
     if (!user) {
       socket.user = user;

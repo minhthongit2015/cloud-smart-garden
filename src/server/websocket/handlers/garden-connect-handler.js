@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 
+const colors = require('colors/safe');
+const debug = require('debug')('app:server');
 const BaseHandler = require('./base-handler');
 const { WS_EVENTS } = require('../../../shared/constants');
 const GardenService = require('../../services/garden');
@@ -13,7 +15,7 @@ module.exports = class MessageHandler extends BaseHandler {
   }
 
   async handleGardenConnect(socket, message, res) {
-    console.log(WS_EVENTS.gardenConnect, message);
+    debug(colors.green('[Garden]'), WS_EVENTS.gardenConnect, message.physicalAddress);
     if (!message || !message.physicalAddress) {
       return socket.disconnect();
     }

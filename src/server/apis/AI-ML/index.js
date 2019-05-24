@@ -1,8 +1,8 @@
 
 const router = require('express').Router();
 // const AuthService = require('../services/authenticator');
-const AIMLService = require('../services/AI-ML');
-const AIMLManager = require('../services/AI-ML/manager');
+const AIMLService = require('../../services/AI-ML');
+const AIMLManager = require('../../services/AI-ML/manager');
 
 router.get('/test', async (req, res) => {
   const result = await AIMLService.test();

@@ -6,19 +6,14 @@ const debug = require('debug')('app:server');
 const BaseHandler = require('./base-handler');
 const { WS_EVENTS } = require('../../../shared/constants');
 
-module.exports = class Garden2CloudHandler extends BaseHandler {
+module.exports = class EnvironmentHandler extends BaseHandler {
   setup(io, clients, manager) {
     super.setup(io, clients, manager);
-    this.addEvent(WS_EVENTS.garden2Cloud);
-    this.addListener(this.handleGardenToCloud.bind(this));
+    this.addEvent(WS_EVENTS.environment);
+    this.addListener(this.handleEnvironment.bind(this));
   }
 
-  async handleGardenToCloud(socket, type, message) {
-    debug(colors.green('[Garden]'), WS_EVENTS.garden2Cloud, message);
-    switch (type) {
-    
-    default:
-      return null;
-    }
+  async handleEnvironment(socket, message) {
+    debug(colors.green('[Garden]'), WS_EVENTS.environment, message.stationId);
   }
 };

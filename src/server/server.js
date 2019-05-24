@@ -3,7 +3,8 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
-const debug = require('debug');
+const debug = require('debug')('app:server');
+const colors = require('colors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const expressEasyZip = require('express-easy-zip');
@@ -15,14 +16,11 @@ const socketIO = require('socket.io');
 const routes = require('./routes');
 const apis = require('./apis');
 const WebsocketManager = require('./websocket');
-const Gardener = require('./services/gardener');
 const SystemInfo = require('./helpers/system-info');
+const startUp = require('./startup');
 
 // Global Config
 const serverConfig = require('../config/server');
-
-// Setup Debugging
-const serverDebug = debug('app:server');
 
 // Init the Server
 const app = express();
@@ -30,8 +28,12 @@ const app = express();
 // Setup Easy Zip
 app.use(expressEasyZip());
 
-// Setup DB
+// Setup Database
 const sequelizeDB = require('./models');
+const mongodb = require('./models/mongo');
+
+mongodb.setup();
+
 
 const SequelizeStore = ConnectSessionSequelize(Session.Store);
 
@@ -87,13 +89,14 @@ WebsocketManager.setup(io);
 
 server.listen(serverConfig.port);
 server.on('listening', () => {
+  console.log(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
   const address = server.address();
   if (typeof address === 'string') {
-    serverDebug(`Server running at pipe: ${address}`);
+    debug(`Server running at pipe: ${address}`);
   } else {
-    SystemInfo.showServerPorts(address.port, serverDebug);
+    SystemInfo.showServerPorts(address.port, debug);
   }
-  Gardener.startWorking();
+  startUp();
 });
 
 
@@ -101,8 +104,7 @@ server.on('listening', () => {
 const test = require('./models/test');
 
 (async () => {
-  const createdUserAndGardens = await test();
-  console.log(createdUserAndGardens);
+  await test();
 })();
 
 // setInterval(() => {

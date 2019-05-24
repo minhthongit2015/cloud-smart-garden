@@ -12,6 +12,7 @@ module.exports = class WebsocketManager extends WebsocketManagerCore {
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.gardenConnect));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.garden2Cloud));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.garden2Mobile));
+      WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.environment));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobileConnect));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Cloud));
       WebsocketManager.pushHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Garden));

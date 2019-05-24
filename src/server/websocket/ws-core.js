@@ -1,9 +1,7 @@
 
-const debug = require('debug');
+const wsDebug = require('debug')('app:ws-core');
 const { WS_EVENTS } = require('../../shared/constants');
 const LoggerService = require('../services/logger');
-
-const serverDebug = debug('app:ws-core');
 
 module.exports = class WebsocketManagerCore {
   static get clients() {
@@ -39,11 +37,11 @@ module.exports = class WebsocketManagerCore {
     WebsocketManagerCore.wsServer = wsServer;
     wsServer.on(WS_EVENTS.connection, (socket) => {
       try {
-        serverDebug('User connected: ', socket.id, socket.conn.remoteAddress);
+        wsDebug('Client connected: ', socket.id, socket.conn.remoteAddress);
         WebsocketManagerCore.accept(socket);
   
         socket.on(WS_EVENTS.disconnect, () => {
-          serverDebug('User disconnected: ', socket.id, socket.conn.remoteAddress);
+          wsDebug('Client disconnected: ', socket.id, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
         LoggerService.error({ message: wsClientError.message, stack: wsClientError.stack });
