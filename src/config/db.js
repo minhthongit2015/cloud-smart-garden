@@ -14,7 +14,7 @@ const common = {
 
   dbPostgresOptions: {
     define: {
-      underscored: true
+      underscored: false + 1
     },
     dialect: 'postgres',
     protocol: 'postgres',
