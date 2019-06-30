@@ -2,7 +2,7 @@
 const router = require('express').Router();
 // const AuthService = require('../services/authenticator');
 // const AIMLService = require('../../services/AI-ML');
-const Utils = require('../../helpers/utils');
+const Utils = require('../../utils');
 const AIMLManager = require('../../services/AI-ML/manager');
 const { Environment } = require('../../models');
 

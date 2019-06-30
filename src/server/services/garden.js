@@ -2,7 +2,7 @@
 const { UserGarden, Garden } = require('../models');
 const SerializerFactory = require('../serializers/serializer-factory');
 
-module.exports = class {
+module.exports = class GardenService {
   static async getById(gardenId) {
     return Garden.findOne({
       where: {

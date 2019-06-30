@@ -3,7 +3,7 @@
 const colors = require('colors/safe');
 const debug = require('debug')('app:server');
 const mongoose = require('mongoose');
-const DBConfig = require('../../config/db');
+const DBConfig = require('../config/db');
 
 const Environment = require('./environment');
 

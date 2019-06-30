@@ -2,11 +2,11 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-const serverConfig = require('./src/config/server');
+const serverConfig = require('./src/server/config');
 
 const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}/build`);
 const APP_DIR = path.resolve(__dirname, './src/client');
-const SERVER_DIR = path.resolve(__dirname, './src/server');
+// const SERVER_DIR = path.resolve(__dirname, './src/server');
 
 const config = {
   target: 'node',

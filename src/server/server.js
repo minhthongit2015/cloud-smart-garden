@@ -14,13 +14,13 @@ const CookieParser = require('cookie-parser');
 const Session = require('express-session');
 const socketIO = require('socket.io');
 const routes = require('./routes');
-const apis = require('./apis');
+const api = require('./api');
 const WebsocketManager = require('./websocket');
-const SystemInfo = require('./helpers/system-info');
+const SystemInfo = require('./utils/system-info');
 const startUp = require('./startup');
 
 // Global Config
-const serverConfig = require('../config/server');
+const serverConfig = require('./config');
 
 // Init the Server
 const app = express();
@@ -78,7 +78,7 @@ app.use(fileUpload());
 const PUBLIC_FOLDER = path.resolve(process.cwd(), serverConfig.publicFolder);
 app.get('*.*', express.static(PUBLIC_FOLDER));
 
-app.use('/apis', apis);
+app.use('/api', api);
 app.use('/', routes);
 
 // Setup HTTP Server
