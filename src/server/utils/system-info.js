@@ -10,7 +10,7 @@ module.exports = class SystemInfo {
   static listAllLocalIP() {
     const localIPs = [];
     const interfaces = SystemInfo.listInterfaces();
-    Object.keys(interfaces).forEach(interfaceName => {
+    Object.keys(interfaces).forEach((interfaceName) => {
       interfaces[interfaceName].forEach((iface) => {
         if (iface.family !== 'IPv4' || iface.internal !== false) {
           return;
@@ -28,7 +28,7 @@ module.exports = class SystemInfo {
   static showServerPorts(port, serverDebug) {
     const interfaces = SystemInfo.listInterfaces();
     serverDebug(colors.underline('[Server running at] > _'));
-    Object.keys(interfaces).forEach(interfaceName => {
+    Object.keys(interfaces).forEach((interfaceName) => {
       let alias = 0;
       interfaces[interfaceName].forEach((iface) => {
         if (iface.family !== 'IPv4' || iface.internal !== false) {
@@ -42,6 +42,5 @@ module.exports = class SystemInfo {
         alias += 1;
       });
     });
-
   }
 };

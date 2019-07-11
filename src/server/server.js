@@ -1,6 +1,7 @@
+/* @flow */
 // Libraries / Modules
 // import '@babel/polyfill';
-const express = require('express');
+import express from 'express';
 const http = require('http');
 const path = require('path');
 const debug = require('debug')('app:server');
@@ -12,12 +13,13 @@ const ConnectSessionSequelize = require('connect-session-sequelize');
 const cors = require('cors');
 const CookieParser = require('cookie-parser');
 const Session = require('express-session');
-const socketIO = require('socket.io');
+const ExpressSocketIOSession = require('express-socket.io-session');
+const SocketIO = require('socket.io');
 const routes = require('./routes');
 const api = require('./api');
-const WebsocketManager = require('./websocket');
+const WebsocketManager = require('./websocket/ws-manager');
 const SystemInfo = require('./utils/system-info');
-const startUp = require('./startup');
+const startUp = require('./utils/_startup');
 
 // Global Config
 const serverConfig = require('./config');
@@ -30,9 +32,9 @@ app.use(expressEasyZip());
 
 // Setup Database
 const sequelizeDB = require('./models');
-const mongodb = require('./models/mongo');
+// const mongodb = require('./models/mongo');
 
-mongodb.setup();
+// mongodb.setup();
 
 
 const SequelizeStore = ConnectSessionSequelize(Session.Store);
@@ -59,7 +61,7 @@ app.use(cors());
 app.use(session);
 
 // Prevent Browser Cache
-function noCache(req, res, next) {
+function noCache(req: any, res: any, next: any) {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
   res.set('Pragma', 'no-cache'); // HTTP 1.0
   res.set('Expires', '0'); // Proxies
@@ -83,13 +85,16 @@ app.use('/', routes);
 
 // Setup HTTP Server
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = SocketIO(server);
 
+io.use(ExpressSocketIOSession(session, {
+  autoSave: true
+}));
 WebsocketManager.setup(io);
 
 server.listen(serverConfig.port);
 server.on('listening', () => {
-  console.log(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
+  debug(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
   const address = server.address();
   if (typeof address === 'string') {
     debug(`Server running at pipe: ${address}`);
@@ -98,7 +103,6 @@ server.on('listening', () => {
   }
   startUp();
 });
-
 
 
 const test = require('./models/test');

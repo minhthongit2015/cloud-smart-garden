@@ -2,7 +2,7 @@ const winston = require('winston');
 
 const { createLogger, transports } = winston;
 
-const logger = createLogger({
+const Logger = createLogger({
   transports: [
     new (transports.Console)({ json: true, timestamp: true }),
     new transports.File({ filename: 'combined.log', json: true, timestamp: true })
@@ -14,4 +14,4 @@ const logger = createLogger({
   exitOnError: false
 });
 
-module.exports = logger;
+module.exports = Logger;

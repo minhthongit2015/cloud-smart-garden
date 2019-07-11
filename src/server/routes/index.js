@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const path = require('path');
+const serverConfig = require('../config');
 
 router.get('*', async (req, res) => {
-  const indexPath = path.resolve('dist/index.html');
+  const indexPath = path.resolve(serverConfig.publicFolder, 'index.html');
   res.sendFile(indexPath);
 });
 

@@ -1,64 +1,66 @@
-
-const wsDebug = require('debug')('app:ws-core');
+/* @flow */
+const wsDebug = require('debug')('app:wsserver');
 const { WS_EVENTS } = require('../../shared/constants');
-const LoggerService = require('../services/logger');
+const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManagerCore {
+  static get io() {
+    return this.wsServer;
+  }
+
   static get clients() {
-    return WebsocketManagerCore.io.sockets.sockets;
+    try {
+      return this.wsServer.sockets.sockets;
+    } catch {
+      return [];
+    }
   }
 
   static get clientArray() {
-    return Object.keys(WebsocketManagerCore.clients).map(key => WebsocketManagerCore.clients[key]);
+    return Object.keys(this.clients).map(key => this.clients[key]);
   }
 
   static getClientById(socketId) {
-    return WebsocketManagerCore.clients[socketId];
+    return this.clients[socketId];
   }
 
   static get handlers() {
-    WebsocketManagerCore._handlers = WebsocketManagerCore._handlers || [];
-    return WebsocketManagerCore._handlers;
-  }
-
-  static pushHandler(handler) {
-    WebsocketManagerCore.handlers.push(handler);
-    handler.setup(WebsocketManagerCore.io, WebsocketManagerCore.clients, this);
-    Object.keys(WebsocketManagerCore.clients).forEach((clientId, index, clients) => {
-      handler.attach(clients[clientId]);
-    });
-  }
-
-  static pushHandlers(handlers) {
-    handlers.forEach(handler => WebsocketManagerCore.pushHandler(handler));
+    this._handlers = this._handlers || [];
+    return this._handlers;
   }
 
   static setup(wsServer) {
-    WebsocketManagerCore.wsServer = wsServer;
+    this.wsServer = wsServer;
     wsServer.on(WS_EVENTS.connection, (socket) => {
       try {
         wsDebug('Client connected: ', socket.id, socket.conn.remoteAddress);
-        WebsocketManagerCore.accept(socket);
-  
+        this.accept(socket);
+
         socket.on(WS_EVENTS.disconnect, () => {
           wsDebug('Client disconnected: ', socket.id, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
-        LoggerService.error({ message: wsClientError.message, stack: wsClientError.stack });
+        Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
       }
     });
   }
 
-  /**
-   * alias for `.wsServer`
-   */
-  static get io() {
-    return WebsocketManagerCore.wsServer;
+  static registerHandler(handler) {
+    this.handlers.push(handler);
+    handler.setup(this);
+    this.clientArray.forEach((client) => {
+      this._attachHandlerToClient(handler, client);
+    });
   }
 
-  static accept(socket) {
-    WebsocketManagerCore.handlers.map(handler => handler.attach(socket));
-    // eslint-disable-next-line no-param-reassign
-    socket.clients = socket.server.sockets.sockets;
+  static accept(client) {
+    this.handlers.forEach(handler => this._attachHandlerToClient(handler, client));
+  }
+
+  static _attachHandlerToClient(handler, client) {
+    const events = handler.eventNames();
+    events.forEach((event) => {
+      client.on(event, (...args) => handler.emit(event, args));
+    });
   }
 };

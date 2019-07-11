@@ -1,0 +1,19 @@
+aside {
+  width: 250px;
+  a {
+    padding: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid #d4d4d4;
+    &.active {
+      background: linear-gradient(45deg, #2a607d, #3997c1);
+      color: #fff;
+    }
+    &.active:hover {
+      filter: brightness(1.1);
+    }
+  }
+  hr {
+    margin: 0;
+    border-color: #d4d4d4;
+  }
+}

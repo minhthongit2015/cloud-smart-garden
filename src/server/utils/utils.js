@@ -41,7 +41,7 @@ function isEmpty(object) {
   const objectType = typeof object;
 
   if (objectType === 'object') {
-    const {size} = object;
+    const { size } = object;
     if (typeof size === 'number') {
       return !size;
     }
@@ -52,7 +52,7 @@ function isEmpty(object) {
   }
 
   if (objectType === 'object') {
-    const {length} = object;
+    const { length } = object;
     if (typeof length === 'number') {
       return !length;
     }

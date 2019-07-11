@@ -1,16 +1,6 @@
 const router = require('express').Router();
-const EnvironmentRoute = require('./environment');
-const AuthRoute = require('./auth');
-const GardenRoute = require('./garden');
-const AIMLRoute = require('./AI-ML');
+const V1Route = require('./v1');
 
-router.get('/', async (req, res) => {
-  res.send('hello API');
-});
-
-router.use('/environment', EnvironmentRoute);
-router.use('/auth', AuthRoute);
-router.use('/garden', GardenRoute);
-router.use('/AI-ML', AIMLRoute);
+router.use('/v1', V1Route);
 
 module.exports = router;

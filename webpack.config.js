@@ -9,7 +9,7 @@ const APP_DIR = path.resolve(__dirname, './src/client');
 // const SERVER_DIR = path.resolve(__dirname, './src/server');
 
 const config = {
-  target: 'node',
+  target: 'web',
   mode: 'development',
   devtool: 'source-map',
   entry: {

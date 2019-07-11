@@ -6,7 +6,7 @@
     "es6": true
   },
   "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
+  "extends": ["airbnb"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
