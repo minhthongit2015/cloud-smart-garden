@@ -1,7 +1,7 @@
 /* @flow */
 // Libraries / Modules
 // import '@babel/polyfill';
-import express from 'express';
+const express = require('express');
 const http = require('http');
 const path = require('path');
 const debug = require('debug')('app:server');
@@ -61,7 +61,7 @@ app.use(cors());
 app.use(session);
 
 // Prevent Browser Cache
-function noCache(req: any, res: any, next: any) {
+function noCache(req, res, next) {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
   res.set('Pragma', 'no-cache'); // HTTP 1.0
   res.set('Expires', '0'); // Proxies

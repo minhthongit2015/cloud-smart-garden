@@ -2,7 +2,7 @@
 const Serializer = require('./converter');
 
 module.exports = class extends Serializer {
-  static serialze(object) {
+  static convert(object) {
     const userGarden = JSON.parse(JSON.stringify(object));
     return userGarden.garden;
   }

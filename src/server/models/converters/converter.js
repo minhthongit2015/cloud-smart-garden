@@ -1,11 +1,11 @@
 /* Flow */
 
 module.exports = class Serializer {
-  static serialze(object) {
+  static convert(object) {
     return JSON.parse(JSON.stringify(object));
   }
 
-  static serialzeCollection(collection) {
+  static convertCollection(collection) {
     return collection.map(object => this.serialze(object));
   }
 };

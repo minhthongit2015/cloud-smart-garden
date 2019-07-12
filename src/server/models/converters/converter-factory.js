@@ -1,17 +1,17 @@
 
-const Serializer = require('./converter');
-const GardenSerializer = require('./garden-serializer');
-const UserGardenSerializer = require('./user-garden-converter');
+const Converter = require('./converter');
+const GardenConverter = require('./garden-converter');
+const UserGardenConverter = require('./user-garden-converter');
 
 module.exports = class {
   static get(name) {
     switch (name) {
     case 'garden':
-      return GardenSerializer;
+      return GardenConverter;
     case 'user-garden':
-      return UserGardenSerializer;
+      return UserGardenConverter;
     default:
-      return Serializer;
+      return Converter;
     }
   }
 };

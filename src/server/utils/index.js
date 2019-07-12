@@ -4,6 +4,18 @@ const Logger = console;
 
 /**
  isNone();              // true
+ isNone(null);          // false
+ isNone(undefined);     // true
+ isNone('');            // false
+ isNone([]);            // false
+ isNone(function() {}); // false
+ */
+function isNotSet(object) {
+  return object === undefined;
+}
+
+/**
+ isNone();              // true
  isNone(null);          // true
  isNone(undefined);     // true
  isNone('');            // false
@@ -105,6 +117,7 @@ async function asyncForEach(array, callback) {
 }
 
 module.exports = {
+  isNotSet,
   isNone,
   isEmpty,
   isBlank,

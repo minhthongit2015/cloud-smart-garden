@@ -14,7 +14,7 @@ const Mobile2CloudHandler = require('./mobile/Mobile2CloudHandler');
 const Mobile2GardenHandler = require('./mobile/Mobile2GardenHandler');
 
 module.exports = class HandlerFactory {
-  static get(type) : string {
+  static get(type) {
     switch (type) {
     case WS_EVENTS.message: return new MessageHandler();
     case WS_EVENTS.gardenConnect: return new GardenConnectHander();

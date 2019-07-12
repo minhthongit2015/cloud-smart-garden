@@ -1,6 +1,6 @@
 
 const { UserGarden, Garden } = require('../models');
-const SerializerFactory = require('../serializers/serializer-factory');
+const SerializerFactory = require('../models/converters/converter-factory');
 
 module.exports = class GardenService {
   static async getById(gardenId) {
