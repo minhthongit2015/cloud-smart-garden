@@ -35,18 +35,19 @@ export default class SideNav extends Component {
         className="border-bottom border-light mx-3 pb-2"
         title="Home"
         draggable={false}
+        key="home"
       >
         <div className="d-flex waves-effect waves-light border border-info rounded m-2">
-          <div><AICloudIcon draggable={false} /></div>
-          <div><MyGardenIcon draggable={false} /></div>
-          <div><SmileCityIcon draggable={false} /></div>
+          <div key="ai"><AICloudIcon draggable={false} /></div>
+          <div key="garden"><MyGardenIcon draggable={false} /></div>
+          <div key="city"><SmileCityIcon draggable={false} /></div>
         </div>
       </NavLink>
     );
   }
 
   static renderNav(nav) {
-    return <NavIconLink nav={nav} />;
+    return <NavIconLink nav={nav} key={nav.url} />;
   }
 
   render() {
@@ -54,7 +55,7 @@ export default class SideNav extends Component {
       <aside
         className={
           classNames(
-            'd-flex flex-column justify-content-center modern-scrollbar',
+            'd-flex flex-column justify-content-center align-items-center modern-scrollbar',
             { hide: this.props.hide }
           )
         }

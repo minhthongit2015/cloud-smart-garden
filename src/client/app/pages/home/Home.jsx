@@ -30,7 +30,7 @@ export default class HomePage extends BasePage {
 
   static renderNav(nav) {
     return (
-      <NavIconLink nav={nav} />
+      <NavIconLink nav={nav} key={nav.url} />
     );
   }
 

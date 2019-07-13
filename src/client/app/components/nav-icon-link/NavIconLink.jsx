@@ -5,7 +5,7 @@ import './NavIconLink.scss';
 export default props => (
   <NavLink
     to={props.nav.url}
-    key={props.nav.url}
+    key={props.nav.text}
     exact
     activeClassName="active"
     className="nav-icon-link waves-effect waves-light"
