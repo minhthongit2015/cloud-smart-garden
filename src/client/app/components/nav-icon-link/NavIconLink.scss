@@ -1,0 +1,22 @@
+
+.nav-icon-link {
+  padding: 10px;
+  font-size: 27px;
+  font-family: 'icielz-bambola';
+  text-align: center;
+  color: #000;
+  transition: all .2s ease-in-out;
+  
+  &.active {
+    color: rgb(20, 156, 149);
+  }
+  &.active:hover {
+    filter: brightness(1.05);
+  }
+
+  span {
+    padding-right: 5px;
+    white-space: nowrap;
+    text-align: center;
+  }
+}

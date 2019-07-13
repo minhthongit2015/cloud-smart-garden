@@ -62,3 +62,4 @@ typings/
 /dist/build/*
 /dist/build
 /public/build
+/public/dist

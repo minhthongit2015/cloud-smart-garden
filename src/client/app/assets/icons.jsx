@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { src as AICloudIconSrc } from './images/ai-cloud.png';
-import { src as MyGardenIconSrc } from './images/my-garden.png';
-import { src as SmileCityIconSrc } from './images/smile-city.png';
+import AICloudIconSrc from './images/ai-cloud.png';
+import MyGardenIconSrc from './images/my-garden.png';
+import SmileCityIconSrc from './images/smile-city.png';
 
-export const AICloudIcon = <img src={AICloudIconSrc} alt="" {...this.props} />;
-export const MyGardenIcon = <img src={MyGardenIconSrc} alt="" {...this.props} />;
-export const SmileCityIcon = <img src={SmileCityIconSrc} alt="" {...this.props} />;
+export const AICloudIcon = props => <img src={AICloudIconSrc} alt="" {...props} />;
+export const MyGardenIcon = props => <img src={MyGardenIconSrc} alt="" {...props} />;
+export const SmileCityIcon = props => <img src={SmileCityIconSrc} alt="" {...props} />;
 
 export default {
   AICloudIcon,

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 import './sidenav.scss';
 
 import RouteConstants from '../../../utils/RouteConstants';
-
 import {
   MyGardenIcon,
   AICloudIcon,
   SmileCityIcon
 } from '../../../assets/icons';
 
+import NavIconLink from '../../../components/nav-icon-link/NavIconLink';
+
 export default class SideNav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.links = [
       {
         type: 'nav', url: RouteConstants.aiCloudLink, text: 'AI Cloud', icon: AICloudIcon
@@ -26,25 +28,43 @@ export default class SideNav extends Component {
     ];
   }
 
-  static renderNav(nav) {
+  static renderHomeNav() {
     return (
       <NavLink
-        to={nav.url}
-        key={nav.url}
-        exact
-        activeClassName="active"
+        to={RouteConstants.homeLink}
+        className="border-bottom border-light mx-3 pb-2"
+        title="Home"
+        draggable={false}
       >
-        {nav.text}
+        <div className="d-flex waves-effect waves-light border border-info rounded m-2">
+          <div><AICloudIcon draggable={false} /></div>
+          <div><MyGardenIcon draggable={false} /></div>
+          <div><SmileCityIcon draggable={false} /></div>
+        </div>
       </NavLink>
     );
   }
 
+  static renderNav(nav) {
+    return <NavIconLink nav={nav} />;
+  }
+
   render() {
     return (
-      <aside className="d-flex flex-column modern-scrollbar">
+      <aside
+        className={
+          classNames(
+            'd-flex flex-column justify-content-center modern-scrollbar',
+            { hide: this.props.hide }
+          )
+        }
+      >
+        {SideNav.renderHomeNav()}
         {
           this.links.map((link) => {
-            if (link.type === 'nav') { return SideNav.renderNav(link); }
+            if (link.type === 'nav') {
+              return SideNav.renderNav(link);
+            }
             return null;
           })
         }
