@@ -2,7 +2,7 @@
 const { WS_EVENTS } = require('../../shared/constants');
 const WebsocketManagerCore = require('./ws-core');
 const WSHandlerFactory = require('./handlers/HandlerFactory');
-const Logger = require('../services/Logger');
+// const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManager extends WebsocketManagerCore {
   static setup(wsServer) {
@@ -17,7 +17,7 @@ module.exports = class WebsocketManager extends WebsocketManagerCore {
       WebsocketManager.registerHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Cloud));
       WebsocketManager.registerHandler(WSHandlerFactory.get(WS_EVENTS.mobile2Garden));
     } catch (setupError) {
-      Logger.error({ message: setupError.message, stack: setupError.stack });
+      // Logger.error({ message: setupError.message, stack: setupError.stack });
     }
   }
 
