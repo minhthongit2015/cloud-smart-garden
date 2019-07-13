@@ -1,8 +1,7 @@
-
 const router = require('express').Router();
 const AuthService = require('../../services/deprecated-authenticator');
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
   const { username, password } = req.body;
   const sessionUser = req.session.user;
   const user = sessionUser || await AuthService.authenticate(username, password);
@@ -13,12 +12,6 @@ router.post('/login', async (req, res) => {
     });
   }
   return res.send({ user });
-});
-
-router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await AuthService.authenticate(username, password);
-  res.send({ user });
 });
 
 module.exports = router;
