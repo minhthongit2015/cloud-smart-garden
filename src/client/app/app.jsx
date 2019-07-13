@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
+import Config from './config/site';
 import Connection from './services/connection/websocket';
 
 import Home from './pages/home/Home';
@@ -17,7 +18,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    document.title = '💝 IUH Student Partner';
+    document.title = Config.WEBSITE_TITLE;
   }
 
   render() {

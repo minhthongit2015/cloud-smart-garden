@@ -18,7 +18,7 @@ export default class extends BasePage {
   render() {
     return (
       <React.Fragment>
-        <div>Something about project</div>
+        <div>Somethingzzz about project</div>
       </React.Fragment>
     );
   }

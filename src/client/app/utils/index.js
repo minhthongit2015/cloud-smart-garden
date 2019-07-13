@@ -1,5 +1,18 @@
+/* eslint-disable no-plusplus */
 
 const Logger = console;
+
+/**
+ isNone();              // true
+ isNone(null);          // false
+ isNone(undefined);     // true
+ isNone('');            // false
+ isNone([]);            // false
+ isNone(function() {}); // false
+ */
+function isNotSet(object) {
+  return object === undefined;
+}
 
 /**
  isNone();              // true
@@ -40,7 +53,7 @@ function isEmpty(object) {
   const objectType = typeof object;
 
   if (objectType === 'object') {
-    const size = object.size;
+    const { size } = object;
     if (typeof size === 'number') {
       return !size;
     }
@@ -51,7 +64,7 @@ function isEmpty(object) {
   }
 
   if (objectType === 'object') {
-    const length = object.length;
+    const { length } = object;
     if (typeof length === 'number') {
       return !length;
     }
@@ -98,11 +111,13 @@ function parseStringToNumber(text) {
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
+    // eslint-disable-next-line no-await-in-loop
     await callback(array[index], index, array);
   }
 }
 
 module.exports = {
+  isNotSet,
   isNone,
   isEmpty,
   isBlank,

@@ -5,8 +5,7 @@ const { WS_EVENTS } = require('../../../shared/constants');
 module.exports = class MessageHandler extends BaseHandler {
   setup(io, clients, manager) {
     super.setup(io, clients, manager);
-    this.addEvent(WS_EVENTS.message);
-    this.addListener(this.handleMessage.bind(this));
+    this.addListener(WS_EVENTS.message, this.handleMessage.bind(this));
   }
 
   handleMessage(socket, message, res) {

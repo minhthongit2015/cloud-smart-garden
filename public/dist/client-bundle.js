@@ -125,7 +125,7 @@ function _extends() {
 
 exports = module.exports = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "header {\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 24px;\n  background: linear-gradient(45deg, #0288d1, #4fc3f7);\n  color: #fff;\n  font-weight: bold; }\n", ""]);
+exports.push([module.i, "", ""]);
 
 
 
@@ -20208,12 +20208,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-/* harmony import */ var _services_connection_websocket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/connection/websocket */ "./src/client/app/services/connection/websocket.js");
-/* harmony import */ var _pages_home_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/home/Home */ "./src/client/app/pages/home/Home.jsx");
-/* harmony import */ var _pages_ai_cloud_AICloud__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/ai-cloud/AICloud */ "./src/client/app/pages/ai-cloud/AICloud.jsx");
-/* harmony import */ var _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/my-garden/MyGarden */ "./src/client/app/pages/my-garden/MyGarden.jsx");
-/* harmony import */ var _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/smile-city/SmileCity */ "./src/client/app/pages/smile-city/SmileCity.jsx");
-/* harmony import */ var _layouts_simplest_simplest__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./layouts/simplest/simplest */ "./src/client/app/layouts/simplest/simplest.jsx");
+/* harmony import */ var _config_site__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config/site */ "./src/client/app/config/site.js");
+/* harmony import */ var _services_connection_websocket__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/connection/websocket */ "./src/client/app/services/connection/websocket.js");
+/* harmony import */ var _pages_home_Home__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/home/Home */ "./src/client/app/pages/home/Home.jsx");
+/* harmony import */ var _pages_ai_cloud_AICloud__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/ai-cloud/AICloud */ "./src/client/app/pages/ai-cloud/AICloud.jsx");
+/* harmony import */ var _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/my-garden/MyGarden */ "./src/client/app/pages/my-garden/MyGarden.jsx");
+/* harmony import */ var _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/smile-city/SmileCity */ "./src/client/app/pages/smile-city/SmileCity.jsx");
+/* harmony import */ var _layouts_simplest_simplest__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./layouts/simplest/simplest */ "./src/client/app/layouts/simplest/simplest.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20241,6 +20242,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -20252,14 +20254,14 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
-    _services_connection_websocket__WEBPACK_IMPORTED_MODULE_2__["default"].setup();
+    _services_connection_websocket__WEBPACK_IMPORTED_MODULE_3__["default"].setup();
     return _this;
   }
 
   _createClass(App, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      document.title = '💝 IUH Student Partner';
+      document.title = _config_site__WEBPACK_IMPORTED_MODULE_2__["default"].WEBSITE_TITLE;
     }
   }, {
     key: "render",
@@ -20267,21 +20269,21 @@ function (_Component) {
       var routes = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         exact: true,
-        component: _pages_home_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
+        component: _pages_home_Home__WEBPACK_IMPORTED_MODULE_4__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/AI-ML-Manager",
         exact: true,
-        component: _pages_ai_cloud_AICloud__WEBPACK_IMPORTED_MODULE_4__["default"]
+        component: _pages_ai_cloud_AICloud__WEBPACK_IMPORTED_MODULE_5__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/my-garden",
         exact: true,
-        component: _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_5__["default"]
+        component: _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_6__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/user-network",
         exact: true,
-        component: _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_6__["default"]
+        component: _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_7__["default"]
       }));
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_simplest_simplest__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_simplest_simplest__WEBPACK_IMPORTED_MODULE_8__["default"], {
         routes: routes
       }));
     }
@@ -20473,7 +20475,7 @@ var currentConfig =  true ? development : undefined;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var WEBSITE_TITLE = 'Yoth-Garden';
+var WEBSITE_TITLE = 'Yoth-Garden 💝';
 /* harmony default export */ __webpack_exports__["default"] = ({
   WEBSITE_TITLE: WEBSITE_TITLE
 });
@@ -20529,9 +20531,9 @@ function (_Component) {
   _createClass(Body, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
         id: "body"
-      }, this.props.children));
+      }, this.props.children);
     }
   }]);
 
@@ -20645,7 +20647,7 @@ function (_Component) {
   _createClass(Sidebar, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "d-flex flex-column modern-scrollbar"
       }, this.links.map(function (link) {
         if (link.type === 'url') {
@@ -20664,7 +20666,7 @@ function (_Component) {
         }
 
         return null;
-      })));
+      }));
     }
   }]);
 
@@ -21093,7 +21095,7 @@ function (_BasePage) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Something about project"));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Somethingzzz about project"));
     }
   }]);
 

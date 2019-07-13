@@ -4,7 +4,7 @@ const path = require('path');
 
 const serverConfig = require('./src/server/config');
 
-const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}/build`);
+const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}/dist`);
 const APP_DIR = path.resolve(__dirname, './src/client');
 // const SERVER_DIR = path.resolve(__dirname, './src/server');
 
