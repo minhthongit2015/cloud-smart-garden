@@ -10,12 +10,6 @@ export default class extends BasePage {
     this.title = 'Smile City';
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
   render() {
     return (
       <GGMap />

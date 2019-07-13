@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
+import './map.scss';
 import {
   Map, Marker, GoogleApiWrapper, Polyline
 } from 'google-maps-react';
 
-const style = {
-  width: '100%',
-  height: '100%'
-};
 
 export class MapContainer extends Component {
   static defaultProps = {
@@ -37,28 +34,32 @@ export class MapContainer extends Component {
       { lat: 1, lng: 10 }
     ];
     return (
-      <React.Fragment>
-        <Map google={this.props.google || window.google} zoom={14} style={style}>
-          <Marker
-            icon={iconMarker}
-            draggable
-            name="Current location"
-            onDragend={this.moveMarker}
-          />
-          <Polyline
-            path={pathCoordinates}
-            options={{
-              strokeColor: '#00ffff',
-              strokeOpacity: 1,
-              strokeWeight: 2,
-              icons: [{
-                icon: 'hello',
-                offset: '0',
-                repeat: '10px'
-              }]
-            }}
-          />
-          {/* <InfoWindow
+      <Map
+        google={this.props.google || window.google}
+        zoom={14}
+        className="map"
+        style={{ width: '100%', height: '100%', position: 'relative' }}
+      >
+        <Marker
+          icon={iconMarker}
+          draggable
+          name="Current location"
+          onDragend={this.moveMarker}
+        />
+        <Polyline
+          path={pathCoordinates}
+          options={{
+            strokeColor: '#00ffff',
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            icons: [{
+              icon: 'hello',
+              offset: '0',
+              repeat: '10px'
+            }]
+          }}
+        />
+        {/* <InfoWindow
             visible={showInfoWindow}
             style={styles.infoWindow}
           >
@@ -66,8 +67,7 @@ export class MapContainer extends Component {
               <p>Click on the map or drag the marker to select </p>
             </div>
           </InfoWindow> */}
-        </Map>
-      </React.Fragment>
+      </Map>
     );
   }
 }

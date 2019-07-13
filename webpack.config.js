@@ -26,7 +26,11 @@ const config = {
   module: {
     rules: [
       {
-        test: /(\.css|.scss)$/,
+        test: /\.css?$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /(\.scss)$/,
         use: [
           {
             loader: 'style-loader' // creates style nodes from JS strings
@@ -48,6 +52,26 @@ const config = {
               cacheDirectory: true
             }
           }
+        ]
+      },
+      {
+        test: /\.(gif|eot|woff|woff2|ttf|svg|otf)$/,
+        use: 'url-loader?name=../fonts/[name].[ext]'
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        loader: 'file-loader?name=../images/[name].[ext]'
+      },
+      {
+        test: /.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgo: false
+            }
+          },
+          'url-loader'
         ]
       }
     ]

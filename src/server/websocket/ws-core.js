@@ -1,7 +1,7 @@
 /* @flow */
 const wsDebug = require('debug')('app:wsserver');
 const { WS_EVENTS } = require('../../shared/constants');
-const Logger = require('../services/Logger');
+// const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManagerCore {
   static get io() {
@@ -40,7 +40,7 @@ module.exports = class WebsocketManagerCore {
           wsDebug('Client disconnected: ', socket.id, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
-        Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
+        // Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
       }
     });
   }

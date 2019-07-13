@@ -1,0 +1,30 @@
+
+@import './fonts/iciel-bambola';
+
+img {
+  max-width: 100%;
+}
+
+.modern-scrollbar {
+  &::-webkit-scrollbar {
+    background: #E2E5E8;
+    width: 4px;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #A1A9B3;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+  &::-webkit-resizer {
+    display: none;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}
