@@ -140,7 +140,7 @@ exports.push([module.i, "", ""]);
 
 exports = module.exports = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "aside {\n  width: 250px; }\n  aside a {\n    padding: 10px;\n    font-size: 16px;\n    border-bottom: 1px solid #d4d4d4; }\n    aside a.active {\n      background: linear-gradient(45deg, #2a607d, #3997c1);\n      color: #fff; }\n    aside a.active:hover {\n      filter: brightness(1.1); }\n  aside hr {\n    margin: 0;\n    border-color: #d4d4d4; }\n", ""]);
+exports.push([module.i, "aside {\n  width: 70px; }\n  aside a {\n    padding: 10px;\n    font-size: 16px;\n    border-bottom: 1px solid #d4d4d4; }\n    aside a.active {\n      background: linear-gradient(45deg, #2a607d, #3997c1);\n      color: #fff; }\n    aside a.active:hover {\n      filter: brightness(1.1); }\n  aside hr {\n    margin: 0;\n    border-color: #d4d4d4; }\n", ""]);
 
 
 
@@ -20215,6 +20215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/my-garden/MyGarden */ "./src/client/app/pages/my-garden/MyGarden.jsx");
 /* harmony import */ var _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/smile-city/SmileCity */ "./src/client/app/pages/smile-city/SmileCity.jsx");
 /* harmony import */ var _layouts_simplest_simplest__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./layouts/simplest/simplest */ "./src/client/app/layouts/simplest/simplest.jsx");
+/* harmony import */ var _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/RouteConstants */ "./src/client/app/utils/RouteConstants.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20232,6 +20233,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -20267,19 +20269,19 @@ function (_Component) {
     key: "render",
     value: function render() {
       var routes = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/",
+        path: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_9__["default"].homePath,
         exact: true,
         component: _pages_home_Home__WEBPACK_IMPORTED_MODULE_4__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/AI-ML-Manager",
+        path: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_9__["default"].aiCloudPath,
         exact: true,
         component: _pages_ai_cloud_AICloud__WEBPACK_IMPORTED_MODULE_5__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/my-garden",
+        path: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_9__["default"].userGardensPath,
         exact: true,
         component: _pages_my_garden_MyGarden__WEBPACK_IMPORTED_MODULE_6__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/user-network",
+        path: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_9__["default"].userNetworkPath,
         exact: true,
         component: _pages_smile_city_SmileCity__WEBPACK_IMPORTED_MODULE_7__["default"]
       }));
@@ -20293,6 +20295,85 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./src/client/app/assets/icons.jsx":
+/*!*****************************************!*\
+  !*** ./src/client/app/assets/icons.jsx ***!
+  \*****************************************/
+/*! exports provided: AICloudIcon, MyGardenIcon, SmileCityIcon, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AICloudIcon", function() { return AICloudIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MyGardenIcon", function() { return MyGardenIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SmileCityIcon", function() { return SmileCityIcon; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _images_ai_cloud_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./images/ai-cloud.png */ "./src/client/app/assets/images/ai-cloud.png");
+/* harmony import */ var _images_ai_cloud_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_images_ai_cloud_png__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _images_my_garden_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images/my-garden.png */ "./src/client/app/assets/images/my-garden.png");
+/* harmony import */ var _images_my_garden_png__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_images_my_garden_png__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _images_smile_city_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./images/smile-city.png */ "./src/client/app/assets/images/smile-city.png");
+/* harmony import */ var _images_smile_city_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_images_smile_city_png__WEBPACK_IMPORTED_MODULE_3__);
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+var AICloudIcon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", _extends({
+  src: _images_ai_cloud_png__WEBPACK_IMPORTED_MODULE_1__["src"],
+  alt: ""
+}, undefined.props));
+var MyGardenIcon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", _extends({
+  src: _images_my_garden_png__WEBPACK_IMPORTED_MODULE_2__["src"],
+  alt: ""
+}, undefined.props));
+var SmileCityIcon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", _extends({
+  src: _images_smile_city_png__WEBPACK_IMPORTED_MODULE_3__["src"],
+  alt: ""
+}, undefined.props));
+/* harmony default export */ __webpack_exports__["default"] = ({
+  AICloudIcon: AICloudIcon,
+  MyGardenIcon: MyGardenIcon,
+  SmileCityIcon: SmileCityIcon
+});
+
+/***/ }),
+
+/***/ "./src/client/app/assets/images/ai-cloud.png":
+/*!***************************************************!*\
+  !*** ./src/client/app/assets/images/ai-cloud.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/ai-cloud.png";
+
+/***/ }),
+
+/***/ "./src/client/app/assets/images/my-garden.png":
+/*!****************************************************!*\
+  !*** ./src/client/app/assets/images/my-garden.png ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/my-garden.png";
+
+/***/ }),
+
+/***/ "./src/client/app/assets/images/smile-city.png":
+/*!*****************************************************!*\
+  !*** ./src/client/app/assets/images/smile-city.png ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/smile-city.png";
 
 /***/ }),
 
@@ -20583,12 +20664,14 @@ if(false) {}
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sidebar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SideNav; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _sidenav_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sidenav.scss */ "./src/client/app/layouts/simplest/sidenav/sidenav.scss");
 /* harmony import */ var _sidenav_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_sidenav_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../utils/RouteConstants */ "./src/client/app/utils/RouteConstants.jsx");
+/* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../assets/icons */ "./src/client/app/assets/icons.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20611,66 +20694,64 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Sidebar =
+
+
+var SideNav =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Sidebar, _Component);
+  _inherits(SideNav, _Component);
 
-  function Sidebar() {
+  function SideNav() {
     var _this;
 
-    _classCallCheck(this, Sidebar);
+    _classCallCheck(this, SideNav);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Sidebar).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SideNav).call(this));
     _this.links = [{
-      type: 'url',
-      url: '/',
-      text: 'Trang Chủ'
+      type: 'nav',
+      url: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_3__["default"].aiCloudLink,
+      text: 'AI Cloud',
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_4__["AICloudIcon"]
     }, {
-      type: 'url',
-      url: '/ai-cloud',
-      text: 'Quản Lý AI/ML (Admin)'
+      type: 'nav',
+      url: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_3__["default"].userGardensLink,
+      text: 'My Garden',
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_4__["MyGardenIcon"]
     }, {
-      type: 'url',
-      url: '/my-garden',
-      text: 'Quản Lý Vườn'
-    }, {
-      type: 'url',
-      url: '/smile-city',
-      text: 'Mạng Lưới Người dùng'
-    }, {
-      type: 'separator'
+      type: 'nav',
+      url: _utils_RouteConstants__WEBPACK_IMPORTED_MODULE_3__["default"].userNetworkLink,
+      text: 'Smile City',
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_4__["SmileCityIcon"]
     }];
     return _this;
   }
 
-  _createClass(Sidebar, [{
+  _createClass(SideNav, [{
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "d-flex flex-column modern-scrollbar"
       }, this.links.map(function (link) {
-        if (link.type === 'url') {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
-            to: link.url,
-            key: link.url,
-            exact: true,
-            activeClassName: "active"
-          }, link.text);
-        }
-
-        if (link.type === 'separator') {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-            key: "Z"
-          });
+        if (link.type === 'nav') {
+          return SideNav.renderNav(link);
         }
 
         return null;
       }));
     }
+  }], [{
+    key: "renderNav",
+    value: function renderNav(nav) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+        to: nav.url,
+        key: nav.url,
+        exact: true,
+        activeClassName: "active"
+      }, nav.text);
+    }
   }]);
 
-  return Sidebar;
+  return SideNav;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 
@@ -20757,7 +20838,9 @@ function (_Component) {
   _createClass(SimplestLayout, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_content_content__WEBPACK_IMPORTED_MODULE_1__["default"], null, this.props.routes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidenav_sidenav__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_content_content__WEBPACK_IMPORTED_MODULE_1__["default"], null, this.props.routes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidenav_sidenav__WEBPACK_IMPORTED_MODULE_2__["default"], null));
     }
   }]);
 
@@ -21485,6 +21568,36 @@ var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/a
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
+
+/***/ }),
+
+/***/ "./src/client/app/utils/RouteConstants.jsx":
+/*!*************************************************!*\
+  !*** ./src/client/app/utils/RouteConstants.jsx ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var homePath = '/';
+var homeLink = '/';
+var aiCloudPath = '/ai-cloud';
+var aiCloudLink = '/ai-cloud';
+var userGardensPath = '/my-garden';
+var userGardensLink = '/my-garden';
+var userNetworkPath = '/smile-city';
+var userNetworkLink = '/smile-city';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  homePath: homePath,
+  homeLink: homeLink,
+  aiCloudPath: aiCloudPath,
+  aiCloudLink: aiCloudLink,
+  userGardensPath: userGardensPath,
+  userGardensLink: userGardensLink,
+  userNetworkPath: userNetworkPath,
+  userNetworkLink: userNetworkLink
+});
 
 /***/ }),
 

@@ -49,6 +49,26 @@ const config = {
             }
           }
         ]
+      },
+      {
+        test: /\.(gif|ttf|eot|woff2?)$/,
+        use: 'url-loader?name=fonts/[name].[ext]'
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        loader: 'file-loader?name=images/[name].[ext]'
+      },
+      {
+        test: /.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgo: false
+            }
+          },
+          'url-loader'
+        ]
       }
     ]
   },

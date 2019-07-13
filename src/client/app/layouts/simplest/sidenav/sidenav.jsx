@@ -2,16 +2,41 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import './sidenav.scss';
 
-export default class Sidebar extends Component {
+import RouteConstants from '../../../utils/RouteConstants';
+
+import {
+  MyGardenIcon,
+  AICloudIcon,
+  SmileCityIcon
+} from '../../../assets/icons';
+
+export default class SideNav extends Component {
   constructor() {
     super();
     this.links = [
-      { type: 'url', url: '/', text: 'Trang Chủ' },
-      { type: 'url', url: '/ai-cloud', text: 'Quản Lý AI/ML (Admin)' },
-      { type: 'url', url: '/my-garden', text: 'Quản Lý Vườn' },
-      { type: 'url', url: '/smile-city', text: 'Mạng Lưới Người dùng' },
-      { type: 'separator' }
+      {
+        type: 'nav', url: RouteConstants.aiCloudLink, text: 'AI Cloud', icon: AICloudIcon
+      },
+      {
+        type: 'nav', url: RouteConstants.userGardensLink, text: 'My Garden', icon: MyGardenIcon
+      },
+      {
+        type: 'nav', url: RouteConstants.userNetworkLink, text: 'Smile City', icon: SmileCityIcon
+      }
     ];
+  }
+
+  static renderNav(nav) {
+    return (
+      <NavLink
+        to={nav.url}
+        key={nav.url}
+        exact
+        activeClassName="active"
+      >
+        {nav.text}
+      </NavLink>
+    );
   }
 
   render() {
@@ -19,8 +44,7 @@ export default class Sidebar extends Component {
       <aside className="d-flex flex-column modern-scrollbar">
         {
           this.links.map((link) => {
-            if (link.type === 'url') { return <NavLink to={link.url} key={link.url} exact activeClassName="active">{link.text}</NavLink>; }
-            if (link.type === 'separator') { return <hr key="Z" />; }
+            if (link.type === 'nav') { return SideNav.renderNav(link); }
             return null;
           })
         }

@@ -5,11 +5,13 @@ import Config from './config/site';
 import Connection from './services/connection/websocket';
 
 import Home from './pages/home/Home';
-import AIMLManagerPage from './pages/ai-cloud/AICloud';
-import GardenManagerPage from './pages/my-garden/MyGarden';
+import AICloudPage from './pages/ai-cloud/AICloud';
+import UserGardenPage from './pages/my-garden/MyGarden';
 import UserNetWorkPage from './pages/smile-city/SmileCity';
 
 import SimplestLayout from './layouts/simplest/simplest';
+
+import RouteConstants from './utils/RouteConstants';
 
 class App extends Component {
   constructor() {
@@ -24,10 +26,10 @@ class App extends Component {
   render() {
     const routes = (
       <React.Fragment>
-        <Route path="/" exact component={Home} />
-        <Route path="/AI-ML-Manager" exact component={AIMLManagerPage} />
-        <Route path="/my-garden" exact component={GardenManagerPage} />
-        <Route path="/user-network" exact component={UserNetWorkPage} />
+        <Route path={RouteConstants.homePath} exact component={Home} />
+        <Route path={RouteConstants.aiCloudPath} exact component={AICloudPage} />
+        <Route path={RouteConstants.userGardensPath} exact component={UserGardenPage} />
+        <Route path={RouteConstants.userNetworkPath} exact component={UserNetWorkPage} />
       </React.Fragment>
     );
     return (
