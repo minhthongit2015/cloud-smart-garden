@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import Config from './config/site';
 import Connection from './services/connection/websocket';
@@ -30,6 +30,7 @@ class App extends Component {
         <Route path={RouteConstants.aiCloudPath} exact component={AICloudPage} />
         <Route path={RouteConstants.userGardensPath} exact component={UserGardenPage} />
         <Route path={RouteConstants.userNetworkPath} exact component={UserNetWorkPage} />
+        {/* <Redirect path="*" to={RouteConstants.homeLink} /> */}
       </React.Fragment>
     );
     return (

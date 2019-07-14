@@ -10,7 +10,7 @@ const common = {
 const development = {
   ...common,
   wsPort: 5000,
-  wsEndPoint: 'ws://localhost:5000'
+  wsEndPoint: 'ws://localhost:5000/'
 };
 
 const production = {

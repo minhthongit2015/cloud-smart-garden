@@ -7,7 +7,7 @@ export default class Connection {
 
   static setup() {
     // eslint-disable-next-line no-undef
-    Connection._socket = io(`http://localhost:${ClientConfig.backendPort}`, {
+    Connection._socket = io(ClientConfig.currentConfig.wsEndPoint, {
       transports: ['websocket']
     });
     Connection._socket.on(WS_EVENTS.cloudConnect, () => {
