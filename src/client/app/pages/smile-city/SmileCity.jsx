@@ -1,16 +1,20 @@
 import React from 'react';
-import { Marker, Polyline, InfoWindow } from 'google-maps-react';
+import { Marker, InfoWindow } from 'google-maps-react';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/map';
+
+import { ShoppingCartSrc } from '../../assets/icons';
 
 export default class extends BasePage {
   constructor(props) {
     super(props);
     this.title = 'Smile City';
 
-    // this.renderMapElements = this.renderMapElements.bind(this);
+    this.handleInfoWindowClick = this.handleInfoWindowClick.bind(this);
+    this.renderMapElements = this.renderMapElements.bind(this);
+    this.attachEvents = this.attachEvents.bind(this);
 
     this.defaultMapProps = {
       initialCenter: { lat: 0, lng: 0 },
@@ -25,46 +29,53 @@ export default class extends BasePage {
     };
   }
 
-  renderMapElements() {
-    if (!window.google) return null;
-    const iconMarker = new window.google.maps.MarkerImage(
-      'https://lh3.googleusercontent.com/bECXZ2YW3j0yIEBVo92ECVqlnlbX9ldYNGrCe0Kr4VGPq-vJ9Xncwvl16uvosukVXPfV=w300',
+  attachEvents() {
+    const btn = document.getElementById('zzz');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        this.handleInfoWindowClick(e);
+      });
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  renderMapElements(props) {
+    const { google, map } = props;
+    if (!google || !map) return null;
+
+    this.infowindow = new google.maps.InfoWindow({
+      content: '<button id="zzz">Click me please</button>'
+    });
+    const iw = this.infowindow;
+
+    google.maps.event
+      .addListener(iw, 'click', () => alert(123));
+    google.maps.event
+      .addListener(iw, 'domready', () => {
+        this.attachEvents();
+      });
+    const pos = new google.maps.LatLng(0, 5);
+    this.infowindow.setPosition(pos);
+    this.infowindow.open(map);
+
+    const iconMarker = new google.maps.MarkerImage(
+      ShoppingCartSrc,
       null, /* size is determined at runtime */
       null, /* origin is 0,0 */
       null, /* anchor is bottom center of the scaled image */
-      new window.google.maps.Size(32, 32)
+      new props.google.maps.Size(32, 32)
     );
-    const pathCoordinates = [
-      { lat: 10, lng: 1 },
-      { lat: 1, lng: 10 }
-    ];
 
     return (
       <>
         <Marker
-          title="The marker`s title will appear as a tooltip."
-          name="SOMA"
-          position={{ lat: 0, lng: 0 }}
-        />
-        <Marker
+          google={google}
+          map={map}
           icon={iconMarker}
           draggable
-          name="Current location"
-          onDragend={this.moveMarker}
-          position={{ lat: 0, lng: 0 }}
-        />
-        <Polyline
-          path={pathCoordinates}
-          options={{
-            strokeColor: '#00ffff',
-            strokeOpacity: 1,
-            strokeWeight: 2,
-            icons: [{
-              icon: 'hello',
-              offset: '0',
-              repeat: '10px'
-            }]
-          }}
+          title="The marker`s title will appear as a tooltip."
+          name="SOMA"
+          position={{ lat: 5, lng: 5 }}
         />
       </>
     );
@@ -90,14 +101,22 @@ export default class extends BasePage {
     }
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  handleInfoWindowClick(event) {
+    if (event.target.tagName === 'BUTTON') {
+      alert('clicked');
+    }
+  }
+
   render() {
     return (
       <GGMap
         google={this.props.google || window.google}
-        render={this.renderMapElements}
         {...this.defaultMapProps}
         onClick={this.onMapClicked}
+        onReady={this.attachEvents}
       >
+        <this.renderMapElements />
         <Marker
           title="The marker`s title will appear as a tooltip."
           name="SOMA"
@@ -114,11 +133,18 @@ export default class extends BasePage {
         <InfoWindow
           marker={this.state.activeMarker}
           onClose={this.onInfoWindowClose}
-          visible={this.state.activeMarker}
+          visible={!!this.state.activeMarker}
         >
-          <div className="">
-            <p>Hello</p>
-          </div>
+          {this.state.activeMarker
+            ? (
+              <div className="zzzz">
+                <h1>{this.state.activeMarker.title}</h1>
+                <div className="p-3">
+                  <button type="button" id="btnzzz">Test</button>
+                </div>
+              </div>
+            ) : <div />
+          }
         </InfoWindow>
         <InfoWindow mapCenter={{ lat: 0, lng: 0 }} visible google={window.google}>
           <small>

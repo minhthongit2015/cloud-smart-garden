@@ -82,6 +82,7 @@
     "flow-bin": "^0.93.0",
     "gulp": "^4.0.2",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-redux": "^7.1.0",

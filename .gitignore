@@ -63,3 +63,6 @@ typings/
 /dist/build
 /public/build
 /public/dist
+/public/images
+/public/fonts
+images

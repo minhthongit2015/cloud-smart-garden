@@ -55,7 +55,7 @@ const config = {
         ]
       },
       {
-        test: /\.(gif|eot|woff|woff2|ttf|svg|otf)$/,
+        test: /\.(eot|woff|woff2|ttf|otf)$/,
         use: 'url-loader?name=../fonts/[name].[ext]'
       },
       {
@@ -63,7 +63,7 @@ const config = {
         loader: 'file-loader?name=../images/[name].[ext]'
       },
       {
-        test: /.svg$/,
+        test: /\.svg$/,
         use: [
           {
             loader: '@svgr/webpack',
@@ -71,7 +71,9 @@ const config = {
               svgo: false
             }
           },
-          'url-loader'
+          {
+            loader: 'file-loader?name=../images/[name].[ext]'
+          }
         ]
       }
     ]
