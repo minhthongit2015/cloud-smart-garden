@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line class-methods-use-this
 export function mapTreeNodeToArray(root, array, childIndex, parentPath) {
-  if (!array) return null;
+  if (!root || !array || typeof root !== 'object') return null;
   const currentPath = `${parentPath ? `${parentPath} > ${root.type}` : `> ${root.type}`}`
       + `:nth-child(${(childIndex || 0) + 1})`;
   array.push({

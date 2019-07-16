@@ -1,10 +1,8 @@
 /* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './Map.scss';
-import {
-  Map, GoogleApiWrapper
-} from 'google-maps-react';
+import './_Map.scss';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
 
 
 export class MapContainer extends Component {
@@ -15,6 +13,7 @@ export class MapContainer extends Component {
         google={google}
         className="map"
         style={{ height: '100%', position: 'relative', width: '100%' }}
+        visible={false}
         {...this.props}
       >
         {this.props.children}

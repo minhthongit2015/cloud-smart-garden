@@ -14,6 +14,11 @@ import SimplestLayout from './layouts/simplest/simplest';
 import RouteConstants from './utils/RouteConstants';
 
 class App extends Component {
+  // eslint-disable-next-line class-methods-use-this
+  get isUserNetworkPage() {
+    return window.location.pathname === RouteConstants.userNetworkPath;
+  }
+
   constructor() {
     super();
     Connection.setup();
@@ -26,11 +31,12 @@ class App extends Component {
   render() {
     const routes = (
       <React.Fragment>
-        <Route path={RouteConstants.homePath} exact component={Home} />
-        <Route path={RouteConstants.aiCloudPath} exact component={AICloudPage} />
-        <Route path={RouteConstants.userGardensPath} exact component={UserGardenPage} />
-        <Route path={RouteConstants.userNetworkPath} exact component={UserNetWorkPage} />
-        {/* <Redirect path="*" to={RouteConstants.homeLink} /> */}
+        <Route exact path={RouteConstants.homePath} component={Home} />
+        <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
+        <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
+        <Route exact path={RouteConstants.userNetworkPath} component={() => <></>} />
+        {/* <Redirect exact path="/*" to={RouteConstants.homeLink} /> */}
+        {(this.isUserNetworkPage || window.myGoogleMap) && <UserNetWorkPage />}
       </React.Fragment>
     );
     return (

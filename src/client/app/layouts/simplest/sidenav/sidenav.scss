@@ -1,9 +1,10 @@
 aside {
-  width: 144px;
+  min-width: 144px;
   max-width: 144px;
   overflow: hidden;
   transition: all .3s ease-in-out;
   &.hide {
+    min-width: 0;
     max-width: 0;
   }
   .nav-icon-link {

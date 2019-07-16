@@ -5,7 +5,7 @@ const path = require('path');
 const serverConfig = require('./src/server/config');
 
 const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}/dist`);
-const APP_DIR = path.resolve(__dirname, './src/client');
+const APP_DIR = path.resolve(__dirname, 'src/client');
 // const SERVER_DIR = path.resolve(__dirname, './src/server');
 
 const config = {
@@ -39,7 +39,13 @@ const config = {
             loader: 'css-loader' // translates CSS into CommonJS
           },
           {
-            loader: 'sass-loader' // compiles Sass to CSS
+            loader: 'sass-loader', // compiles Sass to CSS
+            options: {
+              data: '@import "global";',
+              includePaths: [
+                path.resolve(APP_DIR, 'app/styles')
+              ]
+            }
           }
         ]
       },

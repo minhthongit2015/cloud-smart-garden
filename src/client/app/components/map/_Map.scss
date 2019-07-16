@@ -1,0 +1,23 @@
+#body > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gm-style > div:first-child > div:last-child {
+  box-shadow: inset 0 0 15px #000, inset 0 0 4px #000;
+  border: 3px solid $main-background-color !important;
+}
+
+.gm-style {
+  animation: fadeIn .3s ease-in-out forwards;
+}
+
+.gm-style {
+  .gm-style-iw-t {
+    animation-duration: .3s;
+  }
+  .gm-style-iw {
+    animation: fadeIn .3s ease-in-out forwards;
+  }
+}

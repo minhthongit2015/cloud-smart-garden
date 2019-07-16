@@ -7,9 +7,18 @@ import * as jQuery from 'jquery';
 import uuid from 'uuid';
 import { mapTreeNodeToArray } from '../../../utils/DOM';
 
-class MarkerWithInfo extends Component {
+export default class MarkerWithInfo extends Component {
+  get isOpen() {
+    return !!this.state.marker;
+  }
+
+  get infoWindowWrapper() {
+    return jQuery(`#${this.uid}`).parents('.gm-style-iw-t');
+  }
+
   constructor(props) {
     super(props);
+    this.marker = null;
     this.state = {
       marker: null
     };
@@ -19,6 +28,7 @@ class MarkerWithInfo extends Component {
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMarkerHover = this.onMarkerHover.bind(this);
     this.onMarkerFocus = this.onMarkerFocus.bind(this);
+    this.onForceClose = this.onForceClose.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.onClose = this.onClose.bind(this);
     this.open = this.open.bind(this);
@@ -29,14 +39,27 @@ class MarkerWithInfo extends Component {
 
   open() {
     this.setState({
-      marker: this.markerRef
+      marker: this.markerRef.current.marker
     });
   }
 
   close() {
-    this.setState({
-      marker: null
-    });
+    this.isClosing = true;
+    this.infoWindowWrapper.addClass('fadeOut animated faster')
+      .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
+        this.isClosing = false;
+        this.setState({
+          marker: null
+        });
+      });
+  }
+
+  toggle() {
+    if (this.isOpen && !this.isClosing) {
+      this.close();
+    } else {
+      this.open();
+    }
   }
 
   onOpen() {
@@ -63,15 +86,21 @@ class MarkerWithInfo extends Component {
     }
   }
 
-  onMarkerClick(props, marker) {
+  onForceClose() {
+    this.isClosing = false;
+    this.setState({
+      marker: null
+    });
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+  }
+
+  onMarkerClick(/* props, marker */) {
     if (this.props.enableToggle) {
-      this.setState(prevState => ({
-        marker: prevState.marker ? null : marker
-      }));
-    } else if (!this.state.marker) {
-      this.setState({
-        marker
-      });
+      this.toggle();
+    } else if (!this.isOpen) {
+      this.open();
     }
     if (this.props.onMarkerClick) {
       this.props.onMarkerClick();
@@ -90,19 +119,25 @@ class MarkerWithInfo extends Component {
     }
   }
 
+  storeContentOriginTree() {
+    this._nodeMap = [];
+    mapTreeNodeToArray(this.props.children, this._nodeMap);
+  }
+
   render() {
     const {
       google, map, markerProps, windowProps
     } = this.props;
     if (!google || !map) return null;
     const baseProps = { google, map };
-    this._nodeMap = [];
-    mapTreeNodeToArray(this.props.children, this._nodeMap);
+
+    this.storeContentOriginTree();
     const Content = () => (
       <React.Fragment>
         {this.props.children}
       </React.Fragment>
     );
+
     return (
       <React.Fragment>
         <Marker
@@ -119,8 +154,8 @@ class MarkerWithInfo extends Component {
           {...baseProps}
           {...windowProps}
           onOpen={this.onOpen}
-          onClose={this.onClose}
-          visible={!!this.state.marker}
+          onClose={this.onForceClose}
+          visible={this.isOpen}
         >
           <div id={this.uid}>
             <Content />
@@ -157,5 +192,3 @@ MarkerWithInfo.defaultProps = {
   onClose: null,
   windowProps: {}
 };
-
-export default MarkerWithInfo;

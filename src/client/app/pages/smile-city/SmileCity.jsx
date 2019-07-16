@@ -3,7 +3,7 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
-import MarkerWithInfo from '../../components/map/extendeds/MarkerWithInfo';
+import UserMarker from '../../components/map/extendeds/UserMarker';
 
 import { ShoppingCartSrc } from '../../assets/icons';
 
@@ -29,6 +29,10 @@ export default class extends BasePage {
     this.testMarkerRef = React.createRef();
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
     const { google, map } = props;
@@ -43,8 +47,9 @@ export default class extends BasePage {
       new props.google.maps.Size(32, 32)
     );
 
+    const name = 'KID';
     return (
-      <MarkerWithInfo
+      <UserMarker
         ref={this.testMarkerRef}
         {...baseProps}
         onOpen={this.attachEvents}
@@ -58,34 +63,32 @@ export default class extends BasePage {
           }
         }
         windowProps={{}}
-      >
-        <div>
-          <h4>Hello</h4>
-          <button type="button" onClick={() => alert(123)}>Click Me!</button>
-        </div>
-      </MarkerWithInfo>
+        name={name}
+      />
     );
   }
 
   onMapClicked = () => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        activeMarker: null,
-        showingInfoWindow: false
-      });
-    }
+    this.testMarkerRef.current.close();
   };
 
   render() {
+    if (!window.myGoogleMap) {
+      window.myGoogleMap = (
+        <GGMap
+          google={this.props.google || window.google}
+          {...this.defaultMapProps}
+          onClick={this.onMapClicked}
+          onReady={this.attachEvents}
+        >
+          <this.renderMapElements />
+        </GGMap>
+      );
+    }
     return (
-      <GGMap
-        google={this.props.google || window.google}
-        {...this.defaultMapProps}
-        onClick={this.onMapClicked}
-        onReady={this.attachEvents}
-      >
-        <this.renderMapElements />
-      </GGMap>
+      <div {...this.props}>
+        {window.myGoogleMap}
+      </div>
     );
   }
 }
