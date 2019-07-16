@@ -3,7 +3,9 @@ import {
   Marker, InfoWindow, MarkerProps, InfoWindowProps
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
-import { EventEmitter } from 'events';
+import * as jQuery from 'jquery';
+import uuid from 'uuid';
+import { mapTreeNodeToArray } from '../../../utils/DOM';
 
 class MarkerWithInfo extends Component {
   constructor(props) {
@@ -13,8 +15,6 @@ class MarkerWithInfo extends Component {
     };
     this.markerRef = React.createRef();
     this.windowRef = React.createRef();
-    this.windowEvent = new EventEmitter();
-    this.markerEvent = new EventEmitter();
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMarkerHover = this.onMarkerHover.bind(this);
@@ -23,18 +23,8 @@ class MarkerWithInfo extends Component {
     this.onClose = this.onClose.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
-  }
 
-  /**
-   * @param {"click" | "dbclick"} event
-   * @param {*} listener
-   */
-  addEventListener(event, listener) {
-    if (!this.windowRef.current) {
-      this.windowEvent.addListener(event, listener);
-    } else {
-      this.windowRef.current.addEventListener(event, listener);
-    }
+    this.uid = uuid.v1();
   }
 
   open() {
@@ -50,10 +40,15 @@ class MarkerWithInfo extends Component {
   }
 
   onOpen() {
-    this.windowEvent.eventNames().forEach((event) => {
-      const listeners = this.windowEvent.listeners(event);
-      listeners.forEach((listener) => {
-        this.windowRef.current.addEventListener(event, listener);
+    const root = jQuery(`#${this.uid}`);
+    this._nodeMap.forEach((node) => {
+      const child = root.find(`${node.selector}`);
+      node.props.forEach(([key, value]) => {
+        if (key.startsWith('on')) {
+          child.on(key.substr(2).toLowerCase(), value);
+        } else {
+          child.attr(key, value);
+        }
       });
     });
     if (this.props.onOpen) {
@@ -69,7 +64,11 @@ class MarkerWithInfo extends Component {
   }
 
   onMarkerClick(props, marker) {
-    if (!this.state.marker) {
+    if (this.props.enableToggle) {
+      this.setState(prevState => ({
+        marker: prevState.marker ? null : marker
+      }));
+    } else if (!this.state.marker) {
       this.setState({
         marker
       });
@@ -97,7 +96,9 @@ class MarkerWithInfo extends Component {
     } = this.props;
     if (!google || !map) return null;
     const baseProps = { google, map };
-    const Content = props => (
+    this._nodeMap = [];
+    mapTreeNodeToArray(this.props.children, this._nodeMap);
+    const Content = () => (
       <React.Fragment>
         {this.props.children}
       </React.Fragment>
@@ -121,7 +122,9 @@ class MarkerWithInfo extends Component {
           onClose={this.onClose}
           visible={!!this.state.marker}
         >
-          <Content />
+          <div id={this.uid}>
+            <Content />
+          </div>
         </InfoWindow>
       </React.Fragment>
     );
@@ -134,7 +137,8 @@ MarkerWithInfo.propTypes = {
   onMarkerClick: PropTypes.func,
   onMarkerFocus: PropTypes.func,
   onMarkerHover: PropTypes.func,
-  markerProps: PropTypes.shape(MarkerProps).isRequired,
+  enableToggle: PropTypes.bool,
+  markerProps: PropTypes.shape(MarkerProps),
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   windowProps: PropTypes.shape(InfoWindowProps)
@@ -147,6 +151,8 @@ MarkerWithInfo.defaultProps = {
   onMarkerClick: null,
   onMarkerFocus: null,
   onMarkerHover: null,
+  enableToggle: true,
+  markerProps: {},
   onOpen: null,
   onClose: null,
   windowProps: {}

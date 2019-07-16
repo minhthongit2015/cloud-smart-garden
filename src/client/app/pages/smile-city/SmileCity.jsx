@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
@@ -14,7 +13,6 @@ export default class extends BasePage {
     this.title = 'Smile City';
 
     this.renderMapElements = this.renderMapElements.bind(this);
-    this.attachEvents = this.attachEvents.bind(this);
 
     this.defaultMapProps = {
       initialCenter: { lat: 0, lng: 0 },
@@ -31,27 +29,11 @@ export default class extends BasePage {
     this.testMarkerRef = React.createRef();
   }
 
-  attachEvents() {
-    const btn = document.getElementById('zzz');
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        this.handleInfoWindowClick(e);
-      });
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleInfoWindowClick(event) {
-    if (event.target.tagName === 'BUTTON') {
-      alert('clicked');
-    }
-  }
-
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
     const { google, map } = props;
     if (!google || !map) return null;
-    const defaultProps = { google, map };
+    const baseProps = { google, map };
 
     const iconMarker = new google.maps.MarkerImage(
       ShoppingCartSrc,
@@ -64,7 +46,7 @@ export default class extends BasePage {
     return (
       <MarkerWithInfo
         ref={this.testMarkerRef}
-        {...defaultProps}
+        {...baseProps}
         onOpen={this.attachEvents}
         markerProps={
           {
@@ -77,9 +59,9 @@ export default class extends BasePage {
         }
         windowProps={{}}
       >
-        <div onClick={() => alert(123)}>
+        <div>
           <h4>Hello</h4>
-          <button type="button" id="zzz">Click Me!</button>
+          <button type="button" onClick={() => alert(123)}>Click Me!</button>
         </div>
       </MarkerWithInfo>
     );
