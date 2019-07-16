@@ -1,9 +1,10 @@
 import React from 'react';
-import { Marker, InfoWindow } from 'google-maps-react';
+import $ from 'jquery';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
-import GGMap from '../../components/map/map';
+import GGMap from '../../components/map/Map';
+import MarkerWithInfo from '../../components/map/extendeds/MarkerWithInfo';
 
 import { ShoppingCartSrc } from '../../assets/icons';
 
@@ -12,7 +13,6 @@ export default class extends BasePage {
     super(props);
     this.title = 'Smile City';
 
-    this.handleInfoWindowClick = this.handleInfoWindowClick.bind(this);
     this.renderMapElements = this.renderMapElements.bind(this);
     this.attachEvents = this.attachEvents.bind(this);
 
@@ -27,6 +27,8 @@ export default class extends BasePage {
       selectedPlace: {},
       showingInfoWindow: false
     };
+
+    this.testMarkerRef = React.createRef();
   }
 
   attachEvents() {
@@ -39,24 +41,17 @@ export default class extends BasePage {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  handleInfoWindowClick(event) {
+    if (event.target.tagName === 'BUTTON') {
+      alert('clicked');
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
     const { google, map } = props;
     if (!google || !map) return null;
-
-    this.infowindow = new google.maps.InfoWindow({
-      content: '<button id="zzz">Click me please</button>'
-    });
-    const iw = this.infowindow;
-
-    google.maps.event
-      .addListener(iw, 'click', () => alert(123));
-    google.maps.event
-      .addListener(iw, 'domready', () => {
-        this.attachEvents();
-      });
-    const pos = new google.maps.LatLng(0, 5);
-    this.infowindow.setPosition(pos);
-    this.infowindow.open(map);
+    const defaultProps = { google, map };
 
     const iconMarker = new google.maps.MarkerImage(
       ShoppingCartSrc,
@@ -67,30 +62,28 @@ export default class extends BasePage {
     );
 
     return (
-      <>
-        <Marker
-          google={google}
-          map={map}
-          icon={iconMarker}
-          draggable
-          title="The marker`s title will appear as a tooltip."
-          name="SOMA"
-          position={{ lat: 5, lng: 5 }}
-        />
-      </>
+      <MarkerWithInfo
+        ref={this.testMarkerRef}
+        {...defaultProps}
+        onOpen={this.attachEvents}
+        markerProps={
+          {
+            title: 'Test',
+            name: 'Test Custom Marker',
+            position: { lat: -5, lng: -5 },
+            draggable: true,
+            icon: iconMarker
+          }
+        }
+        windowProps={{}}
+      >
+        <div onClick={() => alert(123)}>
+          <h4>Hello</h4>
+          <button type="button" id="zzz">Click Me!</button>
+        </div>
+      </MarkerWithInfo>
     );
   }
-
-  onMarkerClick = (props, marker) => this.setState({
-    activeMarker: marker,
-    selectedPlace: props,
-    showingInfoWindow: true
-  });
-
-  onInfoWindowClose = () => this.setState({
-    activeMarker: null,
-    showingInfoWindow: false
-  });
 
   onMapClicked = () => {
     if (this.state.showingInfoWindow) {
@@ -101,13 +94,6 @@ export default class extends BasePage {
     }
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  handleInfoWindowClick(event) {
-    if (event.target.tagName === 'BUTTON') {
-      alert('clicked');
-    }
-  }
-
   render() {
     return (
       <GGMap
@@ -117,40 +103,6 @@ export default class extends BasePage {
         onReady={this.attachEvents}
       >
         <this.renderMapElements />
-        <Marker
-          title="The marker`s title will appear as a tooltip."
-          name="SOMA"
-          position={{ lat: 0, lng: 0 }}
-          onClick={this.onMarkerClick}
-        />
-        <Marker
-          title="The marker`s title will appear as a tooltip."
-          name="SOMA"
-          position={{ lat: 5, lng: 0 }}
-          onClick={this.onMarkerClick}
-        />
-
-        <InfoWindow
-          marker={this.state.activeMarker}
-          onClose={this.onInfoWindowClose}
-          visible={!!this.state.activeMarker}
-        >
-          {this.state.activeMarker
-            ? (
-              <div className="zzzz">
-                <h1>{this.state.activeMarker.title}</h1>
-                <div className="p-3">
-                  <button type="button" id="btnzzz">Test</button>
-                </div>
-              </div>
-            ) : <div />
-          }
-        </InfoWindow>
-        <InfoWindow mapCenter={{ lat: 0, lng: 0 }} visible google={window.google}>
-          <small>
-            Click on any of the markers to display an additional info.
-          </small>
-        </InfoWindow>
       </GGMap>
     );
   }

@@ -20,6 +20,14 @@ const api = require('./api');
 const WebsocketManager = require('./websocket/ws-manager');
 const SystemInfo = require('./utils/system-info');
 const startUp = require('./utils/_startup');
+const Logger = require('./services/Logger');
+
+process.on('unhandledRejection', (reason, promise) => {
+  Logger.error('Unhandled Rejection at:', reason.stack || reason, promise);
+});
+process.on('uncaughtException', (exeption) => {
+  Logger.error('Uncaught Exception at:', exeption);
+});
 
 // Global Config
 const serverConfig = require('./config');
