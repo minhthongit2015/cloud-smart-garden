@@ -59,10 +59,6 @@ typings/
 
 # next.js build output
 .next
-/dist/build/*
-/dist/build
-/public/build
 /public/dist
 /public/images
 /public/fonts
-images
