@@ -16,6 +16,17 @@ export default class MarkerWithInfo extends Component {
     return jQuery(`#${this.uid}`).parents('.gm-style-iw-t');
   }
 
+  buildMarkerIcon() {
+    if (!this.props.iconSrc) return;
+    this.markerIcon = new this.google.maps.MarkerImage(
+      this.props.iconSrc,
+      null, /* size is determined at runtime */
+      null, /* origin is 0,0 */
+      null, /* anchor is bottom center of the scaled image */
+      new this.google.maps.Size(32, 32)
+    );
+  }
+
   constructor(props) {
     super(props);
     this.marker = null;
@@ -130,6 +141,8 @@ export default class MarkerWithInfo extends Component {
     } = this.props;
     if (!google || !map) return null;
     const baseProps = { google, map };
+    this.google = google;
+    this.map = map;
 
     this.storeContentOriginTree();
     const Content = () => (
@@ -137,6 +150,10 @@ export default class MarkerWithInfo extends Component {
         {this.props.children}
       </React.Fragment>
     );
+
+    if (!this.markerIcon) {
+      this.buildMarkerIcon();
+    }
 
     return (
       <React.Fragment>
@@ -146,6 +163,7 @@ export default class MarkerWithInfo extends Component {
           onClick={this.onMarkerClick}
           onFocus={this.onMarkerFocus}
           onMouseover={this.onMarkerHover}
+          icon={this.markerIcon}
           {...markerProps}
         />
         <InfoWindow
@@ -173,6 +191,8 @@ MarkerWithInfo.propTypes = {
   onMarkerFocus: PropTypes.func,
   onMarkerHover: PropTypes.func,
   enableToggle: PropTypes.bool,
+  iconSrc: PropTypes.string,
+  position: PropTypes.object,
   markerProps: PropTypes.shape(MarkerProps),
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
@@ -187,6 +207,8 @@ MarkerWithInfo.defaultProps = {
   onMarkerFocus: null,
   onMarkerHover: null,
   enableToggle: true,
+  iconSrc: null,
+  position: null,
   markerProps: {},
   onOpen: null,
   onClose: null,

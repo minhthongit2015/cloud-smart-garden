@@ -17,7 +17,7 @@ const WS_EVENTS = {
   mobile2Garden: 'mobile2garden',
 
   AIMLModelsChanged: 'AIMLModelsChanged',
-  
+
   // Command send to stations in the local garden
   command: 'command',
 

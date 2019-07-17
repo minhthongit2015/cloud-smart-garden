@@ -3,9 +3,7 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
-import UserMarker from '../../components/map/extendeds/UserMarker';
-
-import { ShoppingCartSrc } from '../../assets/icons';
+import UserMarker from '../../components/map/user-marker/UserMarker';
 
 export default class extends BasePage {
   constructor(props) {
@@ -39,14 +37,6 @@ export default class extends BasePage {
     if (!google || !map) return null;
     const baseProps = { google, map };
 
-    const iconMarker = new google.maps.MarkerImage(
-      ShoppingCartSrc,
-      null, /* size is determined at runtime */
-      null, /* origin is 0,0 */
-      null, /* anchor is bottom center of the scaled image */
-      new props.google.maps.Size(32, 32)
-    );
-
     const name = 'KID';
     return (
       <UserMarker
@@ -58,8 +48,7 @@ export default class extends BasePage {
             title: 'Test',
             name: 'Test Custom Marker',
             position: { lat: -5, lng: -5 },
-            draggable: true,
-            icon: iconMarker
+            draggable: true
           }
         }
         windowProps={{}}

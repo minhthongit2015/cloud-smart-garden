@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import MarkerWithInfo from './MarkerWithInfo';
+import PropTypes from 'prop-types';
+import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+
+import { ShoppingCartSrc } from '../../../assets/icons';
 
 export default class UserMarker extends Component {
   get marker() {
@@ -41,3 +44,11 @@ export default class UserMarker extends Component {
     );
   }
 }
+
+UserMarker.propTypes = {
+  iconSrc: PropTypes.string
+};
+
+UserMarker.defaultProps = {
+  iconSrc: ShoppingCartSrc
+};

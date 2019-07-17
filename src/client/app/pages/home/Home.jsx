@@ -30,8 +30,8 @@ export default class HomePage extends BasePage {
 
   static renderNav(nav) {
     return (
-      <div className="col">
-        <NavIconLink nav={nav} key={nav.url} />
+      <div className="col-4" key={nav.url}>
+        <NavIconLink nav={nav} />
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default class HomePage extends BasePage {
     return (
       <React.Fragment>
         <div className="h-100 d-flex justify-content-center align-items-center">
-          <div className="d-flex w-50">
+          <div className="d-flex col-lg-6 col-md-8 col-sm-10 col-xs-12 col-12">
             {
               this.links.map((link) => {
                 if (link.type === 'nav') {
