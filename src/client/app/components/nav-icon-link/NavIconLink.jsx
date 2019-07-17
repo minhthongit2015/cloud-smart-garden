@@ -11,7 +11,7 @@ export default props => (
     className="nav-icon-link waves-effect waves-light"
     title={props.nav.text}
   >
-    {props.noIcon ? null : <props.nav.icon draggable={false} />}
+    {props.noIcon ? null : props.nav.icon}
     <span>{props.nav.text}</span>
   </NavLink>
 );

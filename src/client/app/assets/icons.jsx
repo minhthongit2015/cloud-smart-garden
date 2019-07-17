@@ -1,14 +1,13 @@
 import React from 'react';
 
-import AICloudSrc from './images/ai-cloud.png';
-import MyGardenSrc from './images/my-garden.png';
-import SmileCitySrc from './images/smile-city.png';
-import ShoppingCartSrcz from './images/shopping-cart.svg';
+export const AICloudSrc = '/images/ai-cloud.png';
+export const MyGardenSrc = '/images/my-garden.png';
+export const SmileCitySrc = '/images/smile-city.png';
+export const ShoppingCartSrc = '/images/shopping-cart.svg';
 
-export const AICloudIcon = props => <img src={AICloudSrc} alt="" {...props} />;
-export const MyGardenIcon = props => <img src={MyGardenSrc} alt="" {...props} />;
-export const SmileCityIcon = props => <img src={SmileCitySrc} alt="" {...props} />;
-export const ShoppingCartSrc = ShoppingCartSrcz;
+export const AICloudIcon = <img src={AICloudSrc} alt="" draggable={false} />;
+export const MyGardenIcon = <img src={MyGardenSrc} alt="" draggable={false} />;
+export const SmileCityIcon = <img src={SmileCitySrc} alt="" draggable={false} />;
 
 export default {
   AICloudIcon,

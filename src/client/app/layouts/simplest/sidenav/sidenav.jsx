@@ -38,9 +38,9 @@ export default class SideNav extends Component {
         key="home"
       >
         <div className="d-flex waves-effect waves-light border border-info rounded m-2">
-          <div key="ai"><AICloudIcon draggable={false} /></div>
-          <div key="garden"><MyGardenIcon draggable={false} /></div>
-          <div key="city"><SmileCityIcon draggable={false} /></div>
+          <div key="ai">{AICloudIcon}</div>
+          <div key="garden">{MyGardenIcon}</div>
+          <div key="city">{SmileCityIcon}</div>
         </div>
       </NavLink>
     );
