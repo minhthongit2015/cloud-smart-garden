@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Config from './config/site';
 import Connection from './services/connection/websocket';
@@ -19,8 +19,8 @@ class App extends Component {
     return window.location.pathname === RouteConstants.userNetworkPath;
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     Connection.setup();
   }
 
@@ -31,11 +31,13 @@ class App extends Component {
   render() {
     const routes = (
       <React.Fragment>
-        <Route exact path={RouteConstants.homePath} component={Home} />
-        <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
-        <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
-        <Route exact path={RouteConstants.userNetworkPath} component={() => <></>} />
-        <Redirect from="*" to={RouteConstants.homeLink} />
+        <Switch>
+          <Route exact path={RouteConstants.homePath} component={Home} />
+          <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
+          <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
+          <Route exact path={RouteConstants.userNetworkPath} component={() => <></>} />
+          <Redirect to={RouteConstants.homeLink} />
+        </Switch>
         {(this.isUserNetworkPage || window.myGoogleMap) && <UserNetWorkPage />}
       </React.Fragment>
     );

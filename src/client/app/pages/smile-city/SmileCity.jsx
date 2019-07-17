@@ -3,7 +3,7 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
-import UserMarker from '../../components/map/user-marker/UserMarker';
+import DistributorMarker from '../../components/map/distributor-marker/DistributorMarker';
 
 export default class extends BasePage {
   constructor(props) {
@@ -39,7 +39,7 @@ export default class extends BasePage {
 
     const name = 'KID';
     return (
-      <UserMarker
+      <DistributorMarker
         ref={this.testMarkerRef}
         {...baseProps}
         onOpen={this.attachEvents}

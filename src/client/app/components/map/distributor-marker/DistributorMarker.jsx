@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import './DistributorMarker.scss';
 
 import { ShoppingCartSrc } from '../../../assets/icons';
 
-export default class UserMarker extends Component {
+export default class DistributorMarker extends Component {
   get marker() {
     return this.markerRef.current;
   }
@@ -13,7 +14,7 @@ export default class UserMarker extends Component {
     super(props);
 
     this.markerRef = React.createRef();
-    this.onStartConversation = this.onStartConversation.bind(this);
+    this.onBuy = this.onBuy.bind(this);
   }
 
   open() {
@@ -28,7 +29,7 @@ export default class UserMarker extends Component {
     this.marker.toggle();
   }
 
-  onStartConversation() {
+  onBuy() {
     alert(`Hello Guy! I'm ${this.props.name}`);
   }
 
@@ -36,19 +37,42 @@ export default class UserMarker extends Component {
     const { name } = this.props;
     return (
       <MarkerWithInfo ref={this.markerRef} {...this.props}>
-        <div>
-          <h4>My name is {name}</h4>
-          <button type="button" onClick={this.onStartConversation}>Chat To {name}</button>
+        <div className="store-branding">Cửa hàng {name}</div>
+        <img className="store-eaves" src="/images/eaves.png" alt="" />
+        <div className="store-body">
+          Danh mục sản phẩm
+          <div className="row mx-0">
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+          </div>
+          <div className="row mx-0">
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+            <div className="col p-3 text-center">
+              <button type="button" className="btn btn-sm btn-success px-3" onClick={this.onBuy}>miễn phí</button>
+            </div>
+          </div>
         </div>
       </MarkerWithInfo>
     );
   }
 }
 
-UserMarker.propTypes = {
+DistributorMarker.propTypes = {
   iconSrc: PropTypes.string
 };
 
-UserMarker.defaultProps = {
+DistributorMarker.defaultProps = {
   iconSrc: ShoppingCartSrc
 };
