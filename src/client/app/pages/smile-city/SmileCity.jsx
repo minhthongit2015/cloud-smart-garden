@@ -68,7 +68,7 @@ export default class extends BasePage {
           google={this.props.google || window.google}
           {...this.defaultMapProps}
           onClick={this.onMapClicked}
-          onReady={this.attachEvents}
+          // onReady={this.attachEvents}
         >
           <this.renderMapElements />
         </GGMap>

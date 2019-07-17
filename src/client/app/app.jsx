@@ -35,7 +35,7 @@ class App extends Component {
         <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
         <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
         <Route exact path={RouteConstants.userNetworkPath} component={() => <></>} />
-        {/* <Redirect exact path="/*" to={RouteConstants.homeLink} /> */}
+        <Redirect from="*" to={RouteConstants.homeLink} />
         {(this.isUserNetworkPage || window.myGoogleMap) && <UserNetWorkPage />}
       </React.Fragment>
     );
