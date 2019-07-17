@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './_Map.scss';
+import './Map.scss';
 import { Map, GoogleApiWrapper } from 'google-maps-react';
 //
 
