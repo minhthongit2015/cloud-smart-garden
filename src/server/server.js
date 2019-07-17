@@ -69,13 +69,13 @@ app.use(cors());
 app.use(session);
 
 // Prevent Browser Cache
-function noCache(req, res, next) {
-  res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
-  res.set('Pragma', 'no-cache'); // HTTP 1.0
-  res.set('Expires', '0'); // Proxies
-  next();
-}
-app.use(noCache);
+// function noCache(req, res, next) {
+//   res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+//   res.set('Pragma', 'no-cache'); // HTTP 1.0
+//   res.set('Expires', '0'); // Proxies
+//   next();
+// }
+// app.use(noCache);
 
 // Setup for POST parser
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));

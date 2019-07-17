@@ -10,8 +10,9 @@ export default props => (
     activeClassName="active"
     className="nav-icon-link waves-effect waves-light"
     title={props.nav.text}
+    {...props}
   >
-    {props.noIcon ? null : props.nav.icon}
-    <span>{props.nav.text}</span>
+    <props.nav.icon />
+    {props.noText ? null : <span>{props.nav.text}</span>}
   </NavLink>
 );

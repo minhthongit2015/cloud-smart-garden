@@ -5,9 +5,9 @@ export const MyGardenSrc = '/images/my-garden.png';
 export const SmileCitySrc = '/images/smile-city.png';
 export const ShoppingCartSrc = '/images/shopping-cart.svg';
 
-export const AICloudIcon = <img src={AICloudSrc} alt="" draggable={false} />;
-export const MyGardenIcon = <img src={MyGardenSrc} alt="" draggable={false} />;
-export const SmileCityIcon = <img src={SmileCitySrc} alt="" draggable={false} />;
+export const AICloudIcon = props => <img src={AICloudSrc} alt="AI Cloud" draggable={false} {...props} />;
+export const MyGardenIcon = props => <img src={MyGardenSrc} alt="My Garden" draggable={false} {...props} />;
+export const SmileCityIcon = props => <img src={SmileCitySrc} alt="Smile City" draggable={false} {...props} />;
 
 export default {
   AICloudIcon,
