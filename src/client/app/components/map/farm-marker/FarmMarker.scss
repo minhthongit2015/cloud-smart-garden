@@ -1,0 +1,29 @@
+
+$custom-marker-class: "farm-marker-window";
+
+.gm-style {
+  .marker-info-window {
+    .gm-style-iw-a.#{$custom-marker-class} {
+      .gm-style-iw-t {
+        .gm-style-iw-c.gm-style-iw {
+          .gm-style-iw-d {
+          }
+          .gm-style-iw-d + button {
+            background: #47bf7c !important;
+          }
+        }
+      }
+    }
+
+    &.focused {
+      .gm-style-iw-a.#{$custom-marker-class} {
+        .gm-style-iw-t {
+          .gm-style-iw-c.gm-style-iw {
+            box-shadow: 0 0 5px #47bf7c, 0 0 30px -3px #8ce4a8;
+          }
+        }
+      }
+    }
+  }
+}
+          

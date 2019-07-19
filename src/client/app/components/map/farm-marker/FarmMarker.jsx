@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
-import './SupplierMarker.scss';
+import './FarmMarker.scss';
 
-import { SupplierSrc } from '../../../assets/icons';
+import { FarmSrc } from '../../../assets/icons';
 
 const CUSTOM_MARKER_CLASS = 'farm-marker-window';
 
@@ -56,5 +56,5 @@ SupplierMarker.propTypes = {
 };
 
 SupplierMarker.defaultProps = {
-  iconSrc: SupplierSrc
+  iconSrc: FarmSrc
 };

@@ -1,7 +1,9 @@
 
+$custom-marker-class: "store-marker-window";
+
 .gm-style {
   .marker-info-window {
-    .gm-style-iw-a.store-marker-window {
+    .gm-style-iw-a.#{$custom-marker-class} {
       .gm-style-iw-t {
         .gm-style-iw-c.gm-style-iw {
           .gm-style-iw-d {
@@ -39,7 +41,7 @@
     }
 
     &.focused {
-      .gm-style-iw-a.store-marker-window {
+      .gm-style-iw-a.#{$custom-marker-class} {
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {
             box-shadow: 0 0 5px #FF9800, 0 0 30px -2px #ffb95d;

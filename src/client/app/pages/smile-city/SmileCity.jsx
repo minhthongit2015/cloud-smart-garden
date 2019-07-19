@@ -6,7 +6,7 @@ import './SmileCity.scss';
 import GGMap from '../../components/map/Map';
 import DistributorMarker from '../../components/map/store-marker/StoreMarker';
 import UserMarker from '../../components/map/user-marker/UserMarker';
-import SupplierMarker from '../../components/map/supplier-marker/SupplierMarker';
+import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 
 
 export default class extends BasePage {
@@ -74,7 +74,7 @@ export default class extends BasePage {
           windowProps={{}}
           name={userName1}
         />
-        <SupplierMarker
+        <FarmMarker
           ref={ref => this.markers.add(ref)}
           {...baseProps}
           markerProps={
