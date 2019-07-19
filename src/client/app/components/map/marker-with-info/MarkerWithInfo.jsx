@@ -53,15 +53,14 @@ export default class MarkerWithInfo extends Component {
     this.markerRef = React.createRef();
     this.windowRef = React.createRef();
 
+    this.onMarkerLoaded = this.onMarkerLoaded.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMarkerHover = this.onMarkerHover.bind(this);
-    this.onMarkerFocus = this.onMarkerFocus.bind(this);
-    this.onForceClose = this.onForceClose.bind(this);
+    this.onMarkerLeave = this.onMarkerLeave.bind(this);
+
     this.onOpen = this.onOpen.bind(this);
     this.onClose = this.onClose.bind(this);
-    this.onMarkerLeave = this.onMarkerLeave.bind(this);
-    this.onMarkerBlur = this.onMarkerBlur.bind(this);
-    this.onMarkerLoaded = this.onMarkerLoaded.bind(this);
+    this.onForceClose = this.onForceClose.bind(this);
 
     this.uid = uuid.v1();
   }
@@ -75,7 +74,7 @@ export default class MarkerWithInfo extends Component {
   open() {
     this.isClosing = false;
     this.setState({
-      marker: this.markerRef.current.marker
+      marker: this.markerRef.marker
     });
   }
 
@@ -100,6 +99,14 @@ export default class MarkerWithInfo extends Component {
     } else {
       this.open();
     }
+  }
+
+  onMarkerLoaded(ref) {
+    this.markerRef = ref;
+    if (this.props.onLoad) {
+      this.props.onLoad();
+    }
+    // this.open();
   }
 
   onOpen() {
@@ -148,47 +155,28 @@ export default class MarkerWithInfo extends Component {
     } else if (!this.isOpen) {
       this.open();
     }
-    if (this.props.onMarkerClick) {
-      this.props.onMarkerClick();
-    }
-  }
-
-  onMarkerFocus() {
-    if (this.props.onMarkerFocus) {
-      this.props.onMarkerFocus();
+    if (this.props.onClick) {
+      this.props.onClick();
     }
   }
 
   onMarkerHover() {
-    // if (!this.isOpen) {
-    //   this.open();
-    //   this.openByHover = true;
-    // }
-    if (this.props.onMarkerHover) {
-      this.props.onMarkerHover();
+    if (this.props.openOnHover && !this.isOpen) {
+      this.open();
+      this.openByHover = true;
+    }
+    if (this.props.onHover) {
+      this.props.onHover();
     }
   }
 
   onMarkerLeave() {
-    // if (this.openByHover) {
-    //   this.close();
-    // }
-    if (this.props.onMarkerLeave) {
-      this.props.onMarkerLeave();
+    if (this.props.openOnHover && this.openByHover) {
+      this.close();
     }
-  }
-
-  onMarkerBlur() {
-    // if (this.openByHover) {
-    //   this.close();
-    // }
-    if (this.props.onMarkerBlur) {
-      this.props.onMarkerBlur();
+    if (this.props.onLeave) {
+      this.props.onLeave();
     }
-  }
-
-  onMarkerLoaded() {
-    this.open();
   }
 
   storeContentOriginTree() {
@@ -219,17 +207,16 @@ export default class MarkerWithInfo extends Component {
     return (
       <React.Fragment>
         <Marker
-          ref={this.markerRef}
+          ref={this.onMarkerLoaded}
           {...baseProps}
           onLoad={this.onMarkerLoaded}
           onClick={this.onMarkerClick}
-          onFocus={this.onMarkerFocus}
+          onFocus={() => {}}
           onMouseover={this.onMarkerHover}
           onMouseout={this.onMarkerLeave}
-          onBlur={this.onMarkerBlur}
+          onBlur={() => {}}
           icon={this.markerIcon}
           {...markerProps}
-          className="asdf"
         />
         <InfoWindow
           ref={this.windowRef}
@@ -252,10 +239,12 @@ export default class MarkerWithInfo extends Component {
 MarkerWithInfo.propTypes = {
   google: PropTypes.object,
   map: PropTypes.object,
-  onMarkerClick: PropTypes.func,
-  onMarkerFocus: PropTypes.func,
-  onMarkerHover: PropTypes.func,
+  onLoad: PropTypes.func,
+  onClick: PropTypes.func,
+  onHover: PropTypes.func,
+  onLeave: PropTypes.func,
   enableToggle: PropTypes.bool,
+  openOnHover: PropTypes.bool,
   iconSrc: PropTypes.string,
   position: PropTypes.object,
   markerProps: PropTypes.shape(MarkerProps),
@@ -265,13 +254,14 @@ MarkerWithInfo.propTypes = {
 };
 
 MarkerWithInfo.defaultProps = {
-  // markerProps: {},
   google: null,
   map: null,
-  onMarkerClick: null,
-  onMarkerFocus: null,
-  onMarkerHover: null,
+  onLoad: null,
+  onClick: null,
+  onHover: null,
+  onLeave: null,
   enableToggle: true,
+  openOnHover: false,
   iconSrc: null,
   position: null,
   markerProps: {},
