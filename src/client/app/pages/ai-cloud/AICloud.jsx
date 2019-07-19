@@ -5,7 +5,7 @@ import BasePage from '../_base/BasePage';
 import './AICloud.scss';
 
 import Config from '../../config';
-import Connection from '../../services/connection/websocket';
+import LiveConnect from '../../services/WebSocket';
 // import CustomChart from '../../custom-chart/custom-chart';
 // import { WS_EVENTS } from '../../../../shared/constants';
 
@@ -21,7 +21,7 @@ export default class extends BasePage {
   }
 
   componentDidMount() {
-    Connection.socket.on('train-progress', (msg) => {
+    LiveConnect.socket.on('train-progress', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
       }));
@@ -29,7 +29,7 @@ export default class extends BasePage {
   }
 
   componentWillUnmount() {
-    Connection.socket.removeAllListeners();
+    LiveConnect.socket.removeAllListeners();
   }
 
   handleChange(e) {
@@ -48,6 +48,7 @@ export default class extends BasePage {
   }
 
   render() {
+    this.updatePageTitle();
     return (
       <React.Fragment>
         <section className="p-3">

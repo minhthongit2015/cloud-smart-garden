@@ -4,7 +4,7 @@ import React from 'react';
 import BasePage from '../_base/BasePage';
 import './MyGarden.scss';
 
-import Connection from '../../services/connection/websocket';
+import LiveConnect from '../../services/WebSocket';
 // import CustomChart from '../../custom-chart/custom-chart';
 // import { WS_EVENTS } from '../../../../shared/constants';
 
@@ -20,12 +20,12 @@ export default class extends BasePage {
   }
 
   componentDidMount() {
-    Connection.socket.on('environment', (msg) => {
+    LiveConnect.socket.on('environment', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
       }));
     });
-    Connection.socket.on('command', (msg) => {
+    LiveConnect.socket.on('command', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
       }));
@@ -33,7 +33,7 @@ export default class extends BasePage {
   }
 
   componentWillUnmount() {
-    Connection.socket.removeAllListeners();
+    LiveConnect.socket.removeAllListeners();
   }
 
   handleChange(e) {
@@ -52,6 +52,7 @@ export default class extends BasePage {
   }
 
   render() {
+    this.updatePageTitle();
     return (
       <React.Fragment>
         <section className="p-3">

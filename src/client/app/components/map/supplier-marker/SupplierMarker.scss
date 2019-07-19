@@ -1,0 +1,15 @@
+
+.gm-style {
+  .marker-info-window {
+    &.focused {
+      .gm-style-iw-a.farm-marker-window {
+        .gm-style-iw-t {
+          .gm-style-iw-c {
+            box-shadow: 0 0 5px #47bf7c, 0 0 30px -3px #8ce4a8;
+          }
+        }
+      }
+    }
+  }
+}
+          

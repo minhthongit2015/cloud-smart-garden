@@ -1,0 +1,68 @@
+
+.gm-style {
+  .marker-info-window {
+    .gm-style-iw-a.user-marker-window {
+      .gm-style-iw-t {
+        .gm-style-iw-c {
+          width: 400px !important;
+          .header {
+            .cover-photo {
+              background: transparent center center/cover no-repeat;
+              width: 100%;
+              height: 0;
+              padding-top: 35%;
+              position: relative;
+              img {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                opacity: 0;
+              }
+            }
+            .avatar {
+              width: 140px;
+              margin-top: -70px;
+              position: relative;
+              left: calc(50% - 70px);
+              border-radius: 50%;
+              overflow: hidden;
+              border: 4px solid #fff;
+              img {
+                width: 100%;
+              }
+            }
+          }
+          .info {
+            .name {
+              font-size: 19px;
+              font-weight: bold;
+              color: #118075;
+              text-align: center;
+              margin-bottom: 10px;
+            }
+            .status-line {
+              text-align: center;
+              color: #30c150;
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+
+    &.focused {
+      .gm-style-iw-a.user-marker-window {
+        .gm-style-iw-t {
+          .gm-style-iw-c {
+            box-shadow: 0 0 5px #00c5ff, 0 0 30px -3px #6be8ff;
+          }
+        }
+      }
+    }
+  }
+}
+          

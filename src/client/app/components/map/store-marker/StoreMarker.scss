@@ -1,0 +1,51 @@
+
+.gm-style {
+  .marker-info-window {
+    .gm-style-iw-a.store-marker-window {
+      .gm-style-iw-t {
+        .gm-style-iw-c.gm-style-iw {
+          .gm-style-iw-d {
+            .store-header {
+              .store-branding {
+                text-align: center;
+                background: #735c5d;
+                margin: auto;
+                padding-top: 4px;
+                width: 88%;
+                border-radius: 10px 10px 0 0;
+                color: #fff;
+                font-size: 18px;
+                font-family: 'icielz-bambola';
+                letter-spacing: 2px;
+                border-top: 3px solid #928787;
+                border-left: 3px solid #928787;
+                border-right: 3px solid #928787;
+              }
+              .store-eaves {
+                width: 392px;
+                height: 64px;
+              }
+            }
+            .store-body {
+              text-align: center;
+              width: 424px;
+            }
+          }
+          .gm-style-iw-d + button {
+            background: #FF9800 !important;
+          }
+        }
+      }
+    }
+
+    &.focused {
+      .gm-style-iw-a.store-marker-window {
+        .gm-style-iw-t {
+          .gm-style-iw-c.gm-style-iw {
+            box-shadow: 0 0 5px #FF9800, 0 0 30px -2px #ffb95d;
+          }
+        }
+      }
+    }
+  }
+}

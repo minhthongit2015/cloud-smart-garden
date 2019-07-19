@@ -37,6 +37,7 @@ export default class HomePage extends BasePage {
   }
 
   render() {
+    this.updatePageTitle();
     return (
       <React.Fragment>
         <div className="h-100 d-flex justify-content-center align-items-center">

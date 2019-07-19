@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Config from './config/site';
-import Connection from './services/connection/websocket';
+import LiveConnect from './services/WebSocket';
 
 import Home from './pages/home/Home';
 import AICloudPage from './pages/ai-cloud/AICloud';
@@ -21,7 +21,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    Connection.setup();
+    LiveConnect.setup();
   }
 
   componentWillMount() {

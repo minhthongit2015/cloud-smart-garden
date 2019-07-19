@@ -1,0 +1,50 @@
+
+.gm-style {
+  .gm-style-iw-a {
+    animation-duration: .3s;
+    .gm-style-iw-t {
+      .gm-style-iw-c.gm-style-iw {
+        animation: fadeIn .3s ease-in-out forwards;
+        padding: 0;
+        .gm-style-iw-d {
+          pointer-events: none;
+          overflow: hidden !important;
+          & > div {
+            pointer-events: all;
+          }
+        }
+        .gm-style-iw-d + button {
+          background: #0679ce !important;
+          border-radius: 0 0 0 10px;
+          img {
+            display: none !important;
+          }
+          &::after {
+            content: "×";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding-top: 7px;
+            padding-right: 3px;
+            color: #fff;
+            font-size: 17px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.marker-info-window {
+  z-index: 100 !important;
+  &.focused {
+    z-index: 10000 !important;
+    .gm-style-iw-t {
+      .gm-style-iw-c {
+        box-shadow: 0 0 5px #FF9800, 0 0 30px -2px #ffb95d;
+      }
+    }
+  }
+}

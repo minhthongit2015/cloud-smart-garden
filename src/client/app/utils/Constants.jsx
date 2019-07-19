@@ -1,6 +1,14 @@
 
-import SharedConstants from '../../../shared/constants';
+import { WS_EVENTS } from '../../../shared/constants';
+
+export { WS_EVENTS } from '../../../shared/constants';
+
+export const API_END_POINTS = {
+  signin: '/'
+};
+
 
 export default {
-  ...SharedConstants
+  WS_EVENTS,
+  API_END_POINTS
 };

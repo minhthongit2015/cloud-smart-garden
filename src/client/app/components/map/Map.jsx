@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Map.scss';
 import { Map, GoogleApiWrapper } from 'google-maps-react';
-//
+
 
 export class MapContainer extends Component {
   render() {
@@ -80,5 +80,6 @@ function MapLoadingContainer() {
 }
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyAKrWKRawpxPrWnYfcMyXzcqhCewKFauzw',
+  // apiKey: 'AIzaSyDIJ9XX2ZvRKCJcFRrl-lRanEtFUow4piM',
   LoadingContainer: MapLoadingContainer
 })(MapContainer);
