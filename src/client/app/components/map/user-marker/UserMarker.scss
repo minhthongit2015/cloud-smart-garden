@@ -1,21 +1,23 @@
 
-$custom-marker-class: "user-marker-window";
-$user-window-width: 400px;
-$user-window-height: 450px;
+$base-info-window-class: 'custom-info-window';
+$custom-info-window-class: "user-info-window";
+$window-width: 400px;
+$window-height: 450px;
 
 .gm-style {
-  .marker-info-window {
-    .gm-style-iw-a.#{$custom-marker-class} {
+  .#{$base-info-window-class} {
+    .gm-style-iw-a.#{$custom-info-window-class} {
       .gm-style-iw-t {
         .gm-style-iw-c.gm-style-iw {
-          width: $user-window-width !important;
-          max-height: $user-window-height !important;
+          width: $window-width !important;
+          max-width: $window-width !important;
+          max-height: $window-height !important;
           .gm-style-iw-d {
-            max-width: $user-window-width !important;
-            width: $user-window-width !important;
-            max-height: $user-window-height !important;
+            width: $window-width !important;
+            max-width: $window-width !important;
+            max-height: $window-height !important;
             & > div {
-              max-height: $user-window-height !important;
+              max-height: $window-height !important;
             }
             .header {
               .cover-photo {
@@ -54,12 +56,12 @@ $user-window-height: 450px;
                 font-weight: bold;
                 color: #118075;
                 text-align: center;
-                margin-bottom: 10px;
               }
               .status-line {
                 text-align: center;
                 color: #30c150;
                 font-size: 16px;
+                margin: 4px;
               }
             }
           }
@@ -72,7 +74,7 @@ $user-window-height: 450px;
     }
 
     &.focused {
-      .gm-style-iw-a.#{$custom-marker-class} {
+      .gm-style-iw-a.#{$custom-info-window-class} {
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {
             box-shadow: 0 0 5px #00c5ff, 0 0 30px -3px #6be8ff;

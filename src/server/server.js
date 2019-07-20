@@ -22,11 +22,11 @@ const SystemInfo = require('./utils/system-info');
 const startUp = require('./utils/_startup');
 const Logger = require('./services/Logger');
 
-process.on('unhandledRejection', (reason, promise) => {
-  Logger.error('Unhandled Rejection at:', reason.stack || reason, promise);
+process.on('unhandledRejection', (reason) => {
+  Logger.error(`Unhandled Rejection at:\r\n${reason.stack || reason}`);
 });
 process.on('uncaughtException', (exeption) => {
-  Logger.error('Uncaught Exception at:', exeption);
+  Logger.error(`Uncaught Exception at:\r\n${exeption}`);
 });
 
 // Global Config

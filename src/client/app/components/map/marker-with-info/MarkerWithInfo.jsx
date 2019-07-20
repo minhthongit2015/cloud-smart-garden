@@ -8,7 +8,9 @@ import uuid from 'uuid';
 import './MarkerWithInfo.scss';
 import { mapTreeNodeToArray } from '../../../utils/DOM';
 
-const CUSTOM_INFO_WINDOW_CLASS = 'marker-info-window';
+const CUSTOM_CLASS = 'custom';
+const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
+const CUSTOM_WINDOW_CLASS = `${CUSTOM_CLASS}-info-window`;
 
 
 export default class MarkerWithInfo extends Component {
@@ -21,16 +23,33 @@ export default class MarkerWithInfo extends Component {
   }
 
   get infoWindowWrapper() {
-    return jQuery(`#${this.uid}`).parents('.gm-style-iw-a');
+    return jQuery(document.getElementById(this.uid)).parents('.gm-style-iw-a');
   }
 
   // eslint-disable-next-line class-methods-use-this
   get allInfoWindowTopElements() {
-    return jQuery('.gm-style-iw-a').parents('');
+    return jQuery('.gm-style .gm-style-iw-a').parents('');
   }
 
   get isFocused() {
     return this.infoWindowTopMost.hasClass('focused');
+  }
+
+  get markerId() {
+    return `marker-${this.uid}`;
+  }
+
+  get originMarkerElement() {
+    return jQuery(`.gm-style div[title="marker-${this.uid}"]`);
+  }
+
+  get markerElement() {
+    return jQuery(document.getElementById(this.markerId));
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get allMarkerElements() {
+    return jQuery(`.gm-style .${CUSTOM_MARKER_CLASS}`);
   }
 
   buildMarkerIcon() {
@@ -53,6 +72,7 @@ export default class MarkerWithInfo extends Component {
     this.markerRef = null;
     this.windowRef = React.createRef();
 
+    this.onMarkerRef = this.onMarkerRef.bind(this);
     this.onMarkerLoaded = this.onMarkerLoaded.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMarkerHover = this.onMarkerHover.bind(this);
@@ -69,6 +89,8 @@ export default class MarkerWithInfo extends Component {
     this.isClosing = false;
     this.allInfoWindowTopElements.removeClass('focused');
     this.infoWindowTopMost.addClass('focused');
+    this.allMarkerElements.removeClass('focused');
+    this.markerElement.addClass('focused');
   }
 
   open() {
@@ -102,16 +124,30 @@ export default class MarkerWithInfo extends Component {
     }
   }
 
-  onMarkerLoaded(ref) {
+  onMarkerRef(ref) {
     this.markerRef = ref;
+    const interval = setInterval(() => {
+      if (this.originMarkerElement.length > 0) {
+        this.onMarkerLoaded();
+        clearInterval(interval);
+      }
+    }, 100);
+  }
+
+  onMarkerLoaded() {
+    this.originMarkerElement
+      .addClass(CUSTOM_MARKER_CLASS)
+      .addClass(this.props.customMarkerClass)
+      .attr('title', this.props.title || '')
+      .attr('id', this.markerId);
     if (this.props.onLoad) {
       this.props.onLoad();
     }
-    // this.open();
   }
 
   onOpen() {
-    this.infoWindowTopMost.addClass(CUSTOM_INFO_WINDOW_CLASS);
+    this.infoWindowTopMost.addClass(CUSTOM_WINDOW_CLASS);
+    this.infoWindowWrapper.addClass(this.props.customWindowClass);
     this.focus();
     const root = jQuery(`#${this.uid}`);
     this._nodeMap.forEach((node) => {
@@ -205,9 +241,8 @@ export default class MarkerWithInfo extends Component {
     return (
       <React.Fragment>
         <Marker
-          ref={this.onMarkerLoaded}
+          ref={this.onMarkerRef}
           {...baseProps}
-          onLoad={this.onMarkerLoaded}
           onClick={this.onMarkerClick}
           onFocus={() => {}}
           onMouseover={this.onMarkerHover}
@@ -215,6 +250,7 @@ export default class MarkerWithInfo extends Component {
           onBlur={() => {}}
           icon={this.markerIcon}
           {...markerProps}
+          title={`marker-${this.uid}`}
         />
         <InfoWindow
           ref={this.windowRef}
@@ -248,7 +284,9 @@ MarkerWithInfo.propTypes = {
   markerProps: PropTypes.shape(MarkerProps),
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  windowProps: PropTypes.shape(InfoWindowProps)
+  windowProps: PropTypes.shape(InfoWindowProps),
+  customMarkerClass: PropTypes.string,
+  customWindowClass: PropTypes.string
 };
 
 MarkerWithInfo.defaultProps = {
@@ -265,5 +303,7 @@ MarkerWithInfo.defaultProps = {
   markerProps: {},
   onOpen: null,
   onClose: null,
-  windowProps: {}
+  windowProps: {},
+  customMarkerClass: '',
+  customWindowClass: ''
 };

@@ -1,13 +1,12 @@
 
 $base-info-window-class: 'custom-info-window';
-$custom-info-window-class: "farm-info-window";
+$custom-info-window-class: "template-marker-window";
 $window-width: 400px;
-$window-height: 400px;
+$window-height: 450px;
 
 .gm-style {
   .#{$base-info-window-class} {
     .gm-style-iw-a.#{$custom-info-window-class} {
-      counter-reset: 1;
       .gm-style-iw-t {
         .gm-style-iw-c.gm-style-iw {
           width: $window-width !important;
@@ -22,7 +21,7 @@ $window-height: 400px;
             }
           }
           .gm-style-iw-d + button {
-            background: #3ecc89 !important;
+            background: #47bf7c !important;
           }
         }
       }
@@ -32,7 +31,7 @@ $window-height: 400px;
       .gm-style-iw-a.#{$custom-info-window-class} {
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {
-            box-shadow: 0 0 5px #3ecc89, 0 0 30px -3px #8ce4a8;
+            box-shadow: 0 0 5px #47bf7c, 0 0 30px -3px #8ce4a8;
           }
         }
       }

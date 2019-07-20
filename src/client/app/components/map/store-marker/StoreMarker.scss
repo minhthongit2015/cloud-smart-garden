@@ -1,12 +1,25 @@
 
-$custom-marker-class: "store-marker-window";
+
+$base-info-window-class: 'custom-info-window';
+$custom-info-window-class: "store-info-window";
+$window-width: 600px;
+$window-height: 500px;
 
 .gm-style {
-  .marker-info-window {
-    .gm-style-iw-a.#{$custom-marker-class} {
+  .#{$base-info-window-class} {
+    .gm-style-iw-a.#{$custom-info-window-class} {
       .gm-style-iw-t {
         .gm-style-iw-c.gm-style-iw {
+          width: $window-width !important;
+          max-width: $window-width !important;
+          max-height: $window-height !important;
           .gm-style-iw-d {
+            width: $window-width !important;
+            max-width: $window-width !important;
+            max-height: $window-height !important;
+            & > div {
+              max-height: $window-height !important;
+            }
             .store-header {
               .store-branding {
                 text-align: center;
@@ -24,13 +37,17 @@ $custom-marker-class: "store-marker-window";
                 border-right: 3px solid #928787;
               }
               .store-eaves {
-                width: 392px;
                 height: 64px;
               }
             }
             .store-body {
               text-align: center;
-              width: 424px;
+              .preview-image {
+                @include fixed-ratio-wrapper(100% * 2 / 3);
+                & > * {
+                  @include fixed-ratio;
+                }
+              }
             }
           }
           .gm-style-iw-d + button {
@@ -41,7 +58,7 @@ $custom-marker-class: "store-marker-window";
     }
 
     &.focused {
-      .gm-style-iw-a.#{$custom-marker-class} {
+      .gm-style-iw-a.#{$custom-info-window-class} {
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {
             box-shadow: 0 0 5px #FF9800, 0 0 30px -2px #ffb95d;

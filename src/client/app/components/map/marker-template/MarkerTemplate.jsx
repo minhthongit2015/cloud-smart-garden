@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
-import './FarmMarker.scss';
+import './MarkerTemplate.scss';
 
 import { FarmSrc } from '../../../assets/icons';
 
-const CUSTOM_CLASS = 'farm';
+const CUSTOM_CLASS = 'template';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
 const CUSTOM_WINDOW_CLASS = `${CUSTOM_CLASS}-info-window`;
 
 
-export default class SupplierMarker extends Component {
+export default class MarkerTemplate extends Component {
   get uid() {
     return this.marker.uid;
   }
@@ -19,7 +19,6 @@ export default class SupplierMarker extends Component {
     super(props);
     this.marker = null;
     this.onLoad = this.onLoad.bind(this);
-    this.onStartConversation = this.onStartConversation.bind(this);
   }
 
   onLoad(ref) {
@@ -38,30 +37,25 @@ export default class SupplierMarker extends Component {
     this.marker.toggle();
   }
 
-  onStartConversation() {
-    alert(`Hello Guy! I'm ${this.props.name}`);
-  }
-
   render() {
     const { name } = this.props;
     return (
       <MarkerWithInfo
-        ref={this.onLoad}
+        ref={this.markerRef}
         {...this.props}
-        onOpen={this.onOpen}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >
-        <h4>Nông trại {name}</h4>
+        <h4>Hello {name}</h4>
       </MarkerWithInfo>
     );
   }
 }
 
-SupplierMarker.propTypes = {
+MarkerTemplate.propTypes = {
   iconSrc: PropTypes.string
 };
 
-SupplierMarker.defaultProps = {
+MarkerTemplate.defaultProps = {
   iconSrc: FarmSrc
 };

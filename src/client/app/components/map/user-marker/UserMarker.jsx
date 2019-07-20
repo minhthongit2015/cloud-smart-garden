@@ -1,13 +1,16 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Peer from 'simple-peer';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './UserMarker.scss';
 
 import { PlantPot1Src } from '../../../assets/icons';
 
-const CUSTOM_MARKER_CLASS = 'user-marker-window';
+const CUSTOM_CLASS = 'user';
+const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
+const CUSTOM_WINDOW_CLASS = `${CUSTOM_CLASS}-info-window`;
 
 export default class UserMarker extends Component {
   get uid() {
@@ -17,7 +20,8 @@ export default class UserMarker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uid: null
+      uid: null,
+      isShowCam: false
     };
 
     this.myPeer = null;
@@ -27,17 +31,7 @@ export default class UserMarker extends Component {
     this.onWaitConversation = this.onWaitConversation.bind(this);
 
     this.onLoad = this.onLoad.bind(this);
-    this.onOpen = this.onOpen.bind(this);
     this.onClose = this.onClose.bind(this);
-  }
-
-  onOpen() {
-    this.marker.infoWindowWrapper.addClass(CUSTOM_MARKER_CLASS);
-  }
-
-  onClose() {
-    if (this.myPeer) this.myPeer.destroy();
-    this.closeMediaStream();
   }
 
   onLoad(ref) {
@@ -45,6 +39,14 @@ export default class UserMarker extends Component {
     this.setState({
       uid: this.marker.uid
     });
+  }
+
+  onClose() {
+    if (this.myPeer) {
+      this.myPeer.destroy();
+      this.myPeer = null;
+    }
+    this.closeMediaStream();
   }
 
   open() {
@@ -76,8 +78,12 @@ export default class UserMarker extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   closeMediaStream() {
+    this.setState({
+      isShowCam: false
+    });
     if (!window.mediaStream) return;
     window.mediaStream.getTracks().forEach(track => track.stop());
+    window.mediaStream = null;
   }
 
   async onWaitConversation() {
@@ -102,6 +108,10 @@ export default class UserMarker extends Component {
         video.src = window.URL.createObjectURL(callerStream); // for older browsers
       }
       video.play();
+    });
+
+    this.setState({
+      isShowCam: true
     });
   }
 
@@ -128,12 +138,22 @@ export default class UserMarker extends Component {
       }
       video.play();
     });
+
+    this.setState({
+      isShowCam: true
+    });
   }
 
   render() {
     const { name } = this.props;
     return (
-      <MarkerWithInfo ref={this.onLoad} {...this.props} onOpen={this.onOpen} onClose={this.onClose}>
+      <MarkerWithInfo
+        ref={this.onLoad}
+        {...this.props}
+        onClose={this.onClose}
+        customMarkerClass={CUSTOM_MARKER_CLASS}
+        customWindowClass={CUSTOM_WINDOW_CLASS}
+      >
         <div className="header">
           <div className="cover-photo" style={{ backgroundImage: 'url(/images/cover-photo.jpg)' }}>
             <img alt="" src="/images/cover-photo.jpg" />
@@ -148,9 +168,6 @@ export default class UserMarker extends Component {
           <hr className="my-2 mx-5" />
           <div className="description">Funny man</div>
           <hr className="my-2 mx-5" />
-          <div className="content">
-            <video id={`vid-${this.state.uid}`} />
-          </div>
           <div className="actions">
             <div className="row mx-0">
               <button
@@ -166,6 +183,11 @@ export default class UserMarker extends Component {
               >Wait
               </button>
             </div>
+          </div>
+          <div className={classNames('content fade',
+            { show: this.state.isShowCam, 'd-none': !this.state.isShowCam })}
+          >
+            <video id={`vid-${this.state.uid}`} className="border rounded" />
           </div>
         </div>
       </MarkerWithInfo>
