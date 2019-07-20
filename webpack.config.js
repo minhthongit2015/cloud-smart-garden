@@ -12,12 +12,14 @@ const config = {
   target: 'web',
   mode: 'development',
   devtool: 'source-map',
-  entry: {
-    client: `${APP_DIR}/client.jsx`
-    // server: `${SERVER_DIR}/server.js`
-  },
+  entry: ['@babel/polyfill', `${APP_DIR}/client.jsx`],
+  // entry: {
+  //   client: `${APP_DIR}/client.jsx`
+  //   // server: `${SERVER_DIR}/server.js`
+  // },
   output: {
-    filename: '[name]-bundle.js',
+    filename: 'client-bundle.js',
+    // filename: '[name]-bundle.js',
     path: BUILD_DIR
   },
   resolve: {

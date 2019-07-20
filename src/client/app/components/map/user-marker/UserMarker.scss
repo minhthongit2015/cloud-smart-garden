@@ -1,13 +1,22 @@
 
 $custom-marker-class: "user-marker-window";
+$user-window-width: 400px;
+$user-window-height: 450px;
 
 .gm-style {
   .marker-info-window {
     .gm-style-iw-a.#{$custom-marker-class} {
       .gm-style-iw-t {
         .gm-style-iw-c.gm-style-iw {
-          width: 400px !important;
+          width: $user-window-width !important;
+          max-height: $user-window-height !important;
           .gm-style-iw-d {
+            max-width: $user-window-width !important;
+            width: $user-window-width !important;
+            max-height: $user-window-height !important;
+            & > div {
+              max-height: $user-window-height !important;
+            }
             .header {
               .cover-photo {
                 background: transparent center center/cover no-repeat;

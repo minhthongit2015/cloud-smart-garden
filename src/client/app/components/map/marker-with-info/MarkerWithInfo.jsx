@@ -50,7 +50,7 @@ export default class MarkerWithInfo extends Component {
     this.state = {
       marker: null
     };
-    this.markerRef = React.createRef();
+    this.markerRef = null;
     this.windowRef = React.createRef();
 
     this.onMarkerLoaded = this.onMarkerLoaded.bind(this);
@@ -87,6 +87,7 @@ export default class MarkerWithInfo extends Component {
           marker: null
         });
       });
+    this.onClose();
   }
 
   toggle() {
@@ -132,7 +133,6 @@ export default class MarkerWithInfo extends Component {
   }
 
   onClose() {
-    this.close();
     if (this.props.onClose) {
       this.props.onClose();
     }
@@ -143,9 +143,7 @@ export default class MarkerWithInfo extends Component {
     this.setState({
       marker: null
     });
-    if (this.props.onClose) {
-      this.props.onClose();
-    }
+    this.onClose();
   }
 
   onMarkerClick(/* props, marker */) {

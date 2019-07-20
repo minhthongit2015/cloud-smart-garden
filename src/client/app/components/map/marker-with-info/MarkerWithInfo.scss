@@ -1,4 +1,6 @@
 
+$max-window-height: 500px;
+
 .gm-style {
   .gm-style-iw-a {
     animation-duration: .3s;
@@ -10,7 +12,11 @@
           pointer-events: none;
           overflow: hidden !important;
           & > div {
+            width: 100%;
+            max-height: $max-window-height;
+            overflow: auto !important;
             pointer-events: all;
+            @include modern-scrollbar;
           }
         }
         .gm-style-iw-d + button {
@@ -34,6 +40,12 @@
         }
       }
     }
+  }
+
+  img, video {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 

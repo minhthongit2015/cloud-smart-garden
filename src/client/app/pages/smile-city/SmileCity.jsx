@@ -74,6 +74,20 @@ export default class extends BasePage {
           windowProps={{}}
           name={userName1}
         />
+        <UserMarker
+          ref={ref => this.markers.add(ref)}
+          {...baseProps}
+          markerProps={
+            {
+              // title: 'Test',
+              name: userName1,
+              position: { lng: -25, lat: 0 },
+              draggable: true
+            }
+          }
+          windowProps={{}}
+          name={userName1}
+        />
         <FarmMarker
           ref={ref => this.markers.add(ref)}
           {...baseProps}
