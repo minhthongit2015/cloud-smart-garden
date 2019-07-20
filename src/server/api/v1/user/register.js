@@ -2,7 +2,7 @@ const router = require('express').Router();
 const UserService = require('../../../services/user');
 const APIResponse = require('../../../models/api-models');
 const { isNone } = require('../../../utils');
-const Logger = require('../../../services/logger');
+const Logger = require('../../../services/Logger');
 
 const { isBlank } = require('../../../utils');
 

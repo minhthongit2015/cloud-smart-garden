@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const APIResponse = require('../../../models/api-models');
-const Logger = require('../../../services/logger');
+const Logger = require('../../../services/Logger');
 
 router.get('/', async (req, res) => {
   req.session.destroy(() => {
