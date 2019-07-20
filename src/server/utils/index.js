@@ -116,10 +116,6 @@ async function asyncForEach(array, callback) {
   }
 }
 
-function isOwner(currentUser, ownerId) {
-  return currentUser.id === parseStringToNumber(ownerId);
-}
-
 module.exports = {
   isNotSet,
   isNone,
@@ -128,6 +124,5 @@ module.exports = {
   isString,
   isFunction,
   parseStringToNumber,
-  asyncForEach,
-  isOwner
+  asyncForEach
 };

@@ -1,3 +1,4 @@
+
 const Converter = require('./converter');
 
 module.exports = class extends Converter {
@@ -5,8 +6,9 @@ module.exports = class extends Converter {
     const rawGarden = JSON.parse(JSON.stringify(object));
     const garden = {
       name: rawGarden.name
-
+      
     };
     return garden;
   }
 };
+
