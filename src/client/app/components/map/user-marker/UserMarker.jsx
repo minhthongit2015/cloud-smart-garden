@@ -64,7 +64,7 @@ export default class UserMarker extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   onSharingFood() {
-    alert('Have a good health! /=)');
+    alert('Chúc bạn luôn khỏe mạnh (^_^)!');
   }
 
   // eslint-disable-next-line class-methods-use-this
