@@ -2,7 +2,6 @@
 const Converter = require('./converter');
 const GardenConverter = require('./garden-converter');
 const UserGardenConverter = require('./user-garden-converter');
-const UserConverter = require('./user-converter');
 
 module.exports = class {
   static get(name) {
@@ -11,8 +10,6 @@ module.exports = class {
       return GardenConverter;
     case 'user-garden':
       return UserGardenConverter;
-    case 'user':
-      return UserConverter;
     default:
       return Converter;
     }
