@@ -4,7 +4,8 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
-import DistributorMarker from '../../components/map/store-marker/StoreMarker';
+import StoreMarker from '../../components/map/store-marker/StoreMarker';
+import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenToolsMarker';
 import UserMarker from '../../components/map/user-marker/UserMarker';
 import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 
@@ -23,6 +24,8 @@ export default class extends BasePage {
     };
 
     this.renderMapElements = this.renderMapElements.bind(this);
+    this.onMapClicked = this.onMapClicked.bind(this);
+    this.handleHotkeys = this.handleHotkeys.bind(this);
   }
 
   shouldComponentUpdate() {
@@ -32,6 +35,25 @@ export default class extends BasePage {
   onMapClicked = () => {
     this.markers.forEach(marker => marker.close());
   };
+
+  handleHotkeys(event) {
+    if (event.key === 'Tab') {
+      this.switchMarker();
+      event.preventDefault();
+    }
+  }
+
+  switchMarker() {
+    const markers = [...this.markers];
+    const focusedMarkerIndex = markers.findIndex(marker => marker.marker.isFocused);
+    if (focusedMarkerIndex >= 0) {
+      for (let i = focusedMarkerIndex + 1; (i % markers.length) !== focusedMarkerIndex; i++) {
+        if (markers[i % markers.length].marker.isOpen) {
+          markers[i % markers.length].marker.focus();
+        }
+      }
+    }
+  }
 
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
@@ -46,7 +68,7 @@ export default class extends BasePage {
 
     return (
       <React.Fragment>
-        <DistributorMarker
+        <StoreMarker
           ref={ref => this.markers.add(ref)}
           {...baseProps}
           markerProps={
@@ -54,6 +76,20 @@ export default class extends BasePage {
               // title: 'Test',
               name: shopName1,
               position: { lng: -5, lat: 5 },
+              draggable: true
+            }
+          }
+          windowProps={{}}
+          name={shopName1}
+        />
+        <GardenToolsMarker
+          ref={ref => this.markers.add(ref)}
+          {...baseProps}
+          markerProps={
+            {
+              // title: 'Test',
+              name: shopName1,
+              position: { lng: 15, lat: -5 },
               draggable: true
             }
           }
@@ -133,7 +169,7 @@ export default class extends BasePage {
       );
     }
     return (
-      <div {...this.props}>
+      <div {...this.props} onKeyDown={this.handleHotkeys}>
         {window.myGoogleMap}
       </div>
     );

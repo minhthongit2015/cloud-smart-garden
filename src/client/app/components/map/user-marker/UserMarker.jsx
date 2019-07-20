@@ -29,6 +29,7 @@ export default class UserMarker extends Component {
 
     this.onStartConversation = this.onStartConversation.bind(this);
     this.onWaitConversation = this.onWaitConversation.bind(this);
+    this.onSharingFood = this.onSharingFood.bind(this);
 
     this.onLoad = this.onLoad.bind(this);
     this.onClose = this.onClose.bind(this);
@@ -59,6 +60,11 @@ export default class UserMarker extends Component {
 
   toggle() {
     this.marker.toggle();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onSharingFood() {
+    alert('Have a good health! /=)');
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -146,6 +152,20 @@ export default class UserMarker extends Component {
 
   render() {
     const { name } = this.props;
+    const sharedFoods = [
+      {
+        preview: 'http://picfood.vn/wp-content/uploads/2016/11/1-42.jpg',
+        name: 'Cải chíp'
+      },
+      {
+        preview: 'https://hatgiongphuongnam.com/asset/upload/image/sup-lo-san-ho-2.1_.jpg',
+        name: 'Súp lơ san hô'
+      },
+      {
+        preview: 'https://massageishealthy.com/wp-content/uploads/2018/08/tac-dung-cua-ca-rot-song-luoc-voi-da-mat-lam-dep-suc-khoe-giam-can-4.jpg',
+        name: 'Cà rốt'
+      }
+    ];
     return (
       <MarkerWithInfo
         ref={this.onLoad}
@@ -164,10 +184,32 @@ export default class UserMarker extends Component {
         </div>
         <div className="info px-3 pb-3">
           <div className="name">{name}</div>
+
           <div className="status-line">Have a lovely day!</div>
           <hr className="my-2 mx-5" />
+
           <div className="description">Funny man</div>
           <hr className="my-2 mx-5" />
+
+          <div className="shared-foods">
+            <div className="shared-foods__header">Chia sẻ rau củ sạch</div>
+            <div className="row mx-0">
+              {sharedFoods.map(food => (
+                <div className="col col-4 p-3 text-center" key={food.name}>
+                  <div className="preview-image"><img alt={food.name} src={food.preview} /></div>
+                  <div>{food.name}</div>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-success px-3"
+                    onClick={this.onSharingFood}
+                  >miễn phí
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <hr className="my-2 mx-5" />
+
           <div className="actions">
             <div className="row mx-0">
               <button
@@ -184,6 +226,7 @@ export default class UserMarker extends Component {
               </button>
             </div>
           </div>
+
           <div className={classNames('content fade',
             { show: this.state.isShowCam, 'd-none': !this.state.isShowCam })}
           >

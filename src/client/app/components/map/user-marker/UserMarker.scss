@@ -64,6 +64,23 @@ $window-height: 450px;
                 margin: 4px;
               }
             }
+            .shared-foods {
+              text-align: center;
+              &__header {
+                font-weight: bold;
+                font-size: 16px;
+                background: #e69a84;
+                color: #fff;
+                padding: 4px;
+              }
+              .preview-image {
+                @include fixed-ratio-wrapper(100% * 2 / 3);
+                & > * {
+                  object-fit: cover;
+                  @include fixed-ratio;
+                }
+              }
+            }
           }
 
           .gm-style-iw-d + button {

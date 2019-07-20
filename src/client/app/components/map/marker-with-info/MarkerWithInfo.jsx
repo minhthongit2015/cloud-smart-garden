@@ -35,6 +35,10 @@ export default class MarkerWithInfo extends Component {
     return this.infoWindowTopMost.hasClass('focused');
   }
 
+  get markerTitle() {
+    return this.markerElement.length > 0 ? this.markerRef.marker.title : this.markerId;
+  }
+
   get markerId() {
     return `marker-${this.uid}`;
   }
@@ -65,7 +69,6 @@ export default class MarkerWithInfo extends Component {
 
   constructor(props) {
     super(props);
-    this.marker = null;
     this.state = {
       marker: null
     };
@@ -140,6 +143,7 @@ export default class MarkerWithInfo extends Component {
       .addClass(this.props.customMarkerClass)
       .attr('title', this.props.title || '')
       .attr('id', this.markerId);
+    this.markerRef.marker.title = this.props.title || '';
     if (this.props.onLoad) {
       this.props.onLoad();
     }
@@ -250,7 +254,7 @@ export default class MarkerWithInfo extends Component {
           onBlur={() => {}}
           icon={this.markerIcon}
           {...markerProps}
-          title={`marker-${this.uid}`}
+          title={this.markerTitle}
         />
         <InfoWindow
           ref={this.windowRef}
