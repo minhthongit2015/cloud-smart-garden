@@ -15,6 +15,7 @@ export class MapContainer extends Component {
         style={{ height: '100%', position: 'relative', width: '100%' }}
         visible={false}
         {...this.props}
+        minZoom={2}
       >
         {this.props.children}
       </Map>

@@ -26,15 +26,31 @@ export default class extends BasePage {
     this.renderMapElements = this.renderMapElements.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
     this.handleHotkeys = this.handleHotkeys.bind(this);
+    this.onMapReady = this.onMapReady.bind(this);
   }
 
   shouldComponentUpdate() {
     return false;
   }
 
-  onMapClicked = () => {
+  onMapReady() {
+    this.map.setMapTypeId(this.google.maps.MapTypeId.SATELLITE);
+    this.map.setOptions({
+      restriction: {
+        latLngBounds: {
+          north: 70, south: -70, west: -180, east: 180
+        },
+        strictBounds: true
+      }
+    });
+  }
+
+  onMapClicked(event) {
     this.markers.forEach(marker => marker.close());
-  };
+    if (event.which === 0) {
+      alert(this.map.getCenter());
+    }
+  }
 
   handleHotkeys(event) {
     if (event.key === 'Tab') {
@@ -61,6 +77,8 @@ export default class extends BasePage {
     const { google, map } = props;
     if (!google || !map) return null;
     const baseProps = { google, map };
+    this.google = google;
+    this.map = map;
 
     const shopName1 = 'Yoth Shop';
     const userName1 = 'Minh Thông';
@@ -162,7 +180,7 @@ export default class extends BasePage {
           google={this.props.google || window.google}
           {...this.defaultMapProps}
           onClick={this.onMapClicked}
-          // onReady={this.attachEvents}
+          onReady={this.onMapReady}
         >
           <this.renderMapElements />
         </GGMap>
