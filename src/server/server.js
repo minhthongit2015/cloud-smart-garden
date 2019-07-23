@@ -23,10 +23,10 @@ const startUp = require('./utils/_startup');
 const Logger = require('./services/Logger');
 
 process.on('unhandledRejection', (reason) => {
-  Logger.error(`Unhandled Rejection at:\r\n${reason.stack || reason}`);
+  Logger.error(`Unhandled Rejection at: \t ${reason.stack || reason}`);
 });
 process.on('uncaughtException', (exeption) => {
-  Logger.error(`Uncaught Exception at:\r\n${exeption}`);
+  Logger.error(`Uncaught Exception at: \t ${exeption}`);
 });
 
 // Global Config

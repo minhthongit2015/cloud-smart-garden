@@ -80,7 +80,7 @@ function MapLoadingContainer() {
   );
 }
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyBX6w7iRulNSx3ufzcF3fdDc2a_uGPcBMs', // My Key
+  // apiKey: 'AIzaSyBX6w7iRulNSx3ufzcF3fdDc2a_uGPcBMs', // My Key
   // apiKey: 'AIzaSyDIJ9XX2ZvRKCJcFRrl-lRanEtFUow4piM', // Google Key
   LoadingContainer: MapLoadingContainer
 })(MapContainer);

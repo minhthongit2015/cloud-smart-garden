@@ -4,6 +4,7 @@ import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './StoreMarker.scss';
 
 import { ShoppingCartSrc } from '../../../assets/icons';
+import { ShopEavesSrc } from '../../../assets/images';
 
 const CUSTOM_CLASS = 'store';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -86,11 +87,11 @@ export default class StoreMarker extends Component {
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >
         <div className="store-header mx-3 mt-3">
-          <div className="store-branding">Cửa hàng {name}</div>
-          <img className="store-eaves" src="/images/eaves.png" alt="" />
+          <div className="store-branding">Cửa hàng <span className="text-nowrap">{name}</span></div>
+          <img className="store-eaves" src={ShopEavesSrc} alt="" />
         </div>
-        <div className="store-body">
-          Danh mục sản phẩm
+        <div className="store-body mb-3">
+          <div className="bg-default text-white h6 py-2 m-3">Danh mục sản phẩm</div>
           <div className="row mx-0">
             {goods.map(good => (
               <div className="col col-3 p-3 text-center" key={good.name}>

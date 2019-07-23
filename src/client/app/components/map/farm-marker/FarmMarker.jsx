@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './FarmMarker.scss';
 
-import { FarmSrc } from '../../../assets/icons';
+import { FarmSrc as FarmIconSrc } from '../../../assets/icons';
+import { FarmSrc as FarmImageSrc } from '../../../assets/images';
 
 const CUSTOM_CLASS = 'farm';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -52,7 +53,34 @@ export default class SupplierMarker extends Component {
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >
-        <h4>Nông trại {name}</h4>
+        <div className="farm-header mx-3 mt-3">
+          <div className="farm-branding">Nông trại <span className="text-nowrap">{name}</span></div>
+          <img className="farm-illustration" src={FarmImageSrc} alt="" />
+        </div>
+        <div className="farm-body mb-3">
+          <div className="farm-actions">
+            <div>
+              <button type="button" className="btn btn-sm btn-default px-3"><i className="fab fa-font-awesome-flag" /> Đặt hỗ trợ</button>
+              <button type="button" className="btn btn-sm btn-default px-3"><i className="far fa-paper-plane" /> Kết nối đến vườn khác</button>
+            </div>
+            <div>
+              <button type="button" className="btn btn-sm btn-default px-3"><i className="fas fa-leaf" /> Bật nhận chăm sóc</button>
+              <button type="button" className="btn btn-sm btn-default px-3"><i className="fas fa-headset" /> Bật nhận tư vấn</button>
+            </div>
+          </div>
+          <div className="farm-info">
+            <div className="farm-info__header py-3 color-default">Thông Tin Vườn</div>
+            <div className="farm-info__body">
+              <section className="farm-section">
+                <div className="farm-section__title">Nông sản miễn phí</div>
+                <div className="farm-section__content">
+                  <div>Cà Chua</div>
+                  <div>Cải ngọt</div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
       </MarkerWithInfo>
     );
   }
@@ -63,5 +91,5 @@ SupplierMarker.propTypes = {
 };
 
 SupplierMarker.defaultProps = {
-  iconSrc: FarmSrc
+  iconSrc: FarmIconSrc
 };
