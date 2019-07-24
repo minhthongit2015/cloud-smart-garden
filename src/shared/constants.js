@@ -1,5 +1,6 @@
 
 const WS_EVENTS = {
+  connect: 'connect',
   connection: 'connection',
   disconnect: 'disconnect',
   message: 'message',

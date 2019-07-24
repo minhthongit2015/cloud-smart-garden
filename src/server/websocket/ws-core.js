@@ -1,9 +1,13 @@
 /* @flow */
+const path = require('path');
 const wsDebug = require('debug')('app:wsserver');
 const { WS_EVENTS } = require('../../shared/constants');
-// const Logger = require('../services/Logger');
+const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManagerCore {
+  /**
+   * alias of `.wsServer`
+   */
   static get io() {
     return this.wsServer;
   }
@@ -24,8 +28,13 @@ module.exports = class WebsocketManagerCore {
     return this.clients[socketId];
   }
 
+  static get routers() {
+    this._routers = this._routers || [];
+    return this._routers;
+  }
+
   static get handlers() {
-    this._handlers = this._handlers || [];
+    if (!this._handlers) this._handlers = {};
     return this._handlers;
   }
 
@@ -33,34 +42,63 @@ module.exports = class WebsocketManagerCore {
     this.wsServer = wsServer;
     wsServer.on(WS_EVENTS.connection, (socket) => {
       try {
-        wsDebug('Client connected: ', socket.id, socket.conn.remoteAddress);
+        wsDebug('Client connected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         this.accept(socket);
 
         socket.on(WS_EVENTS.disconnect, () => {
-          wsDebug('Client disconnected: ', socket.id, socket.conn.remoteAddress);
+          wsDebug('Client disconnected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
-        // Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
+        Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
       }
     });
   }
 
-  static registerHandler(handler) {
-    this.handlers.push(handler);
-    handler.setup(this);
+  static use(router) {
+    this.routers.push(router);
+    this._storeHandlers(router);
     this.clientArray.forEach((client) => {
-      this._attachHandlerToClient(handler, client);
+      this._attachRouterToClient(router, client);
     });
   }
 
   static accept(client) {
-    this.handlers.forEach(handler => this._attachHandlerToClient(handler, client));
+    // eslint-disable-next-line no-param-reassign
+    client.manager = this;
+    this.routers.forEach(router => this._attachRouterToClient(router, client));
   }
 
-  static _attachHandlerToClient(handler, client) {
-    const events = handler.eventNames();
-    events.forEach((event) => {
-      client.on(event, (...args) => handler.emit(event, args));
+  static _attachRouterToClient(router, client) {
+    Object.keys(this.handlers).forEach((eventName) => {
+      client.on(eventName, (...args) => this._onEvent(eventName, client, ...args));
+    });
+  }
+
+  static _storeHandlers(router) {
+    const { fullRoutePath, handlers, children } = router;
+    handlers.forEach((handler) => {
+      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()} ` : '', fullRoutePath || '/', handler[0]);
+      if (!this.handlers[handlerPath]) this.handlers[handlerPath] = [];
+      this.handlers[handlerPath].push(handler[1]);
+    });
+    children.forEach(childRouter => this._storeHandlers(childRouter));
+  }
+
+  static _onEvent(event, client, ...args) {
+    if (!this.handlers[event] || !this.handlers[event].length) return;
+    const [body, clientRes] = args;
+    const req = {
+      socket: client,
+      session: client.handshake.session || {},
+      body
+    };
+    const res = {
+      send: (response) => {
+        if (clientRes) clientRes(response);
+      }
+    };
+    this.handlers[event].forEach((handler) => {
+      handler(req, res);
     });
   }
 };

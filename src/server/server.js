@@ -17,6 +17,7 @@ const ExpressSocketIOSession = require('express-socket.io-session');
 const SocketIO = require('socket.io');
 const routes = require('./routes');
 const api = require('./api');
+const wsRoutes = require('./websocket/routes');
 const WebsocketManager = require('./websocket/ws-manager');
 const SystemInfo = require('./utils/system-info');
 const startUp = require('./utils/_startup');
@@ -99,6 +100,7 @@ io.use(ExpressSocketIOSession(session, {
   autoSave: true
 }));
 WebsocketManager.setup(io);
+WebsocketManager.use(wsRoutes);
 
 server.listen(serverConfig.port);
 server.on('listening', () => {

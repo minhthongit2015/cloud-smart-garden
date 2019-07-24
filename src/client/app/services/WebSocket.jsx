@@ -13,8 +13,16 @@ export default class Connection {
     this._socket = io(ClientConfig.currentConfig.wsEndPoint, {
       transports: ['websocket']
     });
-    this._socket.on(WS_EVENTS.cloudConnect, () => {
+    this._socket.on(WS_EVENTS.cloudConnect, async () => {
       console.log('connected');
+      const rs = await this.ws('/garden/update/info', { msg: 'hello', secret: 123 });
+      console.log(rs);
+    });
+  }
+
+  static async ws(eventPath, data) {
+    return new Promise((resolve) => {
+      this.socket.emit(eventPath, data, res => resolve(res));
     });
   }
 }

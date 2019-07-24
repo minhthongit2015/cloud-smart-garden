@@ -60,7 +60,7 @@ export default class SupplierMarker extends Component {
         <div className="farm-body mb-3">
           <div className="farm-actions">
             <div>
-              <button type="button" className="btn btn-sm btn-default px-3"><i className="fab fa-font-awesome-flag" /> Đặt hỗ trợ</button>
+              <button type="button" className="btn btn-sm btn-default px-3"><i className="fab fa-font-awesome-flag" /> Nhờ chăm sóc</button>
               <button type="button" className="btn btn-sm btn-default px-3"><i className="far fa-paper-plane" /> Kết nối đến vườn khác</button>
             </div>
             <div>
