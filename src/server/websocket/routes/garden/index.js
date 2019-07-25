@@ -11,6 +11,12 @@ router.post('/list', async (req, res) => {
   res.send('garden list');
 });
 
+router.ws('/data', async (req, res) => {
+  console.log('garden data', req.session.user);
+  req.session.user += 1;
+  res.send('cloud data');
+});
+
 router.use('/update', updateRoute);
 
 module.exports = router;

@@ -15,6 +15,7 @@ const CookieParser = require('cookie-parser');
 const Session = require('express-session');
 const ExpressSocketIOSession = require('express-socket.io-session');
 const SocketIO = require('socket.io');
+const crypto = require('crypto');
 const routes = require('./routes');
 const api = require('./api');
 const wsRoutes = require('./websocket/routes');
@@ -49,19 +50,25 @@ const sequelizeDB = require('./models');
 const SequelizeStore = ConnectSessionSequelize(Session.Store);
 
 // Setup for CORS | Session | Cookie
+const secret = 'HkF1KkHBQ8';
+const sessionCookieName = 'user_sid';
+const sessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
 const session = Session({
-  store: new SequelizeStore({ db: sequelizeDB.sequelize }),
+  store: sessionStore,
   // store: new PgSession({ conObject }),
-  key: 'user_sid',
-  secret: 'HkF1KkHBQ8',
+  key: sessionCookieName,
+  secret,
   resave: true,
   // secure: true,
   // httpOnly: true,
   saveUninitialized: false,
   cookie: {
-    maxAge: 365 * 86400000 // 365 days
+    secure: false,
+    httpOnly: false,
+    maxAge: 7 * 86400000 // 7 days
   },
-  rolling: true
+  rolling: true,
+  unset: 'destroy'
 });
 
 const cookieParser = CookieParser();
@@ -96,10 +103,25 @@ app.use('/', routes);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
+function tokenToCookie(socket, next) {
+  if (!socket.handshake.headers.cookie) {
+    const { token } = socket.handshake.query;
+    if (!token) return next();
+    const fakeCookie = `${token}.${crypto
+      .createHmac('sha256', secret)
+      .update(token)
+      .digest('base64')
+      .replace(/=+$/, '')}`;
+    // eslint-disable-next-line no-param-reassign
+    socket.handshake.headers.cookie = `${sessionCookieName}=s:${fakeCookie}`;
+  }
+  return next();
+}
+io.use(tokenToCookie);
 io.use(ExpressSocketIOSession(session, {
   autoSave: true
 }));
-WebsocketManager.setup(io);
+WebsocketManager.setup(io, sessionStore);
 WebsocketManager.use(wsRoutes);
 
 server.listen(serverConfig.port);
