@@ -12,7 +12,7 @@ router.get('/my-profile', async (req, res) => {
     }
     return res.send(new APIResponse({ data: { user: sessionUser } }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });
@@ -31,14 +31,14 @@ router.get('/:userId', async (req, res) => {
     if (isBlank(userId)) {
       return res.status(404).send();
     }
-    const user = await UserService.getUser(userId);
+    const user = await UserService.get(userId);
     if (isNone(user)) {
       return res.status(404).send();
     }
 
     return res.send(new APIResponse({ data: user }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });
@@ -53,13 +53,13 @@ router.get('/public-info/:userId', async (req, res) => {
     if (isBlank(userId)) {
       return res.status(404).send();
     }
-    const user = await UserService.getUserPublicInfo(userId);
+    const user = await UserService.getPublicInfo(userId);
     if (isNone(user)) {
       return res.status(404).send();
     }
     return res.send(new APIResponse({ data: user }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });
@@ -83,7 +83,7 @@ router.post('/change-password', async (req, res) => {
 
     return res.send(new APIResponse({ result: 'OK' }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });
@@ -121,7 +121,7 @@ router.post('/update-profile/:userId', async (req, res) => {
 
     return res.send(new APIResponse({ result: 'success' }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });

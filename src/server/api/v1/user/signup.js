@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 
     return res.send(new APIResponse({ data: { user } }));
   } catch (error) {
-    Logger.error(error.message, { stackTrace: error.stack });
+    Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));
   }
 });

@@ -32,7 +32,7 @@ process.on('uncaughtException', (exeption) => {
 });
 
 // Global Config
-const serverConfig = require('./config');
+const Config = require('./config');
 
 // Init the Server
 const app = express();
@@ -93,7 +93,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(fileUpload());
 
 // Routing
-const PUBLIC_FOLDER = path.resolve(process.cwd(), serverConfig.publicFolder);
+const PUBLIC_FOLDER = path.resolve(process.cwd(), Config.publicFolder);
 app.get('*.*', express.static(PUBLIC_FOLDER));
 
 app.use('/api', api);
@@ -124,9 +124,10 @@ io.use(ExpressSocketIOSession(session, {
 WebsocketManager.setup(io, sessionStore);
 WebsocketManager.use(wsRoutes);
 
-server.listen(serverConfig.port);
+server.listen(Config.port);
 server.on('listening', () => {
-  debug(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
+  // eslint-disable-next-line no-console
+  console.log(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
   const address = server.address();
   if (typeof address === 'string') {
     debug(`Server running at pipe: ${address}`);

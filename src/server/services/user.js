@@ -28,7 +28,7 @@ module.exports = class {
     return ConverterFactory.get('user').convert(insertedUser);
   }
 
-  static async getUser(userId) {
+  static async get(userId) {
     const user = await User.findOne({
       where: {
         id: userId
@@ -41,6 +41,11 @@ module.exports = class {
       return null;
     }
     return ConverterFactory.get('user').convert(user);
+  }
+
+  static async list() {
+    const users = await User.findAll({});
+    return ConverterFactory.get('user').convertCollection(users);
   }
 
   static async updatePassword({ username, oldPassword, newPassword }) {

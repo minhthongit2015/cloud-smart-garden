@@ -1,7 +1,6 @@
 /* @flow */
 const path = require('path');
 const wsDebug = require('debug')('app:wsserver');
-const { WS_EVENTS } = require('../../shared/constants');
 const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManagerCore {
@@ -40,12 +39,12 @@ module.exports = class WebsocketManagerCore {
 
   static setup(wsServer) {
     this.wsServer = wsServer;
-    wsServer.on(WS_EVENTS.connection, (socket) => {
+    wsServer.on('connection', (socket) => {
       try {
         wsDebug('Client connected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         this.accept(socket);
 
-        socket.on(WS_EVENTS.disconnect, () => {
+        socket.on('disconnect', () => {
           wsDebug('Client disconnected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
@@ -89,9 +88,9 @@ module.exports = class WebsocketManagerCore {
     const [body, clientRes] = args;
     const req = {
       socket: client,
-      session: client.handshake.session || {},
-      body
+      session: client.handshake.session || {}
     };
+    Object.assign(req, body);
     const res = {
       send: (response) => {
         if (clientRes) clientRes(response);

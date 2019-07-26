@@ -6,6 +6,6 @@ module.exports = class Serializer {
   }
 
   static convertCollection(collection) {
-    return collection.map(object => this.serialze(object));
+    return collection.map(object => this.convert(object));
   }
 };
