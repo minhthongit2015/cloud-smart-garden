@@ -18,3 +18,11 @@ html, body, #root {
     @include modern-scrollbar;
   }
 }
+
+.simplest-layout {
+  #body {
+    position: relative;
+  }
+  .signin-button {
+  }
+}

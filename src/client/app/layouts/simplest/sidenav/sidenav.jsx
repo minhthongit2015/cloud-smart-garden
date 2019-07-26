@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import './sidenav.scss';
+import SignIn from '../../../components/signin/SignIn';
 
 import RouteConstants from '../../../utils/RouteConstants';
 import {
@@ -60,6 +61,9 @@ export default class SideNav extends Component {
           )
         }
       >
+        <div className="signin-button">
+          <SignIn />
+        </div>
         {SideNav.renderHomeNav()}
         {
           this.links.map((link) => {

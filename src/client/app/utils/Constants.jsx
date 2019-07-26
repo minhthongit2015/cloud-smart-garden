@@ -1,14 +1,9 @@
 
-import { WS_EVENTS } from '../../../shared/constants';
-
-export { WS_EVENTS } from '../../../shared/constants';
-
-export const API_END_POINTS = {
+export const API = {
   signin: '/'
 };
 
 
 export default {
-  WS_EVENTS,
-  API_END_POINTS
+  API
 };
