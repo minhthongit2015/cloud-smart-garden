@@ -13,6 +13,8 @@ import SimplestLayout from './layouts/simplest/simplest';
 
 import RouteConstants from './utils/RouteConstants';
 
+import { UserProvider } from './services/UserContext';
+
 class App extends Component {
   // eslint-disable-next-line class-methods-use-this
   get isUserNetworkPage() {
@@ -21,6 +23,9 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      user: (localStorage.user && JSON.parse(localStorage.user)) || {}
+    };
     LiveConnect.setup();
   }
 
@@ -43,7 +48,17 @@ class App extends Component {
     );
     return (
       <React.Fragment>
-        <SimplestLayout routes={routes} />
+        <UserProvider value={{
+          user: this.state.user,
+          update: (user) => {
+            this.setState({
+              user
+            });
+          }
+        }}
+        >
+          <SimplestLayout routes={routes} />
+        </UserProvider>
       </React.Fragment>
     );
   }
