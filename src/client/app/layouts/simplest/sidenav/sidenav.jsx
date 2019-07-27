@@ -55,6 +55,7 @@ export default class SideNav extends Component {
   }
 
   render() {
+    console.log('render "Layouts/simplest/sidenav/SideNav.jsx"');
     return (
       <aside
         className={

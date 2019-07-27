@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import BasePage from '../_base/BasePage';
 import './MyGarden.scss';
@@ -11,7 +10,7 @@ import LiveConnect from '../../services/WebSocket';
 export default class extends BasePage {
   constructor(props) {
     super(props);
-    this.title = 'Garden Manager';
+    this.title = 'My Garden';
 
     this.dataEndPoint = '/apis/AI-ML/data/1/A1-01'; // Get data from gardenId = 4
     this.state = {
@@ -20,6 +19,7 @@ export default class extends BasePage {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     LiveConnect.socket.on('environment', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
@@ -52,7 +52,7 @@ export default class extends BasePage {
   }
 
   render() {
-    this.updatePageTitle();
+    console.log('render "Pages/my-garden/MyGarden.jsx"');
     return (
       <React.Fragment>
         <section className="p-3">

@@ -7,6 +7,7 @@ import { Map, GoogleApiWrapper } from 'google-maps-react';
 
 export class MapContainer extends Component {
   render() {
+    console.log('render "Comps/map/Map.jsx"');
     const google = this.props.google || window.google;
     return (
       <Map

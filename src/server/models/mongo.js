@@ -1,8 +1,11 @@
 
 
 const colors = require('colors/safe');
-const debug = require('debug')('app:server');
 const mongoose = require('mongoose');
+const DebugLib = require('debug');
+const { Debug } = require('../utils/constants');
+
+const debug = DebugLib(Debug.cloud.DB);
 const DBConfig = require('../config/db');
 
 const Environment = require('./environment');
@@ -16,9 +19,10 @@ class MongoDB {
     MongoDB._db.once('open', debug.bind(debug, colors.yellow('[MongoDB]'), 'Connected to MongoDB!'));
     await mongoose.connect(DBConfig.development.dbMongoUri, { useNewUrlParser: true });
   }
-};
+}
 
 module.exports = {
+  db: MongoDB.db,
   setup: MongoDB.setup,
   Env: Environment,
   Environment

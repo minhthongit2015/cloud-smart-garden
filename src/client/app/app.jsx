@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Config from './config/site';
-import LiveConnect from './services/WebSocket';
-
+import SimplestLayout from './layouts/simplest/simplest';
 import Home from './pages/home/Home';
 import AICloudPage from './pages/ai-cloud/AICloud';
 import UserGardenPage from './pages/my-garden/MyGarden';
 import UserNetWorkPage from './pages/smile-city/SmileCity';
+import DummyUserNetWorkPage from './pages/smile-city/DummySmileCity';
 
-import SimplestLayout from './layouts/simplest/simplest';
+import Config from './config/site';
+import LiveService from './services/WebSocket';
 
 import RouteConstants from './utils/RouteConstants';
-
-import { UserProvider } from './services/UserContext';
 
 class App extends Component {
   // eslint-disable-next-line class-methods-use-this
@@ -23,13 +21,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      user: (localStorage.user && JSON.parse(localStorage.user)) || {}
-    };
-    LiveConnect.setup();
-  }
-
-  componentWillMount() {
+    LiveService.setup();
     document.title = Config.WEBSITE_TITLE;
   }
 
@@ -40,7 +32,7 @@ class App extends Component {
           <Route exact path={RouteConstants.homePath} component={Home} />
           <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
           <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
-          <Route exact path={RouteConstants.userNetworkPath} component={() => <></>} />
+          <Route exact path={RouteConstants.userNetworkPath} component={DummyUserNetWorkPage} />
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
         {(this.isUserNetworkPage || window.myGoogleMap) && <UserNetWorkPage />}
@@ -48,17 +40,7 @@ class App extends Component {
     );
     return (
       <React.Fragment>
-        <UserProvider value={{
-          user: this.state.user,
-          update: (user) => {
-            this.setState({
-              user
-            });
-          }
-        }}
-        >
-          <SimplestLayout routes={routes} />
-        </UserProvider>
+        <SimplestLayout routes={routes} />
       </React.Fragment>
     );
   }

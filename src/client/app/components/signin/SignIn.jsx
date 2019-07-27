@@ -5,8 +5,7 @@ import {
 } from 'mdbreact';
 import superagent from 'superagent';
 
-import { apiEndpoints } from '../../utils/Constants';
-import UserContext from '../../services/UserContext';
+import { apiEndPoints } from '../../utils/Constants';
 
 export default class SignIn extends Component {
   get isOpen() { return this.state.isShowLoginModal; }
@@ -15,7 +14,7 @@ export default class SignIn extends Component {
     super(props);
     this.state = {
       isShowLoginModal: false,
-      username: 'thongnmtran',
+      username: 'user1',
       password: 'sunday123'
     };
     this.open = this.open.bind(this);
@@ -49,15 +48,13 @@ export default class SignIn extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const res = await superagent.post(apiEndpoints.user.SIGN_IN)
+    const res = await superagent.post(apiEndPoints.user.SIGN_IN)
       .send({
         username: this.state.username,
         password: this.state.password
       });
     if (res.body.user) {
       localStorage.user = JSON.stringify(res.body.user);
-      const userContext = this.context;
-      userContext.update(res.body.user);
       this.close();
     } else {
       alert('Invalid username or password');
@@ -67,20 +64,16 @@ export default class SignIn extends Component {
   // eslint-disable-next-line class-methods-use-this
   handleSignOut() {
     localStorage.removeItem('user');
-    const userContext = this.context;
-    userContext.update({});
   }
 
-  static contextType = UserContext;
-
   render() {
+    console.log('render "Comps/signin/SignIn.jsx"');
     const { isShowLoginModal, username, password } = this.state;
-    console.log(123);
-    const userContext = this.context;
+    const user = {};
 
     return (
       <React.Fragment>
-        {userContext.user.name
+        {user.name
           ? (
             <MDBBtn
               onClick={this.handleSignOut}

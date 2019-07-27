@@ -1,8 +1,13 @@
 const Sequelize = require('sequelize');
+const DebugLib = require('debug');
+const color = require('colors');
+const { Debug } = require('../utils/constants');
 const dbConfigs = require('../config/db');
 const User = require('./user');
 const Garden = require('./garden');
 const UserGarden = require('./user-garden');
+
+const debug = DebugLib(Debug.cloud.DB);
 
 
 const env = process.env.NODE_ENV || 'development';
@@ -15,6 +20,15 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.dbPostgresURI, config.dbPostgresOptions);
 }
+
+sequelize
+  .authenticate()
+  .then(() => {
+    debug(color.yellow('[PosgreDB]'), 'Connected to PosgreDB!');
+  })
+  .catch((err) => {
+    debug(color.yellow('[PosgreDB]'), 'Unable to connect to PosgreDB!', err);
+  });
 
 db.User = User(sequelize, Sequelize);
 db.Garden = Garden(sequelize, Sequelize);
@@ -29,8 +43,6 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-sequelize.sync({
-  alter: true
-});
+sequelize.sync({ alter: true });
 
 module.exports = db;

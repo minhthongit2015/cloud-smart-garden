@@ -53,8 +53,13 @@ WebsocketManager.use(wsRoutes);
 
 // Connect Database
 const sequelizeDB = require('./models');
-// const mongodb = require('./models/mongo');
-// mongodb.setup();
+// eslint-disable-next-line import/order
+const mongoose = require('mongoose');
+// eslint-disable-next-line import/order
+const MongoStore = require('connect-mongo')(Session);
+const mongodb = require('./models/mongo');
+
+mongodb.setup();
 
 
 /** *******************************************************************
@@ -74,9 +79,12 @@ app.use(cookieParser);
 
 // Setup Session
 const SequelizeStore = ConnectSessionSequelize(Session.Store);
-const sessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
+// eslint-disable-next-line no-unused-vars
+const sequelizeSessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
+const mongooseSessionStore = new MongoStore({ mongooseConnection: mongoose.connection });
 const session = Session({
-  store: sessionStore,
+  // store: sequelizeSessionStore,
+  store: mongooseSessionStore,
   key: SessionService.SSID_COOKIE_NAME,
   secret: SessionService.SECRET,
   resave: true,

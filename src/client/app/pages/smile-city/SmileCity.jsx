@@ -1,4 +1,5 @@
 import React from 'react';
+import superagent from 'superagent';
 import { Polyline } from 'google-maps-react';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
@@ -9,28 +10,46 @@ import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenTo
 import UserMarker from '../../components/map/user-marker/UserMarker';
 import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 
+import { apiEndPoints } from '../../utils/Constants';
 
 export default class extends BasePage {
   constructor(props) {
     super(props);
     this.title = 'Smile City';
+    this.state = {
+      mapObjects: []
+    };
 
     this.markers = new Set();
 
+    const center = [10.821897348888664, 106.68697200200597];
     this.defaultMapProps = {
-      initialCenter: { lat: 0, lng: 0 },
-      zoom: 4,
-      greatPlaceCoords: { lat: 1, lng: 2 }
+      initialCenter: { lat: center[0], lng: center[1] },
+      zoom: 16
     };
 
     this.renderMapElements = this.renderMapElements.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
     this.handleHotkeys = this.handleHotkeys.bind(this);
     this.onMapReady = this.onMapReady.bind(this);
+
+    function trackKeyState(e) {
+      window.key = {
+        shift: e.shiftKey,
+        ctrl: e.ctrlKey,
+        alt: e.altKey
+      };
+    }
+    window.addEventListener('keydown', trackKeyState);
+    window.addEventListener('keyup', trackKeyState);
   }
 
   shouldComponentUpdate() {
     return false;
+  }
+
+  componentDidMount() {
+    this.loadMapObjects();
   }
 
   onMapReady() {
@@ -43,14 +62,27 @@ export default class extends BasePage {
         strictBounds: true
       }
     });
+    this.loadMapObjects();
   }
 
-  onMapClicked(event) {
-    this.markers.forEach(marker => marker.close());
-    console.log(123);
-    if (event.which === 0) {
-      alert(this.map.getCenter());
+  async loadMapObjects() {
+    const mapObjects = await this.fetchMapObjects();
+    this.setState({
+      mapObjects
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  fetchMapObjects() {
+    return superagent.get(apiEndPoints.map.objects.LIST);
+  }
+
+  onMapClicked(mapProps, map, event) {
+    if (window.key.ctrl) {
+      // eslint-disable-next-line no-alert
+      return prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
     }
+    return this.markers.forEach(marker => marker.close());
   }
 
   handleHotkeys(event) {
@@ -74,7 +106,6 @@ export default class extends BasePage {
 
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
-    this.updatePageTitle();
     const { google, map } = props;
     if (!google || !map) return null;
     const baseProps = { google, map };
@@ -175,6 +206,7 @@ export default class extends BasePage {
   }
 
   render() {
+    console.log('render "Pages/smile-city/SmileCity.jsx"');
     if (!window.myGoogleMap) {
       window.myGoogleMap = (
         <GGMap

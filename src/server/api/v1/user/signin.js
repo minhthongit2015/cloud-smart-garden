@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         res.send({ user });
       });
     }
-    return res.send(new APIResponse().setResult('failed'));
+    return res.send(new APIResponse());
   } catch (error) {
     Logger.error(error.message, { stack: error.stack });
     return res.send(new APIResponse({ error: { message: error.message, stack: error.stack } }));

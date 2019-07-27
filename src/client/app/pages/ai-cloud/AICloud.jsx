@@ -21,6 +21,7 @@ export default class extends BasePage {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     LiveConnect.socket.on('train-progress', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
@@ -48,7 +49,6 @@ export default class extends BasePage {
   }
 
   render() {
-    this.updatePageTitle();
     return (
       <React.Fragment>
         <section className="p-3">
