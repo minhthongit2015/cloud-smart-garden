@@ -12,8 +12,11 @@ export default class Connection {
     });
     this.socket.on('connect', async () => {
       console.log('connected');
-      const rs = await this.ws('/garden/update/info', { msg: 'hello', secret: 123 });
+      const rs = await this.ws('/garden/update/info/14?type=luxurious', { msg: 'hello', secret: 123 });
       console.log(rs);
+    });
+    this.socket.on('voice-call', () => {
+
     });
   }
 

@@ -4,9 +4,9 @@ import './Home.scss';
 
 import RouteConstants from '../../utils/RouteConstants';
 import {
-  MyGardenIcon,
-  AICloudIcon,
-  SmileCityIcon
+  MyGardenSrc,
+  AICloudSrc,
+  SmileCitySrc
 } from '../../assets/icons';
 
 import NavIconLink from '../../components/nav-icon-link/NavIconLink';
@@ -17,13 +17,13 @@ export default class HomePage extends BasePage {
     this.title = 'Home';
     this.links = [
       {
-        type: 'nav', url: RouteConstants.aiCloudLink, text: 'AI Cloud', icon: AICloudIcon
+        type: 'nav', url: RouteConstants.aiCloudLink, text: 'AI Cloud', iconSrc: AICloudSrc
       },
       {
-        type: 'nav', url: RouteConstants.userGardensLink, text: 'My Garden', icon: MyGardenIcon
+        type: 'nav', url: RouteConstants.userGardensLink, text: 'My Garden', iconSrc: MyGardenSrc
       },
       {
-        type: 'nav', url: RouteConstants.userNetworkLink, text: 'Smile City', icon: SmileCityIcon
+        type: 'nav', url: RouteConstants.userNetworkLink, text: 'Smile City', iconSrc: SmileCitySrc
       }
     ];
   }
@@ -31,7 +31,7 @@ export default class HomePage extends BasePage {
   static renderNav(nav) {
     return (
       <div className="col-4" key={nav.url}>
-        <NavIconLink nav={nav} />
+        <NavIconLink nav={nav} ratio={1} />
       </div>
     );
   }

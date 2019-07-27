@@ -15,7 +15,7 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
-        "DEBUG": "app:server app:wsserver",
+        "DEBUG": "cloud:*",
         "NODE_ENV": "development"
       }
     },

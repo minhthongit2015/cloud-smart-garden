@@ -1,25 +1,25 @@
 
-const endPoint = 'http://localhost:5000/api/v1';
-const user = `${endPoint}/user`;
-const garden = `${endPoint}/garden`;
-const ai = `${endPoint}/ai`;
+const END_POINT = 'http://localhost:5000/api/v1';
+const USER = `${END_POINT}/user`;
+const GARDEN = `${END_POINT}/garden`;
+const AI = `${END_POINT}/ai`;
 
-export const API = {
-  endPoint,
+export const apiEndpoints = {
+  END_POINT,
   user: {
-    signin: `${user}/signin`,
-    getSession: `${user}/get-session`
+    SIGN_IN: `${USER}/signin`,
+    GET_SESSION: `${USER}/get-session`
   },
   garden: {
-    environment: `${garden}/environment`,
-    auth: `${garden}/auth`
+    ENVIRONMENT: `${GARDEN}/environment`,
+    AUTH: `${GARDEN}/auth`
   },
   ai: {
-    checkUpdate: `${ai}/check-update`,
-    download: `${ai}/download`
+    CHECK_UPDATE: `${AI}/check-update`,
+    DOWNLOAD: `${AI}/download`
   }
 };
 
 export default {
-  API
+  apiEndpoints
 };

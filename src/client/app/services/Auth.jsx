@@ -1,9 +1,9 @@
 import superagent from 'superagent';
-import { API } from '../utils/Constants';
+import { apiEndpoints } from '../utils/Constants';
 
 export default class Auth {
   static signin(username, password) {
-    return superagent.post(API.signin)
+    return superagent.post(apiEndpoints.user.SIGN_IN)
       .send({ username, password });
   }
 }

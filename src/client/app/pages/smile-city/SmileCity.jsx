@@ -47,6 +47,7 @@ export default class extends BasePage {
 
   onMapClicked(event) {
     this.markers.forEach(marker => marker.close());
+    console.log(123);
     if (event.which === 0) {
       alert(this.map.getCenter());
     }

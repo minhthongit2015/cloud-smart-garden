@@ -1,6 +1,12 @@
 /* @flow */
 const path = require('path');
+const urlParser = require('url');
 const wsDebug = require('debug')('app:wsserver');
+const pathMatch = require('path-match')({
+  sensitive: false,
+  strict: false,
+  end: false
+});
 const Logger = require('../services/Logger');
 
 module.exports = class WebsocketManagerCore {
@@ -33,7 +39,7 @@ module.exports = class WebsocketManagerCore {
   }
 
   static get handlers() {
-    if (!this._handlers) this._handlers = {};
+    if (!this._handlers) this._handlers = new Map();
     return this._handlers;
   }
 
@@ -61,6 +67,16 @@ module.exports = class WebsocketManagerCore {
     });
   }
 
+  static _storeHandlers(router) {
+    const { fullRoutePath, handlers, children } = router;
+    handlers.forEach((handler) => {
+      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()} ` : '', fullRoutePath || '/', handler[0]);
+      const handlerMatch = pathMatch(handlerPath);
+      this.handlers.set(handlerMatch, handler[1]);
+    });
+    children.forEach(childRouter => this._storeHandlers(childRouter));
+  }
+
   static accept(client) {
     // eslint-disable-next-line no-param-reassign
     client.manager = this;
@@ -68,36 +84,42 @@ module.exports = class WebsocketManagerCore {
   }
 
   static _attachRouterToClient(router, client) {
-    Object.keys(this.handlers).forEach((eventName) => {
-      client.on(eventName, (...args) => this._onEvent(eventName, client, ...args));
-    });
+    client.on('*', (...args) => this._onEvent(client, ...args));
   }
 
-  static _storeHandlers(router) {
-    const { fullRoutePath, handlers, children } = router;
-    handlers.forEach((handler) => {
-      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()} ` : '', fullRoutePath || '/', handler[0]);
-      if (!this.handlers[handlerPath]) this.handlers[handlerPath] = [];
-      this.handlers[handlerPath].push(handler[1]);
-    });
-    children.forEach(childRouter => this._storeHandlers(childRouter));
-  }
-
-  static _onEvent(event, client, ...args) {
-    if (!this.handlers[event] || !this.handlers[event].length) return;
-    const [body, clientRes] = args;
+  static _onEvent(client, ...args) {
+    const [urlPathQuery, request, clientRes] = args[0].data;
+    const url = urlParser.parse(`http://localhost${urlPathQuery}`);
+    const { pathname } = url;
+    const iterator = this.handlers.entries();
+    let handler = iterator.next();
     const req = {
       socket: client,
-      session: client.handshake.session || {}
+      session: client.handshake.session || {},
+      sessionID: client.handshake.sessionID,
+      sessionStore: client.handshake.sessionStore
     };
-    Object.assign(req, body);
+    Object.assign(req, request);
     const res = {
       send: (response) => {
         if (clientRes) clientRes(response);
       }
     };
-    this.handlers[event].forEach((handler) => {
-      handler(req, res);
-    });
+    do {
+      const [match, handleFunc] = handler.value;
+      const params = match(pathname);
+      if (params) {
+        req.params = params;
+        handleFunc(req, res);
+      }
+      handler = iterator.next();
+    } while (handler && !handler.done);
+  }
+
+  static sendToClient(clientId, {
+    event = '',
+    body = ''
+  }) {
+    this.getClientById(clientId).emit(event, body);
   }
 };

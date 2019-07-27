@@ -5,7 +5,7 @@ import {
 } from 'mdbreact';
 import superagent from 'superagent';
 
-import { API } from '../../utils/Constants';
+import { apiEndpoints } from '../../utils/Constants';
 import UserContext from '../../services/UserContext';
 
 export default class SignIn extends Component {
@@ -49,7 +49,7 @@ export default class SignIn extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const res = await superagent.post(API.user.signin)
+    const res = await superagent.post(apiEndpoints.user.SIGN_IN)
       .send({
         username: this.state.username,
         password: this.state.password

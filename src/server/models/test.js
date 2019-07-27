@@ -4,9 +4,16 @@ const db = require('./index');
 const { User, Garden, UserGarden } = db;
 
 module.exports = async () => {
-  const user = await User.upsert({
+  const user1 = await User.upsert({
     id: 1,
-    username: 'thongnmtran',
+    username: 'user1',
+    password: 'sunday123',
+    name: 'Trần Nguyễn Minh Thông',
+    email: 'minhthong.it2015@gmail.com'
+  });
+  const user2 = await User.upsert({
+    id: 2,
+    username: 'user2',
     password: 'sunday123',
     name: 'Trần Nguyễn Minh Thông',
     email: 'minhthong.it2015@gmail.com'
@@ -32,25 +39,25 @@ module.exports = async () => {
     location: '584 Pham Van Dong'
   });
 
-  const userGarden1 = await UserGarden.upsert({
+  const user1Garden1 = await UserGarden.upsert({
     id: 1,
     user_id: 1,
     garden_id: 1
   });
-  const userGarden2 = await UserGarden.upsert({
+  const user2Garden2 = await UserGarden.upsert({
     id: 2,
-    user_id: 1,
+    user_id: 2,
     garden_id: 2
   });
-  const userGarden3 = await UserGarden.upsert({
+  const user1Garden3 = await UserGarden.upsert({
     id: 3,
     user_id: 1,
     garden_id: 3
   });
 
   return {
-    user,
+    users: [user1, user2],
     gardens: [garden1, garden2, garden3],
-    relationships: [userGarden1, userGarden2, userGarden3] 
+    relationships: [user1Garden1, user2Garden2, user1Garden3]
   };
 };
