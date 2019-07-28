@@ -1,13 +1,17 @@
 /* @flow */
 const path = require('path');
 const urlParser = require('url');
-const wsDebug = require('debug')('app:wsserver');
+const DebugLib = require('debug');
 const pathMatch = require('path-match')({
   sensitive: false,
   strict: false,
   end: false
 });
 const Logger = require('../services/Logger');
+const { Debug } = require('../utils/constants');
+
+const debug = DebugLib(Debug.ws.CORE);
+const debugSetupRouting = DebugLib(Debug.ws.SETUP_ROUTING);
 
 module.exports = class WebsocketManagerCore {
   /**
@@ -47,11 +51,11 @@ module.exports = class WebsocketManagerCore {
     this.wsServer = wsServer;
     wsServer.on('connection', (socket) => {
       try {
-        wsDebug('Client connected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
+        debug('Client connected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         this.accept(socket);
 
         socket.on('disconnect', () => {
-          wsDebug('Client disconnected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
+          debug('Client disconnected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         });
       } catch (wsClientError) {
         Logger.error({ message: wsClientError.message, stack: wsClientError.stack });
@@ -69,12 +73,16 @@ module.exports = class WebsocketManagerCore {
 
   static _storeHandlers(router) {
     const { fullRoutePath, handlers, children } = router;
-    handlers.forEach((handler) => {
-      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()}/` : '', fullRoutePath || '/', handler[0]);
-      const handlerMatch = pathMatch(handlerPath);
-      this.handlers.set(handlerMatch, handler[1]);
-    });
     children.forEach(childRouter => this._storeHandlers(childRouter));
+    handlers.forEach((handler) => {
+      const handlerPath = path.posix.join(handler[2] ? `/${handler[2].toUpperCase()}/` : '', fullRoutePath || '/', handler[0]);
+      const handlerMatch = pathMatch(handlerPath);
+      debugSetupRouting(handlerPath);
+      this.handlers.set(handlerMatch, {
+        handler: handler[1],
+        pattern: handlerPath
+      });
+    });
   }
 
   static accept(client) {
@@ -83,9 +91,9 @@ module.exports = class WebsocketManagerCore {
     client.on('*', (...args) => this._onEvent(client, ...args));
   }
 
-  static _onEvent(client, ...args) {
+  static async _onEvent(client, ...args) {
     const [urlPathQuery, request, clientRes] = args[0].data;
-    const url = urlParser.parse(`http://localhost${urlPathQuery}`);
+    const url = urlParser.parse(`http://${path.posix.join('localhost', urlPathQuery)}`);
     const { pathname } = url;
     const iterator = this.handlers.entries();
     let handler = iterator.next();
@@ -97,6 +105,7 @@ module.exports = class WebsocketManagerCore {
       originalUrl: urlPathQuery,
       baseUrl: pathname,
       url: pathname,
+      pathname,
       ...request
     };
     const res = {
@@ -109,7 +118,9 @@ module.exports = class WebsocketManagerCore {
       const params = match(pathname);
       if (params) {
         req.params = params;
-        handleFunc(req, res);
+        // eslint-disable-next-line no-await-in-loop
+        const canGo = await handleFunc.handler(req, res);
+        if (!canGo) break;
       }
       handler = iterator.next();
     } while (handler && !handler.done);

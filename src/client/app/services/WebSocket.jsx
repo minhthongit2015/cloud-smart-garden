@@ -1,5 +1,6 @@
 
 import io from 'socket.io-client';
+import path from 'path';
 import ClientConfig from '../config';
 
 export default class Connection {
@@ -12,7 +13,7 @@ export default class Connection {
     });
     this.socket.on('connect', async () => {
       console.log('connected');
-      const rs = await this.ws('/garden/update/info/14?type=luxurious', { msg: 'hello', secret: 123 });
+      const rs = await this.get('/gardens/equips?type=luxurious', { msg: 'hello', secret: 123 });
       console.log(rs);
     });
     this.socket.on('voice-call', () => {
@@ -20,9 +21,29 @@ export default class Connection {
     });
   }
 
-  static async ws(eventPath, data) {
+  static async ws(eventPath, body) {
     return new Promise((resolve) => {
-      this.socket.emit(eventPath, data, res => resolve(res));
+      this.socket.emit(eventPath, body, res => resolve(res));
     });
+  }
+
+  static async get(eventPath, body) {
+    return this.ws(path.join('GET', eventPath), body);
+  }
+
+  static async post(eventPath, body) {
+    return this.ws(path.join('POST', eventPath), body);
+  }
+
+  static async put(eventPath, body) {
+    return this.ws(path.join('PUT', eventPath), body);
+  }
+
+  static async patch(eventPath, body) {
+    return this.ws(path.join('PATCH', eventPath), body);
+  }
+
+  static async delete(eventPath, body) {
+    return this.ws(path.join('DELETE', eventPath), body);
   }
 }

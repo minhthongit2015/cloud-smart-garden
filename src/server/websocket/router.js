@@ -1,5 +1,28 @@
+/* eslint-disable no-unused-vars */
 
 const path = require('path');
+
+const reqInterface = {
+  socket: {},
+  session: {},
+  sessionID: '',
+  sessionStore: {},
+  originalUrl: '',
+  baseUrl: '',
+  url: '',
+  pathname: '',
+  params: {},
+  query: {},
+  body: {}
+};
+
+const resInterface = {
+  send: (data) => { }
+};
+
+const handlerInterface = (req = reqInterface, res = resInterface) => {
+
+};
 
 class Router {
   get fullRoutePath() {
@@ -22,7 +45,7 @@ class Router {
     this.routePath = routePath;
   }
 
-  ws(routePath, handler, method) {
+  ws(routePath = '/', handler = handlerInterface, method = '') {
     this.handlers.push([routePath === '/' ? '' : routePath, handler, method]);
   }
 
@@ -32,23 +55,23 @@ class Router {
     this.children.push(subRouter);
   }
 
-  get(routePath, handler) {
+  get(routePath = '/', handler = handlerInterface) {
     this.ws(routePath, handler, 'get');
   }
 
-  post(routePath, handler) {
+  post(routePath = '/', handler = handlerInterface) {
     this.ws(routePath, handler, 'post');
   }
 
-  put(routePath, handler) {
+  put(routePath = '/', handler = handlerInterface) {
     this.ws(routePath, handler, 'put');
   }
 
-  patch(routePath, handler) {
+  patch(routePath = '/', handler = handlerInterface) {
     this.ws(routePath, handler, 'patch');
   }
 
-  delete(routePath, handler) {
+  delete(routePath = '/', handler = handlerInterface) {
     this.ws(routePath, handler, 'delete');
   }
 }

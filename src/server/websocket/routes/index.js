@@ -1,7 +1,7 @@
 const DebugLib = require('debug');
 const { Debug } = require('../../utils/constants');
 const router = require('../router')();
-const gardenRouter = require('./garden');
+const gardensRouter = require('./gardens');
 
 const debug = DebugLib(Debug.ws.ROUTING);
 
@@ -10,7 +10,7 @@ router.ws('message', async (req, res) => {
   res.send(`echo "${req.body}"`);
 });
 
-router.use('/garden', gardenRouter);
+router.use('/gardens', gardensRouter);
 
 
 module.exports = router;

@@ -12,6 +12,8 @@ exports.Debug = {
   ROUTING: 'cloud:routing:',
   WEBSOCKET: 'cloud:websocket:',
   ws: {
-    ROUTING: 'cloud:websocket:routing:'
+    CORE: 'cloud:websocket:core:',
+    ROUTING: 'cloud:websocket:routing:',
+    SETUP_ROUTING: 'cloud:websocket:setup-routing:'
   }
 };
