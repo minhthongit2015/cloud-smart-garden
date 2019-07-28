@@ -43,6 +43,9 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-sequelize.sync({ alter: true });
+sequelize.sync({ alter: true })
+  .then(() => {
+    debug(color.yellow('[PosgreDB]'), 'Sync done!');
+  });
 
 module.exports = db;

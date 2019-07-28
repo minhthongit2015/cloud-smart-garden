@@ -17,6 +17,10 @@ export default class UserMarker extends Component {
     return this.marker.uid;
   }
 
+  get rootMarker() {
+    return this.marker.rootMarker;
+  }
+
   constructor(props) {
     super(props);
     this.state = {

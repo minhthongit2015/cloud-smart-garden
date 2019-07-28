@@ -23,20 +23,23 @@ module.exports = async () => {
     id: 1,
     name: 'Garden 01',
     local_ip: '192.168.1.25',
-    location: '34/7 Nguyen Van Bao, P4, Q. Go Vap',
+    position: '10.822161446459024, 106.68706900563711',
+    address: '34/7 Nguyen Van Bao, P4, Q. Go Vap',
     physical_address: 'Garden-01'
   });
   const garden2 = await Garden.upsert({
     id: 2,
     name: 'Garden 02',
     local_ip: '192.168.1.44',
-    location: '12 Le Loi, P4, Go Vap'
+    position: '10.82116031890504, 106.68630822597868',
+    address: '12 Le Loi, P4, Go Vap'
   });
   const garden3 = await Garden.upsert({
     id: 3,
     name: 'Garden 03',
     local_ip: '192.168.1.79',
-    location: '584 Pham Van Dong'
+    position: '10.82047888301794, 106.68697062922399',
+    address: '584 Pham Van Dong'
   });
 
   const user1Garden1 = await UserGarden.upsert({

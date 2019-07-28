@@ -13,6 +13,8 @@ import LiveService from './services/WebSocket';
 
 import RouteConstants from './utils/RouteConstants';
 
+import KeyTracker from './utils/KeyTracker';
+
 class App extends Component {
   // eslint-disable-next-line class-methods-use-this
   get isUserNetworkPage() {
@@ -23,6 +25,7 @@ class App extends Component {
     super(props);
     LiveService.setup();
     document.title = Config.WEBSITE_TITLE;
+    KeyTracker();
   }
 
   render() {

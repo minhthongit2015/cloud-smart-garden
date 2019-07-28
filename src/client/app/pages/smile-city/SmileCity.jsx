@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import superagent from 'superagent';
 import { Polyline } from 'google-maps-react';
@@ -17,6 +18,7 @@ export default class extends BasePage {
     super(props);
     this.title = 'Smile City';
     this.state = {
+      dirty: false,
       mapObjects: []
     };
 
@@ -32,24 +34,19 @@ export default class extends BasePage {
     this.onMapClicked = this.onMapClicked.bind(this);
     this.handleHotkeys = this.handleHotkeys.bind(this);
     this.onMapReady = this.onMapReady.bind(this);
-
-    function trackKeyState(e) {
-      window.key = {
-        shift: e.shiftKey,
-        ctrl: e.ctrlKey,
-        alt: e.altKey
-      };
-    }
-    window.addEventListener('keydown', trackKeyState);
-    window.addEventListener('keyup', trackKeyState);
+    this.onMarkerRef = this.onMarkerRef.bind(this);
   }
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  componentDidMount() {
-    this.loadMapObjects();
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.dirty) {
+  //     this.state.dirty = false;
+  //     return true;
+  //   }
+  //   return false;
+  // }
+  onMarkerRef(ref) {
+    if (!ref) return;
+    this.markers.add(ref);
   }
 
   onMapReady() {
@@ -60,21 +57,40 @@ export default class extends BasePage {
           north: 70, south: -70, west: -180, east: 180
         },
         strictBounds: true
-      }
+      },
+      mapTypeControl: true,
+      scaleControl: true,
+      rotateControl: true,
+      streetViewControl: true
     });
     this.loadMapObjects();
   }
 
   async loadMapObjects() {
     const mapObjects = await this.fetchMapObjects();
+    mapObjects.forEach((object) => {
+      // eslint-disable-next-line no-param-reassign
+      object.position = { lat: +object.position.split(', ')[0], lng: +object.position.split(', ')[1] };
+    });
+    clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      mapObjects.forEach((object) => {
+        // eslint-disable-next-line no-param-reassign
+        object.position.lat += 0.0001;
+        object.ref.rootMarker.setPosition(object.position);
+      });
+    }, 1000);
     this.setState({
+      dirty: true,
       mapObjects
     });
+    // this.forceUpdate();
   }
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(apiEndPoints.map.objects.LIST);
+    return superagent.get(apiEndPoints.map.objects.LIST)
+      .then(res => (res.body ? res.body.data.objects || [] : []));
   }
 
   onMapClicked(mapProps, map, event) {
@@ -82,7 +98,10 @@ export default class extends BasePage {
       // eslint-disable-next-line no-alert
       return prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
     }
-    return this.markers.forEach(marker => marker.close());
+    if (window.key.shift) {
+      this.loadMapObjects();
+    }
+    return this.markers.forEach(marker => marker && marker.close());
   }
 
   handleHotkeys(event) {
@@ -112,90 +131,105 @@ export default class extends BasePage {
     this.google = google;
     this.map = map;
 
-    const shopName1 = 'Yoth Shop';
-    const userName1 = 'Minh Thông';
-    const farmName1 = 'Morning';
+    const { mapObjects } = this.state;
+
+    const foodShops = [
+      {
+        name: 'Yoth Shop',
+        position: { lat: 10.82070679248785, lng: 106.68745543348007 }
+      }
+    ];
+    const toolShops = [
+      {
+        name: 'One Fix',
+        position: { lat: 10.82152650027889, lng: 106.68726928436138 }
+      }
+    ];
+    const farms = [
+      {
+        name: 'Morning',
+        position: { lat: 10.821897787271718, lng: 106.68756363503007 }
+      }
+    ];
+    const places = [
+      ...foodShops.map(foodShop => foodShop.position),
+      ...toolShops.map(toolShop => toolShop.position),
+      ...farms.map(farm => farm.position)
+    ];
 
     return (
       <React.Fragment>
-        <StoreMarker
-          ref={ref => this.markers.add(ref)}
-          {...baseProps}
-          markerProps={
-            {
-              // title: 'Test',
-              name: shopName1,
-              position: { lng: -5, lat: 5 },
-              draggable: true
+        {foodShops.map(foodShop => (
+          <StoreMarker
+            key={foodShop.name}
+            ref={(ref) => { this.onMarkerRef(ref); foodShop.ref = ref; }}
+            {...baseProps}
+            object={foodShop}
+            markerProps={
+              {
+                name: foodShop.name,
+                position: foodShop.position,
+                draggable: true
+              }
             }
-          }
-          windowProps={{}}
-          name={shopName1}
-        />
-        <GardenToolsMarker
-          ref={ref => this.markers.add(ref)}
-          {...baseProps}
-          markerProps={
-            {
-              // title: 'Test',
-              name: shopName1,
-              position: { lng: 15, lat: -5 },
-              draggable: true
+            windowProps={{}}
+            name={foodShop.name}
+          />
+        ))}
+        {toolShops.map(toolShop => (
+          <GardenToolsMarker
+            key={toolShop.name}
+            ref={(ref) => { this.onMarkerRef(ref); toolShop.ref = ref; }}
+            {...baseProps}
+            object={toolShop}
+            markerProps={
+              {
+                name: toolShop.name,
+                position: toolShop.position,
+                draggable: true
+              }
             }
-          }
-          windowProps={{}}
-          name={shopName1}
-        />
-        <UserMarker
-          ref={ref => this.markers.add(ref)}
-          {...baseProps}
-          markerProps={
-            {
-              // title: 'Test',
-              name: userName1,
-              position: { lng: 0, lat: 0 },
-              draggable: true
+            windowProps={{}}
+            name={toolShop.name}
+          />
+        ))}
+        {farms.map(farm => (
+          <FarmMarker
+            key={farm.name}
+            ref={(ref) => { this.onMarkerRef(ref); farm.ref = ref; }}
+            {...baseProps}
+            object={farm}
+            markerProps={
+              {
+                name: farm.name,
+                position: farm.position,
+                draggable: true
+              }
             }
-          }
-          windowProps={{}}
-          name={userName1}
-        />
-        <UserMarker
-          ref={ref => this.markers.add(ref)}
-          {...baseProps}
-          markerProps={
-            {
-              // title: 'Test',
-              name: userName1,
-              position: { lng: -25, lat: 0 },
-              draggable: true
+            windowProps={{}}
+            name={farm.name}
+          />
+        ))}
+        {mapObjects.map(object => (
+          <UserMarker
+            key={object.name}
+            ref={(ref) => { this.onMarkerRef(ref); object.ref = ref; }}
+            {...baseProps}
+            object={object}
+            markerProps={
+              {
+                name: object.name,
+                position: object.position,
+                draggable: true
+              }
             }
-          }
-          windowProps={{}}
-          name={userName1}
-        />
-        <FarmMarker
-          ref={ref => this.markers.add(ref)}
-          {...baseProps}
-          markerProps={
-            {
-              // title: 'Test',
-              name: farmName1,
-              position: { lng: 5, lat: 5 },
-              draggable: true
-            }
-          }
-          windowProps={{}}
-          name={farmName1}
-        />
+            windowProps={{}}
+            name={object.name}
+          />
+        ))}
         <Polyline
           {...baseProps}
-          path={[
-            { lat: 5, lng: -5 },
-            { lat: 0, lng: 0 },
-            { lat: 5, lng: 5 },
-            { lat: 5, lng: -5 }
-          ]}
+          path={places}
           strokeColor="#00ffff"
           strokeOpacity={0.8}
           strokeWeight={2}
@@ -207,18 +241,19 @@ export default class extends BasePage {
 
   render() {
     console.log('render "Pages/smile-city/SmileCity.jsx"');
-    if (!window.myGoogleMap) {
-      window.myGoogleMap = (
-        <GGMap
-          google={this.props.google || window.google}
-          {...this.defaultMapProps}
-          onClick={this.onMapClicked}
-          onReady={this.onMapReady}
-        >
-          <this.renderMapElements />
-        </GGMap>
-      );
-    }
+    // if (!window.myGoogleMap) {
+    window.myGoogleMap = (
+      <GGMap
+        google={this.props.google || window.google}
+        {...this.defaultMapProps}
+        onClick={this.onMapClicked}
+        onReady={this.onMapReady}
+        dirty={this.state.dirty}
+      >
+        <this.renderMapElements />
+      </GGMap>
+    );
+    // }
     return (
       <div {...this.props} onKeyDown={this.handleHotkeys}>
         {window.myGoogleMap}

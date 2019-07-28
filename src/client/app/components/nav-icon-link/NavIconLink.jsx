@@ -37,7 +37,7 @@ export default class extends Component {
         className={`nav-icon-link ${className || ''}`}
         title={nav.text}
         {...this.props}
-        onMouseUp={this.handleClick}
+        onMouseDown={this.handleClick}
         onTouchStart={this.handleClick}
       >
         <FixedRatioImage

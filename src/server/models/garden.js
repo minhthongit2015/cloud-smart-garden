@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     type: DataTypes.INTEGER,
-    location: DataTypes.STRING, // latlng
+    position: DataTypes.STRING, // latlng
     address: DataTypes.STRING, // 31 street..
     local_ip: DataTypes.STRING,
     physical_address: DataTypes.STRING

@@ -1,7 +1,7 @@
-
+const { Garden } = require('../models');
 
 module.exports = class {
-  static list() {
-    return [];
+  static async list() {
+    return Garden.findAll({});
   }
 };

@@ -67,6 +67,10 @@ export default class MarkerWithInfo extends Component {
     );
   }
 
+  get rootMarker() {
+    return this.markerRef.marker;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -277,6 +281,7 @@ export default class MarkerWithInfo extends Component {
 MarkerWithInfo.propTypes = {
   google: PropTypes.object,
   map: PropTypes.object,
+  object: PropTypes.object,
   onLoad: PropTypes.func,
   onClick: PropTypes.func,
   onHover: PropTypes.func,
@@ -296,6 +301,7 @@ MarkerWithInfo.propTypes = {
 MarkerWithInfo.defaultProps = {
   google: null,
   map: null,
+  object: null,
   onLoad: null,
   onClick: null,
   onHover: null,

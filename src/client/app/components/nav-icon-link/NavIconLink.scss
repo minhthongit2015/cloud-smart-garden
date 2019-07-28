@@ -7,6 +7,7 @@ $nav-link-margin-y: 10px !default;
 
 .nav-icon-link {
   display: block;
+  position: relative;
   margin: $nav-link-margin-y auto;
   font-size: $nav-link-font-size;
   font-family: $nav-link-font-family;

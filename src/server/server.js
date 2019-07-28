@@ -9,7 +9,7 @@ const colors = require('colors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const expressEasyZip = require('express-easy-zip');
-const ConnectSessionSequelize = require('connect-session-sequelize');
+// const ConnectSessionSequelize = require('connect-session-sequelize');
 const cors = require('cors');
 const CookieParser = require('cookie-parser');
 const Session = require('express-session');
@@ -52,7 +52,7 @@ WebsocketManager.setup(io);
 WebsocketManager.use(wsRoutes);
 
 // Connect Database
-const sequelizeDB = require('./models');
+// const sequelizeDB = require('./models');
 // eslint-disable-next-line import/order
 const mongoose = require('mongoose');
 // eslint-disable-next-line import/order
@@ -78,9 +78,8 @@ const cookieParser = CookieParser();
 app.use(cookieParser);
 
 // Setup Session
-const SequelizeStore = ConnectSessionSequelize(Session.Store);
-// eslint-disable-next-line no-unused-vars
-const sequelizeSessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
+// const SequelizeStore = ConnectSessionSequelize(Session.Store);
+// const sequelizeSessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
 const mongooseSessionStore = new MongoStore({ mongooseConnection: mongoose.connection });
 const session = Session({
   // store: sequelizeSessionStore,
