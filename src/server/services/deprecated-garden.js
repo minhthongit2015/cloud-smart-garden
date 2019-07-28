@@ -1,5 +1,5 @@
 
-const { UserGarden, Garden } = require('../models');
+const { UserGarden, Garden } = require('../models/sequelize');
 const SerializerFactory = require('../models/converters/converter-factory');
 
 module.exports = class GardenService {

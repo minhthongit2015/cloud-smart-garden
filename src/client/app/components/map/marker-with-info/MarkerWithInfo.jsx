@@ -101,6 +101,7 @@ export default class MarkerWithInfo extends Component {
   }
 
   open() {
+    if (this.isOpen && !this.isClosing) return;
     this.isClosing = false;
     this.setState({
       marker: this.markerRef.marker
@@ -108,6 +109,7 @@ export default class MarkerWithInfo extends Component {
   }
 
   close() {
+    if (!this.isOpen || this.isClosing) return;
     this.isClosing = true;
     this.infoWindowWrapper.addClass('fadeOut animated faster')
       .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
@@ -245,6 +247,8 @@ export default class MarkerWithInfo extends Component {
     if (!this.markerIcon) {
       this.buildMarkerIcon();
     }
+
+    console.log('render marker', this.isOpen);
 
     return (
       <React.Fragment>

@@ -6,7 +6,7 @@ const gardenRouter = require('./garden');
 const debug = DebugLib(Debug.ws.ROUTING);
 
 router.ws('message', async (req, res) => {
-  debug('on Message: %d (length)', req.body.length);
+  debug('message: %d (length)', req.body.length);
   res.send(`echo "${req.body}"`);
 });
 

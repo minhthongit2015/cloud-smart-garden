@@ -1,5 +1,5 @@
 
-const db = require('./index');
+const db = require('./db');
 
 const { User, Garden, UserGarden } = db;
 

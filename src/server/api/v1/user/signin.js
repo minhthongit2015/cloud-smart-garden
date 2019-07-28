@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const AuthService = require('../../../services/deprecated-authenticator');
+const AuthService = require('../../../services/Auth');
 const APIResponse = require('../../../models/api-models');
 const Logger = require('../../../services/Logger');
 

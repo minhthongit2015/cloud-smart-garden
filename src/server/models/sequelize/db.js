@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize');
 const DebugLib = require('debug');
 const color = require('colors');
-const { Debug } = require('../utils/constants');
-const dbConfigs = require('../config/db');
+const { Debug } = require('../../utils/constants');
+const dbConfigs = require('../../config/db');
 const User = require('./user');
 const Garden = require('./garden');
 const UserGarden = require('./user-garden');
 
 const debug = DebugLib(Debug.cloud.DB);
-
 
 const env = process.env.NODE_ENV || 'development';
 const config = dbConfigs[env];
@@ -16,9 +15,9 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config.dbPostgresOptions);
+  sequelize = new Sequelize(process.env[config.use_env_variable], config.dbPostgreOptions);
 } else {
-  sequelize = new Sequelize(config.dbPostgresURI, config.dbPostgresOptions);
+  sequelize = new Sequelize(config.dbPostgreURI, config.dbPostgreOptions);
 }
 
 sequelize
@@ -42,10 +41,5 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-sequelize.sync({ alter: true })
-  .then(() => {
-    debug(color.yellow('[PosgreDB]'), 'Sync done!');
-  });
 
 module.exports = db;

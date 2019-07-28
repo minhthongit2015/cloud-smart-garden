@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User } = require('../models/sequelize');
 const { isNone } = require('../utils');
 const ConverterFactory = require('../models/converters/converter-factory');
 const { isBlank, isNotSet } = require('../utils');

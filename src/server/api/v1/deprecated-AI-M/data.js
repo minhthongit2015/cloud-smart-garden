@@ -4,7 +4,7 @@ const router = require('express').Router();
 // const AIMLService = require('../../services/AI-ML');
 const Utils = require('../../utils');
 const AIMLManager = require('../../../services/AI-ML/manager');
-const { Environment } = require('../../../models');
+const { Environment } = require('../../../models/mongo');
 
 const { isBlank } = Utils;
 
@@ -41,7 +41,7 @@ router.get('/export/:gardenId/:stationId', async (req, res) => {
 router.put('/import/:gardenId/:stationId', async (req, res) => {
   const { deviceId } = req.params;
   if (req.files.length <= 0) res.send('none');
-  const files =    req.files.filedata.length > 0 ? req.files.filedata : [req.files.filedata];
+  const files = req.files.filedata.length > 0 ? req.files.filedata : [req.files.filedata];
   const rs = await AIMLManager.importRecordFiles(files, deviceId);
   res.send(JSON.stringify((rs ? rs.map(r => r.result) : rs) || 'OK'));
 });

@@ -19,8 +19,31 @@ export default class extends BasePage {
     this.title = 'Smile City';
     this.state = {
       dirty: false,
-      mapObjects: []
+      mapObjects: [],
+      foodShops: [
+        {
+          name: 'Yoth Shop',
+          position: { lat: 10.82070679248785, lng: 106.68745543348007 }
+        }
+      ],
+      toolShops: [
+        {
+          name: 'One Fix',
+          position: { lat: 10.82152650027889, lng: 106.68726928436138 }
+        }
+      ],
+      farms: [
+        {
+          name: 'Morning',
+          position: { lat: 10.821897787271718, lng: 106.68756363503007 }
+        }
+      ]
     };
+    this.state.places = [
+      ...this.state.foodShops.map(foodShop => foodShop.position),
+      ...this.state.toolShops.map(toolShop => toolShop.position),
+      ...this.state.farms.map(farm => farm.position)
+    ];
 
     this.markers = new Set();
 
@@ -89,7 +112,7 @@ export default class extends BasePage {
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(apiEndPoints.map.objects.LIST)
+    return superagent.get(`${apiEndPoints.map.objects.LIST}/123?t=asd`)
       .then(res => (res.body ? res.body.data.objects || [] : []));
   }
 
@@ -99,7 +122,7 @@ export default class extends BasePage {
       return prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
     }
     if (window.key.shift) {
-      this.loadMapObjects();
+      return this.loadMapObjects();
     }
     return this.markers.forEach(marker => marker && marker.close());
   }
@@ -131,31 +154,9 @@ export default class extends BasePage {
     this.google = google;
     this.map = map;
 
-    const { mapObjects } = this.state;
-
-    const foodShops = [
-      {
-        name: 'Yoth Shop',
-        position: { lat: 10.82070679248785, lng: 106.68745543348007 }
-      }
-    ];
-    const toolShops = [
-      {
-        name: 'One Fix',
-        position: { lat: 10.82152650027889, lng: 106.68726928436138 }
-      }
-    ];
-    const farms = [
-      {
-        name: 'Morning',
-        position: { lat: 10.821897787271718, lng: 106.68756363503007 }
-      }
-    ];
-    const places = [
-      ...foodShops.map(foodShop => foodShop.position),
-      ...toolShops.map(toolShop => toolShop.position),
-      ...farms.map(farm => farm.position)
-    ];
+    const {
+      mapObjects, foodShops, toolShops, farms, places
+    } = this.state;
 
     return (
       <React.Fragment>

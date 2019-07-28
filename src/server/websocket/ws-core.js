@@ -70,7 +70,7 @@ module.exports = class WebsocketManagerCore {
   static _storeHandlers(router) {
     const { fullRoutePath, handlers, children } = router;
     handlers.forEach((handler) => {
-      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()} ` : '', fullRoutePath || '/', handler[0]);
+      const handlerPath = path.posix.join(handler[2] ? `${handler[2].toUpperCase()}/` : '', fullRoutePath || '/', handler[0]);
       const handlerMatch = pathMatch(handlerPath);
       this.handlers.set(handlerMatch, handler[1]);
     });
@@ -80,10 +80,6 @@ module.exports = class WebsocketManagerCore {
   static accept(client) {
     // eslint-disable-next-line no-param-reassign
     client.manager = this;
-    this.routers.forEach(router => this._attachRouterToClient(router, client));
-  }
-
-  static _attachRouterToClient(router, client) {
     client.on('*', (...args) => this._onEvent(client, ...args));
   }
 
@@ -97,9 +93,12 @@ module.exports = class WebsocketManagerCore {
       socket: client,
       session: client.handshake.session || {},
       sessionID: client.handshake.sessionID,
-      sessionStore: client.handshake.sessionStore
+      sessionStore: client.handshake.sessionStore,
+      originalUrl: urlPathQuery,
+      baseUrl: pathname,
+      url: pathname,
+      ...request
     };
-    Object.assign(req, request);
     const res = {
       send: (response) => {
         if (clientRes) clientRes(response);

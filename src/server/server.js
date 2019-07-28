@@ -15,14 +15,17 @@ const CookieParser = require('cookie-parser');
 const Session = require('express-session');
 const ExpressSocketIOSession = require('express-socket.io-session');
 const SocketIO = require('socket.io');
+
 const SessionService = require('./services/Session');
 const SocketIOQuerySession = require('./middleware/io-query-session');
 const SocketIORequestParser = require('./middleware/io-request-parser');
 
 const routes = require('./routes');
 const api = require('./api');
-const wsRoutes = require('./websocket/routes');
+
 const WebsocketManager = require('./websocket/ws-manager');
+const wsRoutes = require('./websocket/routes');
+
 const SystemInfo = require('./utils/system-info');
 const startUp = require('./utils/_startup');
 const Logger = require('./services/Logger');
@@ -142,13 +145,6 @@ server.on('listening', () => {
   }
   startUp();
 });
-
-
-const test = require('./models/test');
-
-(async () => {
-  await test();
-})();
 
 // setInterval(() => {
 //   http.get('http://power-manager.herokuapp.com/');

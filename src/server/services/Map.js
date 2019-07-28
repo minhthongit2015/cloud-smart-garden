@@ -1,4 +1,4 @@
-const { Garden } = require('../models');
+const { Garden } = require('../models/sequelize');
 
 module.exports = class {
   static async list() {

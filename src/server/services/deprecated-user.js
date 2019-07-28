@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User } = require('../models/sequelize');
 
 module.exports = class {
   static async register(newUser) {
