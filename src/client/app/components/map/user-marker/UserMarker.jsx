@@ -156,6 +156,7 @@ export default class UserMarker extends Component {
 
   render() {
     const { name } = this.props;
+    const { picture = '/images/avatar.png', cover = '/images/cover-photo.jpg' } = this.props.entity;
     const sharedFoods = [
       {
         preview: 'http://picfood.vn/wp-content/uploads/2016/11/1-42.jpg',
@@ -179,11 +180,11 @@ export default class UserMarker extends Component {
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >
         <div className="header">
-          <div className="cover-photo" style={{ backgroundImage: 'url(/images/cover-photo.jpg)' }}>
-            <img alt="" src="/images/cover-photo.jpg" />
+          <div className="cover-photo" style={{ backgroundImage: `url(${cover})` }}>
+            <img alt="" src={cover} />
           </div>
           <div className="avatar">
-            <img alt="" src="/images/avatar.png" />
+            <img alt="" src={picture} />
           </div>
         </div>
         <div className="info px-3 pb-3">
@@ -243,9 +244,11 @@ export default class UserMarker extends Component {
 }
 
 UserMarker.propTypes = {
-  iconSrc: PropTypes.string
+  iconSrc: PropTypes.string,
+  entity: PropTypes.object
 };
 
 UserMarker.defaultProps = {
-  iconSrc: PlantPot1Src
+  iconSrc: PlantPot1Src,
+  entity: {}
 };

@@ -2,7 +2,8 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  avatar: String,
+  picture: String,
+  cover: String,
   username: String,
   password: String,
   name: String,
@@ -18,7 +19,8 @@ const UserSchema = new mongoose.Schema({
   address: String,
   favorite_foods: [{ type: String }],
   favorite_songs: [{ type: String }],
-  personality: [{ type: String }]
+  personality: [{ type: String }],
+  socials: Object
 });
 const UserModel = mongoose.model('User', UserSchema);
 

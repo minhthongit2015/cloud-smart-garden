@@ -5,7 +5,7 @@ const EntitySchema = new mongoose.Schema({
   type: String, // Garden, Farm, FoodShop, ToolShop
   name: String,
   picture: String,
-  cover_image: String,
+  cover: String,
   description: String,
   position: {
     lat: Number,
@@ -13,7 +13,8 @@ const EntitySchema = new mongoose.Schema({
   },
   address: String,
   Goods: [{ type: Object }],
-  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  socials: Object
 });
 const EntityModel = mongoose.model('Entity', EntitySchema);
 

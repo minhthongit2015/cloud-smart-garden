@@ -8,22 +8,26 @@ const users = [
   {
     id: '1'.padStart(24, '0'),
     name: 'Trần Nguyễn Minh Thông',
-    position: { lat: 10.822161446459024, lng: 106.68706900563711 }
+    position: { lat: 10.822161446459024, lng: 106.68706900563711 },
+    socials: { fb: '100010281495813' }
   },
   {
     id: '2'.padStart(24, '0'),
     name: 'Nguyễn Tấn Đạt',
-    position: { lat: 10.82047888301794, lng: 106.68697062922399 }
+    position: { lat: 10.82047888301794, lng: 106.68697062922399 },
+    socials: { fb: '100010377552925' }
   },
   {
     id: '3'.padStart(24, '0'),
     name: 'Huỳnh Cao Hữu Linh',
-    position: { lat: 10.825817391850189, lng: 106.68601996547568 }
+    position: { lat: 10.825817391850189, lng: 106.68601996547568 },
+    socials: { fb: '100004405993641' }
   },
   {
     id: '4'.padStart(24, '0'),
     name: 'Trần Nguyễn Diễm Linh',
-    position: { lat: 10.82116031890504, lng: 106.68630822597868 }
+    position: { lat: 10.82116031890504, lng: 106.68630822597868 },
+    socials: { fb: '100011207474424' }
   }
 ];
 
@@ -33,6 +37,7 @@ const entities = [
     name: user.name,
     model: Garden,
     position: user.position,
+    socials: user.socials,
     users: [user.id]
   })),
   {

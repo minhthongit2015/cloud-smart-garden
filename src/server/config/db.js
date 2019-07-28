@@ -3,7 +3,7 @@ const common = {
   dbMongoName: 'heroku_vzk3sf9h',
   dbMongoUri: 'mongodb://root:rootpassword123@ds145356.mlab.com:45356/heroku_vzk3sf9h',
   dbMongoOptions: {
-    logging: true
+    logging: false
   },
 
   dbPostgreUsername: 'uedoajrdoowuzt',

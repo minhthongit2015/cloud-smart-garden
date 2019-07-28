@@ -4,7 +4,7 @@ const USER = `${END_POINT}/user`;
 const GARDEN = `${END_POINT}/garden`;
 const AI = `${END_POINT}/ai`;
 const MAP = `${END_POINT}/map`;
-const MAP_OBJECTS = `${MAP}/objects`;
+const MAP_ENTITIES = `${MAP}/entities`;
 
 export const apiEndPoints = {
   END_POINT,
@@ -24,9 +24,9 @@ export const apiEndPoints = {
   },
   MAP,
   map: {
-    OBJECTS: MAP_OBJECTS,
-    objects: {
-      LIST: `${MAP_OBJECTS}/list`
+    OBJECTS: MAP_ENTITIES,
+    entities: {
+      LIST: `${MAP_ENTITIES}/list`
     }
   }
 };

@@ -135,6 +135,7 @@ export default class MarkerWithInfo extends Component {
 
   onMarkerRef(ref) {
     this.markerRef = ref;
+    this.markerRef.marker.parent = this;
     const interval = setInterval(() => {
       if (this.originMarkerElement.length > 0) {
         this.onMarkerLoaded();
@@ -285,7 +286,7 @@ export default class MarkerWithInfo extends Component {
 MarkerWithInfo.propTypes = {
   google: PropTypes.object,
   map: PropTypes.object,
-  object: PropTypes.object,
+  entity: PropTypes.object,
   onLoad: PropTypes.func,
   onClick: PropTypes.func,
   onHover: PropTypes.func,
@@ -305,7 +306,7 @@ MarkerWithInfo.propTypes = {
 MarkerWithInfo.defaultProps = {
   google: null,
   map: null,
-  object: null,
+  entity: null,
   onLoad: null,
   onClick: null,
   onHover: null,

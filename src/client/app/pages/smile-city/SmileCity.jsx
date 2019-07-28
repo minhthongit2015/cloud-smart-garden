@@ -6,6 +6,7 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
+import MarkerWithInfo from '../../components/map/marker-with-info/MarkerWithInfo';
 import StoreMarker from '../../components/map/store-marker/StoreMarker';
 import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenToolsMarker';
 import UserMarker from '../../components/map/user-marker/UserMarker';
@@ -13,37 +14,15 @@ import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 
 import { apiEndPoints } from '../../utils/Constants';
 
-export default class extends BasePage {
+export default class SmileCity extends BasePage {
   constructor(props) {
     super(props);
     this.title = 'Smile City';
     this.state = {
       dirty: false,
-      mapObjects: [],
-      foodShops: [
-        {
-          name: 'Yoth Shop',
-          position: { lat: 10.82070679248785, lng: 106.68745543348007 }
-        }
-      ],
-      toolShops: [
-        {
-          name: 'One Fix',
-          position: { lat: 10.82152650027889, lng: 106.68726928436138 }
-        }
-      ],
-      farms: [
-        {
-          name: 'Morning',
-          position: { lat: 10.821897787271718, lng: 106.68756363503007 }
-        }
-      ]
+      mapEntities: [],
+      places: null
     };
-    this.state.places = [
-      ...this.state.foodShops.map(foodShop => foodShop.position),
-      ...this.state.toolShops.map(toolShop => toolShop.position),
-      ...this.state.farms.map(farm => farm.position)
-    ];
 
     this.markers = new Set();
 
@@ -53,11 +32,12 @@ export default class extends BasePage {
       zoom: 16
     };
 
-    this.renderMapElements = this.renderMapElements.bind(this);
-    this.onMapClicked = this.onMapClicked.bind(this);
-    this.handleHotkeys = this.handleHotkeys.bind(this);
     this.onMapReady = this.onMapReady.bind(this);
     this.onMarkerRef = this.onMarkerRef.bind(this);
+    this.renderMapElements = this.renderMapElements.bind(this);
+    this.handleHotkeys = this.handleHotkeys.bind(this);
+    this.onMapClicked = this.onMapClicked.bind(this);
+    this.onMoveMarker = this.onMoveMarker.bind(this);
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -67,10 +47,6 @@ export default class extends BasePage {
   //   }
   //   return false;
   // }
-  onMarkerRef(ref) {
-    if (!ref) return;
-    this.markers.add(ref);
-  }
 
   onMapReady() {
     this.map.setMapTypeId(this.google.maps.MapTypeId.SATELLITE);
@@ -89,31 +65,61 @@ export default class extends BasePage {
     this.loadMapObjects();
   }
 
+  onMarkerRef(ref) {
+    if (!ref) return;
+    this.markers.add(ref);
+  }
+
+  static getMarkerByType(type) {
+    switch (type) {
+    case 'Garden':
+      return UserMarker;
+    case 'Farm':
+      return FarmMarker;
+    case 'FoodShop':
+      return StoreMarker;
+    case 'ToolShop':
+      return GardenToolsMarker;
+    default:
+      return MarkerWithInfo;
+    }
+  }
+
   async loadMapObjects() {
-    const mapObjects = await this.fetchMapObjects();
-    mapObjects.forEach((object) => {
-      // eslint-disable-next-line no-param-reassign
-      object.position = { lat: +object.position.split(', ')[0], lng: +object.position.split(', ')[1] };
+    const mapEntities = await this.fetchMapObjects();
+
+    mapEntities.forEach((entity) => {
+      entity.marker = SmileCity.getMarkerByType(entity.type);
+      if (entity.type === 'Garden') {
+        entity.picture = `https://graph.facebook.com/${entity.socials.fb}/picture?type=square&width=200&height=200`;
+        // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
+      }
     });
-    clearInterval(this.timer);
-    this.timer = setInterval(() => {
-      mapObjects.forEach((object) => {
-        // eslint-disable-next-line no-param-reassign
-        object.position.lat += 0.0001;
-        object.ref.rootMarker.setPosition(object.position);
-      });
-    }, 1000);
+    // clearInterval(this.timer);
+    // this.timer = setInterval(() => {
+    //   mapEntities.forEach((mapEntity) => {
+    //     if (mapEntity.type === 'Garden') {
+    //       mapEntity.position.lat += 0.0001;
+    //       mapEntity.ref.rootMarker.setPosition(mapEntity.position);
+    //     }
+    //   });
+    // }, 1000);
+
+    const places = mapEntities.map(mapEntity => mapEntity.position);
+    if (places.length > 0) places.push(places[0]);
+
     this.setState({
       dirty: true,
-      mapObjects
+      mapEntities,
+      places
     });
     // this.forceUpdate();
   }
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(`${apiEndPoints.map.objects.LIST}/123?t=asd`)
-      .then(res => (res.body ? res.body.data.objects || [] : []));
+    return superagent.get(apiEndPoints.map.entities.LIST)
+      .then(res => (res.body ? res.body.data.entities || [] : []));
   }
 
   onMapClicked(mapProps, map, event) {
@@ -146,6 +152,21 @@ export default class extends BasePage {
     }
   }
 
+  onMoveMarker(markerProps, map, event, entity) {
+    console.log(event);
+
+    this.setState((prevState) => {
+      entity.position = event.latLng.toJSON();
+      // const marker = prevState.mapEntities.find(mapEntity => mapEntity.z);
+      const places = prevState.mapEntities.map(mapEntity => mapEntity.position);
+      if (places.length > 0) places.push(places[0]);
+      return {
+        dirty: true,
+        places
+      };
+    });
+  }
+
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
     const { google, map } = props;
@@ -155,87 +176,44 @@ export default class extends BasePage {
     this.map = map;
 
     const {
-      mapObjects, foodShops, toolShops, farms, places
+      mapEntities, places
     } = this.state;
 
     return (
       <React.Fragment>
-        {foodShops.map(foodShop => (
-          <StoreMarker
-            key={foodShop.name}
-            ref={(ref) => { this.onMarkerRef(ref); foodShop.ref = ref; }}
-            {...baseProps}
-            object={foodShop}
-            markerProps={
-              {
-                name: foodShop.name,
-                position: foodShop.position,
-                draggable: true
-              }
-            }
-            windowProps={{}}
-            name={foodShop.name}
-          />
+        {mapEntities.map(mapEntity => (
+          mapEntity.marker
+            ? (
+              <mapEntity.marker
+                key={mapEntity.name}
+                ref={(ref) => { this.onMarkerRef(ref); mapEntity.ref = ref; }}
+                {...baseProps}
+                entity={mapEntity}
+                markerProps={
+                  {
+                    name: mapEntity.name,
+                    position: mapEntity.position,
+                    draggable: true,
+                    onDragend: (markerProps, mapz, event) => {
+                      this.onMoveMarker(markerProps, mapz, event, mapEntity);
+                    }
+                  }
+                }
+                windowProps={{}}
+                name={mapEntity.name}
+              />
+            ) : null
         ))}
-        {toolShops.map(toolShop => (
-          <GardenToolsMarker
-            key={toolShop.name}
-            ref={(ref) => { this.onMarkerRef(ref); toolShop.ref = ref; }}
+        {places ? (
+          <Polyline
             {...baseProps}
-            object={toolShop}
-            markerProps={
-              {
-                name: toolShop.name,
-                position: toolShop.position,
-                draggable: true
-              }
-            }
-            windowProps={{}}
-            name={toolShop.name}
+            path={places}
+            strokeColor="#00ffff"
+            strokeOpacity={0.8}
+            strokeWeight={2}
+            geodesic
           />
-        ))}
-        {farms.map(farm => (
-          <FarmMarker
-            key={farm.name}
-            ref={(ref) => { this.onMarkerRef(ref); farm.ref = ref; }}
-            {...baseProps}
-            object={farm}
-            markerProps={
-              {
-                name: farm.name,
-                position: farm.position,
-                draggable: true
-              }
-            }
-            windowProps={{}}
-            name={farm.name}
-          />
-        ))}
-        {mapObjects.map(object => (
-          <UserMarker
-            key={object.name}
-            ref={(ref) => { this.onMarkerRef(ref); object.ref = ref; }}
-            {...baseProps}
-            object={object}
-            markerProps={
-              {
-                name: object.name,
-                position: object.position,
-                draggable: true
-              }
-            }
-            windowProps={{}}
-            name={object.name}
-          />
-        ))}
-        <Polyline
-          {...baseProps}
-          path={places}
-          strokeColor="#00ffff"
-          strokeOpacity={0.8}
-          strokeWeight={2}
-          geodesic
-        />
+        ) : null}
       </React.Fragment>
     );
   }
