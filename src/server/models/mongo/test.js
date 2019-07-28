@@ -73,39 +73,31 @@ module.exports = async () => {
   // }));
 
   const savedUsers = await Promise.all(
-    users.map(user => new Promise((resolve, reject) => {
+    users.map((user) => {
       const userToSave = { ...user };
       delete userToSave.id;
       delete userToSave.position;
-      User.findByIdAndUpdate(
+      return User.findByIdAndUpdate(
         new mongoose.Types.ObjectId(user.id),
         { ...userToSave },
-        { upsert: true },
-        (error, res) => {
-          if (error) reject(error);
-          else resolve(res);
-        }
-      );
-    }))
+        { upsert: true }
+      ).exec();
+    })
   );
 
   const savedEntities = await Promise.all(
-    entities.map((entity, index) => new Promise((resolve, reject) => {
+    entities.map((entity, index) => {
       const entityToSave = { ...entity };
       entityToSave.users = entity.users
         ? entity.users.map(userId => new mongoose.Types.ObjectId(userId))
         : [savedUsers[index % savedUsers.length]._id];
       delete entityToSave.id;
-      entity.model.findByIdAndUpdate(
+      return entity.model.findByIdAndUpdate(
         new mongoose.Types.ObjectId(entity.id),
         { ...entityToSave },
-        { upsert: true },
-        (error, res) => {
-          if (error) reject(error);
-          else resolve(res);
-        }
-      );
-    }))
+        { upsert: true }
+      ).exec();
+    })
   );
 
   // entities.map();

@@ -1,6 +1,7 @@
 
-const colors = require('colors/safe');
 const mongoose = require('mongoose');
+const bluebird = require('bluebird');
+const colors = require('colors/safe');
 const DebugLib = require('debug');
 const { Debug } = require('../../utils/constants');
 const dbConfigs = require('../../config/db');
@@ -13,6 +14,7 @@ class MongoDB {
   static get db() { return MongoDB._db; }
 
   static async setup() {
+    mongoose.Promise = bluebird;
     mongoose.set('debug', config.dbMongoOptions.logging);
     mongoose.set('useNewUrlParser', true);
     mongoose.set('useFindAndModify', false);
