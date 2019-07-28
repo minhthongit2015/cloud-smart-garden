@@ -1,22 +1,12 @@
 
 const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
+const Entity = require('./Entity');
 
 const FarmSchema = new mongoose.Schema({
-  type: String,
-  avatar: String,
-  name: String,
-  description: String,
-  position: {
-    lat: Number,
-    lng: Number
-  },
-  address: String,
+  type: { type: String, default: 'Farm' },
   local_ip: String,
-  physical_address: String,
-  users: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  physical_address: String
 });
-const GardenModel = mongoose.model('Farm', FarmSchema, 'Entity');
+const FarmModel = Entity.discriminator('Farm', FarmSchema);
 
-module.exports = GardenModel;
+module.exports = FarmModel;

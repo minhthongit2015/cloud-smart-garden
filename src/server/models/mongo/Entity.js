@@ -1,10 +1,8 @@
 
 const mongoose = require('mongoose');
 
-const { Schema } = mongoose;
-
 const EntitySchema = new mongoose.Schema({
-  type: String, // garden, farm, food store, tool store
+  type: String, // Garden, Farm, FoodShop, ToolShop
   name: String,
   picture: String,
   cover_image: String,
@@ -14,7 +12,8 @@ const EntitySchema = new mongoose.Schema({
     lng: Number
   },
   address: String,
-  users: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  Goods: [{ type: Object }],
+  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 const EntityModel = mongoose.model('Entity', EntitySchema);
 
