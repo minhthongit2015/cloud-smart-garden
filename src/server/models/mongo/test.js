@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 const {
-  User, Garden, Farm, FoodShop, ToolShop
+  User, Garden, Farm, FoodShop, ToolShop, Entity
 } = require('./db');
 
 const users = [
@@ -72,32 +72,42 @@ module.exports = async () => {
   //   name: user.name
   // }));
 
+  // await User.deleteMany({}).exec();
   const savedUsers = await Promise.all(
-    users.map((user) => {
+    users.map(user => new Promise((resolve, reject) => {
       const userToSave = { ...user };
       delete userToSave.id;
       delete userToSave.position;
-      return User.findByIdAndUpdate(
+      User.findByIdAndUpdate(
         new mongoose.Types.ObjectId(user.id),
         { ...userToSave },
-        { upsert: true }
-      ).exec();
-    })
+        { upsert: true },
+        (error, res) => {
+          if (error) reject(error);
+          else resolve(res);
+        }
+      );
+    }))
   );
 
+  // await Entity.deleteMany({}).exec();
   const savedEntities = await Promise.all(
-    entities.map((entity, index) => {
+    entities.map((entity, index) => new Promise((resolve, reject) => {
       const entityToSave = { ...entity };
       entityToSave.users = entity.users
         ? entity.users.map(userId => new mongoose.Types.ObjectId(userId))
         : [savedUsers[index % savedUsers.length]._id];
       delete entityToSave.id;
-      return entity.model.findByIdAndUpdate(
+      entity.model.findByIdAndUpdate(
         new mongoose.Types.ObjectId(entity.id),
         { ...entityToSave },
-        { upsert: true }
-      ).exec();
-    })
+        { upsert: true },
+        (error, res) => {
+          if (error) reject(error);
+          else resolve(res);
+        }
+      );
+    }))
   );
 
   // entities.map();
