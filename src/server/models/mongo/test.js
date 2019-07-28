@@ -7,27 +7,33 @@ const {
 const users = [
   {
     id: '1'.padStart(24, '0'),
-    name: 'Trần Nguyễn Minh Thông',
-    position: { lat: 10.822161446459024, lng: 106.68706900563711 },
-    socials: { fb: '100010281495813' }
-  },
-  {
-    id: '2'.padStart(24, '0'),
-    name: 'Nguyễn Tấn Đạt',
-    position: { lat: 10.82047888301794, lng: 106.68697062922399 },
-    socials: { fb: '100010377552925' }
-  },
-  {
-    id: '3'.padStart(24, '0'),
     name: 'Huỳnh Cao Hữu Linh',
     position: { lat: 10.825817391850189, lng: 106.68601996547568 },
     socials: { fb: '100004405993641' }
   },
   {
-    id: '4'.padStart(24, '0'),
+    id: '2'.padStart(24, '0'),
     name: 'Trần Nguyễn Diễm Linh',
     position: { lat: 10.82116031890504, lng: 106.68630822597868 },
     socials: { fb: '100011207474424' }
+  },
+  {
+    id: '3'.padStart(24, '0'),
+    name: 'Đinh Thị Kim Loan',
+    position: { lat: 10.821085919497536, lng: 106.68639264485876 },
+    socials: { fb: '100005064845279' }
+  },
+  {
+    id: '4'.padStart(24, '0'),
+    name: 'Trần Nguyễn Minh Thông',
+    position: { lat: 10.821214928467755, lng: 106.68658412886873 },
+    socials: { fb: '100010281495813' }
+  },
+  {
+    id: '5'.padStart(24, '0'),
+    name: 'Nguyễn Tấn Đạt',
+    position: { lat: 10.82047888301794, lng: 106.68697062922399 },
+    socials: { fb: '100010377552925' }
   }
 ];
 
@@ -42,21 +48,21 @@ const entities = [
   })),
   {
     id: '201'.padStart(24, '0'),
-    name: 'Morning',
-    model: Farm,
-    position: { lat: 10.821897787271718, lng: 106.68756363503007 }
-  },
-  {
-    id: '301'.padStart(24, '0'),
     name: 'Yoth Shop',
     model: FoodShop,
     position: { lat: 10.82070679248785, lng: 106.68745543348007 }
   },
   {
-    id: '401'.padStart(24, '0'),
+    id: '301'.padStart(24, '0'),
     name: 'One Fix',
     model: ToolShop,
     position: { lat: 10.82152650027889, lng: 106.68726928436138 }
+  },
+  {
+    id: '401'.padStart(24, '0'),
+    name: 'Morning',
+    model: Farm,
+    position: { lat: 10.821897787271718, lng: 106.68756363503007 }
   }
 ];
 
@@ -88,7 +94,7 @@ module.exports = async () => {
       const entityToSave = { ...entity };
       entityToSave.users = entity.users
         ? entity.users.map(userId => new mongoose.Types.ObjectId(userId))
-        : [savedUsers[index % users.length]._id];
+        : [savedUsers[index % savedUsers.length]._id];
       delete entityToSave.id;
       entity.model.findByIdAndUpdate(
         new mongoose.Types.ObjectId(entity.id),

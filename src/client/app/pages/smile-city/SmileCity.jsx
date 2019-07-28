@@ -29,7 +29,7 @@ export default class SmileCity extends BasePage {
     const center = [10.821897348888664, 106.68697200200597];
     this.defaultMapProps = {
       initialCenter: { lat: center[0], lng: center[1] },
-      zoom: 16
+      zoom: 17
     };
 
     this.onMapReady = this.onMapReady.bind(this);
@@ -118,7 +118,7 @@ export default class SmileCity extends BasePage {
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(apiEndPoints.map.entities.LIST)
+    return superagent.get(`${apiEndPoints.map.entities.LIST}?sort=[["_id", 1]]`)
       .then(res => (res.body ? res.body.data.entities || [] : []));
   }
 
