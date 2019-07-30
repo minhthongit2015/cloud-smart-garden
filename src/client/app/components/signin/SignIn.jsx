@@ -4,10 +4,13 @@ import {
   FormInline, MDBInput
 } from 'mdbreact';
 import superagent from 'superagent';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchSample } from '../../redux/actions/SampleAction';
 
 import { apiEndPoints } from '../../utils/Constants';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
   get isOpen() { return this.state.isShowLoginModal; }
 
   constructor(props) {
@@ -22,6 +25,7 @@ export default class SignIn extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.sampleAction = this.sampleAction.bind(this);
   }
 
   open() {
@@ -66,6 +70,10 @@ export default class SignIn extends Component {
     localStorage.removeItem('user');
   }
 
+  sampleAction() {
+    this.props.actions.fetchSample();
+  }
+
   render() {
     console.log('render "Comps/signin/SignIn.jsx"');
     const { isShowLoginModal, username, password } = this.state;
@@ -73,6 +81,13 @@ export default class SignIn extends Component {
 
     return (
       <React.Fragment>
+        <div>{ JSON.stringify(this.props.sample) }</div>
+        <MDBBtn
+          onClick={this.sampleAction}
+          size="sm"
+        >
+            test
+        </MDBBtn>
         {user.name
           ? (
             <MDBBtn
@@ -131,3 +146,12 @@ export default class SignIn extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  ...state
+});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ fetchSample }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
