@@ -42,9 +42,7 @@ class App extends Component {
       </React.Fragment>
     );
     return (
-      <React.Fragment>
-        <SimplestLayout routes={routes} />
-      </React.Fragment>
+      <SimplestLayout routes={routes} />
     );
   }
 }

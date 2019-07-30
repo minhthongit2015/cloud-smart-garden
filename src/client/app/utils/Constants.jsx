@@ -1,5 +1,5 @@
 
-const END_POINT = 'http://localhost:5000/api/v1';
+const END_POINT = '/api/v1';
 const USER = `${END_POINT}/user`;
 const GARDEN = `${END_POINT}/garden`;
 const AI = `${END_POINT}/ai`;
