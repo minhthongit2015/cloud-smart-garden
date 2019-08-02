@@ -22,6 +22,24 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Run Test",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/src/test/test.js",
+      "args": [
+        "--exclude", "${workspaceFolder}/src/client", "${workspaceFolder}/src/server",
+        "-w", "${workspaceFolder}/src/test"
+      ],
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "DEBUG": "cloud:*",
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "nodemon",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/dist/build/server-bundle.js",

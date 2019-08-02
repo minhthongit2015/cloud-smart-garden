@@ -12,7 +12,7 @@ export default class extends BasePage {
     super(props);
     this.title = 'My Garden';
 
-    this.dataEndPoint = '/apis/AI-ML/data/1/A1-01'; // Get data from gardenId = 4
+    this.dataEndpoint = '/apis/AI-ML/data/1/A1-01'; // Get data from gardenId = 4
     this.state = {
       trainLog: ''
     };

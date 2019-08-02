@@ -1,22 +1,22 @@
 
-const apiEndPoint = '/api';
-const aiCloudEndPoint = `${apiEndPoint}/AI-Cloud`;
+const apiEndpoint = '/api';
+const aiCloudEndpoint = `${apiEndpoint}/AI-Cloud`;
 
 const common = {
-  apiEndPoint,
-  aiCloudEndPoint
+  apiEndpoint,
+  aiCloudEndpoint
 };
 
 const development = {
   ...common,
   wsPort: 5000,
-  wsEndPoint: 'ws://localhost:5000/'
+  wsEndpoint: 'ws://localhost:5000/'
 };
 
 const production = {
   ...common,
   wsPort: process.env.PORT || 80,
-  wsEndPoint: 'wss://yoth-garden.herokuapp.com'
+  wsEndpoint: 'wss://yoth-garden.herokuapp.com'
 };
 
 const currentConfig = process.env.NODE_ENV === 'development'

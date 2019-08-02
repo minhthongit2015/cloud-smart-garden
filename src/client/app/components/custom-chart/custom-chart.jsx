@@ -44,7 +44,7 @@ export default class extends Component {
     }
     this.showSpiner();
     this.fetchPromise = fetch(
-      `${this.props.dataEndPoint}/?viewMode=${viewMode ||
+      `${this.props.dataEndpoint}/?viewMode=${viewMode ||
         this.state.viewMode}&time=${time || this.state.time}`,
       {
         signal: this.fetchCtr.signal
@@ -108,7 +108,7 @@ export default class extends Component {
 
   exportData() {
     fetch(
-      `${this.props.dataEndPoint}/export/${this.device}?viewMode=${this.state
+      `${this.props.dataEndpoint}/export/${this.device}?viewMode=${this.state
         .viewMode || ''}&time=${this.state.time || ''}`
     )
       .then(response => {
@@ -123,7 +123,7 @@ export default class extends Component {
     if (e.target.files.length <= 0) return;
     const formData = new FormData();
     for (const file of e.target.files) formData.append('filedata', file);
-    fetch(`${this.props.dataEndPoint}/import/${this.device}`, {
+    fetch(`${this.props.dataEndpoint}/import/${this.device}`, {
       method: 'PUT',
       body: formData
     })

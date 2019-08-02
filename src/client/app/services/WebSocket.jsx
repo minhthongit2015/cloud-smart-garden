@@ -8,7 +8,7 @@ export default class Connection {
 
   static setup() {
     // eslint-disable-next-line no-undef
-    this.socket = io(ClientConfig.currentConfig.wsEndPoint, {
+    this.socket = io(ClientConfig.currentConfig.wsEndpoint, {
       transports: ['websocket']
     });
     this.socket.on('connect', async () => {

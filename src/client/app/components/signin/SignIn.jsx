@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchSample } from '../../redux/actions/SampleAction';
 
-import { apiEndPoints } from '../../utils/Constants';
+import { apiEndpoints } from '../../utils/Constants';
 
 class SignIn extends Component {
   get isOpen() { return this.state.isShowLoginModal; }
@@ -52,7 +52,7 @@ class SignIn extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const res = await superagent.post(apiEndPoints.user.SIGN_IN)
+    const res = await superagent.post(apiEndpoints.user.SIGN_IN)
       .send({
         username: this.state.username,
         password: this.state.password

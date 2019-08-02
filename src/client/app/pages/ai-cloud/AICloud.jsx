@@ -14,7 +14,7 @@ export default class extends BasePage {
     super(props);
     this.title = 'AI Cloud';
 
-    this.dataEndPoint = `${Config.currentConfig.apiEndPoint}/AI-Cloud/data/1/A1-01`; // Get data from gardenId = 4
+    this.dataEndpoint = `${Config.currentConfig.apiEndpoint}/AI-Cloud/data/1/A1-01`; // Get data from gardenId = 4
     this.state = {
       trainLog: ''
     };
@@ -84,7 +84,7 @@ export default class extends BasePage {
               <button type="button" className="btn btn-primary btn-md" onClick={this.onStartTrain.bind(this)}>Start Train</button>
             </div>
             <textarea style={{ width: '100%', height: '300px' }} value={this.state.trainLog} onChange={this.handleChange.bind(this)} name="trainLog" />
-            {/* <CustomChart dataEndPoint={this.dataEndPoint} title="Temperature/Humidity" /> */}
+            {/* <CustomChart dataEndpoint={this.dataEndpoint} title="Temperature/Humidity" /> */}
           </div>
         </section>
 

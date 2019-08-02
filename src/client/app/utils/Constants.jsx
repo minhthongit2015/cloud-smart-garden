@@ -6,7 +6,7 @@ const AI = `${END_POINT}/ai`;
 const MAP = `${END_POINT}/map`;
 const MAP_ENTITIES = `${MAP}/entities`;
 
-export const apiEndPoints = {
+export const apiEndpoints = {
   END_POINT,
   user: {
     SIGN_IN: `${USER}/signin`,
@@ -31,11 +31,11 @@ export const apiEndPoints = {
   }
 };
 
-export const wsEndPoints = {
+export const wsEndpoints = {
 
 };
 
 export default {
-  apiEndPoints,
-  wsEndPoints
+  apiEndpoints,
+  wsEndpoints
 };

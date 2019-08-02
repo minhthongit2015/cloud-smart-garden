@@ -12,7 +12,7 @@ import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenTo
 import UserMarker from '../../components/map/user-marker/UserMarker';
 import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 
-import { apiEndPoints } from '../../utils/Constants';
+import { apiEndpoints } from '../../utils/Constants';
 
 export default class SmileCity extends BasePage {
   constructor(props) {
@@ -118,7 +118,7 @@ export default class SmileCity extends BasePage {
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(`${apiEndPoints.map.entities.LIST}?sort=[["_id", 1]]`)
+    return superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`)
       .then(res => (res.body ? res.body.data.entities || [] : []));
   }
 
