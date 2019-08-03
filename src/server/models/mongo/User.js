@@ -2,14 +2,14 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  picture: String,
-  cover: String,
   username: String,
   password: String,
+  type: Number,
   name: String,
   email: String,
+  picture: String,
+  cover: String,
   description: String,
-  type: Number,
   entities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entity' }],
   age: Number,
   married: Boolean,

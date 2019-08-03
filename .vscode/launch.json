@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "no babel",
+      "name": "No Webpack",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/server/server.js",
       "args": ["--exclude", "${workspaceFolder}/src/client", "-w", "${workspaceFolder}/src"],
@@ -40,7 +40,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon",
+      "name": "Webpack",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/dist/build/server-bundle.js",
       "args": ["-w", "${workspaceFolder}/dist/build/server-bundle.js"],

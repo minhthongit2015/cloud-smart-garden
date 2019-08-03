@@ -9,7 +9,7 @@ module.exports = class {
   static defaultAPIErrorHandler(error, res, code = 400) {
     Logger.error(error.message, { stack: error.stack });
     return res.status(code).send(
-      new APIResponse({ error: { message: error.message, stack: error.stack } })
+      new APIResponse().setError({ message: error.message, stack: error.stack })
     );
   }
 };
