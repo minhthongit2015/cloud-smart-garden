@@ -30,13 +30,13 @@ export default class extends Component {
 
     return (
       <NavLink
+        {...this.props}
         to={nav.url}
         key={nav.text}
         exact
         activeClassName="active"
         className={`nav-icon-link ${className || ''}`}
         title={nav.text}
-        {...this.props}
         onMouseDown={this.handleClick}
         onTouchStart={this.handleClick}
       >

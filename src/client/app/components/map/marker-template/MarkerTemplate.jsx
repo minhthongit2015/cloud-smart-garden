@@ -41,8 +41,8 @@ export default class MarkerTemplate extends Component {
     const { name } = this.props;
     return (
       <MarkerWithInfo
-        ref={this.markerRef}
         {...this.props}
+        ref={this.markerRef}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >

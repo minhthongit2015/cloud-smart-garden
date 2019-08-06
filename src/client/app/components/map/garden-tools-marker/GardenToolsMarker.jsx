@@ -80,8 +80,8 @@ export default class GardenToolsMarker extends Component {
     const { name } = this.props;
     return (
       <MarkerWithInfo
-        ref={this.onLoad}
         {...this.props}
+        ref={this.onLoad}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >

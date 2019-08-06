@@ -173,8 +173,8 @@ export default class UserMarker extends Component {
     ];
     return (
       <MarkerWithInfo
-        ref={this.onLoad}
         {...this.props}
+        ref={this.onLoad}
         onClose={this.onClose}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}

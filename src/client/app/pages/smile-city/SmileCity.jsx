@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import superagent from 'superagent';
-import { Polyline } from 'google-maps-react';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
@@ -11,6 +10,7 @@ import StoreMarker from '../../components/map/store-marker/StoreMarker';
 import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenToolsMarker';
 import UserMarker from '../../components/map/user-marker/UserMarker';
 import FarmMarker from '../../components/map/farm-marker/FarmMarker';
+import Polyline from '../../components/map/polyline/Polyline';
 
 import { apiEndpoints } from '../../utils/Constants';
 
@@ -21,10 +21,11 @@ export default class SmileCity extends BasePage {
     this.state = {
       dirty: false,
       mapEntities: [],
-      places: null
+      places: []
     };
 
     this.markers = new Set();
+    this.lineRef = React.createRef();
 
     const center = [10.821897348888664, 106.68697200200597];
     this.defaultMapProps = {
@@ -40,13 +41,13 @@ export default class SmileCity extends BasePage {
     this.onMoveMarker = this.onMoveMarker.bind(this);
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.dirty) {
-  //     this.state.dirty = false;
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.dirty) {
+      nextState.dirty = false;
+      return true;
+    }
+    return false;
+  }
 
   onMapReady() {
     this.map.setMapTypeId(this.google.maps.MapTypeId.SATELLITE);
@@ -153,14 +154,14 @@ export default class SmileCity extends BasePage {
 
   onMoveMarker(markerProps, map, event, entity) {
     console.log(event);
-
     this.setState((prevState) => {
       entity.position = event.latLng.toJSON();
       // const marker = prevState.mapEntities.find(mapEntity => mapEntity.z);
       const places = prevState.mapEntities.map(mapEntity => mapEntity.position);
       if (places.length > 0) places.push(places[0]);
+      this.lineRef.current.setPath(places);
       return {
-        dirty: true,
+        // dirty: true,
         places
       };
     });
@@ -184,9 +185,9 @@ export default class SmileCity extends BasePage {
           mapEntity.marker
             ? (
               <mapEntity.marker
+                {...baseProps}
                 key={mapEntity.name}
                 ref={(ref) => { this.onMarkerRef(ref); mapEntity.ref = ref; }}
-                {...baseProps}
                 entity={mapEntity}
                 markerProps={
                   {
@@ -203,16 +204,15 @@ export default class SmileCity extends BasePage {
               />
             ) : null
         ))}
-        {places ? (
-          <Polyline
-            {...baseProps}
-            path={places}
-            strokeColor="#00ffff"
-            strokeOpacity={0.8}
-            strokeWeight={2}
-            geodesic
-          />
-        ) : null}
+        <Polyline
+          {...baseProps}
+          // key="polyline-01"
+          ref={this.lineRef}
+          path={places}
+          color="#00ffff"
+          opacity={0.8}
+          width={2}
+        />
       </React.Fragment>
     );
   }
