@@ -13,35 +13,38 @@ function isDefaultError(error) {
 
 module.exports = class {
   constructor(opts = {
-    error: { ...defaultError },
+    error: defaultError,
     data: undefined
   }) {
-    this.setError(opts.error);
-    this.setData(opts.data);
+    this.error(opts.error);
+    this.data(opts.data);
   }
 
-  setData(data) {
+  data(data) {
     if (isNotSet(data)) return this;
     this.data = Object.assign(this.data || {}, data);
     this.success();
     return this;
   }
 
-  setError(error = { ...defaultError }) {
-    if (isDefaultError(error)) return this;
+  error(error = defaultError || '') {
+    if (isNotSet(error) || isDefaultError(error)) return this;
+    if (typeof error === 'string') {
+      return this.errorMessage(error);
+    }
     this.error = Object.assign(this.error || {}, error);
     this.failed();
     return this;
   }
 
-  setErrorMessage(message) {
+  errorMessage(message) {
     if (isNotSet(message)) return this;
     this.error = Object.assign(this.error || {}, { message });
     this.failed();
     return this;
   }
 
-  setErrorCode(code) {
+  errorCode(code) {
     if (isNotSet(code)) return this;
     this.error = Object.assign(this.error || {}, { code });
     this.failed();

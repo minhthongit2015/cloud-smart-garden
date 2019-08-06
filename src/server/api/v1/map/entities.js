@@ -9,7 +9,7 @@ router.get('/list', async (req, res) => {
     const entities = await MapService.list({
       limit, offset, sort: sort ? JSON.parse(sort) : undefined
     });
-    return res.send(new APIResponse().setData({ entities }));
+    return res.send(new APIResponse().data({ entities }));
   } catch (error) {
     return ErrorService.defaultAPIErrorHandler(error, res);
   }

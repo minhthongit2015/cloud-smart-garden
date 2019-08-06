@@ -1,4 +1,4 @@
-const { User } = require('../models/sequelize');
+const { User } = require('../models/mongo');
 
 module.exports = class {
   static async authenticate(username, password) {
@@ -8,14 +8,8 @@ module.exports = class {
     }
 
     const user = await User.findOne({
-      where: {
-        username,
-        password
-      },
-      attributes: {
-        exclude: ['password']
-      }
-    });
+      username, password
+    }).exec();
 
     return user;
   }

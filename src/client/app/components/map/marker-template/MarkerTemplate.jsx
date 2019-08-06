@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './MarkerTemplate.scss';
 
-import { FarmSrc } from '../../../assets/icons';
+import { FarmSrc } from '../../../../assets/icons';
 
 const CUSTOM_CLASS = 'template';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;

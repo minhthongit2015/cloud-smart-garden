@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
       username, password, name, email
     } = req.body;
     if (isBlank(username) || isBlank(password) || isBlank(name) || isBlank(email)) {
-      return res.status(400).send(new APIResponse().setError({ message: 'Invalid Parameters' }));
+      return res.status(400).send(new APIResponse().error({ message: 'Invalid Parameters' }));
     }
 
     const user = await UserService.createUser({
@@ -23,16 +23,16 @@ router.post('/', async (req, res) => {
     });
     if (isNone(user)) {
       return res.send(new APIResponse()
-        .setError({
+        .error({
           message: 'User already exits'
         }));
     }
 
-    return res.send(new APIResponse().setData({ user }));
+    return res.send(new APIResponse().data({ user }));
   } catch (error) {
     Logger.error(error.message, { stack: error.stack });
     return res.status(400).send(
-      new APIResponse().setError({ message: error.message, stack: error.stack })
+      new APIResponse().error({ message: error.message, stack: error.stack })
     );
   }
 });

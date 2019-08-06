@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './FarmMarker.scss';
 
-import { FarmSrc as FarmIconSrc } from '../../../assets/icons';
-import { FarmSrc as FarmImageSrc } from '../../../assets/images';
+import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
+import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
 
 const CUSTOM_CLASS = 'farm';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -40,7 +40,8 @@ export default class SupplierMarker extends Component {
   }
 
   onStartConversation() {
-    alert(`Hello Guy! I'm ${this.props.name}`);
+    // alert(`Hello Guy! I'm ${this.props.name}`);
+    return this.props.name;
   }
 
   render() {

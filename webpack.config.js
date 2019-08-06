@@ -45,7 +45,7 @@ const config = {
             options: {
               data: '@import "global";',
               includePaths: [
-                path.resolve(APP_DIR, 'app/styles')
+                path.resolve(APP_DIR, 'styles')
               ]
             }
           }

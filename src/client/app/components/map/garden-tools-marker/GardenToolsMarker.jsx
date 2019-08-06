@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './GardenToolsMarker.scss';
 
-import { GardenToolsSrc } from '../../../assets/icons';
+import { GardenToolsSrc } from '../../../../assets/icons';
 
 const CUSTOM_CLASS = 'garden-tools';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;

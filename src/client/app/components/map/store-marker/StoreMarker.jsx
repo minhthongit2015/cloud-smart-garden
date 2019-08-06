@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './StoreMarker.scss';
 
-import { ShoppingCartSrc } from '../../../assets/icons';
-import { ShopEavesSrc } from '../../../assets/images';
+import { ShoppingCartSrc } from '../../../../assets/icons';
+import { ShopEavesSrc } from '../../../../assets/images';
 
 const CUSTOM_CLASS = 'store';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -39,7 +39,8 @@ export default class StoreMarker extends Component {
   }
 
   onBuy() {
-    alert(`Cảm ơn đã mua hàng tại ${this.props.name}!`);
+    // alert(`Cảm ơn đã mua hàng tại ${this.props.name}!`);
+    return this.props.name;
   }
 
   render() {

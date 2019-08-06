@@ -7,7 +7,7 @@ import {
   MyGardenSrc,
   AICloudSrc,
   SmileCitySrc
-} from '../../assets/icons';
+} from '../../../assets/icons';
 
 import NavIconLink from '../../components/nav-icon-link/NavIconLink';
 

@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './UserMarker.scss';
 
-import { PlantPot1Src } from '../../../assets/icons';
+import { PlantPot1Src } from '../../../../assets/icons';
 
 const CUSTOM_CLASS = 'user';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
