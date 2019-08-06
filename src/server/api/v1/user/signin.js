@@ -9,20 +9,20 @@ router.post('/', async (req, res) => {
   try {
     const { username, password } = req.body;
     if (isBlank(username) || isBlank(password)) {
-      return res.status(401).send(new APIResponse().error('Invalid username or password'));
+      return res.status(401).send(new APIResponse().setError('Invalid username or password'));
     }
 
     const user = await AuthService.authenticate(username, password);
     if (isNone(user)) {
-      return res.status(401).send(new APIResponse().error('Wrong username or password'));
+      return res.status(401).send(new APIResponse().setError('Wrong username or password'));
     }
 
     req.session.user = user;
-    return req.session.save(() => res.send(new APIResponse().data({ user })));
+    return req.session.save(() => res.send(new APIResponse().setData({ user })));
   } catch (error) {
     Logger.error(error.message, { stack: error.stack });
     return res.status(400).send(
-      new APIResponse().error({ message: error.message, stack: error.stack })
+      new APIResponse().setError({ message: error.message, stack: error.stack })
     );
   }
 });

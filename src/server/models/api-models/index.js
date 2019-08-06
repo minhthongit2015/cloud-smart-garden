@@ -16,35 +16,38 @@ module.exports = class {
     error: defaultError,
     data: undefined
   }) {
-    this.error(opts.error);
-    this.data(opts.data);
+    this.setError(opts.error);
+    this.setData(opts.data);
   }
 
-  data(data) {
+  setData(data) {
     if (isNotSet(data)) return this;
     this.data = Object.assign(this.data || {}, data);
     this.success();
     return this;
   }
 
-  error(error = defaultError || '') {
+  setError(error = defaultError || '') {
     if (isNotSet(error) || isDefaultError(error)) return this;
     if (typeof error === 'string') {
-      return this.errorMessage(error);
+      return this.setErrorMessage(error);
+    }
+    if (typeof error === 'number') {
+      return this.setErrorCode(error)
     }
     this.error = Object.assign(this.error || {}, error);
     this.failed();
     return this;
   }
 
-  errorMessage(message) {
+  setErrorMessage(message) {
     if (isNotSet(message)) return this;
     this.error = Object.assign(this.error || {}, { message });
     this.failed();
     return this;
   }
 
-  errorCode(code) {
+  setErrorCode(code) {
     if (isNotSet(code)) return this;
     this.error = Object.assign(this.error || {}, { code });
     this.failed();

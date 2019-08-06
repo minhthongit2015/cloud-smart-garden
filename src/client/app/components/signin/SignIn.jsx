@@ -6,7 +6,7 @@ import {
 import superagent from 'superagent';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchSample } from '../../redux/actions/SampleAction';
+import { fetchUser } from '../../redux/actions/user-actions/LoadUserAction';
 
 import { apiEndpoints } from '../../utils/Constants';
 
@@ -17,15 +17,16 @@ class SignIn extends Component {
     super(props);
     this.state = {
       isShowLoginModal: false,
-      username: 'user1',
-      password: 'sunday123'
+      username: 'thongtran',
+      password: 'alphateam'
     };
     this.open = this.open.bind(this);
     this.toggle = this.toggle.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
-    this.sampleAction = this.sampleAction.bind(this);
+
+    this.props.actions.fetchUser();
   }
 
   open() {
@@ -57,12 +58,14 @@ class SignIn extends Component {
         username: this.state.username,
         password: this.state.password
       });
-    if (res.body.user) {
-      localStorage.user = JSON.stringify(res.body.user);
-      this.close();
-    } else {
-      alert('Invalid username or password');
+    if (!res.body.result) {
+      return alert('Invalid username or password');
     }
+    if (res.body.data.user) {
+      localStorage.user = JSON.stringify(res.body.data.user);
+      return this.close();
+    }
+    return alert('Invalid username or password');
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -70,25 +73,16 @@ class SignIn extends Component {
     localStorage.removeItem('user');
   }
 
-  sampleAction() {
-    this.props.actions.fetchSample();
-  }
-
   render() {
     console.log('render "Comps/signin/SignIn.jsx"');
     const { isShowLoginModal, username, password } = this.state;
-    const user = {};
+    const { user, mapEntities } = this.props.data;
 
     return (
       <React.Fragment>
-        <div>{ JSON.stringify(this.props.sample) }</div>
-        <MDBBtn
-          onClick={this.sampleAction}
-          size="sm"
-        >
-            test
-        </MDBBtn>
-        {user.name
+        <div>{ user ? user.name : '' }</div>
+        {mapEntities ? mapEntities.length : ''}
+        {user && user.name
           ? (
             <MDBBtn
               onClick={this.handleSignOut}
@@ -147,11 +141,15 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state
-});
+// const mapStateToProps = state => ({
+//   ...state
+// });
+const mapStateToProps = (state) => {
+  console.log('map state', state);
+  return { data: state };
+};
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ fetchSample }, dispatch)
+  actions: bindActionCreators({ fetchUser }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

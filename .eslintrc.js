@@ -33,6 +33,9 @@ module.exports = {
     "react/sort-comp": 0,
     "no-plusplus": 0,
     "react/forbid-prop-types": 0,
-    "no-console": 0
+    "no-param-reassign": 0,
+    "no-console": 0,
+    "no-alert": 0,
+    "no-prompt": 0
   }
 }

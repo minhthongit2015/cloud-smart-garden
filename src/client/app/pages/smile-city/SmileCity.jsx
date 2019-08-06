@@ -124,8 +124,7 @@ export default class SmileCity extends BasePage {
 
   onMapClicked(mapProps, map, event) {
     if (window.key.ctrl) {
-      // eslint-disable-next-line no-alert
-      return prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
+      prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
     }
     if (window.key.shift) {
       return this.loadMapObjects();

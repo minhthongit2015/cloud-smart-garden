@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import SampleReducer from './SampleReducer';
+import UserReducer from './user-reducers/UserReducer';
+import MapEntityReducer from './map-reducers/MapEntityReducer';
 
 const rootReducer = combineReducers({
-  SampleReducer
+  user: UserReducer,
+  mapEntities: MapEntityReducer
 });
 
 export default rootReducer;

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './Store';
+// import initialState from './app/redux/reducers/InitialState';
 
 import './styles/main.scss';
 

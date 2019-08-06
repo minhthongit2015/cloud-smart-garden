@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     } catch (error) {
       Logger.error(error.message, { stack: error.stack });
       return res.status(400).send(
-        new APIResponse().error({ message: error.message, stack: error.stack })
+        new APIResponse().setError({ message: error.message, stack: error.stack })
       );
     }
   });
