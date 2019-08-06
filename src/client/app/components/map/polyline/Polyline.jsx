@@ -9,10 +9,6 @@ export default class Polyline extends Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   path: []
-    // }
-
     this.lineRef = React.createRef();
   }
 

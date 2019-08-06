@@ -11,5 +11,5 @@ const presets = [
 
 module.exports = {
   presets,
-  plugins: ['@babel/plugin-proposal-class-properties']
+  plugins: ["react-hot-loader/babel", '@babel/plugin-proposal-class-properties']
 };

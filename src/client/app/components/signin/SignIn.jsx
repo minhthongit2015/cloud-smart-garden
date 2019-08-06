@@ -6,7 +6,7 @@ import {
 import superagent from 'superagent';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchUser } from '../../redux/actions/user-actions/LoadUserAction';
+import { fetchUser, clearUser } from '../../redux/actions/user-actions/LoadUserAction';
 
 import { apiEndpoints } from '../../utils/Constants';
 
@@ -70,7 +70,7 @@ class SignIn extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleSignOut() {
-    localStorage.removeItem('user');
+    this.props.actions.clearUser();
   }
 
   render() {
@@ -88,7 +88,7 @@ class SignIn extends Component {
               onClick={this.handleSignOut}
               size="sm"
             >
-                Sign Out
+                Sign Outzzz
             </MDBBtn>
           )
           : (
@@ -96,7 +96,7 @@ class SignIn extends Component {
               onClick={this.open}
               size="sm"
             >
-                Sign In
+                Sign In123
             </MDBBtn>
           )}
         <MDBModal isOpen={isShowLoginModal} toggle={this.toggle}>
@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
   return { data: state };
 };
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ fetchUser }, dispatch)
+  actions: bindActionCreators({ fetchUser, clearUser }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

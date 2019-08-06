@@ -1,18 +1,25 @@
 // const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const serverConfig = require('./src/server/config');
 
-const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}/dist`);
+const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}`);
 const APP_DIR = path.resolve(__dirname, 'src/client');
 // const SERVER_DIR = path.resolve(__dirname, './src/server');
 
 const config = {
   target: 'web',
   mode: 'development',
-  devtool: 'source-map',
-  entry: ['@babel/polyfill', `${APP_DIR}/client.jsx`],
+  devtool: 'inline-source-map',
+  // devtool: 'source-map',
+  entry: [
+    '@babel/polyfill',
+    'webpack/hot/dev-server',
+    'react-hot-loader/patch',
+    `${APP_DIR}/client.jsx`
+  ],
   // entry: {
   //   client: `${APP_DIR}/client.jsx`
   //   // server: `${SERVER_DIR}/server.js`
@@ -25,8 +32,31 @@ const config = {
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.js', '.json', '.jsx']
   },
+  devServer: {
+    index: 'public/index.html',
+    contentBase: './public',
+    // publicPath: '/',
+    compress: true,
+    port: 8080,
+    liveReload: false,
+    hot: true,
+    historyApiFallback: true,
+    // lazy: true,
+    filename: 'client-bundle.js'
+  },
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
+            }
+          }
+        ]
+      },
       {
         test: /\.css?$/,
         use: ['style-loader', 'css-loader']
@@ -43,21 +73,10 @@ const config = {
           {
             loader: 'sass-loader', // compiles Sass to CSS
             options: {
-              data: '@import "global";',
+              data: '@import "global.scss";',
               includePaths: [
                 path.resolve(APP_DIR, 'styles')
               ]
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(js|jsx)$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true
             }
           }
         ]
@@ -87,6 +106,7 @@ const config = {
     ]
   },
   plugins: [
+    // new CleanWebpackPlugin(),
     new CopyPlugin([
     ])
   ]

@@ -1,5 +1,8 @@
 
-const END_POINT = '/api/v1';
+const isLocal = window.location.hostname === 'localhost';
+
+const HOST = isLocal ? 'http://localhost:5000' : '';
+const END_POINT = `${HOST}/api/v1`;
 const USER = `${END_POINT}/user`;
 const GARDEN = `${END_POINT}/garden`;
 const AI = `${END_POINT}/ai`;

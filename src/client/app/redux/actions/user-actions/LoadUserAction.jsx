@@ -10,3 +10,10 @@ export function fetchUser() {
     dispatch(receiveUser({ user: storedUser }));
   };
 }
+
+export function clearUser() {
+  return (dispatch) => {
+    localStorage.removeItem('user');
+    dispatch(receiveUser({ user: {} }));
+  };
+}
