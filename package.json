@@ -11,10 +11,10 @@
     "tsc": "tsc",
     "tsc-dev": "ts-node-dev --respawn --transpileOnly src/server/server.ts",
     "tsc-prod": "tsc && node src/server/server.js",
-    "watch": "webpack-dev-server --mode development --hotOnly --inline --open",
-    "build": "webpack --mode production",
+    "watch": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "start": "node src/server/server.js",
-    "fix": "npm install -g --production windows-build-tools admin",
+    "fix-tensorflow-js": "npm install -g --production windows-build-tools admin",
     "test": "node src/test/index.js"
   },
   "dependencies": {
@@ -109,7 +109,8 @@
     "url-loader": "^2.1.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
   },
   "repository": {
     "type": "git",
