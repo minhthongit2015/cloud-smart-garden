@@ -9,9 +9,11 @@ const BUILD_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}`);
 const APP_DIR = path.resolve(__dirname, 'src/client');
 // const SERVER_DIR = path.resolve(__dirname, './src/server');
 
+const mode = process.env.NODE_ENV || 'development';
+
 const config = {
   target: 'web',
-  mode: 'development',
+  mode,
   devtool: 'inline-source-map',
   // devtool: 'source-map',
   entry: [

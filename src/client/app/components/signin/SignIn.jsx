@@ -88,7 +88,7 @@ class SignIn extends Component {
               onClick={this.handleSignOut}
               size="sm"
             >
-                Sign Outzzz
+              Sign Out
             </MDBBtn>
           )
           : (
@@ -96,7 +96,7 @@ class SignIn extends Component {
               onClick={this.open}
               size="sm"
             >
-                Sign In123
+              Sign In
             </MDBBtn>
           )}
         <MDBModal isOpen={isShowLoginModal} toggle={this.toggle}>
