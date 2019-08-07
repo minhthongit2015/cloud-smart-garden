@@ -42,6 +42,7 @@ const config = {
     port: 8080,
     liveReload: false,
     hot: true,
+    inline: true,
     historyApiFallback: true,
     // lazy: true,
     filename: 'client-bundle.js'
