@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "tsc-dev": "ts-node-dev --respawn --transpileOnly src/server/server.ts",
     "tsc-prod": "tsc && node src/server/server.js",
-    "watch": "webpack-dev-server --mode development --hotOnly --inline",
+    "watch": "webpack-dev-server --mode development --hotOnly --inline --open",
     "build": "webpack --mode production",
     "start": "node src/server/server.js",
     "fix": "npm install -g --production windows-build-tools admin",
