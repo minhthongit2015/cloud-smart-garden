@@ -1,4 +1,3 @@
-/* Flow */
 
 module.exports = class Serializer {
   static convert(object) {

@@ -1,5 +1,3 @@
-/* @flow */
-// Libraries / Modules
 // import '@babel/polyfill';
 const express = require('express');
 const http = require('http');

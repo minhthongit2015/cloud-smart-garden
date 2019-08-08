@@ -1,4 +1,3 @@
-/* @flow */
 const WebsocketManagerCore = require('./ws-core');
 const Logger = require('../services/Logger');
 

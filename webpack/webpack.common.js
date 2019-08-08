@@ -7,13 +7,8 @@ const {
 
 const webpackConfig = {
   target: 'web',
-  // entry: {
-  //   client: `${CLIENT_DIR}/client.jsx`
-  //   // server: `${SERVER_DIR}/server.js`
-  // },
   output: {
     filename: 'client-bundle.js',
-    // filename: '[name]-bundle.js',
     path: BUILD_DIR
   },
   resolve: {

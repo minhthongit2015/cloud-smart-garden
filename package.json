@@ -7,12 +7,11 @@
     "node": "v10.15.0"
   },
   "scripts": {
-    "flow": "flow",
     "tsc": "tsc",
     "tsc-dev": "ts-node-dev --respawn --transpileOnly src/server/server.ts",
     "tsc-prod": "tsc && node src/server/server.js",
-    "watch": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack-dev-server --open --config webpack/webpack.dev.js",
+    "build": "webpack --config webpack/webpack.prod.js",
     "start": "node src/server/server.js",
     "fix-tensorflow-js": "npm install -g --production windows-build-tools admin",
     "test": "node src/test/index.js"
@@ -73,7 +72,6 @@
     "@babel/node": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@svgr/webpack": "^4.3.2",
     "babel-eslint": "^8.2.1",
@@ -89,7 +87,6 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "file-loader": "^4.1.0",
-    "flow-bin": "^0.93.0",
     "gulp": "^4.0.2",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",

@@ -81,7 +81,7 @@ class SignIn extends Component {
     return (
       <React.Fragment>
         <div>{ user ? user.name : '' }</div>
-        {mapEntities ? mapEntities.length : ''}
+        {mapEntities ? mapEntities.length : ''}aa
         {user && user.name
           ? (
             <MDBBtn

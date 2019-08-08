@@ -1,4 +1,3 @@
-/* @flow */
 const path = require('path');
 const urlParser = require('url');
 const DebugLib = require('debug');

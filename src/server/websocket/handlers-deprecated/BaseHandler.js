@@ -1,4 +1,3 @@
-/* @flow */
 const Events = require('events');
 
 module.exports = class WebsocketHandler extends Events.EventEmitter {

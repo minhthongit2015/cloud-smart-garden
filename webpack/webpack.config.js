@@ -1,11 +1,11 @@
 const path = require('path');
-const serverConfig = require('./src/server/config');
+const serverConfig = require('../src/server/config');
 
-const PUBLIC_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}`);
-const CLIENT_PUBLIC_DIR = path.resolve(__dirname, 'src/client/public');
+const PUBLIC_DIR = path.resolve(__dirname, `../${serverConfig.publicFolder}`);
+const CLIENT_PUBLIC_DIR = path.resolve(__dirname, '../src/client/public');
 const BUILD_DIR = path.join(PUBLIC_DIR, '');
 
-const CLIENT_DIR = path.resolve(__dirname, 'src/client');
+const CLIENT_DIR = path.resolve(__dirname, '../src/client');
 const CLIENT_ENTRY = path.join(CLIENT_DIR, 'client.jsx');
 const STYLES_DIR = path.join(CLIENT_DIR, 'styles');
 

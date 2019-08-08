@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
@@ -47,13 +48,4 @@ class App extends Component {
   }
 }
 
-// debugger;
-// console.log(process);
-// if (process.env.NODE_ENV === 'development') {
-//   const hot = import('react-hot-loader/root');
-//   module.exports = hot(App);
-// } else {
-//   module.exports = App;
-// }
-
-export default App;
+export default hot(App);
