@@ -56,17 +56,17 @@ const webpackConfig = {
       },
       {
         test: /\.(eot|woff|woff2|ttf|otf)$/,
-        use: 'url-loader?name=../fonts/[name].[ext]'
+        use: 'url-loader?name=fonts/[name].[ext]'
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file-loader?name=../images/[name].[ext]'
+        loader: 'file-loader?name=images/[name].[ext]'
       }
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({}),
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({}),
     new CopyPlugin([
       { from: CLIENT_PUBLIC_DIR, to: PUBLIC_DIR }
     ])
