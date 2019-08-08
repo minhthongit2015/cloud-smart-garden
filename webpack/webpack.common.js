@@ -2,13 +2,13 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const {
-  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR
+  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME
 } = require('./webpack.config');
 
 const webpackConfig = {
   target: 'web',
   output: {
-    filename: 'client-bundle.js',
+    filename: ENTRY_FILENAME,
     path: BUILD_DIR
   },
   resolve: {
@@ -51,7 +51,8 @@ const webpackConfig = {
       },
       {
         test: /\.(eot|woff|woff2|ttf|otf)$/,
-        use: 'url-loader?name=fonts/[name].[ext]'
+        // use: 'url-loader?name=fonts/[name].[ext]'
+        use: 'file-loader?name=fonts/[name].[ext]'
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

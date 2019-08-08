@@ -7,5 +7,6 @@ module.exports = merge(common, {
   entry: [
     '@babel/polyfill',
     CLIENT_ENTRY
-  ]
+  ],
+  devtool: 'source-map'
 });

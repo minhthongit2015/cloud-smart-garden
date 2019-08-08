@@ -6,7 +6,7 @@ module.exports = merge(common, {
   mode: 'development',
   entry: [
     '@babel/polyfill',
-    'webpack/hot/dev-server',
+    // 'webpack/hot/dev-server',
     'react-hot-loader/patch',
     CLIENT_ENTRY
   ],
@@ -23,6 +23,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     // lazy: true,
     filename: ENTRY_FILENAME,
-    writeToDisk: true
+    writeToDisk: false
   }
 });

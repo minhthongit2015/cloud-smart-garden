@@ -14,7 +14,11 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "start": "node src/server/server.js",
     "fix-tensorflow-js": "npm install -g --production windows-build-tools admin",
-    "test": "node src/test/index.js"
+    "test": "node src/test/index.js",
+
+    "build-audit": "webpack --config webpack/webpack.audit.js",
+    "check": "source-map-explorer 'public/*.js'",
+    "audit": "npm run build-audit-watch && npm run check"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
@@ -99,6 +103,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
+    "source-map-explorer": "^2.0.1",
     "style-loader": "^0.23.1",
     "transform-loader": "^0.2.4",
     "ts-node-dev": "^1.0.0-pre.40",
