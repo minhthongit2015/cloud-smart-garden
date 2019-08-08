@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
 import './UserMarker.scss';
 
-import { PlantPot1Src } from '../../../../assets/icons';
+import { PlantPot1Src, GardenOwnerSrc } from '../../../../assets/icons';
 
 const CUSTOM_CLASS = 'user';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -156,7 +156,7 @@ export default class UserMarker extends Component {
 
   render() {
     const { name } = this.props;
-    const { picture = '/images/avatar.png', cover = '/images/cover-photo.jpg' } = this.props.entity;
+    const { picture = '/images/avatar.png', cover = '/images/cover-photo.jpg', owned } = this.props.entity;
     const sharedFoods = [
       {
         preview: 'http://picfood.vn/wp-content/uploads/2016/11/1-42.jpg',
@@ -171,6 +171,12 @@ export default class UserMarker extends Component {
         name: 'Cà rốt'
       }
     ];
+
+    // const { user } = this.props.data;
+    // mapEntities.forEach((entity) => {
+    //   entity.owned = entity.users.includes(user._id);
+    // });
+
     return (
       <MarkerWithInfo
         {...this.props}
@@ -178,6 +184,7 @@ export default class UserMarker extends Component {
         onClose={this.onClose}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
+        iconSrc={owned ? GardenOwnerSrc : this.props.iconSrc}
       >
         <div className="header">
           <div className="cover-photo" style={{ backgroundImage: `url(${cover})` }}>

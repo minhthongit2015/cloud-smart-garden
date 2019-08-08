@@ -23,6 +23,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     // lazy: true,
     filename: ENTRY_FILENAME,
-    writeToDisk: false
+    writeToDisk: true
   }
 });

@@ -119,7 +119,7 @@ export default class SmileCity extends BasePage {
 
   // eslint-disable-next-line class-methods-use-this
   fetchMapObjects() {
-    return superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`)
+    return superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`).withCredentials()
       .then(res => (res.body ? res.body.data.entities || [] : []));
   }
 
@@ -153,7 +153,6 @@ export default class SmileCity extends BasePage {
   }
 
   onMoveMarker(markerProps, map, event, entity) {
-    console.log(event);
     this.setState((prevState) => {
       entity.position = event.latLng.toJSON();
       // const marker = prevState.mapEntities.find(mapEntity => mapEntity.z);

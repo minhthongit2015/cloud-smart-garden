@@ -14,11 +14,10 @@ export default class extends Component {
 
   handleClick = (e) => {
     e.stopPropagation();
-    // Waves - Get Cursor Position
     const cursorPos = {
       top: e.clientY,
       left: e.clientX,
-      time: Date.now() // time indicates particular clicks
+      time: Date.now()
     };
     this.setState({ cursorPos });
   };

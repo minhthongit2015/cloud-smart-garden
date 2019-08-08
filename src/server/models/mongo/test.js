@@ -6,7 +6,13 @@ const {
 
 const users = [
   {
-    id: '1'.padStart(24, '0'),
+    name: 'Trần Huyền Diệu',
+    username: 'huyendieu',
+    password: 'alphateam',
+    position: { lat: 10.825142767184028, lng: 106.68629320830314 },
+    socials: { fb: '100010123869389' }
+  },
+  {
     name: 'Huỳnh Cao Hữu Linh',
     username: 'huulinh',
     password: 'alphateam',
@@ -14,7 +20,13 @@ const users = [
     socials: { fb: '100004405993641' }
   },
   {
-    id: '2'.padStart(24, '0'),
+    name: 'Nguyễn Thị Chung Trà',
+    username: 'phatra',
+    password: 'alphateam',
+    position: { lat: 10.824235170664661, lng: 106.6827922144139 },
+    socials: { fb: '100008247301333' }
+  },
+  {
     name: 'Trần Nguyễn Diễm Linh',
     username: 'linhtran',
     password: 'alphateam',
@@ -22,7 +34,6 @@ const users = [
     socials: { fb: '100011207474424' }
   },
   {
-    id: '3'.padStart(24, '0'),
     name: 'Đinh Thị Kim Loan',
     username: 'loankim',
     password: 'alphateam',
@@ -30,7 +41,6 @@ const users = [
     socials: { fb: '100005064845279' }
   },
   {
-    id: '4'.padStart(24, '0'),
     name: 'Trần Nguyễn Minh Thông',
     username: 'thongtran',
     password: 'alphateam',
@@ -38,20 +48,11 @@ const users = [
     socials: { fb: '100010281495813' }
   },
   {
-    id: '5'.padStart(24, '0'),
     name: 'Nguyễn Tấn Đạt',
     username: 'tandat',
     password: 'alphateam',
     position: { lat: 10.82047888301794, lng: 106.68697062922399 },
     socials: { fb: '100010377552925' }
-  },
-  {
-    id: '6'.padStart(24, '0'),
-    name: 'Trần Huyền Diệu',
-    username: 'huyendieu',
-    password: 'alphateam',
-    position: { lat: 10.825142767184028, lng: 106.68629320830314 },
-    socials: { fb: '100010123869389' }
   }
 ];
 
@@ -62,7 +63,7 @@ const entities = [
     model: Garden,
     position: user.position,
     socials: user.socials,
-    users: [user.id]
+    users: [index.toString().padStart(24, '0')]
   })),
   {
     id: '201'.padStart(24, '0'),
@@ -92,12 +93,12 @@ module.exports = async () => {
 
   // await User.deleteMany({}).exec();
   const savedUsers = await Promise.all(
-    users.map(user => new Promise((resolve, reject) => {
+    users.map((user, index) => new Promise((resolve, reject) => {
       const userToSave = { ...user };
-      delete userToSave.id;
       delete userToSave.position;
+      const userId = index.toString().padStart(24, '0');
       User.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(user.id),
+        new mongoose.Types.ObjectId(userId),
         { ...userToSave },
         { upsert: true },
         (error, res) => {

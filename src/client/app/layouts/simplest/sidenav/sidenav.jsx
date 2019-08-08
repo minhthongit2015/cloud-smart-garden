@@ -65,7 +65,7 @@ export default class SideNav extends Component {
           )
         }
       >
-        <div className="signin-button">
+        <div className="signin-button text-center">
           <SignIn />
         </div>
         {SideNav.renderHomeNav()}

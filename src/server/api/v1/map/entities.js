@@ -9,6 +9,13 @@ router.get('/list', async (req, res) => {
     const entities = await MapService.list({
       limit, offset, sort: sort ? JSON.parse(sort) : undefined
     });
+    const { user } = req.session;
+    if (user) {
+      entities.filter(entity => entity.users.includes(user._id))
+        .forEach((entity) => {
+          entity.owned = true;
+        });
+    }
     return res.send(new APIResponse().setData({ entities }));
   } catch (error) {
     return ErrorService.defaultAPIErrorHandler(error, res);

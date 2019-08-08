@@ -7,6 +7,7 @@ export const ShoppingCartSrc = '/images/shopping-cart.svg';
 export const PlantPot1Src = '/images/plant.svg';
 export const FarmSrc = '/images/agriculture.svg';
 export const GardenToolsSrc = '/images/trowel.svg';
+export const GardenOwnerSrc = '/images/bonsai.svg';
 
 export const AICloudIcon = props => <img src={AICloudSrc} alt="AI Cloud" draggable={false} {...props} />;
 export const MyGardenIcon = props => <img src={MyGardenSrc} alt="My Garden" draggable={false} {...props} />;
@@ -19,5 +20,6 @@ export default {
   ShoppingCartSrc,
   PlantPot1Src,
   FarmSrc,
-  GardenToolsSrc
+  GardenToolsSrc,
+  GardenOwnerSrc
 };

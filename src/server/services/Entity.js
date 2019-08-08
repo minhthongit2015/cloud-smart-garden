@@ -1,5 +1,6 @@
 
 const { Entity } = require('../models/mongo');
+const ConverterFactory = require('../models/converters/converter-factory');
 
 
 module.exports = class {
@@ -10,9 +11,12 @@ module.exports = class {
       limit: 0, offset: 0, sortBy: [], fields: {}
     }, opts);
 
-    return Entity.find({})
+    const entities = await Entity.find({})
       .sort(opts.sort)
       .skip(opts.offset)
-      .limit(opts.limit);
+      .limit(opts.limit)
+      .exec();
+
+    return ConverterFactory.get('entity').convertCollection(entities);
   }
 };

@@ -13,6 +13,7 @@ export const apiEndpoints = {
   END_POINT,
   user: {
     SIGN_IN: `${USER}/signin`,
+    SIGN_OUT: `${USER}/signout`,
     GET_SESSION: `${USER}/get-session`
   },
   GARDEN,

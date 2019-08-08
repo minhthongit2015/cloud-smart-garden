@@ -18,7 +18,8 @@ router.post('/', async (req, res) => {
     }
 
     req.session.user = user;
-    return req.session.save(() => res.send(new APIResponse().setData({ user })));
+    await new Promise(resolve => req.session.save(resolve));
+    return res.send(new APIResponse().setData({ user }));
   } catch (error) {
     Logger.error(error.message, { stack: error.stack });
     return res.status(400).send(

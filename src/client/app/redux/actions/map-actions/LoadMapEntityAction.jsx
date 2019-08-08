@@ -46,7 +46,7 @@ export function receiveEntities(mapEntities) {
 export function fetchEntities() {
   return (dispatch) => {
     console.log('fetch entities');
-    superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`)
+    superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`).withCredentials()
       .then((res) => {
         const mapEntities = (res.body ? res.body.data.entities || [] : []);
         dispatch(receiveEntities(mapEntities));

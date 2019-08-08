@@ -11,7 +11,7 @@ const store = configureStore();
 render(
   <BrowserRouter>
     <Provider store={store}>
-      <React.Suspense fallback={<div>loading ...</div>}>
+      <React.Suspense fallback={<div />}>
         <App />
       </React.Suspense>
     </Provider>
