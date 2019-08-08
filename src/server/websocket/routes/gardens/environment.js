@@ -1,8 +1,8 @@
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const router = require('../../router')();
 const { Debug } = require('../../../utils/constants');
 
-const debug = DebugLib(Debug.ws.ROUTING);
+const debug = DebugHelper(Debug.ws.ROUTING);
 
 router.post('/', async (req, res) => {
   debug('Post environemt: ', req.sessionID,

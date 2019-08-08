@@ -2,7 +2,7 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const colors = require('colors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -29,7 +29,7 @@ const startUp = require('./utils/_startup');
 const Logger = require('./services/Logger');
 const { Debug } = require('./utils/constants');
 
-const debug = DebugLib(Debug.CLOUD);
+const debug = DebugHelper(Debug.CLOUD);
 
 process.on('unhandledRejection', (reason) => {
   Logger.error(`Unhandled Rejection at: \t ${reason.stack || reason}`);

@@ -1,11 +1,11 @@
 
 const color = require('colors');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const { Debug } = require('../../utils/constants');
 const db = require('./db');
 const testData = require('./test');
 
-const debug = DebugLib(Debug.cloud.DB);
+const debug = DebugHelper(Debug.cloud.DB);
 
 async function setup() {
   await db.setup();

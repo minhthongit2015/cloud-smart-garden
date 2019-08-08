@@ -1,9 +1,9 @@
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const router = require('../../router')();
 const equipsRoute = require('./equips');
 const { Debug } = require('../../../utils/constants');
 
-const debug = DebugLib(Debug.ws.ROUTING);
+const debug = DebugHelper(Debug.ws.ROUTING);
 
 router.use('/equips', equipsRoute);
 

@@ -15,10 +15,9 @@
     "start": "node src/server/server.js",
     "fix-tensorflow-js": "npm install -g --production windows-build-tools admin",
     "test": "node src/test/index.js",
-
-    "build-audit": "webpack --config webpack/webpack.audit.js",
+    "build-audit": "webpack --config webpack/webpack.prod.audit.js",
     "check": "source-map-explorer 'public/*.js'",
-    "audit": "npm run build-audit-watch && npm run check"
+    "audit": "npm run build-audit && npm run check"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

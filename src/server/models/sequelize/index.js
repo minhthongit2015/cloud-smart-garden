@@ -1,11 +1,11 @@
 
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const color = require('colors');
 const { Debug } = require('../../utils/constants');
 const db = require('./db');
 const testData = require('./test');
 
-const debug = DebugLib(Debug.cloud.DB);
+const debug = DebugHelper(Debug.cloud.DB);
 
 db.sequelize.sync({ alter: true })
   .then(() => {

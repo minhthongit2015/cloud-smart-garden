@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const color = require('colors');
 const { Debug } = require('../../utils/constants');
 const dbConfigs = require('../../config/db');
@@ -7,7 +7,7 @@ const User = require('./user');
 const Garden = require('./garden');
 const UserGarden = require('./user-garden');
 
-const debug = DebugLib(Debug.cloud.DB);
+const debug = DebugHelper(Debug.cloud.DB);
 
 const env = process.env.NODE_ENV || 'development';
 const config = dbConfigs[env];

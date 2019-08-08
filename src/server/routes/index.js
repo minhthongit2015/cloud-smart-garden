@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const path = require('path');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const serverConfig = require('../config');
 const { Debug } = require('../utils/constants');
 
-const debug = DebugLib(Debug.ROUTING);
+const debug = DebugHelper(Debug.ROUTING);
 
 router.get('*', async (req, res) => {
   debug('Route access: ', req.sessionID,

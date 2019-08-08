@@ -1,6 +1,6 @@
 const path = require('path');
 const urlParser = require('url');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const pathMatch = require('path-match')({
   sensitive: false,
   strict: false,
@@ -9,8 +9,8 @@ const pathMatch = require('path-match')({
 const Logger = require('../services/Logger');
 const { Debug } = require('../utils/constants');
 
-const debug = DebugLib(Debug.ws.CORE);
-const debugSetupRouting = DebugLib(Debug.ws.SETUP_ROUTING);
+const debug = DebugHelper(Debug.ws.CORE);
+const debugSetupRouting = DebugHelper(Debug.ws.SETUP_ROUTING);
 
 module.exports = class WebsocketManagerCore {
   /**

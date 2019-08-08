@@ -2,11 +2,11 @@
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 const colors = require('colors/safe');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const { Debug } = require('../../utils/constants');
 const dbConfigs = require('../../config/db');
 
-const debug = DebugLib(Debug.cloud.DB);
+const debug = DebugHelper(Debug.cloud.DB);
 const env = process.env.NODE_ENV || 'development';
 const config = dbConfigs[env];
 

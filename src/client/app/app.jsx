@@ -2,6 +2,11 @@ import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+import '../styles/main.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
 import SimplestLayout from './layouts/simplest/simplest';
 import Home from './pages/home/Home';
 import AICloudPage from './pages/ai-cloud/AICloud';

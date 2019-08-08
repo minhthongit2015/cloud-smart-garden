@@ -1,10 +1,10 @@
 
 const colors = require('colors');
-const DebugLib = require('debug');
+const DebugHelper = require('debug');
 const { Debug } = require('../../../utils/constants');
 const router = require('../../router')();
 
-const debug = DebugLib(Debug.ws.ROUTING);
+const debug = DebugHelper(Debug.ws.ROUTING);
 
 router.post('/:userId', async (req, res) => {
   debug(colors.bgYellow(' POST '), '/user/:userId', req.session.user);
