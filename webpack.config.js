@@ -2,6 +2,7 @@ const path = require('path');
 const serverConfig = require('./src/server/config');
 
 const PUBLIC_DIR = path.resolve(__dirname, `${serverConfig.publicFolder}`);
+const CLIENT_PUBLIC_DIR = path.resolve(__dirname, 'src/client/pubic');
 const BUILD_DIR = path.join(PUBLIC_DIR, '');
 
 const CLIENT_DIR = path.resolve(__dirname, 'src/client');
@@ -12,6 +13,7 @@ const ENTRY_FILENAME = 'client-bundle.js';
 
 module.exports = {
   PUBLIC_DIR,
+  CLIENT_PUBLIC_DIR,
   BUILD_DIR,
   CLIENT_DIR,
   CLIENT_ENTRY,

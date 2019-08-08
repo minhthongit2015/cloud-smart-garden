@@ -1,7 +1,9 @@
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { BUILD_DIR, STYLES_DIR } = require('./webpack.config');
+const {
+  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR
+} = require('./webpack.config');
 
 const webpackConfig = {
   target: 'web',
@@ -65,7 +67,9 @@ const webpackConfig = {
   plugins: [
     new webpack.DefinePlugin({}),
     new CleanWebpackPlugin(),
-    new CopyPlugin([])
+    new CopyPlugin([
+      { from: CLIENT_PUBLIC_DIR, to: PUBLIC_DIR }
+    ])
   ]
 };
 
