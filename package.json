@@ -14,7 +14,7 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "start": "node src/server/server.js",
     "fix-tensorflow-js": "npm install -g --production windows-build-tools admin",
-    "test": "node src/test/index.js",
+    "test": "node src/test/test.js",
     "build-audit": "webpack --config webpack/webpack.prod.audit.js",
     "check": "source-map-explorer 'public/*.js'",
     "audit": "npm run build-audit && npm run check"

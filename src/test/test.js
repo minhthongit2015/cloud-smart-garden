@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const debug = require('debug')('');
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms < 0 ? 999999999 : ms));
-const p = name => `src/test/capture/${name}`;
+const p = name => `src/test/reports/${name}`;
 
 (async () => {
   const browser = await puppeteer.launch({

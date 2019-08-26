@@ -38,7 +38,7 @@ const Config = require('./config');
 class Server {
   static start() {
     Server.setupErrorTrap();
-    Server.create();
+    Server.createServer();
     Server.setupDatabase();
     Server.setupWebsocket();
     Server.setupMiddleware();
@@ -46,7 +46,7 @@ class Server {
     Server.listen();
   }
 
-  static create() {
+  static createServer() {
     this.app = express(); // Create Express Server
     this.server = http.createServer(this.app); // Create HTTP Server
   }
