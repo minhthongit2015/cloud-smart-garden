@@ -3,8 +3,8 @@ const Session = require('express-session');
 const MongoStore = require('connect-mongo')(Session);
 const mongoose = require('mongoose');
 
-const ConnectSessionSequelize = require('connect-session-sequelize');
-const sequelizeDB = require('../models/sequelize');
+// const ConnectSessionSequelize = require('connect-session-sequelize');
+// const sequelizeDB = require('../models/sequelize');
 
 const SessionService = require('../services/Session');
 
@@ -14,8 +14,8 @@ function expressSession(store = 'mongo' || 'sequelize') {
   if (store === 'mongo') {
     sessionStore = new MongoStore({ mongooseConnection: mongoose.connection });
   } else if (store === 'sequelize') {
-    const SequelizeStore = ConnectSessionSequelize(Session.Store);
-    sessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
+    // const SequelizeStore = ConnectSessionSequelize(Session.Store);
+    // sessionStore = new SequelizeStore({ db: sequelizeDB.sequelize });
   }
 
   const session = Session({

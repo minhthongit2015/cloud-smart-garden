@@ -12,7 +12,7 @@ const ExpressSocketIOSession = require('express-socket.io-session');
 const SocketIO = require('socket.io');
 
 const mongoDB = require('./models/mongo');
-const sequelizeDB = require('./models/sequelize');
+// const sequelizeDB = require('./models/sequelize');
 
 const cors = require('./middleware/cors');
 const noCache = require('./middleware/no-cache');
@@ -53,7 +53,7 @@ class Server {
 
   static setupDatabase() {
     mongoDB.setup();
-    sequelizeDB.setup(false);
+    // sequelizeDB.setup(false);
   }
 
   static setupWebsocket(server) {
