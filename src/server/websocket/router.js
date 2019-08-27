@@ -17,7 +17,8 @@ const reqInterface = {
 };
 
 const resInterface = {
-  send: (data) => { }
+  send: (data) => { },
+  emit: (event, ...args) => { }
 };
 
 const handlerInterface = (req = reqInterface, res = resInterface) => {

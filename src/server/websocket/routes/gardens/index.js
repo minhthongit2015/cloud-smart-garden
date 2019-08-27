@@ -1,11 +1,14 @@
 const DebugHelper = require('debug');
 const router = require('../../router')();
-const equipsRoute = require('./equips');
 const { Debug } = require('../../../utils/constants');
+const equipsRoute = require('./equips');
+const stationsRoute = require('./stations');
+
 
 const debug = DebugHelper(Debug.ws.ROUTING);
 
 router.use('/equips', equipsRoute);
+router.use('/stations', stationsRoute);
 
 router.get('/:gardenId', async (req, res) => {
   debug(req.pathname);

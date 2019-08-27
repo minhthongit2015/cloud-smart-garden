@@ -110,7 +110,9 @@ module.exports = class WebsocketManagerCore {
     const res = {
       send: (response) => {
         if (clientRes) clientRes(response);
-      }
+      },
+      socket: req.socket,
+      emit: req.socket.emit
     };
     do {
       const [match, handleFunc] = handler.value;
