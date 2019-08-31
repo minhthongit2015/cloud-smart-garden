@@ -3,7 +3,7 @@ const path = require('path');
 
 const { createLogger, transports } = winston;
 
-const logDir = path.resolve(__dirname, 'src/server/logs');
+const logDir = path.resolve('src/server/logs');
 
 const Logger = createLogger({
   transports: [
@@ -21,13 +21,14 @@ const Logger = createLogger({
   exitOnError: false
 });
 
-Logger.catch = async function _catch(func) {
+Logger.catch = async function _catch(func, handler) {
   try {
     await func();
   } catch (error) {
     this.error(error.message, {
       stack: error.stack
     });
+    handler(error);
   }
 };
 
