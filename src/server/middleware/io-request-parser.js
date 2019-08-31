@@ -1,4 +1,6 @@
-
+/**
+ * This middle ware is base on https://github.com/hden/socketio-wildcard
+ */
 
 const BuiltInEmitter = require('events').EventEmitter;
 
@@ -10,13 +12,26 @@ function onAnyEvent(packet) {
   if (packet.id != null) {
     args.push(this.ack(packet.id));
   }
-  const url = new URL(`http://localhost/${args[0]}`);
-  const searchParams = {};
-  url.searchParams.forEach((value, name) => { searchParams[name] = value; });
+
+  const supportedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+  const method = supportedMethods.find(
+    supportedMethod => args[0].toUpperCase().startsWith(supportedMethod)
+  );
+  let pathname = '';
+  if (method) {
+    pathname = args[0].slice(method.length + 1);
+  } else {
+    args[2]('Method not supported');
+    this.disconnect();
+  }
+  // const clientAddress = this.conn.remoteAddress.split(':').slice(-1);
+  // const clientPort = this.conn.request.client.remotePort;
+  // const url = `http://${clientAddress}:${clientPort}/${pathname}`;
+  const url = `/${pathname}`;
   args[1] = Object.assign({},
     {
-      // params: {},
-      query: searchParams,
+      url,
+      method,
       body: {
         ...args[1]
       }

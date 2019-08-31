@@ -17,4 +17,8 @@ module.exports = class SessionService {
     const getFullSessionId = `${sessionId}.${secretPart}`;
     return `s:${getFullSessionId}`;
   }
+
+  static deleteAllSession() {
+
+  }
 };

@@ -21,4 +21,14 @@ const Logger = createLogger({
   exitOnError: false
 });
 
+Logger.catch = async function _catch(func) {
+  try {
+    await func();
+  } catch (error) {
+    this.error(error.message, {
+      stack: error.stack
+    });
+  }
+};
+
 module.exports = Logger;

@@ -13,7 +13,7 @@ export default class Connection {
     });
     this.socket.on('connect', async () => {
       console.log('connected');
-      const rs = await this.get('/gardens/equips?type=luxurious', { msg: 'hello', secret: 123 });
+      const rs = await this.get('/api/v1/gardens/equips?type=luxurious', { msg: 'hello', secret: 123 });
       console.log(rs);
     });
     this.socket.on('voice-call', () => {

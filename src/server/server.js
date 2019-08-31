@@ -2,9 +2,9 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
-const DebugHelper = require('debug');
 const colors = require('colors');
 const bodyParser = require('body-parser');
+const expressQueryParser = require('express-query-parser');
 const fileUpload = require('express-fileupload');
 const expressEasyZip = require('express-easy-zip');
 const CookieParser = require('cookie-parser');
@@ -24,31 +24,30 @@ const routes = require('./routes');
 const api = require('./api');
 
 const WebsocketManager = require('./websocket/ws-manager');
-const wsRoutes = require('./websocket/routes');
 
 const SystemInfo = require('./utils/system-info');
 const startUp = require('./utils/_startup');
-const Logger = require('./services/Logger');
-const { Debug } = require('./utils/constants');
 
-const debug = DebugHelper(Debug.CLOUD);
+const Debugger = require('./services/Debugger');
+const Logger = require('./services/Logger');
 
 const Config = require('./config');
 
 class Server {
   static start() {
     Server.setupErrorTrap();
-    Server.createServer();
     Server.setupDatabase();
+    Server.createServer();
     Server.setupWebsocket();
     Server.setupMiddleware();
     Server.setupRouting();
     Server.listen();
+    // Server.keepAlive(); // Not now
   }
 
   static createServer() {
-    this.app = express(); // Create Express Server
-    this.server = http.createServer(this.app); // Create HTTP Server
+    this.app = express();
+    this.server = http.createServer(this.app);
   }
 
   static setupDatabase() {
@@ -57,7 +56,6 @@ class Server {
   }
 
   static setupWebsocket(server) {
-    // Create Websocket Service
     this.io = SocketIO(server || this.server);
     WebsocketManager.setup(this.io);
   }
@@ -67,6 +65,9 @@ class Server {
     this._staticFileMiddleware();
     this._cookieParserMiddleware();
     this._expressSessionMiddleware();
+    this._queryParserMiddleware();
+    this._bodyParserMiddleware();
+    this._socketIOMiddleware();
   }
 
   static _corsMiddleware() {
@@ -88,8 +89,17 @@ class Server {
   }
 
   static _expressSessionMiddleware() {
-    this.session = ExpressSession('mongo');
-    this.app.use(this.session);
+    this.expressSession = ExpressSession('mongo');
+    this.app.use(this.expressSession);
+  }
+
+  static _queryParserMiddleware() {
+    this.app.use(
+      expressQueryParser({
+        parseNull: true,
+        parseBoolean: true
+      })
+    );
   }
 
   static _bodyParserMiddleware() {
@@ -99,28 +109,41 @@ class Server {
     this.app.use(expressEasyZip());
   }
 
-  static setupRouting() {
-    this.app.use('/api', api);
-    this.app.use('/', routes);
-
-    WebsocketManager.use(wsRoutes);
+  static _socketIOMiddleware() {
     this.io.use(SocketIORequestParser);
     this.io.use(SocketIOQuerySession);
-    this.io.use(ExpressSocketIOSession(this.session, {
+    this.io.use(ExpressSocketIOSession(this.expressSession, {
       autoSave: true
     }));
+    this.io.use((socket, next) => {
+      socket.handshake.session.idz = socket.handshake.session.id; // force save session to database
+      next();
+    });
+  }
+
+  static setupRouting() {
+    this._setupAppRouting();
+    this._setupWebsocketRouting();
+  }
+
+  static _setupAppRouting() {
+    this.app.use('/api', api);
+    this.app.use('/', routes);
+  }
+
+  static _setupWebsocketRouting() {
+    WebsocketManager.use('/api', api);
   }
 
   static listen() {
     this.server.listen(Config.port);
     this.server.on('listening', () => {
-      // eslint-disable-next-line no-console
-      console.log(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
+      Debugger.log(colors.rainbow(`\r\n\r\n${new Array(30).fill(' -').join('')}\r\n`));
       const address = this.server.address();
       if (typeof address === 'string') {
-        debug(`Server running at pipe: ${address}`);
+        Debugger.server(`Server running at pipe: ${address}`);
       } else {
-        SystemInfo.showServerPorts(address.port, debug);
+        SystemInfo.showServerPorts(address.port, Debugger.server);
       }
       this.runStartUpTasks();
     });
@@ -139,10 +162,12 @@ class Server {
 
   static setupErrorTrap() {
     process.on('unhandledRejection', (reason) => {
-      Logger.error(`Unhandled Rejection at: \t ${reason.stack || reason}`);
+      Logger.error(`Unhandled Rejection: \t ${reason.message}`, {
+        stack: reason.stack
+      });
     });
     process.on('uncaughtException', (exeption) => {
-      Logger.error(`Uncaught Exception at: \t ${exeption}`);
+      Logger.error(`Uncaught Exception: \t ${exeption}`);
     });
   }
 }

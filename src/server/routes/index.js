@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const path = require('path');
-const DebugHelper = require('debug');
+const Debugger = require('../services/Debugger');
+const Logger = require('../services/Logger');
 const serverConfig = require('../config');
-const { Debug } = require('../utils/constants');
 
-const debug = DebugHelper(Debug.ROUTING);
-
-router.get('*', async (req, res) => {
-  debug('Route access: ', req.sessionID,
-    (req.session && req.session.user) ? req.session.user.username || req.session.user : '');
-  const indexPath = path.resolve(serverConfig.publicFolder, 'index.html');
-  res.sendFile(indexPath);
+router.get('*', (req, res) => {
+  Logger.catch(() => {
+    Debugger.httpRouting('Route access: ', req.sessionID,
+      (req.session && req.session.user) ? req.session.user.username || req.session.user : '');
+    const indexPath = path.resolve(serverConfig.publicFolder, 'index.html');
+    res.sendFile(indexPath);
+  });
 });
 
 module.exports = router;
