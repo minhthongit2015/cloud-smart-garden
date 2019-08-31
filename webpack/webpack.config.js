@@ -10,6 +10,8 @@ const CLIENT_ENTRY = path.join(CLIENT_DIR, 'client.jsx');
 const STYLES_DIR = path.join(CLIENT_DIR, 'styles');
 
 const ENTRY_FILENAME = 'client-bundle.js';
+const CHUNK_FILENAME = '[name].chunk.js';
+const PUBLIC_PATH = '/';
 
 module.exports = {
   PUBLIC_DIR,
@@ -18,5 +20,7 @@ module.exports = {
   CLIENT_DIR,
   CLIENT_ENTRY,
   STYLES_DIR,
-  ENTRY_FILENAME
+  ENTRY_FILENAME,
+  CHUNK_FILENAME,
+  PUBLIC_PATH
 };

@@ -39,7 +39,7 @@ class App extends Component {
       <React.Fragment>
         <Switch>
           <Route exact path={RouteConstants.homePath} component={Home} />
-          <Route exact path={RouteConstants.aiCloudPath} component={AICloudPage} />
+          <Route path={RouteConstants.aiCloudPath} component={AICloudPage} />
           <Route exact path={RouteConstants.userGardensPath} component={UserGardenPage} />
           <Route exact path={RouteConstants.userNetworkPath} component={DummyUserNetWorkPage} />
           <Redirect to={RouteConstants.homeLink} />

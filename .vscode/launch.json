@@ -10,7 +10,7 @@
       "name": "No Webpack",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/server/server.js",
-      "args": ["--exclude", "${workspaceFolder}/src/client", "-w", "${workspaceFolder}/src"],
+      "args": ["--exclude", "${workspaceFolder}/src/client", "-w", "${workspaceFolder}/src/server"],
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

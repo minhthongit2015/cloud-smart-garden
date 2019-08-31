@@ -14,7 +14,7 @@ module.exports = merge(common, {
   devServer: {
     index: 'public/index.html',
     contentBase: './public',
-    // publicPath: '/',
+    publicPath: '/',
     compress: true,
     port: 8080,
     liveReload: false,
@@ -23,6 +23,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     // lazy: true,
     filename: ENTRY_FILENAME,
-    writeToDisk: true
+    writeToDisk: false
   }
 });

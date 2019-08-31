@@ -26,19 +26,22 @@ function getMarkerByType(type) {
 
 export function receiveEntities(mapEntities) {
   console.log('receive entities');
+  try {
+    mapEntities.forEach((entity) => {
+      entity.marker = getMarkerByType(entity.type);
+      if (entity.type === 'Garden') {
+        entity.picture = `https://graph.facebook.com/${entity.socials.fb}/picture?type=square&width=200&height=200`;
+        // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
+      }
+    });
 
-  mapEntities.forEach((entity) => {
-    entity.marker = getMarkerByType(entity.type);
-    if (entity.type === 'Garden') {
-      entity.picture = `https://graph.facebook.com/${entity.socials.fb}/picture?type=square&width=200&height=200`;
-      // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
-    }
-  });
+    const places = mapEntities.map(mapEntity => mapEntity.position);
+    if (places.length > 0) places.push(places[0]);
 
-  const places = mapEntities.map(mapEntity => mapEntity.position);
-  if (places.length > 0) places.push(places[0]);
-
-  mapEntities.places = places;
+    mapEntities.places = places;
+  } catch (error) {
+    console.log(error);
+  }
 
   return { type: ActionTypes.RECEIVE_ENTITIES, mapEntities };
 }

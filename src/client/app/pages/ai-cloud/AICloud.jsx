@@ -1,111 +1,64 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import BasePage from '../_base/BasePage';
 import './AICloud.scss';
 
-import Config from '../../config';
-import LiveConnect from '../../services/WebSocket';
-// import CustomChart from '../../custom-chart/custom-chart';
-// import { WS_EVENTS } from '../../../../shared/constants';
+import SidebarLayout from '../../layouts/sidebar-layout/SidebarLayout';
+import RouteConstants from '../../utils/RouteConstants';
+import TabAICloud from './tab-ai-cloud/TabAICloud';
+import TabProjects from './tab-projects/TabProjects';
+import TabExperiments from './tab-experiments/TabExperiments';
+import TabDatasets from './tab-dataset/TabDataset';
+import TabTrainedModels from './tab-trained-models/TabTrainedModels';
 
 export default class extends BasePage {
   constructor(props) {
     super(props);
     this.title = 'AI Cloud';
-
-    this.dataEndpoint = `${Config.currentConfig.apiEndpoint}/AI-Cloud/data/1/A1-01`; // Get data from gardenId = 4
-    this.state = {
-      trainLog: ''
+    this.brand = {
+      name: 'AI Cloud',
+      link: RouteConstants.aiCloudLink
     };
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    LiveConnect.socket.on('train-progress', (msg) => {
-      this.setState(state => ({
-        trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
-      }));
-    });
-  }
-
-  componentWillUnmount() {
-    LiveConnect.socket.removeAllListeners();
-  }
-
-  handleChange(e) {
-    const { name } = e.currentTarget;
-    const { value } = e.currentTarget;
-    this.setState({
-      [name]: value
-    });
-  }
-
-  onStartTrain() {
-    const rs = fetch('/apis/AI-ML/train', {
-      method: 'get'
-    });
-    return rs;
+    this.tabs = [
+      {
+        name: 'Projects',
+        link: RouteConstants.aiProjectsLink,
+        path: RouteConstants.aiProjectsPath,
+        component: TabProjects
+      },
+      {
+        name: 'Experiments',
+        link: RouteConstants.aiExperimentsLink,
+        path: RouteConstants.aiExperimentsPath,
+        component: TabExperiments
+      },
+      {
+        name: 'Trained Models',
+        link: RouteConstants.aiModelsLink,
+        path: RouteConstants.aiModelsPath,
+        component: TabTrainedModels
+      },
+      {
+        name: 'Dataset',
+        link: RouteConstants.aiDatasetsLink,
+        path: RouteConstants.aiDatasetsPath,
+        component: TabDatasets
+      }
+    ];
   }
 
   render() {
     return (
-      <React.Fragment>
-        <section className="p-3">
-          <div className="section-title">
-            <h3>Training Model</h3>
-          </div>
-          <div className="section-content px-3">
-            <div className="row train-options">
-              <div className="d-flex px-2">
-                <div className="md-form">
-                  <div htmlFor="optimizer" className="mb-2 d-block">Optimizer</div>
-                  <select className="browser-default custom-select" id="optimizer">
-                    <option value="sgd" defaultValue>SGD</option>
-                    <option value="adam">Adam</option>
-                    <option value="momentum" disabled>Momentum</option>
-                    <option value="Adagrad" disabled>Adagrad</option>
-                    <option value="Adadelta" disabled>Adadelta</option>
-                  </select>
-                </div>
-              </div>
-              <div className="d-flex px-2">
-                <div className="md-form">
-                  <div htmlFor="loss-function" className="mb-2 d-block">Loss Function</div>
-                  <select className="browser-default custom-select" id="loss-function">
-                    <option value="categoricalCrossentropy" defaultValue>Categorical Crossentropy</option>
-                    <option value="2" disabled>Mean Squared Error</option>
-                    <option value="2" disabled>logLoss</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button type="button" className="btn btn-primary btn-md" onClick={this.onStartTrain.bind(this)}>Start Train</button>
-            </div>
-            <textarea style={{ width: '100%', height: '300px' }} value={this.state.trainLog} onChange={this.handleChange.bind(this)} name="trainLog" />
-            {/* <CustomChart dataEndpoint={this.dataEndpoint} title="Temperature/Humidity" /> */}
-          </div>
-        </section>
-
-        {/* <section>
-          <div className="section-title">
-            <h3>Nhiệt độ & độ ẩm</h3>
-          </div>
-        </section>
-
-        <section>
-          <div className="section-title">
-            <h3>Ánh sáng</h3>
-          </div>
-        </section>
-
-        <section>
-          <div className="section-title">
-            <h3>Dinh dưỡng</h3>
-          </div>
-        </section> */}
-      </React.Fragment>
+      <SidebarLayout navItems={this.tabs} brand={this.brand}>
+        <Switch>
+          {this.tabs.map(tab => (
+            <Route key={tab.name} exact path={tab.path} component={tab.component} />
+          ))}
+          <Route path="/" component={TabAICloud} />
+        </Switch>
+      </SidebarLayout>
     );
   }
 }

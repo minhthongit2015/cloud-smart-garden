@@ -12,7 +12,7 @@ import CanvasJSReact from '../../../../dist/lib/canvasjs-2.3.1/canvasjs.react';
 import FileHelpers from '../../helpers/file';
 
 
-const {CanvasJSChart} = CanvasJSReact;
+const { CanvasJSChart } = CanvasJSReact;
 const { download } = FileHelpers;
 
 export default class extends Component {
@@ -44,13 +44,13 @@ export default class extends Component {
     }
     this.showSpiner();
     this.fetchPromise = fetch(
-      `${this.props.dataEndpoint}/?viewMode=${viewMode ||
-        this.state.viewMode}&time=${time || this.state.time}`,
+      `${this.props.dataEndpoint}/?viewMode=${viewMode
+        || this.state.viewMode}&time=${time || this.state.time}`,
       {
         signal: this.fetchCtr.signal
       }
     )
-      .then(response => {
+      .then((response) => {
         delete this.fetchPromise;
         this.hideSpiner();
         return response.json();
@@ -59,7 +59,7 @@ export default class extends Component {
         this.hideSpiner();
         delete this.fetchPromise;
       })
-      .then(data => {
+      .then((data) => {
         if (!data) return;
         if (data.length > 0 && data[0].records) {
           // const records = data[0].records;
@@ -111,10 +111,8 @@ export default class extends Component {
       `${this.props.dataEndpoint}/export/${this.device}?viewMode=${this.state
         .viewMode || ''}&time=${this.state.time || ''}`
     )
-      .then(response => {
-        return response.text();
-      })
-      .then(data => {
+      .then((response) => response.text())
+      .then((data) => {
         download(data, `${this.device || 'all'}.csv`, 'text/csv');
       });
   }
@@ -193,10 +191,10 @@ export default class extends Component {
         verticalAlign: 'top',
         horizontalAlign: 'center',
         dockInsidePlotArea: true,
-        itemclick: e => {
+        itemclick: (e) => {
           if (
-            typeof e.dataSeries.visible === 'undefined' ||
-            e.dataSeries.visible
+            typeof e.dataSeries.visible === 'undefined'
+            || e.dataSeries.visible
           ) {
             e.dataSeries.visible = false;
           } else {
@@ -279,7 +277,7 @@ export default class extends Component {
         </div>
 
         <div className="row" style={{ position: 'relative' }}>
-          <CanvasJSChart options={options} onRef={ref => {this.chart = ref;}} />
+          <CanvasJSChart options={options} onRef={(ref) => { this.chart = ref; }} />
           <div
             id="chart-spiner"
             style={{

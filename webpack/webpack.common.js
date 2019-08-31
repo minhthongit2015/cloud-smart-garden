@@ -1,15 +1,17 @@
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const {
-  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME
+  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME, CHUNK_FILENAME, PUBLIC_PATH
 } = require('./webpack.config');
 
 const webpackConfig = {
   target: 'web',
   output: {
     filename: ENTRY_FILENAME,
-    path: BUILD_DIR
+    chunkFilename: CHUNK_FILENAME,
+    path: BUILD_DIR,
+    publicPath: PUBLIC_PATH
   },
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.js', '.json', '.jsx']
@@ -61,7 +63,7 @@ const webpackConfig = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({}),
     new CopyPlugin([
       { from: CLIENT_PUBLIC_DIR, to: PUBLIC_DIR }

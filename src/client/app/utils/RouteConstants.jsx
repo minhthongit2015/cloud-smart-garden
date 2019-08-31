@@ -4,6 +4,14 @@ const homeLink = '/';
 
 const aiCloudPath = '/ai-cloud';
 const aiCloudLink = '/ai-cloud';
+const aiProjectsPath = `${aiCloudPath}/projects`;
+const aiProjectsLink = `${aiCloudLink}/projects`;
+const aiExperimentsPath = `${aiCloudPath}/experiments`;
+const aiExperimentsLink = `${aiCloudPath}/experiments`;
+const aiModelsPath = `${aiCloudPath}/models`;
+const aiModelsLink = `${aiCloudPath}/models`;
+const aiDatasetsPath = `${aiCloudPath}/datasets`;
+const aiDatasetsLink = `${aiCloudPath}/datasets`;
 
 const userGardensPath = '/my-garden';
 const userGardensLink = '/my-garden';
@@ -20,5 +28,13 @@ export default {
   userGardensPath,
   userGardensLink,
   userNetworkPath,
-  userNetworkLink
+  userNetworkLink,
+  aiProjectsPath,
+  aiProjectsLink,
+  aiExperimentsPath,
+  aiExperimentsLink,
+  aiModelsPath,
+  aiModelsLink,
+  aiDatasetsPath,
+  aiDatasetsLink
 };

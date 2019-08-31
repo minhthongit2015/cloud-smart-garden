@@ -17,20 +17,20 @@ export default class HomePage extends BasePage {
     this.title = 'Home';
     this.links = [
       {
-        type: 'nav', url: RouteConstants.aiCloudLink, text: 'AI Cloud', iconSrc: AICloudSrc
+        type: 'nav', link: RouteConstants.aiCloudLink, text: 'AI Cloud', iconSrc: AICloudSrc
       },
       {
-        type: 'nav', url: RouteConstants.userGardensLink, text: 'My Garden', iconSrc: MyGardenSrc
+        type: 'nav', link: RouteConstants.userGardensLink, text: 'My Garden', iconSrc: MyGardenSrc
       },
       {
-        type: 'nav', url: RouteConstants.userNetworkLink, text: 'Smile City', iconSrc: SmileCitySrc
+        type: 'nav', link: RouteConstants.userNetworkLink, text: 'Smile City', iconSrc: SmileCitySrc
       }
     ];
   }
 
   static renderNav(nav) {
     return (
-      <div className="col-4" key={nav.url}>
+      <div className="col-4" key={nav.link}>
         <NavIconLink nav={nav} ratio={1} />
       </div>
     );
