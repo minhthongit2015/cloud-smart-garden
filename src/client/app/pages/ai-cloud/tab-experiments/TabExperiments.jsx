@@ -10,26 +10,25 @@ class TabExperiments extends Component {
 
     };
     return (
-      <React.Fragment>
-        <section>Lựa chọn + Quan sát dataset</section>
-        <section>Phân tích dataset</section>
-        <section>Chọn model, thuật toán...</section>
-        <section>Thử nghiệm -&gt; So sánh kết quả</section>
-        <div>Cho phép Ctrl + Z</div>
-
-        <Section>
-          <SectionHeader>Experiments</SectionHeader>
-          <SectionBody>
-            <BaseChart
-              options={{
-                ...options,
-                ...baseOptions
-              }}
-              data={DemoData}
-            />
-          </SectionBody>
-        </Section>
-      </React.Fragment>
+      <Section>
+        <SectionHeader>Experiments</SectionHeader>
+        <SectionBody>
+          <ul>
+            <li>Lựa chọn + Quan sát dataset</li>
+            <li>Phân tích dataset</li>
+            <li>Chọn model, thuật toán...</li>
+            <li>Thử nghiệm -&gt; So sánh kết quả</li>
+            <li>Cho phép Ctrl + Z</li>
+          </ul>
+          <BaseChart
+            options={{
+              ...options,
+              ...baseOptions
+            }}
+            data={DemoData}
+          />
+        </SectionBody>
+      </Section>
     );
   }
 }

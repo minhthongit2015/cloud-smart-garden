@@ -1,5 +1,8 @@
 
 const mongoose = require('mongoose');
+
+const { ObjectId } = mongoose.Types;
+
 const {
   User, Garden, Farm, FoodShop, ToolShop, Entity
 } = require('./db');
@@ -86,14 +89,15 @@ const entities = [
 ];
 
 module.exports = async () => {
+  // await User.collection.drop();
   // await User.deleteMany({}).exec();
   const savedUsers = await Promise.all(
     users.map((user, index) => new Promise((resolve, reject) => {
       const userToSave = { ...user };
       delete userToSave.position;
-      const userId = index.toString().padStart(24, '0');
+      const userId = new ObjectId(index.toString().padStart(24, '0'));
       User.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(userId),
+        userId,
         { ...userToSave },
         { upsert: true },
         (error, res) => {
@@ -103,17 +107,25 @@ module.exports = async () => {
       );
     }))
   );
+  // const savedUsers = await Promise.all(
+  //   users.map((user, index) => User.findById(new ObjectId(index.toString().padStart(24, '0'))))
+  // );
 
+  const currentEntities = await Promise.all(
+    entities.map(entity => Entity.findById(new ObjectId(entity.id)))
+  );
+  // await Entity.collection.drop();
   // await Entity.deleteMany({}).exec();
-  const savedEntities = await Promise.all(
+  await Promise.all(
     entities.map((entity, index) => new Promise((resolve, reject) => {
       const entityToSave = { ...entity };
-      entityToSave.users = entity.users
-        ? entity.users.map(userId => new mongoose.Types.ObjectId(userId))
-        : [new mongoose.Types.ObjectId((index % users.length).toString().padStart(24, '0'))];
       delete entityToSave.id;
+      delete entityToSave.model;
+      entityToSave.users = entity.users
+        ? entity.users.map(userId => new ObjectId(userId))
+        : [savedUsers[index % users.length]._id];
       entity.model.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(entity.id),
+        new ObjectId(entity.id),
         { ...entityToSave },
         { upsert: true },
         (error, res) => {
@@ -122,6 +134,9 @@ module.exports = async () => {
         }
       );
     }))
+  );
+  const savedEntities = await Promise.all(
+    entities.map(entity => Entity.findById(new ObjectId(entity.id)))
   );
 
   return {
