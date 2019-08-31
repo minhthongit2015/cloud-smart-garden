@@ -10,7 +10,9 @@ const gardensRouter = require('./gardens');
 
 router.use((req, res, next) => {
   if (req.websocket) {
-    Debugger.wsRouting(req.pathname);
+    Debugger.wsRouting(req.path);
+  } else {
+    Debugger.apiRouting(req.path);
   }
   next();
 });

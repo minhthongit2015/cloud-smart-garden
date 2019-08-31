@@ -12,7 +12,7 @@ const EntitySchema = new mongoose.Schema({
     lng: Number
   },
   address: String,
-  Goods: [{ type: Object }],
+  goods: [{ type: Object }],
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   socials: Object
 });

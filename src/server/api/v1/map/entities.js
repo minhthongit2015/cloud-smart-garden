@@ -7,7 +7,7 @@ router.get('/list', async (req, res) => {
   try {
     const { limit, offset, sort } = req.query;
     const entities = await MapService.list({
-      limit, offset, sort: sort ? JSON.parse(sort) : undefined
+      limit, offset, sort
     });
     const { user } = req.session;
     if (user) {

@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 const {
-  User, Garden, Farm, FoodShop, ToolShop
+  User, Garden, Farm, FoodShop, ToolShop, Entity
 } = require('./db');
 
 const users = [
@@ -86,11 +86,6 @@ const entities = [
 ];
 
 module.exports = async () => {
-  // users = users.map(user => new User({
-  //   _id: new mongoose.Types.ObjectId(),
-  //   name: user.name
-  // }));
-
   // await User.deleteMany({}).exec();
   const savedUsers = await Promise.all(
     users.map((user, index) => new Promise((resolve, reject) => {
@@ -115,7 +110,7 @@ module.exports = async () => {
       const entityToSave = { ...entity };
       entityToSave.users = entity.users
         ? entity.users.map(userId => new mongoose.Types.ObjectId(userId))
-        : [savedUsers[index % savedUsers.length]._id];
+        : [new mongoose.Types.ObjectId((index % users.length).toString().padStart(24, '0'))];
       delete entityToSave.id;
       entity.model.findByIdAndUpdate(
         new mongoose.Types.ObjectId(entity.id),
@@ -129,7 +124,6 @@ module.exports = async () => {
     }))
   );
 
-  // entities.map();
   return {
     users: savedUsers,
     entities: savedEntities

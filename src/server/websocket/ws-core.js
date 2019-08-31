@@ -31,7 +31,7 @@ module.exports = class WebsocketManagerCore {
   static setup(wsServer) {
     Debugger.wsSetup('Setup Websocket Core');
     websocketCoreApp.use((req, res, next) => {
-      Object.assign(req, req._parsedUrl);
+      req.path = req._parsedUrl.pathname;
       req.query = queryString.parse(req._parsedUrl.search);
       req.websocket = true;
       next();
@@ -69,16 +69,14 @@ module.exports = class WebsocketManagerCore {
   }
 
   static async _onEvent(client, ...args) {
-    const [originUrl, parsedRequest, clientRes] = args[0].data;
-    const req = this._buildRequest(client, originUrl, parsedRequest);
+    const [originalUrl, parsedRequest, clientRes] = args[0].data;
+    const req = this._buildRequest(client, originalUrl, parsedRequest);
     const res = this._buildResponse(clientRes, req);
     websocketCoreApp(req, res, () => {});
   }
 
-  static _buildRequest(client, originUrl, parsedRequest) {
-    const req = function req() {
-    };
-    Object.assign(req, {
+  static _buildRequest(client, originalUrl, parsedRequest) {
+    return {
       method: parsedRequest.method,
       url: parsedRequest.url,
       body: parsedRequest.body,
@@ -86,17 +84,15 @@ module.exports = class WebsocketManagerCore {
       session: client.handshake.session || {},
       sessionID: client.handshake.sessionID,
       sessionStore: client.handshake.sessionStore
-    });
-    return req;
+    };
   }
 
   static _buildResponse(clientRes, req) {
-    const res = function res() {
-    };
-    Object.assign(res, {
+    const res = {
       req,
       socket: req.socket
-    });
+    };
+    req.res = res;
     const proto = Object.getPrototypeOf(res);
     proto.send = function send(response) {
       if (clientRes) clientRes(response);
@@ -106,6 +102,7 @@ module.exports = class WebsocketManagerCore {
       return this;
     };
     proto.emit = function emit(...args) {
+      if (!this.socket) return this;
       this.socket.emit(args);
       return this;
     };
