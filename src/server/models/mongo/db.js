@@ -18,8 +18,8 @@ class MongoDB {
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true);
     MongoDB._db = mongoose.connection;
-    MongoDB._db.on('error', Debugger.database.bind(Debugger.database, colors.red('[MongoDB]'), 'MongoDB Error:'));
-    MongoDB._db.once('open', Debugger.database.bind(Debugger.database, colors.yellow('[MongoDB]'), 'Connected to MongoDB!'));
+    // MongoDB._db.on('error', Debugger.database.bind(Debugger.database, colors.red('[MongoDB]'), 'MongoDB Error:'));
+    // MongoDB._db.once('open', Debugger.database.bind(Debugger.database, colors.yellow('[MongoDB]'), 'Connected to MongoDB!'));
     await mongoose.connect(config.dbMongoUri, { useNewUrlParser: true });
   }
 }

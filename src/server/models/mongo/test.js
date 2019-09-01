@@ -91,25 +91,22 @@ const entities = [
 module.exports = async () => {
   // await User.collection.drop();
   // await User.deleteMany({}).exec();
-  const savedUsers = await Promise.all(
-    users.map((user, index) => new Promise((resolve, reject) => {
+  await Promise.all(
+    users.map(async (user, index) => {
       const userToSave = { ...user };
       delete userToSave.position;
       const userId = new ObjectId(index.toString().padStart(24, '0'));
-      User.findByIdAndUpdate(
+      const savedUser = await User.findByIdAndUpdate(
         userId,
         { ...userToSave },
-        { upsert: true },
-        (error, res) => {
-          if (error) reject(error);
-          else resolve(res);
-        }
-      );
-    }))
+        { upsert: true }
+      ).exec();
+      return savedUser;
+    })
   );
-  // const savedUsers = await Promise.all(
-  //   users.map((user, index) => User.findById(new ObjectId(index.toString().padStart(24, '0'))))
-  // );
+  const savedUsers = await Promise.all(
+    users.map((user, index) => User.findById(new ObjectId(index.toString().padStart(24, '0'))))
+  );
 
   const currentEntities = await Promise.all(
     entities.map(entity => Entity.findById(new ObjectId(entity.id)))
@@ -117,23 +114,20 @@ module.exports = async () => {
   // await Entity.collection.drop();
   // await Entity.deleteMany({}).exec();
   await Promise.all(
-    entities.map((entity, index) => new Promise((resolve, reject) => {
+    entities.map(async (entity, index) => {
       const entityToSave = { ...entity };
       delete entityToSave.id;
       delete entityToSave.model;
       entityToSave.users = entity.users
         ? entity.users.map(userId => new ObjectId(userId))
         : [savedUsers[index % users.length]._id];
-      entity.model.findByIdAndUpdate(
+      const savedEntity = await entity.model.findByIdAndUpdate(
         new ObjectId(entity.id),
-        { ...entityToSave },
-        { upsert: true },
-        (error, res) => {
-          if (error) reject(error);
-          else resolve(res);
-        }
-      );
-    }))
+        entityToSave,
+        { upsert: true }
+      ).exec();
+      return savedEntity;
+    })
   );
   const savedEntities = await Promise.all(
     entities.map(entity => Entity.findById(new ObjectId(entity.id)))

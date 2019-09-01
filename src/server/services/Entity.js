@@ -16,9 +16,9 @@ module.exports = class {
     }, opts);
 
     const entities = await Entity.find({})
-      // .sort(opts.sort)
-      // .skip(opts.offset)
-      // .limit(opts.limit)
+      .sort(opts.sort)
+      .skip(opts.offset)
+      .limit(opts.limit)
       .exec();
 
     return ConverterFactory.get('entity').convertCollection(entities);

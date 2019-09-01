@@ -93,15 +93,14 @@ module.exports = class WebsocketManagerCore {
       socket: req.socket
     };
     req.res = res;
-    const proto = Object.getPrototypeOf(res);
-    proto.send = function send(response) {
+    res.send = function send(response) {
       if (clientRes) clientRes(response);
       return this;
     };
-    proto.status = function status() {
+    res.status = function status() {
       return this;
     };
-    proto.emit = function emit(...args) {
+    res.emit = function emit(...args) {
       if (!this.socket) return this;
       this.socket.emit(args);
       return this;
