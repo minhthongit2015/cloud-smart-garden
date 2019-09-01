@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import path from 'path';
 import ClientConfig from '../config';
 
-export default class Connection {
+export default class LiveConnect {
   static get on() { return this.socket.on; }
 
   static setup() {
@@ -22,6 +22,7 @@ export default class Connection {
   }
 
   static async ws(eventPath, body) {
+    eventPath = eventPath.replace(/https?.+?(\w|\.|:)+?\//g, '');
     return new Promise((resolve) => {
       this.socket.emit(eventPath, body, res => resolve(res));
     });

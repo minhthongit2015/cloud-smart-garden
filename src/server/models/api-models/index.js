@@ -22,7 +22,7 @@ module.exports = class {
 
   setData(data) {
     if (isNotSet(data)) return this;
-    this.data = Object.assign(this.data || {}, data);
+    this.data = data;
     this.success();
     return this;
   }
@@ -33,7 +33,7 @@ module.exports = class {
       return this.setErrorMessage(error);
     }
     if (typeof error === 'number') {
-      return this.setErrorCode(error)
+      return this.setErrorCode(error);
     }
     this.error = Object.assign(this.error || {}, error);
     this.failed();

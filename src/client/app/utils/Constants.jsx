@@ -5,9 +5,10 @@ const HOST = isLocal ? 'http://localhost:5000' : '';
 const END_POINT = `${HOST}/api/v1`;
 const USER = `${END_POINT}/user`;
 const GARDEN = `${END_POINT}/garden`;
-const AI = `${END_POINT}/ai`;
+const AI = `${END_POINT}/ai-central`;
 const MAP = `${END_POINT}/map`;
 const MAP_ENTITIES = `${MAP}/entities`;
+const DATASET = `${AI}/datasets`;
 
 export const apiEndpoints = {
   END_POINT,
@@ -24,7 +25,9 @@ export const apiEndpoints = {
   AI,
   ai: {
     CHECK_UPDATE: `${AI}/check-update`,
-    DOWNLOAD: `${AI}/download`
+    DOWNLOAD: `${AI}/download`,
+    DATASET,
+    datasetItem: id => `${DATASET}/${id}`
   },
   MAP,
   map: {

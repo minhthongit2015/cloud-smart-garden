@@ -15,6 +15,7 @@ $tab-link-icon-color-active: lighten($tab-link-color-active, 20%) !default;
       position: relative;
       letter-spacing: 1px;
       padding: 5px 0;
+      white-space: nowrap;
   
       &::before {
         position: absolute;

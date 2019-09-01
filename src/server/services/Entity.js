@@ -1,19 +1,12 @@
 
 const { Entity } = require('../models/mongo');
+const ApiHelper = require('../utils/ApiHelper');
 const ConverterFactory = require('../models/converters/converter-factory');
 
 
 module.exports = class {
-  static async list(opts = {
-    limit: 0, offset: 0, sort: [], fields: undefined
-  }) {
-    if (typeof opts.sort === 'string') {
-      opts.sort = JSON.parse(opts.sort);
-    }
-
-    Object.assign({
-      limit: 0, offset: 0, sortBy: [], fields: undefined
-    }, opts);
+  static async list(opts = ApiHelper.listParams) {
+    opts = ApiHelper.parseListParams(opts);
 
     const entities = await Entity.find({})
       .sort(opts.sort)

@@ -1,14 +1,36 @@
 import React, { Component } from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import BaseChart from '../../../components/charts/BaseChart';
-import DemoData from './data';
+import LiveConnect from '../../../services/WebSocket';
+import { apiEndpoints } from '../../../utils/Constants';
 
 class TabExperiments extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataset: null
+    };
+  }
+
+  componentDidMount() {
+    this.subscribeDatasetDataChannel();
+  }
+
+  subscribeDatasetDataChannel() {
+    LiveConnect.get(apiEndpoints.ai.datasetItem(1)).then((res) => {
+      this.setState({
+        dataset: res.data
+      });
+    });
+  }
+
   render() {
     const { options } = this.props;
     const baseOptions = {
 
     };
+    const { dataset } = this.state;
+
     return (
       <Section>
         <SectionHeader>Experiments</SectionHeader>
@@ -25,7 +47,7 @@ class TabExperiments extends Component {
               ...options,
               ...baseOptions
             }}
-            data={DemoData}
+            data={dataset || []}
           />
         </SectionBody>
       </Section>
