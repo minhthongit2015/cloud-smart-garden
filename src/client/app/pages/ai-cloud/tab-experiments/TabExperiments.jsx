@@ -9,14 +9,22 @@ import { Section, SectionHeader, SectionBody } from '../../../layouts/base/secti
 import DatasetChart from '../../../components/charts/DatasetChart';
 import LiveConnect from '../../../services/WebSocket';
 import { apiEndpoints } from '../../../utils/Constants';
+import AlgorithmConstants from './AlgorithmConstants';
 
 class TabExperiments extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataset: null,
-      dataLimit: 1000
+      dataLimit: 1000,
+      algorithm: AlgorithmConstants.algorithm[0],
+      optimizer: AlgorithmConstants.optimizer[0],
+      loss: AlgorithmConstants.loss[0],
+      activation: AlgorithmConstants.activation[0]
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
   }
 
   componentDidMount() {
@@ -54,31 +62,59 @@ class TabExperiments extends Component {
     return lines.filter(line => allowedLines.includes(line.id));
   }
 
+  handleInputChange(event, options) {
+    if (typeof event === 'string') {
+      event = {
+        target: {
+          name: event,
+          value: options
+        }
+      };
+    }
+    const { name } = event.target;
+    const { value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleBuildExperiment(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.buildExperiment();
+  }
+
+  buildExperiment() {
+
+  }
+
   render() {
     const { options } = this.props;
     const baseOptions = {
 
     };
-    const { dataset, dataLimit } = this.state;
+    const {
+      algorithm, optimizer, loss, activation, dataset, dataLimit
+    } = this.state;
 
     return (
       <React.Fragment>
         <Section>
-          <SectionHeader>Design your Experiment</SectionHeader>
+          <SectionHeader>Thiết kế Kinh Nghiệm</SectionHeader>
           <SectionBody>
             <Row>
               <Col size="6">
-                <form>
+                <form onSubmit={this.handleBuildExperiment}>
                   <div className="mt-0">
                     <label htmlFor="algorithm">Algorithm</label>
                     <Select
                       id="algorithm"
+                      name="algorithm"
+                      onChange={option => this.handleInputChange('algorithm', option)}
+                      options={AlgorithmConstants.algorithm}
+                      value={algorithm}
                       components={makeAnimated()}
-                      options={[
-                        { value: 'neural-network', label: 'Neural Network' },
-                        { value: 'linear-regression', label: 'Linear Regression' },
-                        { value: 'polynomial-regression', label: 'Polynomial Regression' }
-                      ]}
                     />
                   </div>
 
@@ -86,13 +122,13 @@ class TabExperiments extends Component {
                     <label htmlFor="optimizer">Optimizer</label>
                     <Select
                       id="optimizer"
-                      components={makeAnimated()}
-                      options={[
-                        { value: 'adam', label: 'Adam' },
-                        { value: 'sgd', label: 'SGD' }
-                      ]}
+                      name="optimizer"
+                      onChange={option => this.handleInputChange('optimizer', option)}
+                      options={AlgorithmConstants.optimizer}
+                      value={optimizer}
                       isMulti
-                      closeMenuOnSelect={false}
+                      closeMenuOnSelect
+                      components={makeAnimated()}
                     />
                   </div>
 
@@ -100,14 +136,13 @@ class TabExperiments extends Component {
                     <label htmlFor="loss">Loss</label>
                     <Select
                       id="loss"
-                      components={makeAnimated()}
-                      options={[
-                        { value: 'sparseCategoricalCrossentropy', label: 'Sparse Categorical Crossentropy' },
-                        { value: '2', label: '2' },
-                        { value: '3', label: '3' }
-                      ]}
+                      name="loss"
+                      onChange={option => this.handleInputChange('loss', option)}
+                      options={AlgorithmConstants.loss}
+                      value={loss}
                       isMulti
-                      closeMenuOnSelect={false}
+                      closeMenuOnSelect
+                      components={makeAnimated()}
                     />
                   </div>
 
@@ -115,19 +150,18 @@ class TabExperiments extends Component {
                     <label htmlFor="activation">Activation</label>
                     <Select
                       id="activation"
-                      components={makeAnimated()}
-                      options={[
-                        { value: 'relu', label: 'Relu' },
-                        { value: '2', label: '2' },
-                        { value: '3', label: '3' }
-                      ]}
+                      name="activation"
+                      onChange={option => this.handleInputChange('activation', option)}
+                      options={AlgorithmConstants.activation}
+                      value={activation}
                       isMulti
-                      closeMenuOnSelect={false}
+                      closeMenuOnSelect
+                      components={makeAnimated()}
                     />
                   </div>
 
                   <div className="mt-3 text-right">
-                    <Button>Test this Experiment</Button>
+                    <Button type="submit">Test this Experiment</Button>
                   </div>
                 </form>
               </Col>
@@ -143,13 +177,25 @@ class TabExperiments extends Component {
             <form>
               <Row>
                 <Col>
-                  <input type="number" min="0" value={dataLimit} placeholder="Kích thước" className="form-control" />
+                  <label htmlFor="data-limit">Kích thước</label>
+                  <input
+                    id="data-limit"
+                    name="data-limit"
+                    onChange={this.handleInputChange}
+                    type="number"
+                    min="0"
+                    value={dataLimit}
+                    placeholder="Kích thước"
+                    className="form-control"
+                  />
                 </Col>
                 <Col>
-                  <input type="date" placeholder="Điểm bắt đầu" className="form-control" />
+                  <label htmlFor="data-limit">Dữ liệu từ</label>
+                  <input id="data-begin" type="date" placeholder="Điểm bắt đầu" className="form-control" />
                 </Col>
                 <Col>
-                  <input type="text" placeholder="" className="form-control" />
+                  <label htmlFor="data-zzz">zzz</label>
+                  <input id="data-zzz" type="text" placeholder="" className="form-control" />
                 </Col>
               </Row>
             </form>

@@ -1,7 +1,4 @@
 /* eslint-disable class-methods-use-this */
-
-
-
 const tf = require('@tensorflow/tfjs-node');
 
 exports.LinearRegression = class LinearRegression {
@@ -24,7 +21,7 @@ exports.LinearRegression = class LinearRegression {
   getSGDOptimizer(learningRate) {
     return tf.train.sgd(learningRate);
   }
-  
+
   // Trả về kết quả theo MSE
   getMSEloss(predictions, labels) {
     const meanSquareError = predictions.sub(labels).square().mean();
@@ -33,9 +30,7 @@ exports.LinearRegression = class LinearRegression {
 
   predict(x) {
     // a*day + b*temp + c*humi + d*light = ppm
-    return tf.tidy(() => {
-      return x.matMul(this.coefficient);
-    });
+    return tf.tidy(() => x.matMul(this.coefficient));
   }
 
   async train(xs, ys, numIterations, learningRate) {
@@ -51,5 +46,4 @@ exports.LinearRegression = class LinearRegression {
       // await tf.nextFrame();
     }
   }
-
 };

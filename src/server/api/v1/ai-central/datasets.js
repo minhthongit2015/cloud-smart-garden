@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models');
-const DatasetService = require('../../../services/dataset');
+const DatasetService = require('../../../services/ai/Dataset');
 
 router.get('/', (req, res) => {
   Logger.catch(() => {

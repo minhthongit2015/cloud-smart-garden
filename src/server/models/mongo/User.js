@@ -1,6 +1,8 @@
 
 const mongoose = require('mongoose');
 
+const { ObjectId } = mongoose.Schema.Types;
+
 const UserSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -10,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   picture: String,
   cover: String,
   description: String,
-  entities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entity' }],
+  entities: [{ type: ObjectId, ref: 'Entity' }],
   age: Number,
   married: Boolean,
   childs: Number,

@@ -31,6 +31,7 @@ const Garden = require('./Garden');
 const Farm = require('./Farm');
 const FoodShop = require('./FoodShop');
 const ToolShop = require('./ToolShop');
+const Experiment = require('./Experiment');
 
 module.exports = {
   db: MongoDB.db,
@@ -41,5 +42,6 @@ module.exports = {
   Garden,
   Farm,
   FoodShop,
-  ToolShop
+  ToolShop,
+  Experiment
 };

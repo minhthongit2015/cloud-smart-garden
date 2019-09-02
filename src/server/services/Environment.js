@@ -1,5 +1,5 @@
-const { Environment } = require('../../models/mongo');
-const ApiHelper = require('../../utils/ApiHelper');
+const { Environment } = require('../models/mongo');
+const ApiHelper = require('../utils/ApiHelper');
 
 module.exports = class {
   static async list(opts = ApiHelper.listParams) {

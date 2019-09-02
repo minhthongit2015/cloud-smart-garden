@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const EnvironmentService = require('../../../../services/dataset/environment');
+const EnvironmentService = require('../../../../services/Environment');
 
 const Debugger = require('../../../../services/Debugger');
 
