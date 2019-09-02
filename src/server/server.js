@@ -162,12 +162,16 @@ class Server {
 
   static setupErrorTrap() {
     process.on('unhandledRejection', (reason) => {
-      Logger.error(`Unhandled Rejection: \t ${reason.message}`, {
-        stack: reason.stack
-      });
+      Logger.error(
+        `${colors.yellow('<!>')} Unhandled Rejection: \t ${colors.red(reason.message)}`,
+        { stack: reason.stack }
+      );
     });
     process.on('uncaughtException', (exeption) => {
-      Logger.error(`Uncaught Exception: \t ${exeption}`);
+      Logger.error(
+        `${colors.yellow('<!>')} Uncaught Exception: \t ${colors.red(exeption)}`,
+        { stack: exeption.stack }
+      );
     });
   }
 }

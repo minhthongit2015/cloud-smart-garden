@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const demoData = require('./data');
 const APIResponse = require('../../../models/api-models');
+const DatasetService = require('../../../services/dataset');
 
 router.get('/', (req, res) => {
   Logger.catch(() => {
@@ -11,9 +11,12 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:datasetId', async (req, res) => {
-  Logger.catch(() => {
-    res.send(new APIResponse().setData(demoData));
+router.get('/:datasetId', (req, res) => {
+  Logger.catch(async () => {
+    // const demoData = require('./data');
+    const { limit, offset, sort } = req.query;
+    const dataset = await DatasetService.list({ limit, offset, sort });
+    res.send(new APIResponse().setData(dataset));
   });
 });
 

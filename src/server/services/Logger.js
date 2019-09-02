@@ -1,5 +1,7 @@
 const winston = require('winston');
 const path = require('path');
+const colors = require('colors');
+const Debugger = require('./Debugger');
 
 const { createLogger, transports } = winston;
 
@@ -25,10 +27,15 @@ Logger.catch = async function _catch(func, handler) {
   try {
     await func();
   } catch (error) {
+    Debugger.server(
+      `${colors.yellow('<!>')} ${colors.blue('Error Catched:')} ${colors.red(colors.red(error.message))}`
+    );
     this.error(error.message, {
       stack: error.stack
     });
-    handler(error);
+    if (typeof handler === 'function') {
+      handler(error);
+    }
   }
 };
 

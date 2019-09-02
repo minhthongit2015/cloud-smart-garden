@@ -1,16 +1,9 @@
 const { Environment } = require('../../models/mongo');
-const apiHelper = require('../../utils/apiHelper');
+const ApiHelper = require('../../utils/ApiHelper');
 
 module.exports = class {
-  static async list({
-    offset = 0,
-    limit = null,
-    condictions = {}
-  }) {
-    return Environment.find(
-      condictions, null,
-      { offset, limit }
-    ).exec();
+  static async list(opts = ApiHelper.listParams) {
+    return ApiHelper.findWithModel(Environment, opts);
   }
 
   static async create(object) {

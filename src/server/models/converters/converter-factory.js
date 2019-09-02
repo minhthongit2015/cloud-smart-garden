@@ -2,6 +2,7 @@
 const Converter = require('./converter');
 const GardenConverter = require('./garden-converter');
 const UserGardenConverter = require('./user-garden-converter');
+const EnvDatasetConverter = require('./env-dataset');
 
 module.exports = class {
   static get(name) {
@@ -10,6 +11,8 @@ module.exports = class {
       return GardenConverter;
     case 'user-garden':
       return UserGardenConverter;
+    case 'env-dataset':
+      return EnvDatasetConverter;
     default:
       return Converter;
     }

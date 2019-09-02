@@ -6,14 +6,7 @@ const ConverterFactory = require('../models/converters/converter-factory');
 
 module.exports = class {
   static async list(opts = ApiHelper.listParams) {
-    opts = ApiHelper.parseListParams(opts);
-
-    const entities = await Entity.find({})
-      .sort(opts.sort)
-      .skip(opts.offset)
-      .limit(opts.limit)
-      .exec();
-
+    const entities = await ApiHelper.findWithModel(Entity, opts);
     return ConverterFactory.get('entity').convertCollection(entities);
   }
 };

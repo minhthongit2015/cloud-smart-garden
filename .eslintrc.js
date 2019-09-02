@@ -15,7 +15,7 @@ module.exports = {
     "sourceType": "module"
   },
   plugins: ["react"],
-  "rules": {
+  rules: {
     "indent": ["error", 2],
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
@@ -36,6 +36,7 @@ module.exports = {
     "no-param-reassign": 0,
     "no-console": 0,
     "no-alert": 0,
-    "no-prompt": 0
+    "no-prompt": 0,
+    "jsx-a11y/label-has-associated-control": 0
   }
 }
