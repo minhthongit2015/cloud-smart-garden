@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const {
   BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME, CHUNK_FILENAME, PUBLIC_PATH
 } = require('./webpack.config');
@@ -67,7 +68,17 @@ const webpackConfig = {
     new webpack.DefinePlugin({}),
     new CopyPlugin([
       { from: CLIENT_PUBLIC_DIR, to: PUBLIC_DIR }
-    ])
+    ]),
+    new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'beyond-garden.com',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        filename: 'service-worker.js',
+        minify: true,
+        navigateFallback: '/index.html',
+        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
+      }
+    )
   ]
 };
 

@@ -8,10 +8,6 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
 import SimplestLayout from './layouts/simplest/simplest';
-// import HomePage from './pages/home/Home';
-// import AICloudPage from './pages/ai-cloud/AICloud';
-import UserGardenPage from './pages/my-garden/MyGarden';
-// import UserNetWorkPage from './pages/smile-city/SmileCity';
 import DummyUserNetWorkPage from './pages/smile-city/DummySmileCity';
 
 import Config from './config/site';
@@ -25,6 +21,7 @@ const loading = <div className="d-flex w-100 h-100 justify-content-center align-
 
 const HomePage = React.lazy(() => import('./pages/home/Home'));
 const AICloudPage = React.lazy(() => import('./pages/ai-cloud/AICloud'));
+const UserGardenPage = React.lazy(() => import('./pages/my-garden/MyGarden'));
 const UserNetWorkPage = React.lazy(() => import('./pages/smile-city/SmileCity'));
 
 class App extends Component {
