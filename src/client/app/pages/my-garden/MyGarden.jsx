@@ -3,9 +3,8 @@ import React from 'react';
 import BasePage from '../_base/BasePage';
 import './MyGarden.scss';
 
-import LiveConnect from '../../services/WebSocket';
+import superws from '../../utils/superws';
 // import CustomChart from '../../custom-chart/custom-chart';
-// import { WS_EVENTS } from '../../../../shared/constants';
 
 export default class extends BasePage {
   constructor(props) {
@@ -20,12 +19,12 @@ export default class extends BasePage {
 
   componentDidMount() {
     super.componentDidMount();
-    LiveConnect.socket.on('environment', (msg) => {
+    superws.on('environment', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
       }));
     });
-    LiveConnect.socket.on('command', (msg) => {
+    superws.on('command', (msg) => {
       this.setState(state => ({
         trainLog: `${state.trainLog}${JSON.stringify(msg)}\r\n`
       }));
@@ -33,7 +32,7 @@ export default class extends BasePage {
   }
 
   componentWillUnmount() {
-    LiveConnect.socket.removeAllListeners();
+    superws.socket.removeAllListeners();
   }
 
   handleChange(e) {

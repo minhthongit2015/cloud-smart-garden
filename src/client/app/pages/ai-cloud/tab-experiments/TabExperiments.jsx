@@ -6,15 +6,17 @@ import {
   Button, Row, Col
 } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
-import DatasetChart from '../../../components/charts/DatasetChart';
-import LiveConnect from '../../../services/WebSocket';
-import { apiEndpoints } from '../../../utils/Constants';
+import DatasetChart from '../../../components/charts/dataset/DatasetChartT3';
 import AlgorithmConstants from './AlgorithmConstants';
+
+import ExperimentService from '../../../services/ai/ExperimentService';
+
 
 class TabExperiments extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chartdata: null,
       dataset: null,
       dataLimit: 1000,
       algorithm: AlgorithmConstants.algorithm[0],
@@ -31,11 +33,14 @@ class TabExperiments extends Component {
     this.subscribeDatasetDataChannel();
   }
 
-  subscribeDatasetDataChannel() {
-    LiveConnect.get(`${apiEndpoints.ai.datasetItem(1)}?limit=100`).then((res) => {
-      this.setState({
-        dataset: TabExperiments.mapDatasetToChartData(res.data)
-      });
+  async subscribeDatasetDataChannel() {
+    const res = await ExperimentService.fetchDataset();
+    if (!res.ok) {
+      return;
+    }
+    this.setState({
+      dataset: res.data,
+      chartdata: TabExperiments.mapDatasetToChartData(res.data)
     });
   }
 
@@ -85,8 +90,9 @@ class TabExperiments extends Component {
     this.buildExperiment();
   }
 
+  // eslint-disable-next-line class-methods-use-this
   buildExperiment() {
-
+    // Call to API
   }
 
   render() {
@@ -95,13 +101,13 @@ class TabExperiments extends Component {
 
     };
     const {
-      algorithm, optimizer, loss, activation, dataset, dataLimit
+      algorithm, optimizer, loss, activation, dataLimit, dataset, chartdata
     } = this.state;
 
     return (
       <React.Fragment>
         <Section>
-          <SectionHeader>Thiết kế Kinh Nghiệm</SectionHeader>
+          <SectionHeader>Design Experiment</SectionHeader>
           <SectionBody>
             <Row>
               <Col size="6">
@@ -204,7 +210,8 @@ class TabExperiments extends Component {
                 ...options,
                 ...baseOptions
               }}
-              data={dataset || []}
+              columns={['temperature', 'humidity']}
+              data={dataset || chartdata}
             />
           </SectionBody>
         </Section>

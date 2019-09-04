@@ -26,6 +26,9 @@ export default class SideNav extends Component {
       },
       {
         type: 'nav', link: RouteConstants.userNetworkLink, text: 'Smile City', iconSrc: SmileCitySrc
+      },
+      {
+        type: 'nav', link: '/top-wanted', text: 'Top Wanted', iconSrc: AICloudSrc
       }
     ];
   }

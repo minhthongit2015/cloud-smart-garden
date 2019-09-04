@@ -4,13 +4,9 @@ import {
   MDBBtn, MDBInput,
   MDBWaves
 } from 'mdbreact';
-import superagent from 'superagent';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchUser, clearUser, saveUser } from '../../redux/actions/user-actions/UserAction';
 import './SignIn.scss';
 
-import { apiEndpoints } from '../../utils/Constants';
+import UserService from '../../services/UserService';
 
 
 class SignIn extends Component {
@@ -22,6 +18,7 @@ class SignIn extends Component {
       isShowLoginModal: false,
       username: 'thongtran',
       password: 'alphateam',
+      user: {},
       cursorPos: {}
     };
     this.open = this.open.bind(this);
@@ -30,8 +27,13 @@ class SignIn extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
 
-    this.props.actions.fetchUser();
+  componentDidMount() {
+    const user = UserService.loadUser();
+    this.setState({
+      user
+    });
   }
 
   handleClick = (e) => {
@@ -69,16 +71,12 @@ class SignIn extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const res = await superagent.post(apiEndpoints.user.SIGN_IN).withCredentials()
-      .send({
-        username: this.state.username,
-        password: this.state.password
-      });
-    if (!res.body.result) {
+    const res = await UserService.signIn(this.state.username, this.state.password);
+    if (!res.ok) {
       return alert('Invalid username or password');
     }
-    if (res.body.data.user) {
-      this.props.actions.saveUser(res.body.data.user);
+    if (res.data.user) {
+      this.props.actions.saveUser(res.data.user);
       return this.close();
     }
     return alert('Invalid username or password');
@@ -91,8 +89,9 @@ class SignIn extends Component {
 
   render() {
     console.log('render "Comps/signin/SignIn.jsx"');
-    const { isShowLoginModal, username, password } = this.state;
-    const { user } = this.props.data;
+    const {
+      isShowLoginModal, username, password, user
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -167,9 +166,4 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = state => ({ data: state });
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ fetchUser, clearUser, saveUser }, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default SignIn;

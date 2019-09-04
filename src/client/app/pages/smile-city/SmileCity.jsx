@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import superagent from 'superagent';
 import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
@@ -11,8 +10,7 @@ import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenTo
 import UserMarker from '../../components/map/user-marker/UserMarker';
 import FarmMarker from '../../components/map/farm-marker/FarmMarker';
 import Polyline from '../../components/map/polyline/Polyline';
-
-import { apiEndpoints } from '../../utils/Constants';
+import MapService from '../../services/MapService';
 
 export default class SmileCity extends BasePage {
   constructor(props) {
@@ -87,15 +85,8 @@ export default class SmileCity extends BasePage {
   }
 
   async loadMapObjects() {
-    const mapEntities = await this.fetchMapObjects();
+    const mapEntities = await MapService.fetchEntities();
 
-    mapEntities.forEach((entity) => {
-      entity.marker = SmileCity.getMarkerByType(entity.type);
-      if (entity.type === 'Garden') {
-        entity.picture = `https://graph.facebook.com/${entity.socials.fb}/picture?type=square&width=200&height=200`;
-        // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
-      }
-    });
     // clearInterval(this.timer);
     // this.timer = setInterval(() => {
     //   mapEntities.forEach((mapEntity) => {
@@ -106,8 +97,7 @@ export default class SmileCity extends BasePage {
     //   });
     // }, 1000);
 
-    const places = mapEntities.map(mapEntity => mapEntity.position);
-    if (places.length > 0) places.push(places[0]);
+    const { places } = mapEntities;
 
     this.setState({
       dirty: true,
@@ -115,12 +105,6 @@ export default class SmileCity extends BasePage {
       places
     });
     // this.forceUpdate();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  fetchMapObjects() {
-    return superagent.get(`${apiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`).withCredentials()
-      .then(res => (res.body ? res.body.data.entities || [] : []));
   }
 
   onMapClicked(mapProps, map, event) {

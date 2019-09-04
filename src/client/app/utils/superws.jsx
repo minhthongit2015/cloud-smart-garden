@@ -1,23 +1,19 @@
 
 import io from 'socket.io-client';
 import path from 'path';
-import ClientConfig from '../config';
+import Config from '../config';
 
 export default class LiveConnect {
   static get on() { return this.socket.on; }
 
+  static get connected() { return this.socket.connected; }
+
   static setup() {
-    // eslint-disable-next-line no-undef
-    this.socket = io(ClientConfig.currentConfig.wsEndpoint, {
+    this.socket = io(Config.currentConfig.wsEndpoint, {
       transports: ['websocket']
     });
     this.socket.on('connect', async () => {
       console.log('connected');
-      const rs = await this.get('/api/v1/gardens/equips?type=luxurious', { msg: 'hello', secret: 123 });
-      console.log(rs);
-    });
-    this.socket.on('voice-call', () => {
-
     });
   }
 

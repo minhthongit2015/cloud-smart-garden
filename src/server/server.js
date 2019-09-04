@@ -61,13 +61,19 @@ class Server {
   }
 
   static setupMiddleware() {
-    this._corsMiddleware();
     this._staticFileMiddleware();
+    this._corsMiddleware();
+    // this._noCacheMiddleware();
     this._cookieParserMiddleware();
     this._expressSessionMiddleware();
     this._queryParserMiddleware();
     this._bodyParserMiddleware();
     this._socketIOMiddleware();
+  }
+
+  static _staticFileMiddleware() {
+    const PUBLIC_FOLDER = path.resolve(process.cwd(), Config.publicFolder);
+    this.app.get('*.*', express.static(PUBLIC_FOLDER));
   }
 
   static _corsMiddleware() {
@@ -76,11 +82,6 @@ class Server {
 
   static _noCacheMiddleware() {
     this.app.use(noCache);
-  }
-
-  static _staticFileMiddleware() {
-    const PUBLIC_FOLDER = path.resolve(process.cwd(), Config.publicFolder);
-    this.app.get('*.*', express.static(PUBLIC_FOLDER));
   }
 
   static _cookieParserMiddleware() {

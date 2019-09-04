@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
-import BaseChart from '../../../components/charts/BaseChart';
+import BaseChart from '../../../components/charts/nivo/BaseChart';
 import DemoData from './data';
 
 export default class TabDataset extends Component {

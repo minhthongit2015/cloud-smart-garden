@@ -55,12 +55,12 @@ module.exports = class {
   }
 
   success() {
-    this.result = true;
+    this.ok = true;
     return this;
   }
 
   failed() {
-    this.result = false;
+    this.ok = false;
     return this;
   }
 };

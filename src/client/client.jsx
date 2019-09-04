@@ -1,20 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import configureStore from './Store';
 
 const App = React.lazy(() => import('./app/app'));
 
-const store = configureStore();
-
 render(
   <BrowserRouter>
-    <Provider store={store}>
-      <React.Suspense fallback={<div />}>
-        <App />
-      </React.Suspense>
-    </Provider>
+    <React.Suspense fallback={
+      <div className="d-flex w-100 h-100 justify-content-center align-items-center">loading...</div>
+    }
+    >
+      <App />
+    </React.Suspense>
   </BrowserRouter>,
   document.getElementById('root')
 );
