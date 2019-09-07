@@ -73,6 +73,18 @@ class TabExperiments extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   buildExperiment() {
+    ExperimentService.subscribeTrainingProgress((progress) => {
+      console.log(progress);
+      this.trainingProgressChartRef.current.chartRef.chart.appendData([
+        {
+          data: [progress.accuracy]
+        }
+      ]);
+    });
+    this.trainingProgressChartRef.current.chartRef.chart.updateSeries([
+      { name: 'Accuracy', data: [] }
+    ]);
+
     const {
       algorithm: { value: algorithm },
       optimizer: { value: optimizer },
@@ -86,10 +98,6 @@ class TabExperiments extends Component {
       loss,
       activation,
       limit: dataLimit
-    });
-
-    ExperimentService.subscribeTrainingProgress((progress) => {
-      console.log(progress);
     });
   }
 

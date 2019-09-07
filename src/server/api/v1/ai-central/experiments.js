@@ -19,6 +19,7 @@ router.get('/:experimentId', (req, res) => {
   }, { req, res });
 });
 
+// eslint-disable-next-line no-unused-vars
 router.post('/', (req, res) => {
   // Create experiment
 });

@@ -25,9 +25,24 @@ export default class TrainingProgressChart extends Component {
           }
         },
         xaxis: {
+          type: 'numeric',
+          tickAmount: 6
+        },
+        yaxis: {
+          tickAmount: 4,
+          max: 1,
+          min: 0,
+          tooltip: {
+            enabled: false
+          },
+          labels: {
+            formatter: val => val.toFixed(2)
+          }
         }
       },
-      series: []
+      series: [
+        { name: 'Accuracy', data: [] }
+      ]
     };
 
     this.chartRef = null;

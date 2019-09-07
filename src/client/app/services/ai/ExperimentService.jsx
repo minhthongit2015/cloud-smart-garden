@@ -18,6 +18,6 @@ export default class ExperimentService {
   }
 
   static subscribeTrainingProgress(callback) {
-    superrequest.ws.on('training-progress', callback);
+    superrequest.ws.on('training', callback);
   }
 }

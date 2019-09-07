@@ -4,7 +4,7 @@ import path from 'path';
 import Config from '../config';
 
 export default class LiveConnect {
-  static get on() { return this.socket.on; }
+  static get on() { return this.socket.on.bind(this.socket); }
 
   static get connected() { return this.socket.connected; }
 
@@ -12,7 +12,7 @@ export default class LiveConnect {
     this.socket = io(Config.currentConfig.wsEndpoint, {
       transports: ['websocket']
     });
-    this.socket.on('connect', async () => {
+    this.socket.on('connect', () => {
       console.log('connected');
     });
   }
