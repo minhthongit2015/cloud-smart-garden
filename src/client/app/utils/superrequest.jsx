@@ -10,6 +10,16 @@ export default class {
 
   static async post(url, body) {
     if (superws.connected) return superws.post(url, body);
-    return superagent.get(url).withCredentials().send(body);
+    return superagent.post(url).withCredentials().send(body);
+  }
+
+  static async put(url, body) {
+    if (superws.connected) return superws.put(url, body);
+    return superagent.put(url).withCredentials().send(body);
+  }
+
+  static async delete(url) {
+    if (superws.connected) return superws.delete(url);
+    return superagent.delete(url).withCredentials().then(res => res.body);
   }
 }

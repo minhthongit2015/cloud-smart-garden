@@ -2,6 +2,7 @@ const winston = require('winston');
 const path = require('path');
 const colors = require('colors');
 const Debugger = require('./Debugger');
+const ApiResponse = require('../models/api-models');
 
 const { createLogger, transports } = winston;
 
@@ -35,6 +36,12 @@ Logger.catch = async function _catch(func, handler) {
     });
     if (typeof handler === 'function') {
       handler(error);
+    }
+    if (typeof handler === 'object') {
+      const { req, res } = handler;
+      if (req && req.api) {
+        res.status(400).send(new ApiResponse().setError(error));
+      }
     }
   }
 };

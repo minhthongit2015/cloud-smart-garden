@@ -10,6 +10,11 @@ module.exports = merge(common, {
     'react-hot-loader/patch',
     CLIENT_ENTRY
   ],
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
   devtool: 'inline-source-map',
   devServer: {
     index: 'public/index.html',

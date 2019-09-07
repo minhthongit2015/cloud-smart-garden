@@ -10,6 +10,7 @@ const GardensRouter = require('./gardens');
 const AICentralRoute = require('./ai-central');
 
 router.use((req, res, next) => {
+  req.api = true;
   if (req.websocket) {
     Debugger.wsRouting(req.path);
   } else {

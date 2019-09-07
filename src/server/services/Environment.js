@@ -10,8 +10,8 @@ module.exports = class {
     return Environment.create(object);
   }
 
-  static update() {
-
+  static update(where, doc) {
+    return Environment.updateOne(where, doc).exec();
   }
 
   static delete() {

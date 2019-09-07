@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BaseChart from '../nivo/BaseChart';
+import BaseChart from '../../charts/nivo/BaseChart';
 
 // const CustomSymbol = ({
 //   size, color, borderWidth, borderColor

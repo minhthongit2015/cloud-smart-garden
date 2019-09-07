@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import * as moment from 'moment';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import {
   Button, Row, Col
 } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
-import DatasetChart from '../../../components/charts/dataset/DatasetChartT3';
+
+import DatasetComponent from '../../../components/dataset/DatasetComponent';
 import AlgorithmConstants from './AlgorithmConstants';
 
 import ExperimentService from '../../../services/ai/ExperimentService';
@@ -16,15 +16,16 @@ class TabExperiments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartdata: null,
       dataset: null,
-      dataLimit: 1000,
+      dataLimit: 144,
       algorithm: AlgorithmConstants.algorithm[0],
       optimizer: AlgorithmConstants.optimizer[0],
       loss: AlgorithmConstants.loss[0],
       activation: AlgorithmConstants.activation[0]
     };
+    this.datasetChartRef = React.createRef();
 
+    this.onSaveDataset = this.onSaveDataset.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
   }
@@ -34,37 +35,15 @@ class TabExperiments extends Component {
   }
 
   async subscribeDatasetDataChannel() {
-    const res = await ExperimentService.fetchDataset();
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const res = await ExperimentService.fetchDataset({ limit: this.state.dataLimit });
     if (!res.ok) {
       return;
     }
+    this.datasetChartRef.current.setData(res.data);
     this.setState({
-      dataset: res.data,
-      chartdata: TabExperiments.mapDatasetToChartData(res.data)
+      dataset: res.data
     });
-  }
-
-  static mapDatasetToChartData(dataset) {
-    function calcCellVal(val) {
-      if (val === true) return 100;
-      if (val === false) return 50;
-      return val;
-    }
-    const { /* meta, */ columns, rows, labels } = dataset;
-    const lines = columns.map(column => ({
-      id: column,
-      data: []
-    }));
-    rows.forEach((row, rowIndex) => {
-      row.forEach((cellValue, columnIndex) => {
-        lines[columnIndex].data.push({
-          y: calcCellVal(cellValue),
-          x: moment(labels[rowIndex]).format('HH:mm')
-        });
-      });
-    });
-    const allowedLines = ['temperature', 'humidity', 'light'];
-    return lines.filter(line => allowedLines.includes(line.id));
   }
 
   handleInputChange(event, options) {
@@ -95,13 +74,14 @@ class TabExperiments extends Component {
     // Call to API
   }
 
-  render() {
-    const { options } = this.props;
-    const baseOptions = {
+  onSaveDataset(dataset) {
+    console.log(this.state.dataset);
+    ExperimentService.updateDataset(dataset);
+  }
 
-    };
+  render() {
     const {
-      algorithm, optimizer, loss, activation, dataLimit, dataset, chartdata
+      algorithm, optimizer, loss, activation, dataLimit, dataset
     } = this.state;
 
     return (
@@ -205,13 +185,10 @@ class TabExperiments extends Component {
                 </Col>
               </Row>
             </form>
-            <DatasetChart
-              options={{
-                ...options,
-                ...baseOptions
-              }}
-              columns={['temperature', 'humidity']}
-              data={dataset || chartdata}
+            <DatasetComponent
+              ref={this.datasetChartRef}
+              dataset={dataset}
+              onSave={this.onSaveDataset}
             />
           </SectionBody>
         </Section>

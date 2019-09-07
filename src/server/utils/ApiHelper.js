@@ -9,7 +9,7 @@ const listParams = {
 
 function parseListParams(opts) {
   if (opts.offset != null) {
-    opts.limit = parseInt(opts.limit, 10) || 0;
+    opts.offset = parseInt(opts.offset, 10) || 0;
   }
   if (opts.limit != null) {
     opts.limit = parseInt(opts.limit, 10) || 0;

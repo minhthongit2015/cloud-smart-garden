@@ -68,9 +68,6 @@ export default class DatasetChart extends Component {
       this.addRow();
     });
     this.chart.data.labels.push();
-    if (this.props.limit) {
-
-    }
   }
 
   addRow(label, data) {

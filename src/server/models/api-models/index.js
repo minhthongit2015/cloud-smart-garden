@@ -7,7 +7,7 @@ const defaultError = {
 };
 
 function isDefaultError(error) {
-  return !error || Object.keys(error).every(key => error[key] === defaultError[key]);
+  return !error || Object.keys(defaultError).every(key => error[key] === defaultError[key]);
 }
 
 
@@ -36,6 +36,8 @@ module.exports = class {
       return this.setErrorCode(error);
     }
     this.error = Object.assign(this.error || {}, error);
+    this.setErrorMessage(error.message);
+    this.setErrorStack(error.stack);
     this.failed();
     return this;
   }
@@ -50,6 +52,13 @@ module.exports = class {
   setErrorCode(code) {
     if (isNotSet(code)) return this;
     this.error = Object.assign(this.error || {}, { code });
+    this.failed();
+    return this;
+  }
+
+  setErrorStack(stack) {
+    if (isNotSet(stack)) return this;
+    this.error = Object.assign(this.error || {}, { stack });
     this.failed();
     return this;
   }
