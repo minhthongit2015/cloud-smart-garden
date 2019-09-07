@@ -9,6 +9,7 @@ const AI = `${END_POINT}/ai-central`;
 const MAP = `${END_POINT}/map`;
 const MAP_ENTITIES = `${MAP}/entities`;
 const DATASET = `${AI}/datasets`;
+const EXPERIMENT = `${AI}/experiments`;
 
 export const apiEndpoints = {
   END_POINT,
@@ -27,7 +28,14 @@ export const apiEndpoints = {
     CHECK_UPDATE: `${AI}/check-update`,
     DOWNLOAD: `${AI}/download`,
     DATASET,
-    datasetItem: id => `${DATASET}/${id}`
+    datasets: {
+      ITEM: id => `${DATASET}/${id}`
+    },
+    EXPERIMENT,
+    experiments: {
+      ITEM: id => `${EXPERIMENT}/${id}`,
+      BUILD: id => `${EXPERIMENT}/${id}/build`
+    }
   },
   MAP,
   map: {

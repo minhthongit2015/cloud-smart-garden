@@ -63,12 +63,6 @@ export default class ActionChart extends Component {
             }
           }
         },
-        grid: {
-          show: true,
-          row: {
-            opacity: 0
-          }
-        },
         markers: {
           size: 2,
           strokeWidth: 1
@@ -81,10 +75,12 @@ export default class ActionChart extends Component {
           width: 0
         },
         tooltip: {
-          intersect: true,
-          shared: false,
+          // intersect: true,
+          // shared: false,
+          custom: () => null,
           x: {
-            format: 'dd/MM HH:mm'
+            format: 'dd/MM HH:mm',
+            show: false
           }
         },
         xaxis: {
@@ -102,7 +98,10 @@ export default class ActionChart extends Component {
         yaxis: {
           tickAmount: 1,
           max: 1,
-          min: 0
+          min: 0,
+          tooltip: {
+            enabled: false
+          }
         }
       },
       series: []

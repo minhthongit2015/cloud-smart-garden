@@ -7,6 +7,7 @@ import {
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 
 import DatasetComponent from '../../../components/dataset/DatasetComponent';
+import TrainingProgressChart from '../../../components/charts/TrainingProgressChart';
 import AlgorithmConstants from './AlgorithmConstants';
 
 import ExperimentService from '../../../services/ai/ExperimentService';
@@ -24,6 +25,7 @@ class TabExperiments extends Component {
       activation: AlgorithmConstants.activation[0]
     };
     this.datasetChartRef = React.createRef();
+    this.trainingProgressChartRef = React.createRef();
 
     this.onSaveDataset = this.onSaveDataset.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -31,10 +33,10 @@ class TabExperiments extends Component {
   }
 
   componentDidMount() {
-    this.subscribeDatasetDataChannel();
+    this.subscribeDatasetChannel();
   }
 
-  async subscribeDatasetDataChannel() {
+  async subscribeDatasetChannel() {
     // eslint-disable-next-line react/no-access-state-in-setstate
     const res = await ExperimentService.fetchDataset({ limit: this.state.dataLimit });
     if (!res.ok) {
@@ -71,7 +73,24 @@ class TabExperiments extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   buildExperiment() {
-    // Call to API
+    const {
+      algorithm: { value: algorithm },
+      optimizer: { value: optimizer },
+      loss: { value: loss },
+      activation: { value: activation },
+      dataLimit
+    } = this.state;
+    ExperimentService.buildExperiment({
+      algorithm,
+      optimizer,
+      loss,
+      activation,
+      limit: dataLimit
+    });
+
+    ExperimentService.subscribeTrainingProgress((progress) => {
+      console.log(progress);
+    });
   }
 
   onSaveDataset(dataset) {
@@ -152,7 +171,11 @@ class TabExperiments extends Component {
                 </form>
               </Col>
 
-              <Col size="6" />
+              <Col size="6">
+                <TrainingProgressChart
+                  ref={this.trainingProgressChartRef}
+                />
+              </Col>
             </Row>
           </SectionBody>
         </Section>

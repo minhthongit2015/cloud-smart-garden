@@ -3,6 +3,10 @@ import superagent from 'superagent';
 import superws from './superws';
 
 export default class {
+  static get ws() { return superws; }
+
+  static get agent() { return superagent; }
+
   static async get(url) {
     if (superws.connected) return superws.get(url);
     return superagent.get(url).withCredentials().then(res => res.body);

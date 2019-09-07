@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     const { limit, offset, sort } = req.query;
     const dataset = await ExperimentService.list({ limit, offset, sort });
     res.send(new ApiResponse().setData(dataset));
-  });
+  }, { req, res });
 });
 
 router.get('/:experimentId', (req, res) => {
@@ -16,7 +16,7 @@ router.get('/:experimentId', (req, res) => {
     const { experimentId } = req.params;
     const dataset = await ExperimentService.get(experimentId);
     res.send(new ApiResponse().setData(dataset));
-  });
+  }, { req, res });
 });
 
 router.post('/', (req, res) => {
@@ -28,7 +28,7 @@ router.post('/:experimentId/build', (req, res) => {
     const { experimentId } = req.params;
     const trainedModel = await ExperimentService.build(experimentId, req.body);
     res.send(new ApiResponse().setData(trainedModel));
-  });
+  }, { req, res });
 });
 
 module.exports = router;

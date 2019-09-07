@@ -1,8 +1,22 @@
 
+const lodash = require('lodash');
 const Converter = require('./converter');
 
 module.exports = class extends Converter {
-  static convert(rawData) {
+  static convert(rawData, options) {
+    const { features } = options;
+    if (features) {
+      const featureEntries = Object.entries(features);
+      const labels = featureEntries.map(featureEntry => featureEntry[1]);
+      const rows = rawData.map(
+        row => featureEntries.map(([featurePath]) => lodash.get(row, featurePath))
+      );
+      return {
+        labels,
+        rows
+      };
+    }
+
     const columns = [];
     const labels = [];
     const rows = rawData.map((row) => {
