@@ -40,4 +40,9 @@ module.exports = class {
   static delete() {
 
   }
+
+  static async save() {
+    // const saveResult = await model.save('localstorage://my-model-1');
+    // const model = await tf.loadLayersModel('localstorage://my-model-1');
+  }
 };

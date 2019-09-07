@@ -4,8 +4,8 @@ const Converter = require('./converter');
 
 module.exports = class extends Converter {
   static convert(rawData, options) {
-    const { features } = options;
-    if (features) {
+    if (options && options.features) {
+      const { features } = options;
       const featureEntries = Object.entries(features);
       const labels = featureEntries.map(featureEntry => featureEntry[1]);
       const rows = rawData.map(
