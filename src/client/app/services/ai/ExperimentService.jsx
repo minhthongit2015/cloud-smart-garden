@@ -4,7 +4,7 @@ import superrequest from '../../utils/superrequest';
 import { apiEndpoints } from '../../utils/Constants';
 
 export default class ExperimentService {
-  static fetchDataset({ limit = 0, offset = 0, order = [] }) {
+  static fetchDataset({ limit = 0, offset = 0, order = 'createdAt' }) {
     const query = queryString.stringify({ limit, offset, order });
     return superrequest.get(`${apiEndpoints.ai.datasets.ITEM(1)}?${query}`);
   }

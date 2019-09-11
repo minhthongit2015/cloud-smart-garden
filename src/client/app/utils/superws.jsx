@@ -3,8 +3,13 @@ import io from 'socket.io-client';
 import path from 'path';
 import Config from '../config';
 
-export default class LiveConnect {
-  static get on() { return this.socket.on.bind(this.socket); }
+export default class SuperWebsocket {
+  static get on() {
+    if (!this._on) {
+      this._on = this.socket.on.bind(this.socket);
+    }
+    return this._on;
+  }
 
   static get connected() { return this.socket.connected; }
 
@@ -17,11 +22,15 @@ export default class LiveConnect {
     });
   }
 
+  static async emit(...args) {
+    return new Promise((resolve) => {
+      this.socket.emit(...args, res => resolve(res));
+    });
+  }
+
   static async ws(eventPath, body) {
     eventPath = eventPath.replace(/https?.+?(\w|\.|:)+?\//g, '');
-    return new Promise((resolve) => {
-      this.socket.emit(eventPath, body, res => resolve(res));
-    });
+    return this.emit(eventPath, body);
   }
 
   static async get(eventPath, body) {

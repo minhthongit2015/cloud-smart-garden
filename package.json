@@ -17,7 +17,8 @@
     "test": "node src/test/test.js",
     "build-audit": "webpack --config webpack/webpack.prod.audit.js",
     "check": "source-map-explorer 'public/*.js'",
-    "audit": "npm run build-audit && npm run check"
+    "audit": "npm run build-audit && npm run check",
+    "size": "du -a /home | sort -n -r | head -n 20"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

@@ -7,6 +7,11 @@ export default class {
 
   static get agent() { return superagent; }
 
+  static async emit(...args) {
+    if (superws.connected) return this.socket.emit(...args);
+    return null;
+  }
+
   static async get(url) {
     if (superws.connected) return superws.get(url);
     return superagent.get(url).withCredentials().then(res => res.body);
