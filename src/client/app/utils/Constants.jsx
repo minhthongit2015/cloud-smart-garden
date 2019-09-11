@@ -4,7 +4,7 @@ const isLocal = window.location.hostname === 'localhost';
 const HOST = isLocal ? 'http://localhost:5000' : '';
 const END_POINT = `${HOST}/api/v1`;
 const USER = `${END_POINT}/user`;
-const GARDEN = `${END_POINT}/garden`;
+const GARDENS = `${END_POINT}/gardens`;
 const AI = `${END_POINT}/ai-central`;
 const MAP = `${END_POINT}/map`;
 const MAP_ENTITIES = `${MAP}/entities`;
@@ -18,10 +18,10 @@ export const apiEndpoints = {
     SIGN_OUT: `${USER}/signout`,
     GET_SESSION: `${USER}/get-session`
   },
-  GARDEN,
-  garden: {
-    ENVIRONMENT: `${GARDEN}/environment`,
-    AUTH: `${GARDEN}/auth`
+  GARDENS,
+  gardens: {
+    ENVIRONMENT: `${GARDENS}/environment`,
+    AUTH: `${GARDENS}/auth`
   },
   AI,
   ai: {
@@ -46,11 +46,6 @@ export const apiEndpoints = {
   }
 };
 
-export const wsEndpoints = {
-
-};
-
 export default {
-  apiEndpoints,
-  wsEndpoints
+  apiEndpoints
 };

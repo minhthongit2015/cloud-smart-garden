@@ -12,6 +12,7 @@ import TabProjects from './tab-projects/TabProjects';
 import TabExperiments from './tab-experiments/TabExperiments';
 import TabDatasets from './tab-dataset/TabDataset';
 import TabTrainedModels from './tab-trained-models/TabTrainedModels';
+import Test from '../../components/test';
 
 export default class extends BasePage {
   constructor(props) {
@@ -58,6 +59,7 @@ export default class extends BasePage {
           ))}
           <Route path="/" component={TabAICloud} />
         </Switch>
+        <Test>hello</Test>
       </SidebarLayout>
     );
   }

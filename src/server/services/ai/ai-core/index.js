@@ -35,11 +35,11 @@ module.exports = class {
       numFeatures,
       numOutput,
       layers: [
-        4, 5, 6, 7, 8, 9, 10
+        2
       ]
     });
     model.compile({
-      optimizer: 'adam',
+      optimizer: 'sgd',
       loss: 'categoricalCrossentropy',
       metrics: ['accuracy']
     });
@@ -62,7 +62,7 @@ module.exports = class {
       }
       const xs = tf.data.generator(dataz);
       const ys = tf.data.generator(labelsz);
-      const trainingSet = tf.data.zip({ xs, ys }).shuffle(100).batch(12);
+      const trainingSet = tf.data.zip({ xs, ys }).shuffle(100).batch(30);
 
       // Train
       const info = await model.fitDataset(trainingSet, {

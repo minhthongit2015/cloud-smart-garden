@@ -22,7 +22,7 @@ function onAnyEvent(packet) {
     pathname = args[0].slice(method.length + 1);
   } else {
     args[2]('Method not supported');
-    this.disconnect();
+    return null;
   }
   // const clientAddress = this.conn.remoteAddress.split(':').slice(-1);
   // const clientPort = this.conn.request.client.remotePort;
