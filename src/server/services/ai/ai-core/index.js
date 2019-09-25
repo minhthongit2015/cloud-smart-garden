@@ -49,7 +49,7 @@ module.exports = class {
     // const ys = tf.data.array(dataset.ys).batch(24);
     // const trainingSet = tf.data.zip({ xs, ys });
 
-    return tf.tidy(async () => {
+    tf.tidy(async () => {
       function* dataz() {
         for (let i = 0; i < dataset.xs.length; i++) {
           yield tf.tensor(dataset.xs[i], [1, numFeatures]);
@@ -73,9 +73,9 @@ module.exports = class {
       });
       // Trainer.train(model);
       console.log('Final accuracy', info.history.acc);
-      model.dispose();
-      return model;
     });
+
+    return model;
   }
 
   static onBatchEnd(batch, logs) {

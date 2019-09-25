@@ -28,6 +28,7 @@ router.post('/:experimentId/build', (req, res) => {
   Logger.catch(async () => {
     const { experimentId } = req.params;
     const trainedModel = await ExperimentService.build(experimentId, req.body);
+    await ExperimentService.save(experimentId, trainedModel);
     res.send(new ApiResponse().setData(trainedModel));
   }, { req, res });
 });
