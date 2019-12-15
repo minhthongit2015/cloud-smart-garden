@@ -2,8 +2,10 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const path = require('path');
 const {
-  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME, CHUNK_FILENAME, PUBLIC_PATH
+  BUILD_DIR, STYLES_DIR, PUBLIC_DIR, CLIENT_PUBLIC_DIR, ENTRY_FILENAME, CHUNK_FILENAME, PUBLIC_PATH,
+  CLIENT_APP_DIR
 } = require('./webpack.config');
 
 const webpackConfig = {
@@ -15,7 +17,16 @@ const webpackConfig = {
     publicPath: PUBLIC_PATH
   },
   resolve: {
-    extensions: ['.webpack.js', '.web.js', '.js', '.json', '.jsx']
+    extensions: ['.webpack.js', '.web.js', '.js', '.json', '.jsx'],
+    alias: {
+      app: CLIENT_APP_DIR,
+      GlobalState: path.join(CLIENT_APP_DIR, 'utils/GlobalState'),
+      layouts: path.join(CLIENT_APP_DIR, 'layouts'),
+      pages: path.join(CLIENT_APP_DIR, 'pages'),
+      components: path.join(CLIENT_APP_DIR, 'components'),
+      services: path.join(CLIENT_APP_DIR, 'services'),
+      utils: path.join(CLIENT_APP_DIR, 'utils')
+    }
   },
   module: {
     rules: [
@@ -71,8 +82,8 @@ const webpackConfig = {
     ]),
     new SWPrecacheWebpackPlugin(
       {
-        cacheId: 'beyond-garden.com',
-        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        cacheId: 'Beyond-Garden',
+        dontCacheBustUrlsMatching: /(\.\w{8}\.)|(\/api\/v1\/.+)/,
         filename: 'service-worker.js',
         minify: true,
         navigateFallback: '/index.html',

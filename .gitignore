@@ -59,6 +59,8 @@ typings/
 
 # next.js build output
 .next
-/public/dist
-reports
 /public
+/.env.ini
+/tokens
+/.env.dev.ini
+/.env.prod.ini

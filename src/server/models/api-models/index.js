@@ -1,3 +1,4 @@
+const HttpErrors = require('http-errors');
 const { isNotSet } = require('../../utils');
 
 const defaultError = {
@@ -11,7 +12,23 @@ function isDefaultError(error) {
 }
 
 
-module.exports = class {
+module.exports = class APIResponse {
+  static get throwError() {
+    return HttpErrors;
+  }
+
+  static get SUCCESS() {
+    return {
+      ok: true
+    };
+  }
+
+  static get FAILED() {
+    return {
+      ok: false
+    };
+  }
+
   constructor(opts = {
     error: defaultError,
     data: undefined
@@ -25,6 +42,10 @@ module.exports = class {
     this.data = data;
     this.success();
     return this;
+  }
+
+  static setData(data) {
+    return new APIResponse().setData(data);
   }
 
   setError(error = defaultError || '') {
@@ -42,6 +63,10 @@ module.exports = class {
     return this;
   }
 
+  static setError(error = defaultError || '') {
+    return new APIResponse().setError(error);
+  }
+
   setErrorMessage(message) {
     if (isNotSet(message)) return this;
     this.error = Object.assign(this.error || {}, { message });
@@ -49,11 +74,20 @@ module.exports = class {
     return this;
   }
 
+  static setErrorMessage(message) {
+    return new APIResponse().setErrorMessage(message);
+  }
+
   setErrorCode(code) {
     if (isNotSet(code)) return this;
-    this.error = Object.assign(this.error || {}, { code });
+    const message = '';
+    this.error = Object.assign(this.error || {}, { code, message });
     this.failed();
     return this;
+  }
+
+  static setErrorCode(code) {
+    return new APIResponse().setErrorCode(code);
   }
 
   setErrorStack(stack) {
@@ -61,6 +95,10 @@ module.exports = class {
     this.error = Object.assign(this.error || {}, { stack });
     this.failed();
     return this;
+  }
+
+  static setErrorStack(stack) {
+    return new APIResponse().setErrorStack(stack);
   }
 
   success() {

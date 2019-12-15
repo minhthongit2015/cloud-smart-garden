@@ -3,20 +3,21 @@ const path = require('path');
 const colors = require('colors');
 const Debugger = require('./Debugger');
 const ApiResponse = require('../models/api-models');
+const Config = require('../config');
 
 const { createLogger, transports } = winston;
 
-const logDir = path.resolve('src/server/logs');
+const logDir = path.resolve(Config.logsFolder);
 
 const Logger = createLogger({
   transports: [
-    new (transports.Console)({ json: true, timestamp: true }),
+    // new (transports.Console)({ json: true, timestamp: true }),
     new transports.File({
       dirname: logDir, filename: 'combined.log', json: true, timestamp: true
     })
   ],
   exceptionHandlers: [
-    new (transports.Console)({ json: true, timestamp: true }),
+    // new (transports.Console)({ json: true, timestamp: true }),
     new transports.File({
       dirname: logDir, filename: 'exceptions.log', json: true, timestamp: true
     })
@@ -24,7 +25,7 @@ const Logger = createLogger({
   exitOnError: false
 });
 
-Logger.catch = async function _catch(func, handler) {
+Logger.catch = async function _catch(func, handler = () => {}) {
   try {
     await func();
   } catch (error) {
@@ -40,7 +41,9 @@ Logger.catch = async function _catch(func, handler) {
     if (typeof handler === 'object') {
       const { req, res } = handler;
       if (req && req.api) {
-        res.status(400).send(new ApiResponse().setError(error));
+        delete error.stack; // No stack will be send to the client
+        res.status(error.statusCode || error.status || error.code || 400)
+          .send(new ApiResponse().setError(error));
       }
     }
   }

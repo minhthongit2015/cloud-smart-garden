@@ -1,8 +1,8 @@
 // const { Environment } = require('../../models/mongo');
 const tf = require('@tensorflow/tfjs-node');
-const EnvironmentService = require('../../Environment');
+const EnvironmentService = require('../../garden/Environment');
 const ApiHelper = require('../../../utils/ApiHelper');
-const ConverterFactory = require('../../../models/converters/converter-factory');
+const ConverterFactory = require('../../../models/converters/ConverterFactory');
 const NeralNetwork = require('./NeuralNetwork');
 // const Trainer = require('./Trainer');
 const SyncService = require('../../../services/sync');

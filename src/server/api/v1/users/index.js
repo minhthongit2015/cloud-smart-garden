@@ -1,13 +1,15 @@
 const router = require('express').Router();
+const UserService = require('../../../services/user/User');
+const APIResponse = require('../../../models/api-models');
+const Logger = require('../../../services/Logger');
+
+const AuthRoute = require('./auth');
 const SigninRoute = require('./signin');
 const SignoutRoute = require('./signout');
 const SignupRoute = require('./signup');
 const ProfileRoute = require('./profile');
 
-const UserService = require('../../../services/user');
-const APIResponse = require('../../../models/api-models');
-const Logger = require('../../../services/Logger');
-
+router.use('/auth', AuthRoute);
 router.use('/signin', SigninRoute);
 router.use('/signout', SignoutRoute);
 router.use('/signup', SignupRoute);

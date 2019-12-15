@@ -1,7 +1,5 @@
 const common = {
-  dbMongoUrl: 'mongodb://root:rootpassword123@ds145356.mlab.com:45356',
-  dbMongoName: 'test',
-  dbMongoUri: 'mongodb+srv://root:rootpassword123@cluster0-uyp2b.gcp.mongodb.net/test?retryWrites=true&w=majority',
+  dbMongoUri: process.env.DB_MONGO_URI,
   dbMongoOptions: {
     logging: false
   },

@@ -1,5 +1,5 @@
 
-const router = require('express').router();
+const router = require('express').Router();
 
 router.post('/:userId', async (req, res) => {
   // TODO:

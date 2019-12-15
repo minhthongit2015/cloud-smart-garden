@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const UserService = require('../../../services/user');
+const UserService = require('../../../services/user/User');
 const APIResponse = require('../../../models/api-models');
 const { isNone } = require('../../../utils');
 const Logger = require('../../../services/Logger');
@@ -9,17 +9,16 @@ const { isBlank } = require('../../../utils');
 router.post('/', async (req, res) => {
   try {
     const {
-      username, password, name, email
+      email, password, name
     } = req.body;
-    if (isBlank(username) || isBlank(password) || isBlank(name) || isBlank(email)) {
+    if (isBlank(email) || isBlank(password) || isBlank(name) || isBlank(email)) {
       return res.status(400).send(new APIResponse().setError({ message: 'Invalid Parameters' }));
     }
 
     const user = await UserService.createUser({
-      username,
+      email,
       password,
-      name,
-      email
+      name
     });
     if (isNone(user)) {
       return res.send(new APIResponse()

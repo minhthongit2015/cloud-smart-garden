@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const EnvironmentService = require('../../../../services/Environment');
+const EnvironmentService = require('../../../../services/garden/Environment');
 
 const Logger = require('../../../../services/Logger');
 

@@ -1,11 +1,15 @@
 
 const router = require('express').Router();
-const SessionService = require('../../../services/Session');
+const Logger = require('../../../services/Logger');
+const SessionService = require('../../../services/user/Session');
 
 router.get('/', async (req, res) => {
-  const fullSessionId = SessionService.getFullSessionId(req.sessionID);
-  console.log('Generate session: ', req.sessionID);
-  return res.send(fullSessionId);
+  Logger.catch(() => {
+    const fullSessionId = SessionService.getFullSessionId(req.sessionID);
+    console.log('Generate session: ', req.sessionID);
+    req.session.idz = req.sessionID; // Force save the created session to the database
+    return res.send(fullSessionId);
+  });
 });
 
 module.exports = router;

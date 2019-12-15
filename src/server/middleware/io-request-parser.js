@@ -28,13 +28,13 @@ function onAnyEvent(packet) {
   // const clientPort = this.conn.request.client.remotePort;
   // const url = `http://${clientAddress}:${clientPort}/${pathname}`;
   const url = `/${pathname}`;
+  const { headers = [], ...restArgs } = args[1];
   args[1] = Object.assign({},
     {
       url,
       method,
-      body: {
-        ...args[1]
-      }
+      headers,
+      body: restArgs
     });
   emit.call(this, '*', packet);
   return emit.apply(this, args);

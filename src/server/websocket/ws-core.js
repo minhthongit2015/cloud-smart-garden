@@ -1,6 +1,4 @@
 const websocketCoreApp = require('express').Router();
-const queryString = require('query-string');
-const expressQueryParser = require('express-query-parser');
 const Logger = require('../services/Logger');
 const Debugger = require('../services/Debugger');
 
@@ -8,6 +6,10 @@ module.exports = class WebsocketManagerCore {
   /**
    * alias of `.wsServer`
    */
+  static get app() {
+    return websocketCoreApp;
+  }
+
   static get io() {
     return this.wsServer;
   }
@@ -30,19 +32,6 @@ module.exports = class WebsocketManagerCore {
 
   static setup(wsServer) {
     Debugger.wsSetup('Setup Websocket Core');
-    websocketCoreApp.use((req, res, next) => {
-      req.path = req._parsedUrl.pathname;
-      req.query = queryString.parse(req._parsedUrl.search);
-      req.websocket = true;
-      next();
-    });
-    websocketCoreApp.use(
-      expressQueryParser({
-        parseNull: true,
-        parseBoolean: true
-      })
-    );
-
     this.wsServer = wsServer;
     wsServer.on('connection', (socket) => {
       try {
@@ -76,10 +65,15 @@ module.exports = class WebsocketManagerCore {
   }
 
   static _buildRequest(client, originalUrl, parsedRequest) {
+    const headers = {};
+    Object.entries(parsedRequest.headers).forEach(([key, value]) => {
+      headers[key.toLowerCase()] = value;
+    });
     return {
       method: parsedRequest.method,
       url: parsedRequest.url,
       body: parsedRequest.body,
+      headers,
       socket: client,
       session: client.handshake.session || {},
       sessionID: client.handshake.sessionID,

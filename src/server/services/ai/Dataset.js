@@ -1,7 +1,7 @@
 // const { Environment } = require('../../models/mongo');
-const EnvironmentService = require('../Environment');
+const EnvironmentService = require('../garden/Environment');
 const ApiHelper = require('../../utils/ApiHelper');
-const ConverterFactory = require('../../models/converters/converter-factory');
+const ConverterFactory = require('../../models/converters/ConverterFactory');
 
 module.exports = class {
   static async list(opts = ApiHelper.listParams) {

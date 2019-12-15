@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // const ConnectSessionSequelize = require('connect-session-sequelize');
 // const sequelizeDB = require('../models/sequelize');
 
-const SessionService = require('../services/Session');
+const SessionService = require('../services/user/Session');
 
 
 function expressSession(store = 'mongo' || 'sequelize') {

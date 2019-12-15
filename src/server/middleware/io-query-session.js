@@ -1,5 +1,5 @@
 
-const SessionService = require('../services/Session');
+const SessionService = require('../services/user/Session');
 
 function QuerySession(socket, next) {
   if (!socket.handshake.headers.cookie) {

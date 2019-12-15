@@ -24,24 +24,20 @@ class MongoDB {
   }
 }
 
-const Environment = require('./Environment');
-const User = require('./User');
-const Entity = require('./Entity');
-const Garden = require('./Garden');
-const Farm = require('./Farm');
-const FoodShop = require('./FoodShop');
-const ToolShop = require('./ToolShop');
-const Experiment = require('./Experiment');
+const User = require('./user/User');
+
+const Blog = require('./blog');
+const Map = require('./map');
+const Garden = require('./garden');
+const Company = require('./company');
 
 module.exports = {
   db: MongoDB.db,
   setup: MongoDB.setup,
+
   User,
-  Environment,
-  Entity,
-  Garden,
-  Farm,
-  FoodShop,
-  ToolShop,
-  Experiment
+  ...Blog,
+  ...Map,
+  ...Garden,
+  ...Company
 };

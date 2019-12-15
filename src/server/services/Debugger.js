@@ -1,5 +1,6 @@
 
 const debug = require('debug');
+const colors = require('colors');
 
 const DebugConstants = {
   SERVER: 'cloud:',
@@ -23,6 +24,7 @@ const DebugConstants = {
 module.exports = {
   debug,
   log: console.log.bind(console),
+  colors,
 
   server: debug(DebugConstants.SERVER),
   database: debug(DebugConstants.server.DATABASE),
