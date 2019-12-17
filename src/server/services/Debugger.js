@@ -21,9 +21,24 @@ const DebugConstants = {
   }
 };
 
+const LINE_LENGTH = 80;
+function txtLen(text = '') {
+  const trueText = Object.values(colors.styles)
+    .reduce((txt, color) => {
+      const regOpen = new RegExp(`${color.open.replace('[', '\\[')}`, 'g');
+      const regClose = new RegExp(`${color.close.replace('[', '\\[')}`, 'g');
+      return txt.replace(regOpen, '').replace(regClose, '');
+    }, text)
+    .replace(/\r|\n/g, '');
+  return trueText.length;
+}
+
 module.exports = {
   debug,
   log: console.log.bind(console),
+  center: (text) => {
+    console.log(''.padStart((LINE_LENGTH - txtLen(text)) / 2, ' ') + text);
+  },
   colors,
 
   server: debug(DebugConstants.SERVER),

@@ -39,10 +39,14 @@ const Config = require('./config');
 
 class Server {
   static start() {
-    Debugger.log('\x1B[2J');
-    Debugger.log(colors.rainbow(`\r\n\r\n${new Array(60).fill('▬').join('')}\r\n`));
-    Debugger.log(`${''.padStart(12, ' ')}${colors.rainbow('START')} ${colors.yellow('BEYOND GARDEN SERVER')}\r\n`);
-    Debugger.log(colors.rainbow(`${new Array(60).fill('▬').join('')}\r\n`));
+    if (process.env.NODE_ENV !== 'Production') {
+      Debugger.log('\x1B[2J\r\n\r\n');
+      Debugger.log(colors.rainbow(`${new Array(80).fill('▬').join('')}\r\n`));
+      Debugger.center(`${colors.rainbow('START')} ${colors.yellow('BEYOND GARDEN SERVER')}\r\n`);
+      Debugger.log(colors.rainbow(`${new Array(80).fill('▬').join('')}\r\n`));
+    } else {
+      Debugger.center('START >>> BEYOND GARDEN SERVER <<<\r\n');
+    }
     this.setupErrorTrap();
     this.setupDatabase();
     this.createServer();
