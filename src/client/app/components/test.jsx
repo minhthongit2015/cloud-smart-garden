@@ -1,11 +1,11 @@
 import React from 'react';
-import Global from '../utils/Global';
+import Global from '../utils/GlobalState';
 
-export default (props) => {
+export default React.memo((props) => {
   console.log('render test');
-  Global.useState('x', 0);
+  Global.useState('x', 1);
+  // Global.x = 1;
   function click() {
-    // Global.x += 1;
     Global.x += 1;
   }
   return (
@@ -17,4 +17,4 @@ export default (props) => {
       </button>
     </React.Fragment>
   );
-};
+});

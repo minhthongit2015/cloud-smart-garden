@@ -1,0 +1,58 @@
+
+$expandSpeed: .5s;
+
+.new-post {
+  transition: all .3s ease-in-out;
+  overflow: hidden;
+  max-width: 91px;
+  max-height: 50px;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+  
+  &.disabled {
+    opacity: .5;
+  }
+
+  & .placeholder {
+    white-space: pre;
+  }
+
+  .card-header {
+    transition: all $expandSpeed ease-in-out;
+    font-weight: 500;
+    color: #a7a7a7;
+    letter-spacing: 1px;
+    padding-left: 0.5em;
+    padding-right: 1.1rem;
+    background-color: transparent;
+    border: 1px solid #e6e6e6;
+    border-radius: 40px;
+
+    & > div:first-child {
+      transition: all $expandSpeed - .3s ease-in-out;
+      white-space: pre;
+      max-width: 0;
+      opacity: 0;
+    }
+  }
+
+  &.expanded {
+    max-width: 1500px;
+    max-height: 1000px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-color: #a7a7a7;
+    
+    .card-header {
+      border: 1px solid transparent;
+      border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+      background-color: rgba(0,0,0,.03);
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      
+      & > div:first-child {
+        transition: all $expandSpeed ease-in-out;
+        max-width: 1500;
+        opacity: 1;
+      }
+    }
+  }
+}

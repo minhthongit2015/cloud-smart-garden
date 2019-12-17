@@ -1,0 +1,18 @@
+
+$warn-color: #f78900;
+$guide-color: #4ca83c;
+
+.custom-message {
+  &.message-wrapper {
+    color: #e0e0e0;
+
+    &-guide {
+      color: $guide-color;
+    }
+    &-warn {
+      border: 1px solid $warn-color;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  }
+}

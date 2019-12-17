@@ -1,0 +1,145 @@
+
+
+$climate-color: #ffb3b3;
+$organisms-color: #fbb185;
+$pollution-color: #ad85fb;
+$others-color: #81e0b4;
+$world-actions-color: #8eabff;
+$community-color: #ffba66;
+
+.post {
+  box-shadow: 0 .125em .25em rgba(0,0,0,.075);
+  transition: all .3s ease-in-out;
+  z-index: 0;
+  margin-top: 30px;
+
+  .i-will-do-this {
+    color: #ff842d;
+  }
+
+  &:hover {
+    z-index: 1;
+    box-shadow: 0 .125em .5em rgba(0, 0, 0, 0.247);
+  }
+
+  .card-header {
+    font-size: 1.2em;
+    padding-top: .5rem;
+    padding-bottom: .4rem;
+    background-color: $climate-color;
+    color: #fff;
+
+    &.Climate, &.DoForClimate, &.AskForClimate {
+      background-color: $climate-color;
+      color: #fff;
+    }
+    &.Organisms, &.DoForOrganisms, &.AskForOrganisms {
+      background-color: $organisms-color;
+      color: #fff;
+    }
+    &.Pollution, &.DoForPollution, &.AskForPollution {
+      background-color: $pollution-color;
+      color: #fff;
+    }
+    &.DoSupporting, &.AskForOthers {
+      background-color: $others-color;
+      color: #fff;
+    }
+    &.WorldActions {
+      background-color: $world-actions-color;
+      color: #fff;
+    }
+    &.CommunityShare {
+      background-color: $community-color;
+      color: #fff;
+    }
+  }
+
+  &__preview, &__preview .view {
+    cursor: pointer;
+  }
+
+  &__preview {
+    &.Climate, &.DoForClimate, &.AskForClimate,
+    &.Organisms, &.DoForOrganisms, &.AskForOrganisms,
+    &.Pollution, &.DoForPollution, &.AskForPollution,
+    &.DoSupporting, &.AskForOthers,
+    &.WorldActions, &.CommunityShare {
+      border-top: 4px solid #fff;
+    }
+    &.Climate, &.DoForClimate, &.AskForClimate {
+      border-top-color: $climate-color;
+    }
+    &.Organisms, &.DoForOrganisms, &.AskForOrganisms {
+      border-top-color: $organisms-color;
+    }
+    &.Pollution, &.DoForPollution, &.AskForPollution {
+      border-top-color: $pollution-color;
+    }
+    &.DoSupporting, &.AskForOthers {
+      border-top-color: $others-color;
+    }
+    &.WorldActions {
+      border-top-color: $world-actions-color;
+    }
+    &.CommunityShare {
+      border-top-color: $community-color;
+    }
+  }
+
+  &__preview-image {
+    object-fit: cover;
+    width: 100%;
+  }
+
+  &__bookmark {
+    position: absolute;
+    top: 0;
+    right: 35px;
+    width: 20px;
+  }
+
+  &__status-icon {
+    position: absolute;
+    bottom: calc(100% + 3px);
+    right: 4px;
+    width: 20px;
+  }
+
+  &__context-btn {
+    position: absolute;
+    top: 4px;
+    right: 0px;
+
+    & .btn-paper {
+      border: none !important;
+      opacity: .5;
+      &:hover {
+        opacity: 9;
+        background: rgba(255,255,255,.1) !important;
+      }
+    }
+  }
+
+  &__summary {
+    font-style: italic;
+    color: gray;
+    border-left: 2px solid lightgray;
+    padding-left: .5rem;
+  }
+
+  .popover {
+    max-width: initial !important;
+  }
+
+  &__socials {
+    min-height: 30px;
+    min-width: 85px;
+  }
+
+  &__rating {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+  }
+}

@@ -1,0 +1,25 @@
+
+.context-menu {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  // background: red;
+  
+  &__point {
+    position: absolute;
+    top: -8px;
+    left: -3px;
+    padding: 0;
+    background: transparent !important;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .2s ease-in-out;
+  }
+
+  &.open &__point {
+    opacity: 1;
+    visibility: visible;
+  }
+}

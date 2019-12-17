@@ -3,7 +3,7 @@ const isLocal = window.location.hostname === 'localhost';
 
 const HOST = isLocal ? 'http://localhost:5000' : '';
 const END_POINT = `${HOST}/api/v1`;
-const USER = `${END_POINT}/user`;
+const USER = `${END_POINT}/users`;
 const GARDENS = `${END_POINT}/gardens`;
 const AI = `${END_POINT}/ai-central`;
 const MAP = `${END_POINT}/map`;
@@ -11,12 +11,13 @@ const MAP_ENTITIES = `${MAP}/entities`;
 const DATASET = `${AI}/datasets`;
 const EXPERIMENT = `${AI}/experiments`;
 
-export const apiEndpoints = {
+export const ApiEndpoints = {
   END_POINT,
   user: {
     SIGN_IN: `${USER}/signin`,
     SIGN_OUT: `${USER}/signout`,
-    GET_SESSION: `${USER}/get-session`
+    GET_SESSION: `${USER}/get-session`,
+    FB_LOGIN: `${USER}/auth/facebook`
   },
   GARDENS,
   gardens: {
@@ -46,6 +47,11 @@ export const apiEndpoints = {
   }
 };
 
+export const UserTypes = {
+  admin: 'admin',
+  moderator: 'moderator'
+};
+
 export default {
-  apiEndpoints
+  ApiEndpoints
 };

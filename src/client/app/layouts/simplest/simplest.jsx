@@ -6,9 +6,8 @@ import RouteConstants from '../../utils/RouteConstants';
 
 export default class SimplestLayout extends Component {
   render() {
-    console.log('render "Layouts/simplest/Simplest.jsx"');
     return (
-      <div className="simplest-layout simplest-theme d-flex h-100">
+      <div className="simplest-layout simplest-theme d-flex flex-column flex-sm-row h-100">
         <Content>
           {this.props.routes}
         </Content>

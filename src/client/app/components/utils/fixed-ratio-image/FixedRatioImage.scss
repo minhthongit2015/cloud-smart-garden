@@ -1,0 +1,7 @@
+.fixed-ration-image {
+  transition: all .3s ease-in-out;
+  
+  &:hover {
+    filter: brightness(1.1);
+  }
+}

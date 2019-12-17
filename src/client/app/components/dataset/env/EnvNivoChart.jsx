@@ -20,7 +20,6 @@ import BaseChart from '../../charts/nivo/BaseChart';
 
 export default class DatasetChart extends Component {
   render() {
-    console.log('render "Components/charts/base/DatasetChart.jsx"');
     const { className, ...restProps } = this.props;
     const datasetChartOptions = {
       xScale: {

@@ -1,0 +1,57 @@
+
+
+
+.login-modal {
+  max-width: 350px;
+}
+
+.i-will-do-this {
+  color: #ff842d;
+}
+
+.signin-button {
+  transition: all .14s ease-in-out;
+  & > .btn {
+    white-space: nowrap;
+  }
+}
+
+@at-root .sidenav.hide .signin-button > .btn {
+  opacity: 0;
+}
+
+.btn-paper {
+  text-transform: initial;
+  box-shadow: none !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: .25rem !important;
+  background: transparent !important;
+  // color: rgba(0,0,0,.5) !important;
+  transition: all .3s ease-in-out !important;
+  box-sizing: content-box;
+
+  &.rounded-circle {
+    border-radius: 50% !important;
+  }
+
+  &.shadow-style:hover {
+    box-shadow: 0 2px 5px -6px rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.09) !important;
+    border-color: transparent !important;
+  }
+  
+  &.quiet-style:hover {
+    background: rgba(0,0,0,.05) !important;
+    border-color: transparent !important;
+  }
+
+  &.highlight-style {
+    filter: brightness(1.05);
+    &:hover {
+      filter: brightness(1.1);
+      @at-root .hide & {
+        // border-width: 4px !important;
+        transform: scale(1.4) rotate(-10deg) translateX(-15px);
+      }
+    }
+  }
+}

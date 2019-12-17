@@ -1,0 +1,40 @@
+
+
+@mixin modern-scrollbar {
+  &::-webkit-scrollbar {
+    background: #E2E5E8;
+    width: 4px;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #A1A9B3;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+  &::-webkit-resizer {
+    display: none;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+@mixin fixed-ratio-wrapper($scale) {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: $scale;
+}
+@mixin fixed-ratio {
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

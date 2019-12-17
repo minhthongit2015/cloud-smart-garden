@@ -1,24 +1,27 @@
 
 import i18n from 'i18next';
-import { useTranslation, initReactI18next } from 'react-i18next';
+// import { useTranslation, initReactI18next } from 'react-i18next';
+import English from './en';
+import Vietnamese from './vi';
 
 const resources = {
   en: {
-    translation: {
-      'Welcome to React': 'Welcome to React and react-i18next'
-    }
+    translation: English
+  },
+  vi: {
+    translation: Vietnamese
   }
 };
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  // .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: 'en',
+    lng: 'vi',
     fallbackLng: 'en',
 
-    ns: ['ns1'],
-    defaultNS: 'ns1',
+    // ns: ['ns1'],
+    // defaultNS: 'ns1',
 
     interpolation: {
       escapeValue: false
@@ -29,8 +32,9 @@ i18n
     }
   });
 
-const useTranslationResponse = useTranslation();
+// const useTranslationResponse = useTranslation();
 
 export default function t(text) {
-  return useTranslationResponse.t(text);
+  return i18n.t(text);
+  // return useTranslationResponse.t(text);
 }

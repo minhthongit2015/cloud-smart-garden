@@ -13,8 +13,8 @@ export default class SuperWebsocket {
 
   static get connected() { return this.socket.connected; }
 
-  static setup() {
-    this.socket = io(Config.currentConfig.wsEndpoint, {
+  static init() {
+    this.socket = io(Config.wsEndpoint, {
       transports: ['websocket']
     });
     this.socket.on('connect', () => {
@@ -23,33 +23,41 @@ export default class SuperWebsocket {
   }
 
   static async emit(...args) {
-    return new Promise((resolve) => {
-      this.socket.emit(...args, res => resolve(res));
+    if (!this.connected) {
+      return Promise.reject(new Error('Connection Error: Lost connection!'));
+    }
+    return new Promise((resolve, reject) => {
+      this.socket.emit(...args, (res) => {
+        if (res.ok === false && res.error) {
+          return reject(res.error);
+        }
+        return resolve(res);
+      });
     });
   }
 
-  static async ws(eventPath, body) {
+  static async ws(eventPath, body = {}, headers) {
     eventPath = eventPath.replace(/https?.+?(\w|\.|:)+?\//g, '');
-    return this.emit(eventPath, body);
+    return this.emit(eventPath, { ...body, headers });
   }
 
-  static async get(eventPath, body) {
-    return this.ws(path.join('GET', eventPath), body);
+  static async get(eventPath, headers) {
+    return this.ws(path.join('GET', eventPath), undefined, headers);
   }
 
-  static async post(eventPath, body) {
-    return this.ws(path.join('POST', eventPath), body);
+  static async post(eventPath, body, headers) {
+    return this.ws(path.join('POST', eventPath), body, headers);
   }
 
-  static async put(eventPath, body) {
-    return this.ws(path.join('PUT', eventPath), body);
+  static async put(eventPath, body, headers) {
+    return this.ws(path.join('PUT', eventPath), body, headers);
   }
 
-  static async patch(eventPath, body) {
-    return this.ws(path.join('PATCH', eventPath), body);
+  static async patch(eventPath, body, headers) {
+    return this.ws(path.join('PATCH', eventPath), body, headers);
   }
 
-  static async delete(eventPath, body) {
-    return this.ws(path.join('DELETE', eventPath), body);
+  static async delete(eventPath, headers) {
+    return this.ws(path.join('DELETE', eventPath), undefined, headers);
   }
 }

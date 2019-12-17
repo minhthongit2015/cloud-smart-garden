@@ -1,0 +1,26 @@
+
+.zoom-tool {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  justify-content: space-around;
+
+  &__option {
+    cursor: pointer;
+    color: #727272;
+    font-size: 1rem;
+    margin: 2px 4px;
+
+    &:hover {
+      color: #2196f3;
+    }
+    
+    &:active {
+      color: #82c7ff;
+    }
+
+    &.active {
+      color: #3bd6bc;
+    }
+  }
+}

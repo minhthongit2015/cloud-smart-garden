@@ -1,0 +1,23 @@
+
+.icon-plus-point {
+  position: absolute;
+  top: 40%;
+  left: 70%;
+  opacity: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #73e86b;
+
+  &.animate {
+    animation: float-up 3s ease-out 1 forwards;
+  }
+  
+  &.negative {
+    color: rgb(245, 140, 98);
+  }
+}
+
+@keyframes float-up {
+  from { transform: translate3d(0, 0, 0); opacity: .9; }
+  to { transform: translate3d(0, -50px, 0); opacity: 0;}
+}

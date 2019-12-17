@@ -5,7 +5,7 @@
     max-width: 144px;
     height: 100%;
     padding: 10px;
-    overflow: hidden;
+    overflow-x: visible;
     transition: all .3s ease-in-out;
 
     &.hide {
@@ -16,7 +16,41 @@
 
     .nav-icon-link {
       width: 85%;
-      font-size: 1.5em;
+      font-size: 1.2em;
+      line-height: 1.21em;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .simplest-layout {
+    .sidenav {
+      min-width: inherit;
+      max-width: inherit;
+      height: auto;
+      max-height: 100px;
+      box-shadow: 0 -0.1rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+      
+      &.hide {
+        min-width: inherit;
+        max-width: inherit;
+        max-height: 0;
+        padding: 0;
+        transform: translate(0, 100px);
+      }
+
+      & > * {
+        position: relative;
+        top: 0;
+      }
+    }
+    
+    aside.sidenav {
+      .nav-icon-link {
+        span {
+          display: none;
+        }
+      }
     }
   }
 }

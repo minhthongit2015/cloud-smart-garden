@@ -1,0 +1,8 @@
+
+$section-spacing: 40px;
+
+.base-section {
+  & ~ & {
+    margin-top: $section-spacing;
+  }
+}

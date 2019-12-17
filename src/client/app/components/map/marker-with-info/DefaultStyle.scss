@@ -1,0 +1,99 @@
+
+
+.marker {
+  &__header {
+
+  }
+  &__title {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: #0f3624;
+    padding: .2em;
+    margin-bottom: .5em;
+  }
+  &__banner {
+    border-radius: 8px;
+  }
+  
+  &__cover-photo {
+    background: transparent center center/cover no-repeat;
+    width: 100%;
+    height: 0;
+    padding-top: 35%;
+    position: relative;
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+    }
+  }
+  &__avatar {
+    width: 140px;
+    height: 140px;
+    margin-top: -70px;
+    position: relative;
+    left: calc(50% - 70px);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__profile {
+    &__name {
+      font-size: 19px;
+      font-weight: bold;
+      color: #118075;
+      text-align: center;
+    }
+    &__description {
+      text-align: center;
+      color: #30c150;
+      font-size: 16px;
+      margin: 4px;
+    }
+    &__social-point {
+      text-align: center;
+      color: #ff8a3c;
+      font-size: 16px;
+      margin: 4px;
+    }
+  }
+
+  &__body {
+    margin: 1rem 1rem 0;
+    .preview-image {
+      @include fixed-ratio-wrapper(100% * 2 / 3);
+      & > * {
+        object-fit: cover;
+        @include fixed-ratio;
+      }
+    }
+  }
+  &__section {
+    &__header {
+
+    }
+    &__body {
+      font-size: 1.2em;
+    }
+    &__summary {
+      color: rgb(73, 73, 73);
+      border-left: 2px solid lightgray;
+      padding-left: .5rem;
+    }
+    &__actions {
+      text-align: right;
+      margin-top: .5rem;
+    }
+  }
+}

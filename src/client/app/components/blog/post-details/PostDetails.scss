@@ -1,0 +1,50 @@
+
+$climate-color: #ffb3b3;
+$organisms-color: #fbb185;
+$pollution-color: #ad85fb;
+$others-color: #81e0b4;
+$world-actions-color: #8eabff;
+$community-color: #ffba66;
+
+.post-details {
+  &__title {
+    font-weight: bold;
+  }
+  
+  &__summary {
+    font-style: italic;
+    color: gray;
+    border-left: 2px solid lightgray;
+    padding-left: .5rem;
+  }
+
+  &__content {
+
+  }
+
+  &__categories {
+    &__label {
+      
+    }
+    &__category {
+      &.Climate, &.DoForClimate, &.AskForClimate {
+        color: $climate-color;
+      }
+      &.Organisms, &.DoForOrganisms, &.AskForOrganisms {
+        color: $organisms-color;
+      }
+      &.Pollution, &.DoForPollution, &.AskForPollution {
+        color: $pollution-color;
+      }
+      &.DoSupporting, &.AskForOthers {
+        color: $others-color;
+      }
+      &.WorldActions {
+        color: $world-actions-color;
+      }
+      &.CommunityShare {
+        color: $community-color;
+      }
+    }
+  }
+}

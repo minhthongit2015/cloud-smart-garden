@@ -1,6 +1,6 @@
 
 
-const WEBSITE_TITLE = 'Yoth-Garden 💝';
+const WEBSITE_TITLE = 'Climate Strike Vietnam';
 
 export default {
   WEBSITE_TITLE

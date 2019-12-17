@@ -1,0 +1,93 @@
+
+$textShadowBase: 2px 2px 3px rgba(255, 255, 255, 0.8), -3px 3px 8px rgba(255, 255, 255, 0.7), 0 0 0;
+
+$normalColor: rgba(145, 145, 145, 0.5);
+$hoverColor: rgba(255, 0, 0, 0.5);
+$activeColor: rgba(255, 74, 74, 0.842);
+
+$hoverShadowColor: rgba(255, 60, 60, 0.478);
+$activeShadowColor: rgba(255, 60, 60, 0.478);
+
+$state2HoverColor: rgba(3, 161, 29, 0.685);
+$state2ActiveColor: rgba(36, 161, 42, 0.842);
+$state2HoverShadowColor: rgba(57, 180, 63, 0.478);
+$state2ActiveShadowColor: rgba(49, 194, 49, 0.478);
+
+.btn-bar {
+  display: flex;
+
+  &__btn {
+    // Reset style
+    padding: 0;
+    margin: 0;
+    box-shadow: none !important;
+
+    //
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: $textShadowBase $normalColor !important;
+    background: #ffffff !important;
+    color: transparent !important;
+    -webkit-background-clip: text !important;
+    -moz-background-clip: text !important;
+    background-clip: text !important;
+    cursor: pointer;
+    transition: all .14s ease-in-out;
+
+    &:hover {
+      text-shadow: $textShadowBase $hoverColor !important;
+      box-shadow: 2px 2px 1px -1px $hoverShadowColor !important;
+    }
+    
+    &:active {
+      transform: rotate(45deg);
+      text-shadow: $textShadowBase $activeColor !important;
+      box-shadow: 1px 1px 2px 0px $activeShadowColor !important;
+    }
+
+    &.rounded {
+      border: 1px solid #dedede;
+      border-radius: 50% !important;
+      &:hover {
+        border-color: $hoverShadowColor;
+      }
+      &:active {
+        border-color: $activeShadowColor;
+      }
+    }
+
+    &.state2 {
+      transform: rotate(45deg);
+      &:hover {
+        text-shadow: $textShadowBase $state2HoverColor !important;
+        box-shadow: 1px 1px 2px 0px $state2HoverShadowColor !important;
+      }
+      &:active {
+        transform: rotate(0deg);
+        text-shadow: $textShadowBase $state2ActiveColor !important;
+        box-shadow: 1px 1px 2px 0px $state2ActiveShadowColor !important;
+      }
+      &.rounded {
+        &:hover {
+          border-color: $state2HoverShadowColor;
+        }
+        &:active {
+          border-color: $state2ActiveShadowColor;
+        }
+      }
+    }
+
+    & > * {
+      pointer-events: none;
+    }
+
+    & > i {
+      font-size: inherit !important;
+    }
+  }
+
+  @at-root .card-header & {
+    margin-right: -0.5rem;
+  }
+}

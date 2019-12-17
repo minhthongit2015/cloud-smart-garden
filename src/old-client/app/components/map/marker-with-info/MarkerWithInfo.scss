@@ -1,0 +1,91 @@
+
+$base-marker-class: 'custom-marker';
+$base-info-window-class: 'custom-info-window';
+$custom-info-window-class: ''; // implement on child component
+$window-width: 400px;   // default width: 400px
+$window-height: 400px;  // default height: 400px
+
+.gm-style {
+  .gm-style-iw-a {
+    animation-duration: .3s;
+    .gm-style-iw-t {
+      .gm-style-iw-c.gm-style-iw {
+        width: $window-width !important;
+        max-width: $window-width !important;
+        max-height: $window-height !important;
+        animation: fadeIn .3s ease-in-out forwards;
+        padding: 0;
+        .gm-style-iw-d {
+          width: $window-width !important;
+          max-width: $window-width !important;
+          max-height: $window-height !important;
+          pointer-events: none;
+          overflow: hidden !important;
+          & > div {
+            max-height: $window-height;
+            width: 100%;
+            overflow: auto !important;
+            overflow-x: hidden !important;
+            pointer-events: all;
+            @include modern-scrollbar;
+          }
+        }
+        .gm-style-iw-d + button {
+          background: #7dd8ad !important;
+          border-radius: 0 0 0 10px;
+          img {
+            display: none !important;
+          }
+          &::after {
+            content: "×";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding-top: 7px;
+            padding-right: 3px;
+            color: #fff;
+            font-size: 17px;
+          }
+        }
+      }
+    }
+  }
+  .#{$base-info-window-class} {
+    z-index: 100 !important;
+    &.focused {
+      z-index: 10000 !important;
+      .gm-style-iw-t {
+        .gm-style-iw-c {
+          box-shadow: 0 0 5px #7dd8ad, 0 0 30px -2px #6ce8ff;
+        }
+      }
+    }
+  }
+
+  .#{$base-marker-class} {
+    border-radius: 50%;
+    transition: all .2s ease-in-out;
+    img {
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+    // &.focused {
+    //   border-radius: 50%;
+    //   box-shadow: 0 0 15px rgb(255, 187, 0);
+    //   opacity: 1 !important;
+    // }
+    &:hover {
+      border-radius: 50%;
+      box-shadow: 0 0 10px #0ff;
+      opacity: 1 !important;
+    }
+  }
+
+  img, video {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

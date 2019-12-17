@@ -1,0 +1,23 @@
+
+.icon-thanks {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  opacity: 0;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'icielz-bambola', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #73e86b;
+  white-space: pre;
+  letter-spacing: 1px;
+
+  &.animate {
+    animation: linear-float-up 3s linear 1 forwards;
+  }
+}
+
+@keyframes linear-float-up {
+  0% { transform: translate3d(0, 0, 0); opacity: .5; }
+  20% { transform: translate3d(0, -7px, 0); opacity: .9; }
+  100% { transform: translate3d(0, -35px, 0); opacity: 0; }
+}

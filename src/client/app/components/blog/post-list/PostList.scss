@@ -1,0 +1,50 @@
+
+.post-wrapper {
+  z-index: 0;
+  box-sizing: border-box;
+
+  &:hover {
+    z-index: 1;
+  }
+
+  &.w1 {
+    width: 24%;
+  }
+  &.w2 {
+    width: 48%;
+  }
+  &.w3 {
+    width: 74%;
+  }
+  &.w4 {
+    width: 98%;
+  }
+}
+.sizer-element {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  width: 25%;
+}
+.shuffle {
+  overflow: visible !important;
+}
+
+@media (max-width: 767px) {
+  .post-wrapper {
+    &.w1, &.w2 {
+      width: 47%;
+    }
+    &.w3, &.w4 {
+      width: 98%;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .post-wrapper {
+    &.w1, &.w2, &.w3, &.w4 {
+      width: 99%;
+    }
+  }
+}

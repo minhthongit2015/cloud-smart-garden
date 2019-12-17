@@ -1,0 +1,41 @@
+
+$base-info-window-class: 'custom-info-window';
+$custom-info-window-class: "template-marker-window";
+$window-width: 400px;
+$window-height: 450px;
+
+.gm-style {
+  .#{$base-info-window-class} {
+    .gm-style-iw-a.#{$custom-info-window-class} {
+      .gm-style-iw-t {
+        .gm-style-iw-c.gm-style-iw {
+          width: $window-width !important;
+          max-width: $window-width !important;
+          max-height: $window-height !important;
+          .gm-style-iw-d {
+            width: $window-width !important;
+            max-width: $window-width !important;
+            max-height: $window-height !important;
+            & > div {
+              max-height: $window-height !important;
+            }
+          }
+          .gm-style-iw-d + button {
+            background: #47bf7c !important;
+          }
+        }
+      }
+    }
+  
+    &.focused {
+      .gm-style-iw-a.#{$custom-info-window-class} {
+        .gm-style-iw-t {
+          .gm-style-iw-c.gm-style-iw {
+            box-shadow: 0 0 5px #47bf7c, 0 0 30px -3px #8ce4a8;
+          }
+        }
+      }
+    }
+  }
+}
+          

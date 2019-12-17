@@ -1,0 +1,81 @@
+
+.map-toolbar {
+  position: absolute;
+  border-radius: 25px;
+  max-width: 50px;
+  max-height: 50px;
+  padding: 5px 5px;
+  color: rgb(36, 172, 47);
+  background: #fff;
+  box-shadow: rgba(145, 143, 143, 0.3) 0px 1px 4px -1px;
+  transition: all .3s ease-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &.open {
+    border-radius: 5px;
+    transition: all .3s ease-in;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(201, 209, 218);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  &__btn {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none;
+    transition: box-shadow .2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 0.125rem 0.25rem 2px rgba(0, 0, 0, 0.075) !important
+    }
+    &:focus:not(:hover) {
+      box-shadow: none !important;
+    }
+  }
+
+  &__toggle {
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transform: rotate(0deg);
+    transition: transform .3s ease-in-out;
+
+    &:active {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__list {
+    margin-top: 0;
+    padding: 0;
+    transition: all .3s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    @include modern-scrollbar;
+    
+    &__link {
+      cursor: pointer;
+    }
+  }
+
+  &.open &__list {
+    margin-top: .5rem;
+    padding: 0;
+  }
+
+  &.open &__toggle {
+    transform: rotate(45deg);
+  }
+}

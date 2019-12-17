@@ -20,9 +20,8 @@ html, body, #root {
 }
 
 .simplest-layout {
+  overflow: hidden;
   #body {
     position: relative;
-  }
-  .signin-button {
   }
 }

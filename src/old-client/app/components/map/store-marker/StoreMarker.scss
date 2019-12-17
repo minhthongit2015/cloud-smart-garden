@@ -1,0 +1,71 @@
+
+
+$base-info-window-class: 'custom-info-window';
+$custom-info-window-class: "store-info-window";
+$window-width: 600px;
+$window-height: 500px;
+
+.gm-style {
+  .#{$base-info-window-class} {
+    .gm-style-iw-a.#{$custom-info-window-class} {
+      .gm-style-iw-t {
+        .gm-style-iw-c.gm-style-iw {
+          width: $window-width !important;
+          max-width: $window-width !important;
+          max-height: $window-height !important;
+          .gm-style-iw-d {
+            width: $window-width !important;
+            max-width: $window-width !important;
+            max-height: $window-height !important;
+            & > div {
+              max-height: $window-height !important;
+            }
+            .store-header {
+              .store-branding {
+                text-align: center;
+                background: #735c5d;
+                margin: auto;
+                padding-top: 4px;
+                width: 88%;
+                border-radius: 10px 10px 0 0;
+                color: #fff;
+                font-size: 18px;
+                font-family: 'icielz-bambola';
+                letter-spacing: 2px;
+                border-top: 3px solid #928787;
+                border-left: 3px solid #928787;
+                border-right: 3px solid #928787;
+              }
+              .store-eaves {
+                height: 64px;
+              }
+            }
+            .store-body {
+              text-align: center;
+              .preview-image {
+                @include fixed-ratio-wrapper(100% * 2 / 3);
+                & > * {
+                  object-fit: cover;
+                  @include fixed-ratio;
+                }
+              }
+            }
+          }
+          .gm-style-iw-d + button {
+            background: #FF9800 !important;
+          }
+        }
+      }
+    }
+
+    &.focused {
+      .gm-style-iw-a.#{$custom-info-window-class} {
+        .gm-style-iw-t {
+          .gm-style-iw-c.gm-style-iw {
+            box-shadow: 0 0 5px #FF9800, 0 0 30px -2px #ffb95d;
+          }
+        }
+      }
+    }
+  }
+}

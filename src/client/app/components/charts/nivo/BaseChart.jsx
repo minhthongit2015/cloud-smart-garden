@@ -5,7 +5,6 @@ import './BaseChart.scss';
 
 export default class BaseChart extends Component {
   render() {
-    console.log('render "Components/charts/base/BaseChart.jsx"');
     const {
       className, wrapperProps = {}, options, data, ...restProps
     } = this.props;

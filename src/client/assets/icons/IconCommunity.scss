@@ -1,0 +1,24 @@
+
+$warn-color: #f78900;
+
+.icon-wrapper {
+  transition: inherit;
+
+  .icon-community {
+    color: lighten($warn-color, 20);
+    transition: inherit;
+  }
+  
+  &:hover {
+    color: lighten($warn-color, 10);
+    .icon-community {
+      color: lighten($warn-color, 10);
+    }
+  }
+}
+
+@at-root .active {
+  .icon-wrapper {
+    color: $warn-color;
+  }
+}

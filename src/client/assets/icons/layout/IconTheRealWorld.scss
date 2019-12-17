@@ -1,0 +1,45 @@
+
+.icon-globe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__shadow {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset -4px -3px 35px #4c759e, inset -4px -3px 7px #4c759e;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &__wrapper {
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-top: 100%;
+    position: relative;
+    // flex: none !important;
+  }
+
+  &__label {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    font-size: 12px;
+  }
+
+  @at-root .sidenav &__label {
+    display: none;
+  }
+}

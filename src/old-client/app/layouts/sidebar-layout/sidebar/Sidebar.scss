@@ -1,0 +1,58 @@
+
+$tab-title-font-family: 'icielz-bambola' !default;
+$tab-link-color: #000 !default;
+$tab-link-color-active: #4ca83c !default;
+$tab-link-icon-color-active: lighten($tab-link-color-active, 20%) !default;
+
+.sidebar-layout {
+  &__sidebar {
+    padding: 20px;
+    font-size: 18px;
+  
+    a {
+      color: $tab-link-color;
+      margin-left: 15px;
+      position: relative;
+      letter-spacing: 1px;
+      padding: 5px 0;
+      white-space: nowrap;
+  
+      &::before {
+        position: absolute;
+        right: calc(100% + 4px);
+        top: 8px;
+        content: "\f299";
+        font-family: "Font Awesome 5 Brands";
+        -webkit-font-smoothing: antialiased;
+        text-rendering: auto;
+        font-size: 14px;
+        color: $tab-link-icon-color-active;
+        opacity: 0;
+        max-width: 0;
+        transition: all .5s ease-in-out;
+      }
+  
+      &.active, &:hover {
+        color: $tab-link-color-active;
+      }
+  
+      &.active {
+        &::before {
+          opacity: 1;
+          max-width: 20px;
+        }
+      }
+    }
+  
+    .tab-title {
+      text-align: center;
+      padding: 10px 0;
+  
+      & > a {
+        font-family: $tab-title-font-family;
+        font-size: 20px;
+        letter-spacing: 2px;
+      }
+    }
+  }
+}

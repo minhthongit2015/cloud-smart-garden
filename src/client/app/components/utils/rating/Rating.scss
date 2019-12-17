@@ -1,0 +1,39 @@
+
+
+.rating {
+  position: relative;
+
+  &__toggle {
+    cursor: pointer;
+    &:hover {
+      color: orange;
+    }
+    &.rated {
+      color: #ffc75f;
+    }
+  }
+
+  &__points {
+    &__point {
+      color: #ffc75f;
+      font-weight: bolder;
+      &:hover {
+        color: orange;
+      }
+      &.active {
+        color: #fff;
+        background: orange;
+      }
+    }
+  }
+
+  &__average.btn-link.btn {
+    color: orange !important;
+  }
+  &__star {
+    color: orange;
+    font-size: .7em !important;
+    line-height: .5em;
+    vertical-align: middle;
+  }
+}
