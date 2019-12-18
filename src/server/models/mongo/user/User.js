@@ -4,15 +4,14 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 
 const UserSchema = new mongoose.Schema({
-  username: String,
   password: String,
-  type: Number,
+  role: String,
   name: String,
   email: String,
   picture: String,
   cover: String,
   description: String,
-  entities: [{ type: ObjectId, ref: 'Entity' }],
+  latestReads: Object,
   age: Number,
   married: Boolean,
   childs: Number,
@@ -22,7 +21,15 @@ const UserSchema = new mongoose.Schema({
   favorite_foods: [{ type: String }],
   favorite_songs: [{ type: String }],
   personality: [{ type: String }],
-  socials: Object
+  socials: {
+    facebook: String,
+    twitter: String,
+    instagram: String
+  },
+  socialPoint: {
+    type: Number,
+    default: 10
+  }
 });
 const UserModel = mongoose.model('User', UserSchema);
 

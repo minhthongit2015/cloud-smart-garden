@@ -15,7 +15,7 @@ import 'tui-editor/dist/tui-editor.min.css';
 import 'tui-editor/dist/tui-editor-contents.min.css';
 
 import SimplestLayout from './layouts/simplest/simplest';
-import DummyTheRealWorldPage from './pages/the-real-world/DummyTheRealWorld';
+import DummyUserNetWorkPage from './pages/user-network/DummyUserNetworkPage';
 
 import superws from './utils/superws';
 
@@ -50,11 +50,11 @@ const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'));
 const EarthPicturePage = React.lazy(() => import('./pages/earth-picture/EarthPicture'));
 const WhatYouCanDoPage = React.lazy(() => import('./pages/what-you-can-do/WhatYouCanDo'));
 const YourQuestionPage = React.lazy(() => import('./pages/your-question/YourQuestion'));
-const TheRealWorldPage = React.lazy(() => import('./pages/the-real-world/TheRealWorld'));
+const UserNetWorkPage = React.lazy(() => import('./pages/user-network/UserNetworkPage'));
 
 class App extends Component {
   // eslint-disable-next-line class-methods-use-this
-  get isTheRealWorldPage() {
+  get isUserNetworkPage() {
     return window.location.pathname === RouteConstants.theRealWorldPath;
   }
 
@@ -99,17 +99,17 @@ class App extends Component {
 
   render() {
     const routes = (
-      <React.Suspense fallback={<LeafLoading overlaping text="Climate Strike Vietnam" />}>
+      <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
         <Switch>
           <Route exact path={RouteConstants.homePath} component={props => <HomePage {...props} />} />
           <Route path={RouteConstants.adminPath}><Dashboard /></Route>
           <Route path={RouteConstants.earthPicturePath}><EarthPicturePage /></Route>
-          <Route exact path={RouteConstants.theRealWorldPath} component={DummyTheRealWorldPage} />
+          <Route exact path={RouteConstants.theRealWorldPath} component={DummyUserNetWorkPage} />
           <Route path={RouteConstants.whatYouCanDoPath}><WhatYouCanDoPage /></Route>
           <Route path={RouteConstants.yourQuestionPath}><YourQuestionPage /></Route>
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
-        {(this.isTheRealWorldPage || window.myGoogleMap) && <TheRealWorldPage />}
+        {(this.isUserNetworkPage || window.myGoogleMap) && <UserNetWorkPage />}
         <PageDialog ref={this.pageDialogRef} />
         <PageDialog ref={this.savedPostsPageDialogRef} />
         <PageDialog ref={this.iDoPostsPageDialogRef} />

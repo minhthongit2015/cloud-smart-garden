@@ -8,7 +8,7 @@ async function setup() {
   await db.setup();
   Debugger.database(color.yellow('[MongoDB]'), 'Sync done!');
 
-  // await testData();
+  await testData();
   Debugger.database(color.yellow('[MongoDB]'), 'Create test data done!');
 }
 
