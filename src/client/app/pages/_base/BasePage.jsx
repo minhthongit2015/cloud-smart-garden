@@ -10,8 +10,10 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    document.title = this.title
-      ? `${this.title}${this.noBaseTitle ? '' : ` | ${SiteConfig.WEBSITE_TITLE}`}`
-      : `${SiteConfig.WEBSITE_TITLE}`;
+    if (this.title !== null) {
+      document.title = this.title
+        ? `${this.title}${this.noBaseTitle ? '' : ` | ${SiteConfig.WEBSITE_TITLE}`}`
+        : `${SiteConfig.WEBSITE_TITLE}`;
+    }
   }
 }

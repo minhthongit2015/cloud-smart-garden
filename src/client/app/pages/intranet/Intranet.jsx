@@ -9,7 +9,7 @@ import TabMembers from './tab-members/TabMembers';
 
 export default class extends PageGroup {
   constructor(props) {
-    super(props, 'Alpha Team');
+    super(props, null, true);
     this.brand = {
       name: t('pages.intranet.nav.intranet'),
       link: RouteConstants.intranetLink,

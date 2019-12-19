@@ -9,7 +9,7 @@ export default React.memo(props => (
     height="80%"
     xmlSpace="preserve"
     style={{ flex: '1 1 0%', maxHeight: '100%' }}
-    fill="#5baf4c"
+    fill="#6ef16f"
     {...props}
   >
     <g width="70%">

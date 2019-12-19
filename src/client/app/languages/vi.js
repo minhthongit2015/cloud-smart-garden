@@ -37,12 +37,12 @@ export default {
     },
     intranet: {
       title: {
-        intranet: 'Đại Sảnh',
-        oneHundredQuotes: '100 Quotes',
-        memberSpotlight: 'Tiêu Điểm Thành Viên'
+        intranet: 'Alpha Team',
+        oneHundredQuotes: '100 Quotes | Alpha Team',
+        memberSpotlight: 'Member Spotlight | Alpha Team'
       },
       nav: {
-        intranet: 'Đại Sảnh',
+        intranet: 'Đại Sảnh Alpha Team',
         oneHundredQuotes: '100 Quotes',
         memberSpotlight: 'Tiêu Điểm Thành Viên'
       },
