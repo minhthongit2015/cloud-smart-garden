@@ -6,9 +6,9 @@ import './StrikeMarker.scss';
 import { FlagSrc } from '../../../../assets/icons';
 import PlaceActions from '../../map-tools/place-actions/PlaceActions';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
-import MapService from '../../../services/MapService';
-import UserService from '../../../services/UserService';
-import LoginDialogService from '../../../services/LoginDialogService';
+import MapService from '../../../services/map/MapService';
+import UserService from '../../../services/user/UserService';
+import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../languages';
 import ZoomTool from '../../map-tools/zoom-tool/ZoomTool';
 
@@ -45,7 +45,7 @@ export default class StrikeMarker extends MarkerWithInfo {
 
   handleJoin() {
     if (!UserService.isLoggedIn) {
-      LoginDialogService.show(t('components.loginDialog.loginToRiseYourVoice'));
+      LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
       return;
     }
     const { entity: place = {} } = this.props;
@@ -68,7 +68,7 @@ export default class StrikeMarker extends MarkerWithInfo {
 
   handleLeave() {
     if (!UserService.isLoggedIn) {
-      LoginDialogService.show(t('components.loginDialog.loginToRiseYourVoice'));
+      LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
       return;
     }
     const { entity: place = {}, mainMap } = this.props;

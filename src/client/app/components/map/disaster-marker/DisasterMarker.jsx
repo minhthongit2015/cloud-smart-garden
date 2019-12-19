@@ -5,7 +5,7 @@ import './DisasterMarker.scss';
 
 import { ForestFireSrc as DisasterIconSrc } from '../../../../assets/icons';
 import PlaceActions from '../../map-tools/place-actions/PlaceActions';
-import PostService from '../../../services/PostService';
+import PostService from '../../../services/blog/PostService';
 import Video from '../../utils/video/Video';
 import ZoomTool from '../../map-tools/zoom-tool/ZoomTool';
 

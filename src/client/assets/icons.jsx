@@ -13,9 +13,9 @@ export const DinosaurSrc = '/images/triceratops.svg';
 export const FlagSrc = '/images/flag.svg';
 export const ForestFireSrc = '/images/forest-fire.svg';
 
-export const AICloudIcon = props => <img src={AICloudSrc} alt="AI Cloud" draggable={false} {...props} />;
-export const MyGardenIcon = props => <img src={MyGardenSrc} alt="My Garden" draggable={false} {...props} />;
-export const SmileCityIcon = props => <img src={SmileCitySrc} alt="Smile City" draggable={false} {...props} />;
+export const IconAICloud = props => <img src={AICloudSrc} alt="AI Cloud" draggable={false} {...props} />;
+export const IconMyGarden = props => <img src={MyGardenSrc} alt="My Garden" draggable={false} {...props} />;
+export const IconSmileCity = props => <img src={SmileCitySrc} alt="Smile City" draggable={false} {...props} />;
 
 export { default as IconEarth } from './icons/layout/IconEarth';
 export { default as IconHome } from './icons/IconHome';
@@ -37,9 +37,9 @@ export { default as IconCheckbox } from './icons/utils/IconCheckbox';
 export { default as IconThanks } from './icons/utils/IconThanks';
 
 export default {
-  AICloudIcon,
-  MyGardenIcon,
-  SmileCityIcon,
+  IconAICloud,
+  IconMyGarden,
+  IconSmileCity,
   ShoppingCartSrc,
   PlantPot1Src,
   FarmSrc,

@@ -5,14 +5,15 @@ import {
 } from 'mdbreact';
 import './SignIn.scss';
 
-import UserService from '../../../services/UserService';
-import AuthService from '../../../services/Auth';
+import UserService from '../../../services/user/UserService';
+import AuthService from '../../../services/user/Auth';
 import t from '../../../languages';
-import LoginDialogService from '../../../services/LoginDialogService';
+import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import ProgressWithIcon from '../../utils/progres-with-icon/ProgressWithIcon';
 import { IconRankLeader, IconPlusPoint } from '../../../../assets/icons';
-import SavedPostsDialogService from '../../../services/SavedPostsDialogService';
-import IDoPostsDialogService from '../../../services/IDoPostsDialogService';
+import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
+import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
+import RouteConstants from '../../../utils/RouteConstants';
 
 
 export default class SignIn extends Component {
@@ -61,18 +62,20 @@ export default class SignIn extends Component {
   }
 
   static open() {
-    LoginDialogService.show('');
+    LoginDialogHelper.show('');
   }
 
   static handleContextAction(event) {
     const option = event.currentTarget.name;
     switch (option) {
     case 'dashboard':
-      return window.historyz.push('/admin/dashboard');
+      return window.historyz.push(RouteConstants.dashboardLink);
+    case 'intranet':
+      return window.historyz.push(RouteConstants.intranetLink);
     case 'saved-posts':
-      return SavedPostsDialogService.openSavedPostsInNewHistory();
+      return SavedPostsDialogHelper.openSavedPostsInNewHistory();
     case 'i-will-do-this':
-      return IDoPostsDialogService.openIDoPostsInNewHistory();
+      return IDoPostsDialogHelper.openIDoPostsInNewHistory();
     default:
       return null;
     }
@@ -141,13 +144,22 @@ export default class SignIn extends Component {
             </React.Fragment>
           )}
           {isAdmin && (
-            <MDBDropdownItem
-              disabled={disabled}
-              className="text-default"
-              name="dashboard"
-              onClick={SignIn.handleContextAction}
-            >Bảng điều khiển
-            </MDBDropdownItem>
+            <React.Fragment>
+              <MDBDropdownItem
+                disabled={disabled}
+                className="text-default"
+                name="dashboard"
+                onClick={SignIn.handleContextAction}
+              >Bảng điều khiển
+              </MDBDropdownItem>
+              <MDBDropdownItem
+                disabled={disabled}
+                className="text-default"
+                name="intranet"
+                onClick={SignIn.handleContextAction}
+              >Alpha Team
+              </MDBDropdownItem>
+            </React.Fragment>
           )}
           <MDBDropdownItem
             disabled={disabled}

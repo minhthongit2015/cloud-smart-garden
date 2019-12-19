@@ -15,9 +15,17 @@
     }
 
     .nav-icon-link {
-      width: 85%;
+      width: 100%;
       font-size: 1.2em;
       line-height: 1.21em;
+      text-align: center;
+      
+      .fixed-ration-image-wrapper {
+        width: 60% !important;
+      }
+      .fixed-ration-image {
+        padding-top: 100% !important;
+      }
     }
   }
 }
@@ -47,6 +55,15 @@
     
     aside.sidenav {
       .nav-icon-link {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .fixed-ration-image-wrapper {
+          width: 100% !important;
+        }
         span {
           display: none;
         }

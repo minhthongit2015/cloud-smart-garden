@@ -7,7 +7,7 @@ const App = React.lazy(() => import('./app/app'));
 
 render(
   <BrowserRouter>
-    <React.Suspense fallback={<LeafLoading overlaping text="Climate Strike Vietnam" />}>
+    <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
       <App />
     </React.Suspense>
   </BrowserRouter>,

@@ -9,22 +9,22 @@ import './Post.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import ContextButton from '../../utils/context-button/ContextButton';
 import superrequest from '../../../utils/superrequest';
-import PostService from '../../../services/PostService';
+import PostService from '../../../services/blog/PostService';
 // import LikeAndShare from '../../facebook/LikeAndShare';
-import UserService from '../../../services/UserService';
-import MessageDialogService from '../../../services/MessageDialogService';
+import UserService from '../../../services/user/UserService';
+import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import ShareButton from '../../facebook/ShareButton';
-import LoginDialogService from '../../../services/LoginDialogService';
+import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import Rating from '../../utils/rating/Rating';
-import CategoryService from '../../../services/CategoryService';
+import CategoryService from '../../../services/blog/CategoryService';
 import { IconBookmark, IconRaisedFist, IconThanks } from '../../../../assets/icons';
 // eslint-disable-next-line import/no-cycle
-import SavedPostsDialogService from '../../../services/SavedPostsDialogService';
+import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 // eslint-disable-next-line import/no-cycle
-import IDoPostsDialogService from '../../../services/IDoPostsDialogService';
+import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
 import GlobalState from '../../../utils/GlobalState';
 import t from '../../../languages';
-import PostDetailsDialogService from '../../../services/PostDetailsDialogService';
+import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
 
 
 const ContextOptions = {
@@ -111,7 +111,7 @@ export default class Post extends React.PureComponent {
 
   togglePopup() {
     const { post } = this.props;
-    PostDetailsDialogService.openPostDetailsDialog(post);
+    PostDetailsDialogHelper.openPostDetailsDialog(post);
   }
 
   handlePopupChange(state) {
@@ -129,13 +129,13 @@ export default class Post extends React.PureComponent {
     switch (option) {
     case ContextOptions.request:
       if (UserService.isLoggedIn) {
-        return MessageDialogService.showUpComingFeature(option.value);
+        return MessageDialogHelper.showUpComingFeature(option.value);
       }
-      return LoginDialogService.show(t('components.loginDialog.loginToRequestChange'));
+      return LoginDialogHelper.show(t('components.loginDialog.loginToRequestChange'));
 
     case ContextOptions.save:
       if (!UserService.isLoggedIn) {
-        return LoginDialogService.show(t('components.loginDialog.loginToSavePost'));
+        return LoginDialogHelper.show(t('components.loginDialog.loginToSavePost'));
       }
       if (post.isSaved && this.props.handleActions) {
         this.props.handleActions(event, {
@@ -152,7 +152,7 @@ export default class Post extends React.PureComponent {
 
     case ContextOptions.iWillDoThis:
       if (!UserService.isLoggedIn) {
-        return LoginDialogService.show(t('components.loginDialog.loginToSaveIDo'));
+        return LoginDialogHelper.show(t('components.loginDialog.loginToSaveIDo'));
       }
       if (post.iWillDoThis && this.props.handleActions) {
         this.props.handleActions(event, {
@@ -244,7 +244,7 @@ export default class Post extends React.PureComponent {
   handleRating(rating) {
     const { post } = this.props;
     if (!UserService.isLoggedIn) {
-      LoginDialogService.show(t('components.loginDialog.loginToRating'));
+      LoginDialogHelper.show(t('components.loginDialog.loginToRating'));
       return;
     }
 
@@ -291,7 +291,7 @@ export default class Post extends React.PureComponent {
         if (!res || !res.ok) {
           GlobalState.restoreFromSavedState(post, savedState, this);
         } else {
-          // MessageDialogService.showSuccessMessage(ContextOptions.save.value, true);
+          // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, true);
         }
       });
     }
@@ -301,7 +301,7 @@ export default class Post extends React.PureComponent {
       if (!res || !res.ok) {
         GlobalState.restoreFromSavedState(post, savedState, this);
       } else {
-        // MessageDialogService.showSuccessMessage(ContextOptions.save.value, false);
+        // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, false);
       }
     });
   }
@@ -325,7 +325,7 @@ export default class Post extends React.PureComponent {
           GlobalState.restoreFromSavedState(post, savedState, this);
           UserService.updateUserSocialPoint(-2);
         } else {
-          // MessageDialogService.showSuccessMessage(ContextOptions.save.value, true);
+          // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, true);
         }
       });
     }
@@ -337,17 +337,17 @@ export default class Post extends React.PureComponent {
         GlobalState.restoreFromSavedState(post, savedState, this);
         UserService.updateUserSocialPoint(2);
       } else {
-        // MessageDialogService.showSuccessMessage(ContextOptions.save.value, false);
+        // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, false);
       }
     });
   }
 
   static handleOpenSavedPosts() {
-    SavedPostsDialogService.openSavedPostsInNewHistory();
+    SavedPostsDialogHelper.openSavedPostsInNewHistory();
   }
 
   static handleOpenIWillDoThisPosts() {
-    IDoPostsDialogService.openIDoPostsInNewHistory();
+    IDoPostsDialogHelper.openIDoPostsInNewHistory();
   }
 
   render() {

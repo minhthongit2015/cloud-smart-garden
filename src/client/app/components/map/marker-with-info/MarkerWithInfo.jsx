@@ -3,7 +3,7 @@ import { MarkerProps, InfoWindowProps } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import './MarkerWithInfo.scss';
 import BaseMarker from './BaseMarker';
-import PostService from '../../../services/PostService';
+import PostService from '../../../services/blog/PostService';
 
 
 export default class MarkerWithInfo extends BaseMarker {

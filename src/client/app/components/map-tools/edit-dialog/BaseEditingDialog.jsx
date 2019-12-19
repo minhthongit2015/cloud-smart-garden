@@ -5,8 +5,8 @@ import {
   MDBBtn
 } from 'mdbreact';
 import LeafLoading from '../../utils/loadings/LeafLoading';
-import MapService from '../../../services/MapService';
-import PostService from '../../../services/PostService';
+import MapService from '../../../services/map/MapService';
+import PostService from '../../../services/blog/PostService';
 
 
 export default class extends React.Component {

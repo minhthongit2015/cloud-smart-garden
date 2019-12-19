@@ -6,7 +6,7 @@ import './ActivistMarker.scss';
 
 import { PlantPot1Src } from '../../../../assets/icons';
 import PlaceActions from '../../map-tools/place-actions/PlaceActions';
-import UserService from '../../../services/UserService';
+import UserService from '../../../services/user/UserService';
 import ZoomTool from '../../map-tools/zoom-tool/ZoomTool';
 
 export default class ActivistMarker extends MarkerWithInfo {

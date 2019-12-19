@@ -10,7 +10,7 @@ import './MarkerWithInfo.scss';
 import './DefaultStyle.scss';
 import { mapTreeNodeToArray } from '../../../utils/DOM';
 import Circle from '../circle/Circle';
-import MapService from '../../../services/MapService';
+import MapService from '../../../services/map/MapService';
 
 
 export default class MarkerWithInfo extends Component {

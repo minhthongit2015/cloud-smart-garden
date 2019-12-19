@@ -1,7 +1,7 @@
 import React from 'react';
-import MapService from '../../../services/MapService';
-import UserService from '../../../services/UserService';
-import PlaceEditDialogService from '../../../services/dialog/PlaceEditDialogService';
+import MapService from '../../../services/map/MapService';
+import UserService from '../../../services/user/UserService';
+import EditPlaceDialogHelper from '../../../helpers/dialogs/EditPlaceDialogHelper';
 
 
 export default class extends React.Component {
@@ -23,7 +23,7 @@ export default class extends React.Component {
       marker.remove();
       break;
     case 'edit-place':
-      PlaceEditDialogService.edit(place, marker);
+      EditPlaceDialogHelper.edit(place, marker);
       // MapService.updatePlace(place);
       break;
     default:

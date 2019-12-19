@@ -1,10 +1,10 @@
 
 const defaultModel = {
   url: 'https://climate-strike-vietnam.herokuapp.com',
-  title: 'Climate Strike Vietnam',
-  description: 'Tham gia phong trào chống biến đổi khí hậu tại Việt Nam',
+  title: 'Beyond Garden',
+  description: 'Tham gia cùng cộng đồng chống biến đổi khí hậu tại Việt Nam!',
   image: 'https://climate-strike-vietnam.herokuapp.com/Climate-Strike-Vietnam.jpg',
-  site_name: 'Climate Strike Vietnam',
+  site_name: 'Beyond Garden',
   type: 'website',
   app_id: '415534815831116'
 };

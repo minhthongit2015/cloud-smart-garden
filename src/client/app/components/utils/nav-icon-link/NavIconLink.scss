@@ -10,7 +10,7 @@ $nav-link-margin-y: 10px !default;
   position: relative;
   margin: $nav-link-margin-y auto;
   font-size: $nav-link-font-size;
-  // font-family: $nav-link-font-family;
+  font-family: $nav-link-font-family;
   text-align: center;
   color: $nav-link-color;
   transition: all .2s ease-in-out;

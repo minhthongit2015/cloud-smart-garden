@@ -14,10 +14,10 @@ import superrequest from '../../../utils/superrequest';
 import LeafLoading from '../../utils/loadings/LeafLoading';
 import Composer from '../composer/Composer';
 import ButtonBar from '../../dialog/ButtonBar';
-import CategoryService from '../../../services/CategoryService';
-import UserService from '../../../services/UserService';
-import LoginDialogService from '../../../services/LoginDialogService';
-import MessageDialogService from '../../../services/MessageDialogService';
+import CategoryService from '../../../services/blog/CategoryService';
+import UserService from '../../../services/user/UserService';
+import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
+import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity, IconThanks } from '../../../../assets/icons';
 import t from '../../../languages';
 
@@ -208,9 +208,9 @@ export default class extends React.Component {
       this.resetForm();
     }
     if (!UserService.user) {
-      LoginDialogService.show(t('components.loginDialog.loginToPost'));
+      LoginDialogHelper.show(t('components.loginDialog.loginToPost'));
     } else if (!this.props.hasPermission) {
-      MessageDialogService.show(
+      MessageDialogHelper.show(
         'Tham Gia Viết Bài',
         <div>
           Để tham gia cùng viết bài, bạn có thể liên hệ qua Facebook page <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Climate Strike Vietnam</a>. Hoặc đăng bài ở chuyên mục <IconCommunity text={t('pages.earthPicture.nav.communityShare')} />.

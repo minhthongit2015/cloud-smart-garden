@@ -2,13 +2,13 @@ import React from 'react';
 import BasePage from '../_base/BasePage';
 import './Home.scss';
 
-import UserService from '../../services/UserService';
+import UserService from '../../services/user/UserService';
 import RouteConstants from '../../utils/RouteConstants';
 import {
-  IconEarthPicture,
-  IconWhatYouCanDo,
-  IconYourQuestion,
-  IconTheRealWorld
+  IconMyGarden,
+  IconSmileCity,
+  IconAICloud,
+  IconEarthPicture
 } from '../../../assets/icons';
 
 import NavIconLink from '../../components/utils/nav-icon-link/NavIconLink';
@@ -16,47 +16,47 @@ import t from '../../languages';
 
 export default class HomePage extends BasePage {
   constructor(props) {
-    super(props, 'Climate Strike Vietnam', true);
+    super(props, 'Beyond Garden', true);
     this.links = [
       {
         type: 'nav',
-        link: RouteConstants.earthPictureLink,
-        text: t('pages.home.nav.earthPicture'),
-        textStyle: {
-          marginTop: '-14px',
-          marginBottom: '20px'
-        },
-        icon: IconEarthPicture
-      },
-      {
-        type: 'nav',
-        link: RouteConstants.theRealWorldLink,
-        text: `\r\n${t('pages.home.nav.theRealWorld')}`,
-        textStyle: {
-          marginTop: '2px',
-          marginBottom: '20px'
-        },
-        icon: IconTheRealWorld
-      },
-      {
-        type: 'nav',
-        link: RouteConstants.whatYouCanDoLink,
-        text: t('pages.home.nav.whatYouCanDo'),
-        textStyle: {
-          marginTop: '2px',
-          marginBottom: '2px'
-        },
-        icon: IconWhatYouCanDo
-      },
-      {
-        type: 'nav',
-        link: RouteConstants.yourQuestionLink,
-        text: t('pages.home.nav.yourQuestion'),
+        link: RouteConstants.userGardensLink,
+        text: t('pages.home.nav.myGarden'),
         textStyle: {
           marginTop: '-10px',
-          marginBottom: '20px'
+          marginBottom: '2px'
         },
-        icon: IconYourQuestion
+        icon: IconMyGarden
+      },
+      {
+        type: 'nav',
+        link: RouteConstants.userNetworkLink,
+        text: t('pages.home.nav.userNetwork'),
+        textStyle: {
+          marginTop: '-10px',
+          marginBottom: '2px'
+        },
+        icon: IconSmileCity
+      },
+      {
+        type: 'nav',
+        link: RouteConstants.aiCloudLink,
+        text: t('pages.home.nav.aiCloud'),
+        textStyle: {
+          marginTop: '-10px',
+          marginBottom: '2px'
+        },
+        icon: IconAICloud
+      },
+      {
+        type: 'nav',
+        link: RouteConstants.nextFeaturesLink,
+        text: t('pages.home.nav.nextFeatures'),
+        textStyle: {
+          marginTop: '-10px',
+          marginBottom: '2px'
+        },
+        icon: IconEarthPicture
       }
     ];
 
@@ -98,30 +98,28 @@ export default class HomePage extends BasePage {
   render() {
     const { fbProfile } = UserService;
     return (
-      <React.Fragment>
-        <div className="h-100 d-flex justify-content-center align-items-center">
-          <div className="d-flex flex-column col-lg-8 col-md-10 col-sm-12 col-xs-12 col-12 p-0">
-            <div className="text-center text-light px-2 mb-0 mb-sm-3">
-              {t('pages.home.mainMessage')}
-            </div>
-            <div className="home-nav d-flex flex-column flex-sm-row align-items-center">
-              {
-                this.links.map((link) => {
-                  if (link.type === 'nav') {
-                    return this.renderNav(link);
-                  }
-                  return null;
-                })
-              }
-            </div>
-            {fbProfile && (
-              <div className="text-center text-light mt-2 mt-xs-3 mt-sm-5">
-                {this.getRandomQuote(fbProfile.short_name)}
-              </div>
-            )}
+      <div className="h-100 d-flex justify-content-center align-items-center overflow-hidden">
+        <div className="d-flex flex-column col-lg-8 col-md-10 col-sm-12 col-xs-12 col-12 p-0">
+          <div className="text-center text-light px-2 mb-0 mb-sm-3">
+            {t('pages.home.mainMessage')}
           </div>
+          <div className="home-nav d-flex flex-column flex-sm-row align-items-center">
+            {
+              this.links.map((link) => {
+                if (link.type === 'nav') {
+                  return this.renderNav(link);
+                }
+                return null;
+              })
+            }
+          </div>
+          {fbProfile && (
+            <div className="text-center text-light mt-2 mt-xs-3 mt-sm-5 px-3 px-md-5">
+              {this.getRandomQuote(fbProfile.short_name)}
+            </div>
+          )}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

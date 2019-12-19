@@ -6,14 +6,15 @@ import SignIn from '../../../components/user/signin/SignIn';
 
 import RouteConstants from '../../../utils/RouteConstants';
 import {
-  IconEarthPictureStatic,
-  IconWhatYouCanDo,
-  IconYourQuestion,
   IconHome,
-  IconEarth
+  IconMyGarden,
+  IconSmileCity,
+  IconAICloud,
+  IconEarthPicture
 } from '../../../../assets/icons';
 
 import NavIconLink from '../../../components/utils/nav-icon-link/NavIconLink';
+import t from '../../../languages';
 
 
 export default class SideNav extends Component {
@@ -22,27 +23,27 @@ export default class SideNav extends Component {
     this.links = [
       {
         type: 'nav',
-        link: RouteConstants.earthPictureLink,
-        text: 'Bức Tranh\r\nTrái Đất',
-        icon: IconEarthPictureStatic
+        link: RouteConstants.userGardensLink,
+        text: t('pages.home.sideNav.myGarden'),
+        icon: IconMyGarden
       },
       {
         type: 'nav',
-        link: RouteConstants.theRealWorldLink,
-        text: 'Thế Giới\r\nThực',
-        icon: IconEarth
+        link: RouteConstants.userNetworkLink,
+        text: t('pages.home.nav.userNetwork'),
+        icon: IconSmileCity
       },
       {
         type: 'nav',
-        link: RouteConstants.whatYouCanDoLink,
-        text: 'Điều Bạn\r\nCó Thể Làm',
-        icon: IconWhatYouCanDo
+        link: RouteConstants.aiCloudLink,
+        text: t('pages.home.nav.aiCloud'),
+        icon: IconAICloud
       },
       {
         type: 'nav',
-        link: RouteConstants.yourQuestionLink,
-        text: 'Điều Bạn\r\nMuốn Biết?',
-        icon: IconYourQuestion
+        link: RouteConstants.nextFeaturesLink,
+        text: t('pages.home.nav.nextFeatures'),
+        icon: IconEarthPicture
       }
     ];
     // if (window.location.port === '') {
@@ -58,7 +59,7 @@ export default class SideNav extends Component {
     };
     return (
       <div className="w-100 text-center mb-0 mb-sm-2">
-        <NavIconLink nav={homeNav} className="d-sm-none" />
+        <NavIconLink nav={homeNav} className="d-sm-none w-75" />
         <NavLink
           key="home"
           to={RouteConstants.homeLink}

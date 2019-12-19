@@ -5,15 +5,15 @@ import './PostDetails.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import Video from '../../utils/video/Video';
 import ShareButton from '../../facebook/ShareButton';
-import PostService from '../../../services/PostService';
-import FbService from '../../../services/FbService';
+import PostService from '../../../services/blog/PostService';
+import FbService from '../../../services/user/FbService';
 import GlobalState from '../../../utils/GlobalState';
-import UserService from '../../../services/UserService';
-import LoginDialogService from '../../../services/LoginDialogService';
+import UserService from '../../../services/user/UserService';
+import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../languages';
 import superrequest from '../../../utils/superrequest';
 import Rating from '../../utils/rating/Rating';
-import NewsTracker from '../../../services/NewsTracker';
+import NewsTracker from '../../../services/blog/NewsTracker';
 
 
 export default class PostDetails extends React.PureComponent {
@@ -40,7 +40,7 @@ export default class PostDetails extends React.PureComponent {
   handleRating(rating) {
     const { post } = this.props;
     if (!UserService.isLoggedIn) {
-      LoginDialogService.show(t('components.loginDialog.loginToRating'));
+      LoginDialogHelper.show(t('components.loginDialog.loginToRating'));
       return;
     }
 

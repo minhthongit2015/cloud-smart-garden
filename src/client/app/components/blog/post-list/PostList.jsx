@@ -4,8 +4,8 @@ import Shuffle from 'shufflejs';
 // eslint-disable-next-line import/no-cycle
 import Post from '../post/Post';
 import './PostList.scss';
-import UserService from '../../../services/UserService';
-import FbService from '../../../services/FbService';
+import UserService from '../../../services/user/UserService';
+import FbService from '../../../services/user/FbService';
 
 
 export default class PostList extends React.Component {

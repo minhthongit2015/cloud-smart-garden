@@ -7,12 +7,18 @@ export default {
   },
   pages: {
     home: {
-      mainMessage: 'đây là những gì đang diễn ra, và bạn có quyền không tin vào điều đó...',
+      mainMessage: '',
       nav: {
-        earthPicture: 'Bức Tranh\r\nTrái Đất',
-        theRealWorld: 'Thế Giới Thực',
-        whatYouCanDo: 'Điều Bạn\r\nCó Thể Làm',
-        yourQuestion: 'Điều Bạn\r\nMuốn Biết?'
+        myGarden: 'My Garden',
+        userNetwork: 'Smile City',
+        aiCloud: 'AI Cloud',
+        nextFeatures: 'Top Wanted'
+      },
+      sideNav: {
+        myGarden: 'My Garden',
+        userNetwork: 'Smile City',
+        aiCloud: 'AI Cloud',
+        nextFeatures: 'Top Wanted'
       }
     },
     admin: {
@@ -27,6 +33,23 @@ export default {
       message: {
         dashboard: 'Bảng điều khiển',
         categories: 'Quản lý danh sách chuyên mục bài viết'
+      }
+    },
+    intranet: {
+      title: {
+        intranet: 'Đại Sảnh',
+        oneHundredQuotes: '100 Quotes',
+        memberSpotlight: 'Tiêu Điểm Thành Viên'
+      },
+      nav: {
+        intranet: 'Đại Sảnh',
+        oneHundredQuotes: '100 Quotes',
+        memberSpotlight: 'Tiêu Điểm Thành Viên'
+      },
+      message: {
+        intranet: 'Welcome to the Tomorrowland!',
+        oneHundredQuotes: '',
+        memberSpotlight: ''
       }
     },
     earthPicture: {

@@ -3,7 +3,7 @@ import { Section, SectionHeader, SectionBody } from '../../../layouts/base/secti
 import t from '../../../languages';
 import DeepMessage from '../../../components/utils/messages/DeepMessage';
 import AdminPage from '../../_base/AdminPage';
-import CategoryService from '../../../services/CategoryService';
+import CategoryService from '../../../services/blog/CategoryService';
 import MultiDragableTree from '../../../components/utils/multi-dragable-tree/MultiDragableTree';
 
 

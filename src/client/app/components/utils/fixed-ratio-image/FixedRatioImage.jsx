@@ -7,7 +7,7 @@ export default (props) => {
     wrapperClass = '', className = '', icon, ratio = 1, src, backgroundType, style = {}, ...restProps
   } = props;
   return (
-    <div className={`fixed-ration-image-wrapper ${wrapperClass}`}>
+    <div className={`fixed-ration-image-wrapper m-auto ${wrapperClass}`}>
       {icon ? (
         <div
           {...restProps}

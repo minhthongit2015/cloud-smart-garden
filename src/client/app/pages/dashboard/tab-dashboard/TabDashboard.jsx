@@ -21,7 +21,7 @@ export default class extends AdminPage {
       this.forceUpdate();
     }, 4000);
     if (this.error) {
-      throw new Error('heee');
+      throw new Error('Test Crashing');
     }
 
     return (

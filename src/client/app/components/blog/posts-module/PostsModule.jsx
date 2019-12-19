@@ -1,6 +1,6 @@
 import React from 'react';
 import NewPostRow from '../new-post/NewPostRow';
-import UserService from '../../../services/UserService';
+import UserService from '../../../services/user/UserService';
 
 
 export default class extends React.Component {
@@ -14,8 +14,8 @@ export default class extends React.Component {
   }
 
   handlePostPosted() {
-    if (this.postListRef.current.innerRef.current.refresh) {
-      this.postListRef.current.innerRef.current.refresh();
+    if (this.postListRef.current.refresh) {
+      this.postListRef.current.refresh();
     }
   }
 
@@ -46,6 +46,7 @@ export default class extends React.Component {
         <PostList
           {...restProps}
           ref={this.postListRef}
+          category={(categories && categories[0]) || rootCategory}
           handleActions={this.handleActions}
           hasPermission={canCreateNewPost}
         />

@@ -4,8 +4,8 @@ import {
   MDBBtn, MDBInput,
   MDBWaves
 } from 'mdbreact';
-import UserService from '../../services/UserService';
-import AuthService from '../../services/Auth';
+import UserService from '../../services/user/UserService';
+import AuthService from '../../services/user/Auth';
 import LeafLoading from '../utils/loadings/LeafLoading';
 import './LoginDialog.scss';
 
