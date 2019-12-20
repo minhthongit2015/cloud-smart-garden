@@ -16,6 +16,7 @@ export default class extends AdminPage {
 
   constructor(props) {
     super(props, t('pages.intranet.title.oneHundredQuotes'));
+    this.setBackground('/images/cup-coffee.jpg');
     this.newQuoteRef = React.createRef();
     this.oneHundredQuotesRef = React.createRef();
     this.handleQuotePosted = this.handleQuotePosted.bind(this);

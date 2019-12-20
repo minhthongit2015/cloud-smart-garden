@@ -97,7 +97,7 @@ export default (props) => {
             </MDBCol>
           )}
         </MDBRow>
-        <div className="main-quote__content">{content}</div>
+        <div className="main-quote__content">❝{content}❞</div>
         {author && <div className="main-quote__author"><i>~ {author}</i></div>}
       </div>
       <MDBPopoverBody>

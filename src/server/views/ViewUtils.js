@@ -1,12 +1,12 @@
 
 const defaultModel = {
-  url: 'https://climate-strike-vietnam.herokuapp.com',
+  url: 'https://beyond-garden.herokuapp.com',
   title: 'Beyond Garden',
-  description: 'Tham gia cùng cộng đồng chống biến đổi khí hậu tại Việt Nam!',
-  image: 'https://climate-strike-vietnam.herokuapp.com/Climate-Strike-Vietnam.jpg',
+  description: '!',
+  image: 'https://beyond-garden.herokuapp.com/Climate-Strike-Vietnam.jpg',
   site_name: 'Beyond Garden',
   type: 'website',
-  app_id: '415534815831116'
+  app_id: '415534815831116' // facebook app id
 };
 
 function getModel() {

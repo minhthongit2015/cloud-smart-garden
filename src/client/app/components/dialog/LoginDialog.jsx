@@ -120,7 +120,7 @@ export default class extends React.Component {
           onMouseDown={this.handleClick}
           onTouchStart={this.handleClick}
         >
-          <h5 className="white-text font-weight-bolder m-0">❝Climate Strike Vietnam❞</h5>
+          <h5 className="white-text font-weight-bolder m-0">❝Beyond Garden❞</h5>
           <MDBWaves
             cursorPos={this.state.cursorPos}
           />
