@@ -29,7 +29,7 @@ const User = require('./user/User');
 const Blog = require('./blog');
 const Map = require('./map');
 const Garden = require('./garden');
-const Company = require('./company');
+const Company = require('./intranet');
 
 module.exports = {
   db: MongoDB.db,

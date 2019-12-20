@@ -3,6 +3,7 @@
 const ApiHelper = require('../utils/ApiHelper');
 const ConverterFactory = require('../models/converters/ConverterFactory');
 const { isNotSet } = require('../utils');
+const ImgurService = require('./third-party/imgur');
 
 function convertArgumentsToArray(args) {
   const outputArgs = [];
@@ -65,6 +66,21 @@ module.exports = class CRUDService {
       return this.update(doc);
     }
     return this.create(doc);
+  }
+
+  static async replaceImageBase64ToUrl(content) {
+    const imgRegexp = /!\[(.+?)\]\((.+?)\)/g;
+    const promises = [];
+    async function replacer(match, imageName, imageBase64) {
+      const promise = ImgurService.create(imageBase64, {
+        name: imageName,
+        title: imageName
+      }).then(imageUrl => `![${imageName}](${imageUrl})`);
+      promises.push(promise);
+    }
+    content.replace(imgRegexp, replacer);
+    const data = await Promise.all(promises);
+    return content.replace(imgRegexp, () => data.shift());
   }
 
 

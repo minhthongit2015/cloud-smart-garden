@@ -5,7 +5,7 @@ const CRUDService = require('../CRUDService');
 const CategoryService = require('./Category');
 const UserService = require('../user/User');
 const ApiHelper = require('../../utils/ApiHelper');
-const ImgurService = require('../../services/third-party/imgur');
+const ImgurService = require('../third-party/imgur');
 const { PostStatus } = require('../../utils/Constants');
 
 module.exports = class extends CRUDService {
@@ -96,21 +96,6 @@ module.exports = class extends CRUDService {
     return oldDoc
       ? super.update(docId, doc)
       : super.create(doc);
-  }
-
-  static async replaceImageBase64ToUrl(content) {
-    const imgRegexp = /!\[(.+?)\]\((.+?)\)/g;
-    const promises = [];
-    async function replacer(match, imageName, imageBase64) {
-      const promise = ImgurService.create(imageBase64, {
-        name: imageName,
-        title: imageName
-      }).then(imageUrl => `![${imageName}](${imageUrl})`);
-      promises.push(promise);
-    }
-    content.replace(imgRegexp, replacer);
-    const data = await Promise.all(promises);
-    return content.replace(imgRegexp, () => data.shift());
   }
 
   static async getByOrder(baseOrder) {

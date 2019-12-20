@@ -98,6 +98,24 @@ export function isString(str) {
   return typeof str === 'string';
 }
 
+export function isZeroVariable(variable) {
+  if (!variable) return true;
+  if (variable.length != null && variable.length <= 0) return true;
+  if (typeof variable === 'object' && Object.keys(variable).length === 0) return true;
+  return false;
+}
+
+export function zeroVariable(variable, toNull = false) {
+  if (!variable) return variable;
+  if (typeof variable === 'string') return '';
+  if (typeof variable === 'number' || typeof variable === 'bigint') return 0;
+  if (typeof variable === 'function') return null;
+  if (typeof variable === 'boolean') return false;
+  if (variable.length != null) return toNull ? null : [];
+  if (typeof variable === 'object') return toNull ? null : {};
+  return undefined;
+}
+
 export function parseStringToNumber(text) {
   if (isBlank(text)) {
     return 0;

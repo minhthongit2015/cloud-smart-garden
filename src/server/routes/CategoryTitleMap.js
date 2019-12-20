@@ -25,7 +25,7 @@ const askForPollutionPath = `${yourQuestionPath}/o-nhiem`;
 const askForOthersPath = `${yourQuestionPath}/chu-de-khac`;
 
 const titleMap = {
-  [homePath]: 'Climate Strike Vietnam',
+  [homePath]: 'Beyond Garden',
 
   [earthPicturePath]: 'Bức Tranh Trái Đất',
   [epClimatePath]: 'Bức Tranh Khí Hậu',

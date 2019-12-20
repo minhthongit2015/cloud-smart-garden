@@ -1,23 +1,28 @@
 import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
-import DeepMessage from '../../../components/utils/messages/DeepMessage';
 import AdminPage from '../../_base/AdminPage';
+import Video from '../../../components/utils/video/Video';
+import MainQuote from '../../../components/utils/messages/MainQuote';
 
 
 export default class extends AdminPage {
   constructor(props) {
     super(props, t('pages.intranet.title.intranet'));
+    this.setBackground('/images/tomorrowland.jpg');
+    this.mainMessage = {
+      quote: `${t('pages.intranet.message.intranet')} 🥳`
+    };
   }
 
   render() {
     return (
       <Section>
         <SectionHeader>
-          <DeepMessage>{t('pages.intranet.message.intranet')}</DeepMessage>
+          <MainQuote quote={this.mainMessage} />
         </SectionHeader>
         <SectionBody>
-          <div>Welcome to the Tomorrowland!</div>
+          <Video title="" src="https://www.youtube.com/watch?v=w7IcUg23mtM" />
         </SectionBody>
       </Section>
     );

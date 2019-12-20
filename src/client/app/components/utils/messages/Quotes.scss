@@ -1,0 +1,27 @@
+
+.main-quote {
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.quote {
+  background: rgba(255, 255, 255, 0.38);
+  color: #123;
+  transition: .3s all ease-in-out;
+  &__content {
+    font-weight: bolder;
+    font-family: "icielz-bambola";
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+  &__author {
+
+  }
+  &__shared-by {
+    color: #f3893e;
+    font-weight: bolder;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+}

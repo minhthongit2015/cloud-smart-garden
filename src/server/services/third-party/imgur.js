@@ -23,8 +23,8 @@ module.exports = class {
       });
   }
 
-  static async create(image, {
-    name, title, album
+  static async create(image, details = {
+    name: '', title: '', album: ''
   }) {
     if (image.startsWith('http')) {
       return image;
@@ -37,9 +37,9 @@ module.exports = class {
       .send({
         image,
         type: 'base64',
-        name,
-        title,
-        album: album || this.getAutoAlbum()
+        name: details.name,
+        title: details.title || '',
+        album: details.album || this.getAutoAlbum()
       }).then(img => img.body.data.link);
   }
 };

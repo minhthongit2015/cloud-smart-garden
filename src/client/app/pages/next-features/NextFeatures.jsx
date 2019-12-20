@@ -7,25 +7,46 @@ import BlogPageContent from '../_base/BlogPageContent';
 
 
 export default class extends BlogPage {
-  constructor(props) {
-    super(props);
+  constructor(propsz) {
+    super(propsz);
     this.brand = {
-      name: t('pages.yourQuestion.nav.main'),
+      name: t('pages.nextFeatures.nav.nextFeatures'),
       link: RouteConstants.nextFeaturesLink,
       path: RouteConstants.nextFeaturesPath,
-      render: propsz => <BlogPageContent rootCategory="NextFeature" {...propsz} />
+      render: props => (
+        <BlogPageContent
+          {...props}
+          rootCategory="NextFeatures"
+          title={t('pages.nextFeatures.title.nextFeatures')}
+          guideMessage={t('pages.nextFeatures.message.nextFeatures')}
+        />
+      )
     };
     this.tabs = [
       {
-        name: t('pages.yourQuestion.nav.climate'),
+        name: t('pages.nextFeatures.nav.nextTech'),
         path: RouteConstants.nextTechPath,
         link: RouteConstants.nextTechLink,
-        render: propsz => <BlogPageContent categories="NextTech" {...propsz} />
+        render: props => (
+          <BlogPageContent
+            {...props}
+            categories="NextTech"
+            title={t('pages.nextFeatures.title.nextTech')}
+            guideMessage={t('pages.nextFeatures.message.nextTech')}
+          />
+        )
       }, {
-        name: t('pages.yourQuestion.nav.climate'),
+        name: t('pages.nextFeatures.nav.nextSpecies'),
         path: RouteConstants.nextSpeciesPath,
         link: RouteConstants.nextSpeciesLink,
-        render: propsz => <BlogPageContent categories="NextSpecies" {...propsz} />
+        render: props => (
+          <BlogPageContent
+            {...props}
+            categories="NextSpecies"
+            title={t('pages.nextFeatures.title.nextSpecies')}
+            guideMessage={t('pages.nextFeatures.message.nextSpecies')}
+          />
+        )
       }
     ];
   }

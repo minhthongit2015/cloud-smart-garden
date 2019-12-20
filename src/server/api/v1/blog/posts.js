@@ -104,7 +104,7 @@ router.delete('/:postId', (req, res) => {
   Logger.catch(async () => {
     const { postId } = req.params;
     const post = await PostService.get(postId);
-    PostsSecurityService.onlyOwnerModAdmin(req, post);
+    await PostsSecurityService.onlyOwnerModAdmin(req, post);
     const deleteResult = await PostService.delete(postId);
     return res.send(new APIResponse().setData(deleteResult));
   }, { req, res });

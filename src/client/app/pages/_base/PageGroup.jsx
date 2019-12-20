@@ -8,8 +8,8 @@ import GuideMessage from '../../components/utils/messages/GuideMessage';
 
 
 export default class extends BasePage {
-  constructor(...args) {
-    super(...args);
+  constructor(propsz) {
+    super(propsz);
     this.brand = {
       name: 'Demo Page Group',
       link: RouteConstants.aiCloudLink,

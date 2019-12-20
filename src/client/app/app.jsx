@@ -18,10 +18,9 @@ import ErrorBoundary from './components/error-boundary/ErrorBoundary';
 import SimplestLayout from './layouts/simplest/simplest';
 
 import superws from './utils/superws';
+import KeyTracker from './utils/KeyTracker';
 
 import RouteConstants from './utils/RouteConstants';
-
-import KeyTracker from './utils/KeyTracker';
 
 import AuthService from './services/user/Auth';
 import PageDialogHelper from './helpers/dialogs/PageDialogHelper';
@@ -39,11 +38,11 @@ import GuideDialogHelper from './helpers/dialogs/GuideDialogHelper';
 import PostDetailsDialogHelper from './helpers/dialogs/PostDetailsDialogHelper';
 
 import EditPlaceDialogHelper from './helpers/dialogs/EditPlaceDialogHelper';
-import DisasterDialog from './components/map-tools/edit-dialog/DisasterDialog';
-import ExtinctionDialog from './components/map-tools/edit-dialog/ExtinctionDialog';
+import ActivistDialog from './components/map-tools/edit-dialog/ActivistDialog';
 import StrikeDialog from './components/map-tools/edit-dialog/StrikeDialog';
 import ActionDialog from './components/map-tools/edit-dialog/ActionDialog';
-import ActivistDialog from './components/map-tools/edit-dialog/ActivistDialog';
+import DisasterDialog from './components/map-tools/edit-dialog/DisasterDialog';
+import ExtinctionDialog from './components/map-tools/edit-dialog/ExtinctionDialog';
 
 import DummyUserNetwork from './pages/user-network/DummyUserNetwork';
 
@@ -69,7 +68,7 @@ class App extends Component {
     AuthService.init();
 
     EditPlaceDialogHelper.storeDialog([
-      ActivistDialog, DisasterDialog, ExtinctionDialog, ActionDialog, StrikeDialog
+      ActivistDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog
     ]);
 
     KeyTracker();

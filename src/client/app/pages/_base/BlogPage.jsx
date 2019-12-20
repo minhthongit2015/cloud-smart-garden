@@ -7,8 +7,10 @@ import NewsTracker from '../../services/blog/NewsTracker';
 
 
 export default class extends PageGroup {
-  constructor(...args) {
-    super(...args);
+  constructor(propsz) {
+    super(propsz);
+
+    // Just demo
     this.brand = {
       name: 'Demo Blog Page',
       link: RouteConstants.aiCloudLink,

@@ -21,12 +21,13 @@ export default class Video extends React.Component {
 
   static renderVideo(video) {
     const {
-      title, src, tracks, className, ...restProps
+      title, src, tracks, className, videoRef, ...restProps
     } = video;
     return (
       <video
+        ref={videoRef}
         src={src}
-        className={`video w-100 ${className || ''}`}
+        className="video w-100"
         controls
         alt={title}
         {...restProps}
@@ -46,10 +47,10 @@ export default class Video extends React.Component {
 
   static renderYoutube(video) {
     const {
-      src, title, className, ...restProps
+      src, title, className, videoRef, ...restProps
     } = video;
     let videoId;
-    const patterns = [/\/watch\?.*?v=(.*?)(&|$)/, /youtu\.be\/(.+?)(&|$)/];
+    const patterns = [/\/watch\?.*?v=(.*?)(&|$)/, /youtu\.be\/(.+?)(&|$)/, /youtube\.com\/embed\/(.+?)(\?|$|#)/];
     patterns.find((pattern) => {
       const match = src.match(pattern);
       if (match && match[1]) {
@@ -61,7 +62,8 @@ export default class Video extends React.Component {
 
     return (
       <iframe
-        className={`video ytb-video ${className || ''}`}
+        ref={videoRef}
+        className="video ytb-video"
         title={title}
         type="text/html"
         width="100%"
@@ -76,15 +78,17 @@ export default class Video extends React.Component {
 
   static renderExternalVideo(video) {
     const {
-      preview, src, className
+      preview, src, className, videoRef, ...restProps
     } = video;
     return (
       <a
-        className={`video video-external ${className || ''}`}
+        ref={videoRef}
+        className="video video-external"
         href={src}
         // title={title}
         target="_blank"
         rel="noopener noreferrer"
+        {...restProps}
       >
         <div
           className="video__preview far"
@@ -109,7 +113,7 @@ export default class Video extends React.Component {
 
     return (
       <iframe
-        className={`video embeded-video ${className || ''}`}
+        className="video embeded-video"
         title={title}
         src={videoSrc}
         type="text/html"
@@ -131,8 +135,9 @@ export default class Video extends React.Component {
       { filter: Video.isEmbeded, render: Video.renderEmbeded }
     ];
     const renderer = renderers.find(renderer1 => renderer1.filter.call(Video, video));
+    const { className } = video;
     return (
-      <div className="video-wrapper">
+      <div className={`video-wrapper ${className || ''}`}>
         {renderer && renderer.render.call(Video, video)}
       </div>
     );

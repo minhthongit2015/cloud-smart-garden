@@ -48,75 +48,30 @@ export default {
       },
       message: {
         intranet: 'Welcome to the Tomorrowland!',
-        oneHundredQuotes: '',
+        oneHundredQuotes: 'Some people dream of success,\r\nwhile other people get up every morning and make it happen\r\n- Wayne Huizenga',
         memberSpotlight: ''
       }
     },
-    earthPicture: {
+    nextFeatures: {
       title: {
-        main: 'Bức Tranh Trái Đất',
-        climate: 'Bức Tranh Khí Hậu',
-        organisms: 'Bức Tranh Sinh Vật',
-        pollution: 'Bức Tranh Ô Nhiễm',
-        communityShare: 'Chia Sẻ Từ Cộng Đồng'
+        nextFeatures: 'Bạn muốn điều gì?',
+        nextTech: 'Công nghệ yêu thích',
+        nextSpecies: 'Loài cây yêu thích'
       },
       nav: {
-        main: 'Bức Tranh Trái Đất',
-        climate: 'Khí hậu',
-        organisms: 'Sinh vật',
-        pollution: 'Ô nhiễm',
-        communityShare: 'Chia sẻ từ cộng đồng'
+        nextFeatures: 'Bạn muốn điều gì?',
+        nextTech: 'Công nghệ yêu thích',
+        nextSpecies: 'Loài cây yêu thích'
       },
-      mainMessage: 'ở đây không có gì ngoài sự thật...\r\nmình chỉ muốn cho bạn biết chuyện gì đang xảy ra, quyết định còn lại là ở bạn.',
-      communityGuideMessage: 'Đây là nơi bạn có thể chia sẻ những điều mình biết với mọi người một cách tự do,\r\nnhững tin tức quan trọng sẽ được chọn để đưa lên trang chính.'
+      message: {
+        nextFeatures: 'Hãy thử Tưởng Tượng về một Khu Vườn mà bạn Mong Ước! (^_^)!',
+        nextTech: 'Bạn muốn khu vườn của bạn có thể làm được những gì? /=)',
+        nextSpecies: 'Loài cây tuyệt vời nào mà bạn sẽ muốn trồng trong khu vườn của bạn? (^_^)!'
+      }
     },
     theRealWorld: {
       title: 'Thế Giới Thực',
       loadingText: 'đang cập nhập sự kiện thế giới...'
-    },
-    whatYouCanDo: {
-      title: {
-        main: 'Điều Bạn Có Thể Làm',
-        climate: 'Cho Khí Hậu',
-        organisms: 'Cho Sinh Vật',
-        pollution: 'Giảm Ô Nhiễm',
-        supporting: 'Hỗ Trợ Các Phong Trào',
-        worldActions: 'Thế Giới Đang Hành Động',
-        GretaThunberg: 'Greta Thunberg',
-        communityRecommend: 'Chia Sẻ Từ Cộng Đồng'
-      },
-      nav: {
-        main: 'Điều Bạn Có Thể Làm',
-        climate: 'Cho khí hậu',
-        organisms: 'Cho sinh vật',
-        pollution: 'Giảm ô nhiễm',
-        supporting: 'Hỗ trợ các phong trào',
-        supportingShort: 'Hỗ trợ',
-        worldActions: 'Thế giới đang hành động',
-        worldActionsShort: 'Thế giới',
-        GretaThunberg: 'Greta Thunberg',
-        communityRecommend: 'Chia sẻ từ cộng đồng'
-      },
-      mainMessage: '~ 10,000,000 người, 6,200 thành phố và 218 quốc gia đã tham gia trong #FridaysForFuture 20-27/9...\r\nsao mọi người lại phải cố gắng như vậy...',
-      communityGuideMessage: 'Đây là nơi bạn có thể chia sẻ những điều mình biết với mọi người một cách tự do,\r\nnhững tin tức quan trọng sẽ được chọn để đưa lên trang chính.',
-      GretaThunbergMessage: '“This is just the beginning. We will continue. Because change is coming whether you like it or not.” - Greta Thunberg'
-    },
-    yourQuestion: {
-      title: {
-        main: 'Điều Bạn Muốn Biết?',
-        climate: 'Hỏi Về Khí Hậu',
-        organisms: 'Hỏi Về Sinh Vật',
-        pollution: 'Hỏi Về Ô Nhiễm',
-        others: 'Hỏi Chủ Đề Khác'
-      },
-      nav: {
-        main: 'Điều Bạn Muốn Biết?',
-        climate: 'Về khí hậu',
-        organisms: 'Về sinh vật',
-        pollution: 'Về ô nhiễm',
-        others: 'Chủ đề khác'
-      },
-      mainMessage: 'Điều gì khiến bạn còn băn khoăn?'
     }
   },
   components: {

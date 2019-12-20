@@ -11,9 +11,8 @@ import InfinitePostList from '../../components/blog/infinite-post-list/InfiniteP
 
 
 export default class extends BasePage {
-  constructor(...args) {
-    super(...args);
-    window.historyz = args[0].history || window.historyz;
+  constructor(props) {
+    super(props, props.title);
     this.setBlogData(this.props);
   }
 

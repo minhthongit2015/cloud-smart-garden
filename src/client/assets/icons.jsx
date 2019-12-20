@@ -17,6 +17,7 @@ export const IconAICloud = props => <img src={AICloudSrc} alt="AI Cloud" draggab
 export const IconMyGarden = props => <img src={MyGardenSrc} alt="My Garden" draggable={false} {...props} />;
 export const IconSmileCity = props => <img src={SmileCitySrc} alt="Smile City" draggable={false} {...props} />;
 
+export { default as IconAlphaTeam } from './icons/layout/IconAlphaTeam';
 export { default as IconEarth } from './icons/layout/IconEarth';
 export { default as IconHome } from './icons/IconHome';
 export { default as IconPlanetEarth } from './icons/IconPlanetEarth';

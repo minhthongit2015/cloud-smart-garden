@@ -1,0 +1,26 @@
+
+.reset-button {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.circle-button {
+  border-radius: 50% !important;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+.light-button {
+  color: #f1f1f1 !important;
+  &:hover {
+    color: #fff !important;
+    background: rgba(255,255,255,.2) !important;
+  }
+}

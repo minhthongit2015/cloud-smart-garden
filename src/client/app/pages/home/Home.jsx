@@ -1,4 +1,5 @@
 import React from 'react';
+import NavLink from 'react-router-dom/NavLink';
 import BasePage from '../_base/BasePage';
 import './Home.scss';
 
@@ -8,11 +9,13 @@ import {
   IconMyGarden,
   IconSmileCity,
   IconAICloud,
-  IconEarthPicture
+  IconEarthPicture,
+  IconAlphaTeam
 } from '../../../assets/icons';
 
 import NavIconLink from '../../components/utils/nav-icon-link/NavIconLink';
 import t from '../../languages';
+import { MDBBtn, MDBPopper, MDBPopoverBody } from 'mdbreact';
 
 export default class HomePage extends BasePage {
   constructor(props) {
@@ -98,12 +101,12 @@ export default class HomePage extends BasePage {
   render() {
     const { fbProfile } = UserService;
     return (
-      <div className="h-100 d-flex justify-content-center align-items-center overflow-hidden">
+      <div className="home h-100 d-flex justify-content-center align-items-center overflow-hidden">
         <div className="d-flex flex-column col-lg-8 col-md-10 col-sm-12 col-xs-12 col-12 p-0">
           <div className="text-center text-light px-2 mb-0 mb-sm-3">
             {t('pages.home.mainMessage')}
           </div>
-          <div className="home-nav d-flex flex-column flex-sm-row align-items-center">
+          <div className="home__nav d-flex flex-column flex-sm-row align-items-center">
             {
               this.links.map((link) => {
                 if (link.type === 'nav') {
@@ -119,6 +122,22 @@ export default class HomePage extends BasePage {
             </div>
           )}
         </div>
+        <MDBPopper
+          id="nav-intranet"
+          placement="left"
+          clickable={false}
+          domElement
+          popover
+        >
+          <div className="home__intranet__wrapper">
+            <NavLink to={RouteConstants.oneHundredQuotesLink} className="home__intranet">
+              <IconAlphaTeam /> Intranet
+            </NavLink>
+          </div>
+          <MDBPopoverBody>
+            <span style={{ color: '#7d2' }}>Mạng nội bộ của nhóm nghiên cứu Beyond Garden.</span>
+          </MDBPopoverBody>
+        </MDBPopper>
       </div>
     );
   }

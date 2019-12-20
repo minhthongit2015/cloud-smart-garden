@@ -1,0 +1,12 @@
+
+.z100-quotes {
+  &__row {
+    position: relative;
+
+    &__actions {
+      position: absolute;
+      top: .25rem;
+      right: 1.25rem;
+    }
+  }
+}

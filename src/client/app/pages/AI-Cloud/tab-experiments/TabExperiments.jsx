@@ -218,11 +218,11 @@ class TabExperiments extends BasePage {
                 </Col>
               </Row>
             </form>
-            <DatasetComponent
+            {/* <DatasetComponent
               ref={this.datasetChartRef}
               dataset={dataset}
               onSave={this.onSaveDataset}
-            />
+            /> */}
           </SectionBody>
         </Section>
 

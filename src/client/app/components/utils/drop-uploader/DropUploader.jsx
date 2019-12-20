@@ -118,8 +118,8 @@ export default class extends React.Component {
 
   render() {
     const {
-      className, wrapperProps, innerClass, useVideo = true,
-      label, name, videoName, value = '', video = '', ...restProps
+      className, wrapperProps, innerClass, useVideo = true, useAudio = false,
+      label, name, videoName, audioName, value = '', video = '', audio = '', ...restProps
     } = this.props;
     const { uploading } = this.state;
     const urlInputValue = value && value.startsWith('http')
@@ -166,9 +166,23 @@ export default class extends React.Component {
         {useVideo && (
           <input
             className="drop-uploader__url-input px-2 mt-2 rounded"
-            placeholder="URL video"
+            placeholder="URL đoạn phim"
             name={videoName}
             value={video}
+            onChange={this.handleInputChange}
+            onPaste={this.handlePaste}
+            autoComplete="off"
+            autofill="off"
+            spellCheck="false"
+            autoCorrect="false"
+          />
+        )}
+        {useAudio && (
+          <input
+            className="drop-uploader__url-input px-2 mt-2 rounded"
+            placeholder="URL đoạn nhạc"
+            name={audioName}
+            value={audio}
             onChange={this.handleInputChange}
             onPaste={this.handlePaste}
             autoComplete="off"
