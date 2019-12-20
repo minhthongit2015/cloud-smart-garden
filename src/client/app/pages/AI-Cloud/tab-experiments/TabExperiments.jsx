@@ -17,7 +17,7 @@ import BasePage from '../../_base/BasePage';
 
 class TabExperiments extends BasePage {
   constructor(props) {
-    super(props, t('pages.earthPicture.title.climate'));
+    super(props, t('pages.aiCloud.title.experiments'));
     this.state = {
       dataset: null,
       dataLimit: 144,
@@ -26,7 +26,7 @@ class TabExperiments extends BasePage {
       loss: AlgorithmConstants.loss[0],
       activation: AlgorithmConstants.activation[0]
     };
-    this.datasetChartRef = React.createRef();
+    // this.datasetChartRef = React.createRef();
     this.trainingProgressChartRef = React.createRef();
 
     this.onSaveDataset = this.onSaveDataset.bind(this);
@@ -35,6 +35,7 @@ class TabExperiments extends BasePage {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     this.subscribeDatasetChannel();
   }
 
@@ -44,7 +45,7 @@ class TabExperiments extends BasePage {
     if (!res.ok) {
       return;
     }
-    this.datasetChartRef.current.setData(res.data);
+    // this.datasetChartRef.current.setData(res.data);
     this.setState({
       dataset: res.data
     });

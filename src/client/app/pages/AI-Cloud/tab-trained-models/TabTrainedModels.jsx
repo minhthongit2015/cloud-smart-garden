@@ -5,7 +5,7 @@ import t from '../../../languages';
 
 export default class TabTrainedModels extends BasePage {
   constructor(props) {
-    super(props, t('pages.earthPicture.title.climate'));
+    super(props, t('pages.aiCloud.title.trainedModels'));
   }
 
   render() {

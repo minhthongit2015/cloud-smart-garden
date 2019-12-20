@@ -52,6 +52,22 @@ export default {
         memberSpotlight: ''
       }
     },
+    aiCloud: {
+      nav: {
+        aiCloud: 'AI Cloud',
+        projects: 'Projects',
+        experiments: 'Experiments',
+        trainedModels: 'Trained Models',
+        datasets: 'Datasets'
+      },
+      title: {
+        aiCloud: 'AI Cloud',
+        projects: 'Projects',
+        experiments: 'Experiments',
+        trainedModels: 'Trained Models',
+        datasets: 'Datasets'
+      }
+    },
     nextFeatures: {
       title: {
         nextFeatures: 'Bạn muốn điều gì?',
@@ -64,7 +80,7 @@ export default {
         nextSpecies: 'Loài cây yêu thích'
       },
       message: {
-        nextFeatures: 'Hãy thử Tưởng Tượng về một Khu Vườn mà bạn Mong Ước! (^_^)!',
+        nextFeatures: 'Hãy thử Tưởng Tượng về một Khu Vườn thật Tuyệt Vời của Riêng Bạn! (^_^)!',
         nextTech: 'Bạn muốn khu vườn của bạn có thể làm được những gì? /=)',
         nextSpecies: 'Loài cây tuyệt vời nào mà bạn sẽ muốn trồng trong khu vườn của bạn? (^_^)!'
       }

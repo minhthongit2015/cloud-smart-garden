@@ -7,7 +7,7 @@ import BasePage from '../../_base/BasePage';
 
 export default class TabDataset extends BasePage {
   constructor(props) {
-    super(props, t('pages.earthPicture.title.climate'));
+    super(props, t('pages.aiCloud.title.datasets'));
   }
 
   render() {

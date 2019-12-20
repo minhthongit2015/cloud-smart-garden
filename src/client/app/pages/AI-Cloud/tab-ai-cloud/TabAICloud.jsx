@@ -5,7 +5,7 @@ import BasePage from '../../_base/BasePage';
 
 class TabAICloud extends BasePage {
   constructor(props) {
-    super(props, t('pages.earthPicture.title.climate'));
+    super(props, t('pages.aiCloud.title.aiCloud'));
   }
 
   render() {
