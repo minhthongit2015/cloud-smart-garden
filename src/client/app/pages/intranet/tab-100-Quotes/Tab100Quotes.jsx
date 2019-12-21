@@ -6,6 +6,8 @@ import NewQuoteRow from '../../../components/intranet/new-quote/NewQuoteRow';
 import OneHundredQuotes from './100Quotes';
 import MainQuote from '../../../components/utils/messages/MainQuote';
 
+const DEFAULT_BACKGROUND = '/images/cup-coffee.jpg';
+
 export default class extends AdminPage {
   // eslint-disable-next-line class-methods-use-this
   get defaultQuote() {
@@ -16,7 +18,7 @@ export default class extends AdminPage {
 
   constructor(props) {
     super(props, t('pages.intranet.title.oneHundredQuotes'));
-    this.setBackground('/images/cup-coffee.jpg');
+    this.setBackground();
     this.newQuoteRef = React.createRef();
     this.oneHundredQuotesRef = React.createRef();
     this.handleQuotePosted = this.handleQuotePosted.bind(this);
@@ -35,8 +37,8 @@ export default class extends AdminPage {
   }
 
   handleQuotesLoaded(quotes) {
-    const background = quotes && quotes[0] && quotes[0].preview;
-    this.setBackground(background || '/images/cup-coffee.jpg');
+    const background = (quotes && quotes[0] && quotes[0].preview) || DEFAULT_BACKGROUND;
+    this.setBackground(background);
     this.setState({
       quoteOfTheDay: quotes && quotes[0]
     });

@@ -42,7 +42,7 @@ class App extends Component {
         <Switch>
           <Route exact path={RouteConstants.homePath}><HomePage /></Route>
           <Route path={RouteConstants.aiCloudPath}><AICloudPage /></Route>
-          <Route exact path={RouteConstants.userGardensPath}><UserGardenPage /></Route>
+          <Route exact path={RouteConstants.myGardenPath}><UserGardenPage /></Route>
           <Route exact path={RouteConstants.userNetworkPath}><DummyUserNetWorkPage /></Route>
           <Redirect to={RouteConstants.homeLink} />
         </Switch>

@@ -4,11 +4,11 @@ import TabProjects from './tab-projects/TabProjects';
 import TabExperiments from './tab-experiments/TabExperiments';
 import TabDatasets from './tab-datasets/TabDatasets';
 import TabTrainedModels from './tab-trained-models/TabTrainedModels';
-import PageGroup from '../_base/PageGroup';
+import MainPageGroup from '../_base/MainPageGroup';
 import t from '../../languages';
 
 
-export default class extends PageGroup {
+export default class extends MainPageGroup {
   constructor(props) {
     super(props);
     this.brand = {

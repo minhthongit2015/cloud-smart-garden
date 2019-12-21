@@ -2,12 +2,12 @@ import React from 'react';
 import RouteConstants from '../../utils/RouteConstants';
 import t from '../../languages';
 import OneHundredQuotes from './tab-100-Quotes/Tab100Quotes';
-import PageGroup from '../_base/PageGroup';
+import MainPageGroup from '../_base/MainPageGroup';
 import TabIntranet from './tab-intranet/TabIntranet';
 import TabMembers from './tab-members/TabMembers';
 
 
-export default class extends PageGroup {
+export default class extends MainPageGroup {
   constructor(props) {
     super(props, null, true);
     this.brand = {

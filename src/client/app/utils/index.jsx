@@ -153,6 +153,16 @@ export function groupBy(array, property) {
   return map;
 }
 
+export function loadImage(url) {
+  if (!url) return Promise.resolve(url);
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(url);
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
 export default {
   isNotSet,
   isNone,

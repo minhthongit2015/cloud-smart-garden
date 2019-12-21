@@ -7,7 +7,7 @@ const Schema = new mongoose.Schema({
   socials: Object,
   goods: [{ type: Object }]
 });
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Farm', field: 'order' });
-const Model = Place.discriminator('Farm', Schema);
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'FarmMarker', field: 'order' });
+const Model = Place.discriminator('FarmMarker', Schema);
 
 module.exports = Model;

@@ -23,7 +23,7 @@ export default class HomePage extends BasePage {
     this.links = [
       {
         type: 'nav',
-        link: RouteConstants.userGardensLink,
+        link: RouteConstants.myGardenLink,
         text: t('pages.home.nav.myGarden'),
         textStyle: {
           marginTop: '-10px',

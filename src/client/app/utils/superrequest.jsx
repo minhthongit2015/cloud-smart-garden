@@ -41,6 +41,14 @@ export default class {
     return superws.emit(...args);
   }
 
+  static async on(...args) {
+    return superws.on(...args);
+  }
+
+  static async removeAllListeners() {
+    return superws.socket.removeAllListeners();
+  }
+
   static async get(url) {
     if (superws.connected) return superws.get(url, this.baseHeaders);
     return this.agentGet(url);

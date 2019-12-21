@@ -24,14 +24,18 @@ const aiCloudLink = '/ai-cloud';
 const aiProjectsPath = `${aiCloudPath}/projects`;
 const aiProjectsLink = `${aiCloudLink}/projects`;
 const aiExperimentsPath = `${aiCloudPath}/experiments`;
-const aiExperimentsLink = `${aiCloudPath}/experiments`;
+const aiExperimentsLink = `${aiCloudLink}/experiments`;
 const aiModelsPath = `${aiCloudPath}/models`;
-const aiModelsLink = `${aiCloudPath}/models`;
+const aiModelsLink = `${aiCloudLink}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
-const aiDatasetsLink = `${aiCloudPath}/datasets`;
+const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
-const userGardensPath = '/my-garden';
-const userGardensLink = '/my-garden';
+const myGardenPath = '/my-garden';
+const myGardenLink = '/my-garden';
+const storehousePath = `${myGardenPath}/storehouse`;
+const storehouseLink = `${myGardenLink}/storehouse`;
+const helpMyGardenPath = `${myGardenPath}/help`;
+const helpMyGardenLink = `${myGardenLink}/help`;
 
 const userNetworkPath = '/smile-city';
 const userNetworkLink = '/smile-city';
@@ -65,6 +69,16 @@ export default {
   membersLink,
 
   // Public
+  myGardenPath,
+  myGardenLink,
+  storehousePath,
+  storehouseLink,
+  helpMyGardenPath,
+  helpMyGardenLink,
+
+  userNetworkPath,
+  userNetworkLink,
+
   aiCloudPath,
   aiCloudLink,
   aiProjectsPath,
@@ -75,11 +89,6 @@ export default {
   aiModelsLink,
   aiDatasetsPath,
   aiDatasetsLink,
-
-  userGardensPath,
-  userGardensLink,
-  userNetworkPath,
-  userNetworkLink,
 
   nextFeaturesPath,
   nextFeaturesLink,

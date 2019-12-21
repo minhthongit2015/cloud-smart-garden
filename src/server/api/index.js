@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 router.use('/v1', V1Route);
 
 router.use((req, res) => {
-  res.status(404).send(new APIResponse().setErrorMessage('API Not Found!'));
+  res.status(404).send(APIResponse.setErrorMessage('API Not Found!'));
 });
 
 module.exports = router;

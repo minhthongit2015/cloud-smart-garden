@@ -96,7 +96,10 @@ module.exports = class WebsocketManagerCore {
     };
     res.emit = function emit(...args) {
       if (!this.socket) return this;
-      this.socket.emit(args);
+      this.socket.emit(...args);
+      return this;
+    };
+    res.end = function end() {
       return this;
     };
     return res;

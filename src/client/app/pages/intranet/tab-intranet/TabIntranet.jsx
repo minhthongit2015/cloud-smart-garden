@@ -22,7 +22,7 @@ export default class extends AdminPage {
           <MainQuote quote={this.mainMessage} />
         </SectionHeader>
         <SectionBody>
-          <Video title="" src="https://www.youtube.com/watch?v=w7IcUg23mtM" />
+          <Video title="" src="https://www.youtube.com/watch?v=w7IcUg23mtM" loop />
         </SectionBody>
       </Section>
     );

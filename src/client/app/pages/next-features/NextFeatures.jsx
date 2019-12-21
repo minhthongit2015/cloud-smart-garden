@@ -2,11 +2,11 @@ import React from 'react';
 
 import RouteConstants from '../../utils/RouteConstants';
 import t from '../../languages';
-import BlogPage from '../_base/BlogPage';
-import BlogPageContent from '../_base/BlogPageContent';
+import MainBlogPage from '../_base/MainBlogPage';
+import SubBlogPage from '../_base/SubBlogPage';
 
 
-export default class extends BlogPage {
+export default class extends MainBlogPage {
   constructor(propsz) {
     super(propsz);
     this.brand = {
@@ -14,7 +14,7 @@ export default class extends BlogPage {
       link: RouteConstants.nextFeaturesLink,
       path: RouteConstants.nextFeaturesPath,
       render: props => (
-        <BlogPageContent
+        <SubBlogPage
           {...props}
           rootCategory="NextFeatures"
           title={t('pages.nextFeatures.title.nextFeatures')}
@@ -28,7 +28,7 @@ export default class extends BlogPage {
         path: RouteConstants.nextTechPath,
         link: RouteConstants.nextTechLink,
         render: props => (
-          <BlogPageContent
+          <SubBlogPage
             {...props}
             categories="NextTech"
             title={t('pages.nextFeatures.title.nextTech')}
@@ -40,7 +40,7 @@ export default class extends BlogPage {
         path: RouteConstants.nextSpeciesPath,
         link: RouteConstants.nextSpeciesLink,
         render: props => (
-          <BlogPageContent
+          <SubBlogPage
             {...props}
             categories="NextSpecies"
             title={t('pages.nextFeatures.title.nextSpecies')}

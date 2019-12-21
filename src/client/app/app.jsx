@@ -49,8 +49,8 @@ import DummyUserNetwork from './pages/user-network/DummyUserNetwork';
 const HomePage = React.lazy(() => import('./pages/home/Home'));
 const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'));
 const Intranet = React.lazy(() => import('./pages/intranet/Intranet'));
-const AICloud = React.lazy(() => import('./pages/AI-Cloud/AICloud'));
 const MyGarden = React.lazy(() => import('./pages/my-garden/MyGarden'));
+const AICloud = React.lazy(() => import('./pages/AI-Cloud/AICloud'));
 const NextFeatures = React.lazy(() => import('./pages/next-features/NextFeatures'));
 const UserNetwork = React.lazy(() => import('./pages/user-network/UserNetwork'));
 
@@ -81,8 +81,8 @@ class App extends Component {
           <Route exact path={RouteConstants.homePath} component={props => <HomePage {...props} />} />
           <Route path={RouteConstants.adminPath} component={props => <Dashboard {...props} />} />
           <Route path={RouteConstants.intranetPath} component={props => <Intranet {...props} />} />
+          <Route path={RouteConstants.myGardenPath} component={props => <MyGarden {...props} />} />
           <Route path={RouteConstants.aiCloudPath} component={props => <AICloud {...props} />} />
-          <Route path={RouteConstants.userGardensPath} component={props => <MyGarden {...props} />} />
           <Route path={RouteConstants.nextFeaturesPath} component={props => <NextFeatures {...props} />} />
           <Route exact path={RouteConstants.userNetworkPath} component={props => <DummyUserNetwork {...props} />} />
           <Redirect to={RouteConstants.homeLink} />

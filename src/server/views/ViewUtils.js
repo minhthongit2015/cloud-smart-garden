@@ -6,7 +6,7 @@ const defaultModel = {
   image: 'https://beyond-garden.herokuapp.com/Climate-Strike-Vietnam.jpg',
   site_name: 'Beyond Garden',
   type: 'website',
-  app_id: '415534815831116' // facebook app id
+  fb_app_id: '415534815831116'
 };
 
 function getModel() {

@@ -27,7 +27,7 @@ class MongoDB {
 const User = require('./user/User');
 
 const Blog = require('./blog');
-const Map = require('./map');
+const MapModels = require('./map');
 const Garden = require('./garden');
 const Company = require('./intranet');
 
@@ -37,7 +37,7 @@ module.exports = {
 
   User,
   ...Blog,
-  ...Map,
+  ...MapModels,
   ...Garden,
   ...Company
 };

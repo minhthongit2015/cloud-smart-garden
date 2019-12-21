@@ -47,7 +47,7 @@ export default class Video extends React.Component {
 
   static renderYoutube(video) {
     const {
-      src, title, className, videoRef, ...restProps
+      src, title, className, loop, videoRef, ...restProps
     } = video;
     let videoId;
     const patterns = [/\/watch\?.*?v=(.*?)(&|$)/, /youtu\.be\/(.+?)(&|$)/, /youtube\.com\/embed\/(.+?)(\?|$|#)/];
@@ -60,6 +60,25 @@ export default class Video extends React.Component {
       return false;
     });
 
+    let ytbSrc = '';
+    if (videoId) {
+      const loopParam = loop ? { loop: 1, playlist: videoId } : {};
+      const defaultParams = {
+        enablejsapi: 1,
+        cc_load_policy: 1,
+        cc_lang_pref: 'vi',
+        hl: 'vi',
+        playsinline: 1,
+        iv_load_policy: 3
+      };
+      const ytbURL = new URL(`https://www.youtube.com/embed/${videoId}`);
+      const ytbParams = { ...defaultParams, ...loopParam };
+      Object.entries(ytbParams).forEach(([key, value]) => {
+        ytbURL.searchParams.set(key, value);
+      });
+      ytbSrc = ytbURL.href;
+    }
+
     return (
       <iframe
         ref={videoRef}
@@ -68,7 +87,7 @@ export default class Video extends React.Component {
         type="text/html"
         width="100%"
         height="100%"
-        src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&hl=vi&playsinline=1&iv_load_policy=3`}
+        src={ytbSrc}
         frameBorder="0"
         allowFullScreen
         {...restProps}

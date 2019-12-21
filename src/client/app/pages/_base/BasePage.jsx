@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import SiteConfig from '../../config/site';
+import { loadImage } from '../../utils';
 
 export default class extends Component {
   constructor(props, title, noBaseTitle) {
@@ -18,6 +19,7 @@ export default class extends Component {
     }
     if (this.isSetBackgroundWhenLoaded) {
       this.setBackground(this.background);
+      this.isSetBackgroundWhenLoaded = false;
     }
   }
 
@@ -28,8 +30,10 @@ export default class extends Component {
       this.isSetBackgroundWhenLoaded = true;
       return;
     }
-    const backgroundStyle = `url("${this.background}") center center/cover no-repeat`;
-    if (body.style.background === backgroundStyle) return;
-    body.style.background = backgroundStyle;
+    loadImage(url).then(() => {
+      const backgroundStyle = `url("${url}") center center/cover no-repeat`;
+      if (body.style.background === backgroundStyle) return;
+      body.style.background = backgroundStyle;
+    });
   }
 }

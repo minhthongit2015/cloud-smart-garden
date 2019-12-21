@@ -1,28 +1,24 @@
 import React from 'react';
-import BasePage from './BasePage';
 import PostService from '../../services/blog/PostService';
 import SavedPostsDialogHelper from '../../helpers/dialogs/SavedPostsDialogHelper';
 import PostDetailsDialogHelper from '../../helpers/dialogs/PostDetailsDialogHelper';
 import { Section, SectionHeader, SectionBody } from '../../layouts/base/section';
-import DeepMessage from '../../components/utils/messages/DeepMessage';
 import PostsModule from '../../components/blog/posts-module/PostsModule';
-import GuideMessage from '../../components/utils/messages/GuideMessage';
 import InfinitePostList from '../../components/blog/infinite-post-list/InfinitePostList';
+import SubPageGroup from './SubPageGroup';
 
 
-export default class extends BasePage {
+export default class extends SubPageGroup {
   constructor(props) {
-    super(props, props.title);
+    super(props);
     this.setBlogData(this.props);
   }
 
   setBlogData({
-    categories, rootCategory, mainMessage, guideMessage, everyoneCanPost
+    categories, rootCategory, everyoneCanPost
   }) {
     this.setCategories(categories);
     this.setRootCategory(rootCategory);
-    this.setMainMessage(mainMessage);
-    this.setGuideMessage(guideMessage);
     this.setEveryoneCanPost(everyoneCanPost);
   }
 
@@ -33,16 +29,6 @@ export default class extends BasePage {
 
   setRootCategory(rootCategory) {
     this.rootCategory = rootCategory;
-    return this;
-  }
-
-  setMainMessage(mainMessage) {
-    this.mainMessage = mainMessage;
-    return this;
-  }
-
-  setGuideMessage(guideMessage) {
-    this.guideMessage = guideMessage;
     return this;
   }
 
@@ -67,20 +53,25 @@ export default class extends BasePage {
     }
   }
 
+  renderBody() {
+    return (
+      <PostsModule
+        rootCategory={this.rootCategory}
+        categories={this.categories}
+        PostList={InfinitePostList}
+        everyoneCanPost={this.everyoneCanPost}
+      />
+    );
+  }
+
   render() {
     return (
       <Section>
         <SectionHeader>
-          {this.mainMessage && <DeepMessage>{this.mainMessage}</DeepMessage>}
-          {this.guideMessage && <GuideMessage>{this.guideMessage}</GuideMessage>}
+          {this.renderHeader()}
         </SectionHeader>
         <SectionBody>
-          <PostsModule
-            rootCategory={this.rootCategory}
-            categories={this.categories}
-            PostList={InfinitePostList}
-            everyoneCanPost={this.everyoneCanPost}
-          />
+          {this.renderBody()}
         </SectionBody>
       </Section>
     );

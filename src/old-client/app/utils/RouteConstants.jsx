@@ -13,8 +13,8 @@ const aiModelsLink = `${aiCloudPath}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
 const aiDatasetsLink = `${aiCloudPath}/datasets`;
 
-const userGardensPath = '/my-garden';
-const userGardensLink = '/my-garden';
+const myGardenPath = '/my-garden';
+const myGardenLink = '/my-garden';
 
 const userNetworkPath = '/smile-city';
 const userNetworkLink = '/smile-city';
@@ -25,8 +25,8 @@ export default {
   homeLink,
   aiCloudPath,
   aiCloudLink,
-  userGardensPath,
-  userGardensLink,
+  myGardenPath,
+  myGardenLink,
   userNetworkPath,
   userNetworkLink,
   aiProjectsPath,

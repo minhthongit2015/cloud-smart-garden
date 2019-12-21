@@ -2,12 +2,6 @@ const router = require('express').Router();
 // const Debugger = require('../../../services/Debugger');
 const Logger = require('../../../services/Logger');
 
-const equipsRoute = require('./equips');
-const stationsRoute = require('./stations');
-
-router.use('/equips', equipsRoute);
-router.use('/stations', stationsRoute);
-
 router.get('/:gardenId', (req, res) => {
   Logger.catch(async () => {
     res.send(req.pathname);

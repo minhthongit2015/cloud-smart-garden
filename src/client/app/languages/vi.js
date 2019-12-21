@@ -52,6 +52,23 @@ export default {
         memberSpotlight: ''
       }
     },
+    myGarden: {
+      nav: {
+        myGarden: 'My Garden',
+        storehouse: 'Kho vật dụng',
+        help: 'Tìm trợ giúp'
+      },
+      title: {
+        myGarden: 'My Garden',
+        storehouse: 'Kho vật dụng',
+        help: 'Tìm trợ giúp'
+      },
+      message: {
+        myGarden: 'My Garden',
+        storehouse: 'Kho vật dụng',
+        help: 'Tìm trợ giúp'
+      }
+    },
     aiCloud: {
       nav: {
         aiCloud: 'AI Cloud',

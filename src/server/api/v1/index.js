@@ -9,7 +9,7 @@ const IntranetRoute = require('./intranet');
 const UsersRoute = require('./users');
 const MapRoute = require('./map');
 const BlogRoute = require('./blog');
-const GardensRouter = require('./gardens');
+const GardenRouter = require('./garden');
 const AICentralRoute = require('./ai-central');
 
 router.use('/server-status', ServerStatusRoute);
@@ -21,7 +21,7 @@ router.use('/intranet', IntranetRoute);
 router.use('/users', UsersRoute);
 router.use('/map', MapRoute);
 router.use('/blog', BlogRoute);
-router.use('/gardens', GardensRouter);
+router.use('/garden', GardenRouter);
 router.use('/ai-central', AICentralRoute);
 
 module.exports = router;

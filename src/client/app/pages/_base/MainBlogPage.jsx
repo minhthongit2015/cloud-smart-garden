@@ -1,12 +1,12 @@
 import React from 'react';
-import BlogPageContent from './BlogPageContent';
+import SubBlogPage from './SubBlogPage';
 
 import RouteConstants from '../../utils/RouteConstants';
-import PageGroup from './PageGroup';
+import MainPageGroup from './MainPageGroup';
 import NewsTracker from '../../services/blog/NewsTracker';
 
 
-export default class extends PageGroup {
+export default class extends MainPageGroup {
   constructor(propsz) {
     super(propsz);
 
@@ -15,14 +15,14 @@ export default class extends PageGroup {
       name: 'Demo Blog Page',
       link: RouteConstants.aiCloudLink,
       path: RouteConstants.aiCloudPath,
-      render: props => <BlogPageContent rootCategory="DemoRootCategory" {...props} />
+      render: props => <SubBlogPage rootCategory="DemoRootCategory" {...props} />
     };
     this.tabs = [
       {
         name: 'Demo Blog Page Content',
         link: RouteConstants.aiProjectsLink,
         path: RouteConstants.aiProjectsPath,
-        render: props => <BlogPageContent categories="DemoCategories" {...props} />
+        render: props => <SubBlogPage categories="DemoCategories" {...props} />
       }
     ];
     NewsTracker.useNewsState(this);

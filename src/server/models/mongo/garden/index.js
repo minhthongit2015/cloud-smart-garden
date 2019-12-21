@@ -1,3 +1,4 @@
 
-module.exports.Environment = require('./Environment');
-module.exports.Experiment = require('./Experiment');
+module.exports.Garden = require('./Garden');
+module.exports.Station = require('./Station');
+module.exports.Record = require('./Record');

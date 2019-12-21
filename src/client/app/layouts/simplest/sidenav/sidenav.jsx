@@ -23,7 +23,7 @@ export default class SideNav extends Component {
     this.links = [
       {
         type: 'nav',
-        link: RouteConstants.userGardensLink,
+        link: RouteConstants.myGardenLink,
         text: t('pages.home.sideNav.myGarden'),
         icon: IconMyGarden
       },

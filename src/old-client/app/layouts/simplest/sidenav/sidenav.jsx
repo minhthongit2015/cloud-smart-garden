@@ -22,7 +22,7 @@ export default class SideNav extends Component {
         type: 'nav', link: RouteConstants.aiCloudLink, text: 'AI Cloud', iconSrc: AICloudSrc
       },
       {
-        type: 'nav', link: RouteConstants.userGardensLink, text: 'My Garden', iconSrc: MyGardenSrc
+        type: 'nav', link: RouteConstants.myGardenLink, text: 'My Garden', iconSrc: MyGardenSrc
       },
       {
         type: 'nav', link: RouteConstants.userNetworkLink, text: 'Smile City', iconSrc: SmileCitySrc
