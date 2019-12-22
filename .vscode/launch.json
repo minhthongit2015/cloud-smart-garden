@@ -25,7 +25,7 @@
       "internalConsoleOptions": "neverOpen",
       "envFile": "${workspaceFolder}/.env.dev.ini",
       "env": {
-        "DEBUG": "cloud:*",
+        "DEBUG": "cloud:*,-express:*",
         "NODE_ENV": "development",
       }
     },

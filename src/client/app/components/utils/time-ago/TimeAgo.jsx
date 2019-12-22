@@ -4,7 +4,7 @@ import moment from 'moment';
 moment.locale('vi');
 
 function getCustomTime(time) {
-  return moment(time).format('HH:mm - DD/MM/YYYY');
+  return moment(time).format('HH:mm:ss - DD/MM/YYYY');
 }
 
 function fromNow(time) {

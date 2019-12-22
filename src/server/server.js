@@ -158,11 +158,11 @@ class Server {
     }));
 
     // Every request middlewares
-    WebsocketManager.app.use((req, res, next) => {
-      req.session.reload(() => {
-        next();
-      });
-    });
+    // WebsocketManager.app.use((req, res, next) => {
+    //   req.session.reload(() => {
+    //     next();
+    //   });
+    // });
     WebsocketManager.app.use((req, res, next) => {
       req.path = req._parsedUrl.pathname;
       req.query = queryString.parse(req._parsedUrl.search, {

@@ -11,7 +11,7 @@ router.post('/verify', (req, res) => {
 
 router.post('/set-state', (req, res) => {
   Logger.catch(async () => {
-    SyncService.emit('commnad', req.body);
+    SyncService.broadcast(req.socket, 'command', req.body);
     res.end();
   }, { req, res });
 });

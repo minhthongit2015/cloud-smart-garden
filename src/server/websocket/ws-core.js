@@ -94,6 +94,7 @@ module.exports = class WebsocketManagerCore {
     res.status = function status() {
       return this;
     };
+    // sending to the client
     res.emit = function emit(...args) {
       if (!this.socket) return this;
       this.socket.emit(...args);

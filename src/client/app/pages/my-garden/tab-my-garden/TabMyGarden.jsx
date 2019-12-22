@@ -5,6 +5,7 @@ import {
 import t from '../../../languages';
 import SubPageGroup from '../../_base/SubPageGroup';
 import superrequest from '../../../utils/superrequest';
+import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
 
 
 export default class extends SubPageGroup {
@@ -13,10 +14,11 @@ export default class extends SubPageGroup {
     this.setGuideMessage(`${t('pages.myGarden.message.myGarden')} 🥳`);
     this.handleToggle = this.handleToggle.bind(this);
     this.state = {
+      lastCheckpoint: 0,
       temperature: 0,
       humidity: 0,
       light: 0,
-      bump: false,
+      pump: false,
       led: false
     };
   }
@@ -24,12 +26,14 @@ export default class extends SubPageGroup {
   componentDidMount() {
     super.componentDidMount();
     superrequest.on('stateChange', (state) => {
-      this.setState(state);
+      this.setState({
+        lastCheckpoint: Date.now(),
+        ...state
+      });
     });
     superrequest.on('accept', (msg) => {
       console.log(msg);
     });
-    superrequest.post('/api/v1/garden/stations/verify');
   }
 
   componentWillUnmount() {
@@ -50,14 +54,14 @@ export default class extends SubPageGroup {
   // eslint-disable-next-line class-methods-use-this
   renderBody() {
     const {
-      temperature = 0, humidity = 0, light = 0, bump = false, led = false
+      temperature = 0, humidity = 0, light = 0, pump = false, led = false, lastCheckpoint
     } = this.state;
 
     return (
       <Card className="w-50 mx-auto mt-5">
         <CardHeader>Vườn 01</CardHeader>
         <CardBody>
-          <div>Chỉ số:</div>
+          <div>Chỉ số (<small><TimeAgo time={lastCheckpoint} /></small>):</div>
           <table className="w-100">
             <tbody>
               <tr>
@@ -77,10 +81,10 @@ export default class extends SubPageGroup {
           <hr className="mx-4" />
           <div className="text-right">
             <MDBBtn
-              name="bump"
+              name="pump"
               onClick={this.handleToggle}
               size="sm"
-              color={bump ? 'default' : 'none'}
+              color={pump ? 'default' : 'none'}
             >Bơm
             </MDBBtn>
             <MDBBtn
