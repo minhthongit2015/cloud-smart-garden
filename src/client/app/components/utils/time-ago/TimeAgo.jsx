@@ -19,7 +19,7 @@ function fromNowDetail(time) {
   return `${fromNow(time)} (${getCustomTime(time)})`;
 }
 
-function getIntervalByContext(time) {
+function getIntervalByContext(/* time */) {
   return 1000;
 }
 
