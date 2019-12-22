@@ -26,6 +26,8 @@ export default class extends SubPageGroup {
   componentDidMount() {
     super.componentDidMount();
     superrequest.on('stateChange', (state) => {
+      delete state.pump;
+      delete state.led;
       this.setState({
         lastCheckpoint: Date.now(),
         ...state
