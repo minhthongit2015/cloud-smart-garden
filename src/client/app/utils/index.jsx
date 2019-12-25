@@ -153,6 +153,14 @@ export function groupBy(array, property) {
   return map;
 }
 
+export function camelize(str) {
+  return str.replace(
+    /(?:^\w|[A-Z]|\b\w)/g,
+    (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase())
+  )
+    .replace(/\s+/g, '');
+}
+
 export function loadImage(url) {
   if (!url) return Promise.resolve(url);
   return new Promise((resolve, reject) => {
@@ -172,5 +180,7 @@ export default {
   isFunction,
   parseStringToNumber,
   asyncForEach,
-  groupBy
+  groupBy,
+  camelize,
+  loadImage
 };

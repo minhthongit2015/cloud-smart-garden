@@ -1,4 +1,5 @@
 import React from 'react';
+import { MDBPopper, MDBPopoverBody } from 'mdbreact';
 import NavLink from 'react-router-dom/NavLink';
 import BasePage from '../_base/BasePage';
 import './Home.scss';
@@ -15,7 +16,6 @@ import {
 
 import NavIconLink from '../../components/utils/nav-icon-link/NavIconLink';
 import t from '../../languages';
-import { MDBBtn, MDBPopper, MDBPopoverBody } from 'mdbreact';
 
 export default class HomePage extends BasePage {
   constructor(props) {
@@ -130,7 +130,7 @@ export default class HomePage extends BasePage {
           popover
         >
           <div className="home__intranet__wrapper">
-            <NavLink to={RouteConstants.oneHundredQuotesLink} className="home__intranet">
+            <NavLink to={RouteConstants.intranetLink} className="home__intranet">
               <IconAlphaTeam /> Intranet
             </NavLink>
           </div>

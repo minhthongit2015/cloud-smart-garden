@@ -16,7 +16,8 @@ export default class extends MainBlogPage {
       render: props => (
         <SubBlogPage
           {...props}
-          rootCategory="NextFeatures"
+          categories="NextTech,NextSpecies"
+          // categories="NextFeatures"
           title={t('pages.nextFeatures.title.nextFeatures')}
           guideMessage={t('pages.nextFeatures.message.nextFeatures')}
         />

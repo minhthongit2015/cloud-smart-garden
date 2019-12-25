@@ -1,6 +1,6 @@
 import React from 'react';
 import PageDialogHelper from './PageDialogHelper';
-import PostDetails from '../../components/blog/post-details/PostDetails';
+import PostDetails from '../../components/blog-base/post-details/PostDetails';
 import PostService from '../../services/blog/PostService';
 
 export default class extends PageDialogHelper {

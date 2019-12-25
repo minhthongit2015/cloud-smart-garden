@@ -21,25 +21,21 @@ module.exports = class extends CRUDService {
     opts.where = Object.assign(opts.where || {}, {
       status: PostStatus.published
     });
-    if (opts.category) {
-      const parentCategory = await CategoryService.list({
-        limit: 1,
+    if (opts.categories) {
+      opts.categories = JSON.parse(opts.categories);
+      const categories = await CategoryService.list({
         where: {
-          type: opts.category
+          type: {
+            $in: opts.categories
+          }
         }
       });
-      if (parentCategory.length <= 0) {
-        return null;
-      }
-      const categories = [
-        parentCategory[0]._id,
-        ...parentCategory[0].children.map(category => category._id)
-      ];
-      if (categories && typeof categories === 'object' && categories.length > 0) {
+      const categoryIds = categories && categories.map(category => category._id);
+      if (categoryIds && typeof categoryIds === 'object' && categoryIds.length > 0) {
         opts.where = Object.assign(opts.where || {}, {
           categories: {
             $elemMatch: {
-              $in: categories
+              $in: categoryIds
             }
           }
         });

@@ -10,10 +10,10 @@ import CategoryService from '../../../services/blog/CategoryService';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
-import NewForm from '../../utils/new-form/NewForm';
+import NewPost from '../../blog-base/new-post/NewPost';
 
 
-export default class extends NewForm {
+export default class extends NewPost {
   get createTitle() {
     return 'Chia sẻ trích dẫn mới';
   }

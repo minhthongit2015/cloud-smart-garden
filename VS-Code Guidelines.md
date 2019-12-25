@@ -7,7 +7,7 @@
    - [`Ctrl` + `,`]: Mở trang cài đặt
    - [`Ctrl` + `P`]: Mở file nhanh
    - [`Ctrl` + `W`]: Đóng file hiện tại
-   - [`Ctrl` + `Shift` + `T`]: Mở lại file vừa 
+   - [`Ctrl` + `Shift` + `T`]: Mở lại file vừa đóng
    - [`Ctrl` + `Shift` + `P`]: Thực hiện lệnh
    - [`Alt` + `Z`]: Bật/Tắt Word wrap
    - [`Ctrl` + `/`]: Comment dòng hiện tại

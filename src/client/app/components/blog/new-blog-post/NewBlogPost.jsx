@@ -1,30 +1,25 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import {
-  MDBInput,
-  Row, Col
-} from 'mdbreact';
+import { Row, Col, MDBInput } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import './NewPost.scss';
-import DropUploader from '../../utils/drop-uploader/DropUploader';
-import Composer from '../composer/Composer';
+import NewPost from '../../blog-base/new-post/NewPost';
 import CategoryService from '../../../services/blog/CategoryService';
+import DropUploader from '../../utils/drop-uploader/DropUploader';
+import Composer from '../../utils/composer/Composer';
 import UserService from '../../../services/user/UserService';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
-import NewForm from '../../utils/new-form/NewForm';
-
 
 const animatedComponents = makeAnimated();
 
 
-export default class extends NewForm {
+export default class extends NewPost {
   get formData() {
     const formData = super.formData;
     const content = this.contentRef.current.value;
-    const categoryIds = formData.category.map(cate => cate.value);
+    const categoryIds = formData.categories.map(cate => cate.value);
     return { ...formData, content, categories: categoryIds };
   }
 
@@ -35,7 +30,7 @@ export default class extends NewForm {
   constructor(props) {
     super(props);
     this.contentRef = React.createRef();
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
 
     this.state = {
       ...this.state,
@@ -44,31 +39,31 @@ export default class extends NewForm {
       summary: '',
       preview: '',
       video: '',
-      category: []
+      categories: []
     };
 
     CategoryService.useCategoriesState(this);
   }
 
-  resetAndClose() {
-    super.resetAndClose();
+  resetAndClose(...args) {
+    super.resetAndClose(...args);
     this.contentRef.current.value = '';
   }
 
-  reset() {
-    super.reset();
+  reset(...args) {
+    super.reset(...args);
     this.contentRef.current.value = '';
   }
 
-  handleCategoryChange(value) {
+  handleCategoriesChange(value) {
     this.setState({
-      category: value
+      categories: value
     });
   }
 
   setPost(post) {
     const postCategories = post.categories.map(cat => cat.type);
-    const category = CategoryService.getCategoriesAsOptions()
+    const categories = CategoryService.getCategoriesAsOptions()
       .filter(cat => postCategories.includes(cat.value));
 
     this.contentRef.current.value = post.content;
@@ -80,7 +75,7 @@ export default class extends NewForm {
       video: post.video
     }).then(() => {
       this.setState({
-        category
+        categories
       });
     });
   }
@@ -112,16 +107,10 @@ export default class extends NewForm {
 
   renderBody() {
     const {
-      title, summary, preview, video, category
+      title, summary, preview, video, categories
     } = this.state;
-    const { categories, rootCategory } = this.props;
-    let categoryOptions = [];
-    if (rootCategory) {
-      categoryOptions = CategoryService.getLeafCategoriesAsOptions(rootCategory);
-    }
-    if (categories) {
-      categoryOptions = CategoryService.getCategoriesAsOptions(categories);
-    }
+    const { categories: categoryOptionKeys } = this.props;
+    const categoryOptions = CategoryService.getCategoriesAsOptions(categoryOptionKeys);
 
     return (
       <React.Fragment>
@@ -129,12 +118,12 @@ export default class extends NewForm {
           <Col size="12" sm="6">
             <Select
               placeholder="Chuyên mục"
-              name="category"
+              name="categories"
               options={categoryOptions}
               isMulti
-              value={category}
+              value={categories}
               // defaultValue={categoryOptions[0]}
-              onChange={this.handleCategoryChange}
+              onChange={this.handleCategoriesChange}
               required
               autoComplete="off"
               autofill="off"

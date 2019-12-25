@@ -9,14 +9,8 @@ const CategorySchema = new mongoose.Schema({
   name: String,
   type: String,
   description: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const CategoryModel = mongoose.model('Category', CategorySchema);

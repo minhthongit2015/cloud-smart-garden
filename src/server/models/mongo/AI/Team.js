@@ -5,9 +5,10 @@ const Base = require('./_BaseAIEntity');
 const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
-  experiment: [{ type: ObjectId, ref: 'Experiment' }]
+  projects: [{ type: ObjectId, ref: 'Project' }],
+  members: [{ type: ObjectId, ref: 'User' }]
 });
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'TrainedModel', field: 'order' });
-const Model = Base.discriminator('TrainedModel', Schema);
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Team', field: 'order' });
+const Model = Base.discriminator('Team', Schema);
 
 module.exports = Model;

@@ -1,16 +1,20 @@
-
 const mongoose = require('mongoose');
+const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
+const Base = require('./_BaseAIEntity');
 
 const { ObjectId } = mongoose.Schema.Types;
 
-const ExperimentSchema = new mongoose.Schema({
-  name: String,
-  configs: Object,
-  owner: ObjectId, // Belong to a Person
-  team: ObjectId, // Belong to a Team
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+const Schema = new mongoose.Schema({
+  project: [{ type: ObjectId, ref: 'Project' }],
+  datasets: [{ type: ObjectId, ref: 'Dataset' }],
+  configuration: {
+    optimizer: String, // adam, sgd...
+    activateFunc: String, // sigmoid...
+    lossFunc: String, // Average square...
+    layers: Array
+  }
 });
-const ExperimentModel = mongoose.model('experiments', ExperimentSchema);
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Experiment', field: 'order' });
+const Model = Base.discriminator('Experiment', Schema);
 
-module.exports = ExperimentModel;
+module.exports = Model;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import AdminPage from '../../_base/AdminPage';
-import NewQuoteRow from '../../../components/intranet/new-quote/NewQuoteRow';
+import NewQuote from '../../../components/intranet/new-quote/NewQuote';
 import OneHundredQuotes from './100Quotes';
 import MainQuote from '../../../components/utils/messages/MainQuote';
 
@@ -65,7 +65,7 @@ export default class extends AdminPage {
           )}
         </SectionHeader>
         <SectionBody>
-          <NewQuoteRow
+          <NewQuote
             ref={this.newQuoteRef}
             onPosted={this.handleQuotePosted}
             hasPermission={canCreateNewPost}

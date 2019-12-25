@@ -8,9 +8,9 @@ import {
   Row, Col
 } from 'mdbreact';
 import classnames from 'classnames';
-import './NewForm.scss';
+import './NewPost.scss';
 
-import LeafLoading from '../loadings/LeafLoading';
+import LeafLoading from '../../utils/loadings/LeafLoading';
 import ButtonBar from '../../dialog/ButtonBar';
 import UserService from '../../../services/user/UserService';
 import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
@@ -20,6 +20,7 @@ import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
+import BaseComponent from '../../BaseComponent';
 
 
 const scrollToTop = () => {
@@ -28,7 +29,7 @@ const scrollToTop = () => {
 };
 
 
-export default class extends React.Component {
+export default class extends BaseComponent {
   get createTitle() {
     return 'Viết bài mới';
   }
@@ -167,7 +168,7 @@ export default class extends React.Component {
         setTimeout(() => {
           scrollToTop();
           resolve();
-        }, 300);
+        }, 500);
       });
     });
   }
@@ -184,7 +185,8 @@ export default class extends React.Component {
       event.preventDefault();
     }
     const postResult = await this.handleFormSubmit(event);
-    this.dispatchPostedEvent(postResult);
+    event.typez = 'postPosted';
+    this.dispatchEvent(event, postResult);
   }
 
   async validate() {
@@ -199,7 +201,7 @@ export default class extends React.Component {
     return true;
   }
 
-  handleSubmitError(res) {
+  handleSubmitError(error) {
     return true;
   }
 
@@ -226,12 +228,6 @@ export default class extends React.Component {
           this.enable();
         });
     });
-  }
-
-  dispatchPostedEvent(postedPost) {
-    if (this.props.onPosted) {
-      this.props.onPosted(postedPost);
-    }
   }
 
   handleButtonClick(event) {
@@ -278,7 +274,7 @@ export default class extends React.Component {
     return null;
   }
 
-  render() {
+  renderCard() {
     const { _id, disabled, expanded } = this.state;
 
     return (
@@ -310,5 +306,22 @@ export default class extends React.Component {
         <LeafLoading text={this.postingMessage} overlaping={disabled} />
       </MDBCard>
     );
+  }
+
+  renderWithRow() {
+    return (
+      <Row>
+        <Col size={12} className="d-flex justify-content-end">
+          {this.renderCard()}
+        </Col>
+      </Row>
+    );
+  }
+
+  render() {
+    const { noRow = false } = this.props;
+    return noRow
+      ? this.renderCard()
+      : this.renderWithRow();
   }
 }

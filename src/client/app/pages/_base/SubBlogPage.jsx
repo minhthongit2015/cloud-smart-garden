@@ -3,9 +3,8 @@ import PostService from '../../services/blog/PostService';
 import SavedPostsDialogHelper from '../../helpers/dialogs/SavedPostsDialogHelper';
 import PostDetailsDialogHelper from '../../helpers/dialogs/PostDetailsDialogHelper';
 import { Section, SectionHeader, SectionBody } from '../../layouts/base/section';
-import PostsModule from '../../components/blog/posts-module/PostsModule';
-import InfinitePostList from '../../components/blog/infinite-post-list/InfinitePostList';
 import SubPageGroup from './SubPageGroup';
+import BlogPostsModule from '../../components/blog/blog-posts-module/BlogPostsModule';
 
 
 export default class extends SubPageGroup {
@@ -15,20 +14,14 @@ export default class extends SubPageGroup {
   }
 
   setBlogData({
-    categories, rootCategory, everyoneCanPost
+    categories, everyoneCanPost
   }) {
     this.setCategories(categories);
-    this.setRootCategory(rootCategory);
     this.setEveryoneCanPost(everyoneCanPost);
   }
 
   setCategories(categories) {
-    this.categories = typeof categories === 'string' ? [categories] : categories;
-    return this;
-  }
-
-  setRootCategory(rootCategory) {
-    this.rootCategory = rootCategory;
+    this.categories = typeof categories === 'string' ? categories.split(',') : categories;
     return this;
   }
 
@@ -55,10 +48,8 @@ export default class extends SubPageGroup {
 
   renderBody() {
     return (
-      <PostsModule
-        rootCategory={this.rootCategory}
+      <BlogPostsModule
         categories={this.categories}
-        PostList={InfinitePostList}
         everyoneCanPost={this.everyoneCanPost}
       />
     );

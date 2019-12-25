@@ -29,6 +29,7 @@ const User = require('./user/User');
 const Blog = require('./blog');
 const MapModels = require('./map');
 const Garden = require('./garden');
+const AI = require('./AI');
 const Company = require('./intranet');
 
 module.exports = {
@@ -39,5 +40,6 @@ module.exports = {
   ...Blog,
   ...MapModels,
   ...Garden,
+  ...AI,
   ...Company
 };

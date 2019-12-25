@@ -52,6 +52,11 @@ export default class UserService {
     GlobalState.setState(UserObjectKeys.user, user);
   }
 
+  static updateUser(user) {
+    Object.assign(this.user, user);
+    this.setUser(this.user);
+  }
+
   static clearUser() {
     this.user = null;
     GlobalState.setState(UserObjectKeys.user, null);

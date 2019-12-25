@@ -2,11 +2,72 @@ import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
 import PageDialogHelper from '../../helpers/dialogs/PageDialogHelper';
 import Categories from '../../utils/Categories';
+import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
+import t from '../../languages';
+import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
 
 export default class extends PageDialogHelper {
-  static async fetchPost(postOrder) {
+  static get defaultEndpoint() {
+    return '/api/v1/blog/posts';
+  }
+
+  static get defaultRatingEndpoint() {
+    return '/api/v1/blog/rating';
+  }
+
+  static get defaultSavePostEndpoint() {
+    return '/api/v1/blog/saved-posts';
+  }
+
+  static async fetchPost(postOrder, endpoint) {
     if (!postOrder) return null;
-    return superrequest.get(`/api/v1/blog/posts?limit=1&where={"baseOrder":${postOrder}}`);
+    return superrequest.get(`${endpoint || this.defaultEndpoint}?limit=1&where={"baseOrder":${postOrder}}`);
+  }
+
+  static async deletePost(post, endpoint) {
+    if (!window.confirm('Bạn có chắc muốn xóa bài viết này?')) {
+      return null;
+    }
+    return superrequest.agentDelete(`${endpoint || this.defaultEndpoint}/${post._id}`);
+  }
+
+  static async savePost(post, endpoint) {
+    return superrequest.agentPost(`${endpoint || this.defaultSavePostEndpoint}/${post._id}`);
+  }
+
+  static async unsavePost(post, endpoint) {
+    return superrequest.agentDelete(`${endpoint || this.defaultSavePostEndpoint}/${post._id}`);
+  }
+
+  static async iWillDoThis(post, endpoint) {
+    // if (!UserService.isLoggedIn) {
+    //   return LoginDialogHelper.show(t('components.loginDialog.loginToSaveIDo'));
+    // }
+    // if (post.iWillDoThis && this.props.handleActions) {
+    //   this.props.handleActions(event, {
+    //     value: 'remove-i-do-post'
+    //   }, post, this);
+    // }
+    // return this.handleAddIDoPost().then(() => {
+    //   if (!post.iWillDoThis && this.props.handleActions) {
+    //     this.props.handleActions(event, {
+    //       value: 'remove-i-do-post-done'
+    //     }, post, this);
+    //   }
+    // });
+  }
+
+  static async rating(post, rating, endpoint) {
+    return superrequest.agentPost(`${endpoint || this.defaultRatingEndpoint}/${post._id}`, {
+      rating
+    });
+  }
+
+  static async requestChange(option) {
+    if (UserService.isLoggedIn) {
+      return MessageDialogHelper.showUpComingFeature(option.value);
+    }
+    return LoginDialogHelper.show(t('components.loginDialog.loginToRequestChange'));
   }
 
   static extractPostOrder(url) {

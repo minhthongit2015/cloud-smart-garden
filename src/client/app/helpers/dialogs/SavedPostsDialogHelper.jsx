@@ -1,9 +1,9 @@
+/* eslint-disable import/no-cycle */
 import React from 'react';
 import superrequest from '../../utils/superrequest';
 import PageDialogHelper from './PageDialogHelper';
-// eslint-disable-next-line import/no-cycle
-import InfinitePostList from '../../components/blog/infinite-post-list/InfinitePostList';
 import DeepMessage from '../../components/utils/messages/DeepMessage';
+import InfinitePostList from '../../components/blog-base/infinite-post-list/InfinitePostList';
 
 
 const defaultState = { isSavedPostsPage: true };

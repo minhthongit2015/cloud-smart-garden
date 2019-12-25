@@ -6,14 +6,16 @@ import {
 import './Rating.scss';
 import classnames from 'classnames';
 import { IconThanks } from '../../../../assets/icons';
+import BaseComponent from '../../BaseComponent';
 
 
-export default class extends React.Component {
+export default class extends BaseComponent {
   constructor(props) {
     super(props);
     this.iconThanksRef = React.createRef();
     this.toggleRatingPopover = this.toggleRatingPopover.bind(this);
     this.handleRatingPopoverChange = this.handleRatingPopoverChange.bind(this);
+    this.handleRating = this.handleRating.bind(this);
     this.state = {
       isVisible: false,
       clickable: false
@@ -43,10 +45,10 @@ export default class extends React.Component {
     });
   }
 
-  handleRating(rating) {
-    if (this.props.onRating) {
-      this.props.onRating(rating, this.props.attachment);
-    }
+  handleRating(event) {
+    const { target: { name: rating } = {} } = event;
+    event.typez = 'rating';
+    this.dispatchEvent(event, +rating);
     this.setState({
       isVisible: false
     });
@@ -86,7 +88,8 @@ export default class extends React.Component {
               {[5, 4, 3, 2, 1].map(ratingz => (
                 <MDBBtn
                   key={ratingz}
-                  onClick={() => this.handleRating(ratingz)}
+                  name={ratingz}
+                  onClick={this.handleRating}
                   className={classnames(
                     'rating__points__point rounded-circle p-0',
                     {
