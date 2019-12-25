@@ -26,6 +26,7 @@ class MongoDB {
 
 const User = require('./user/User');
 
+const BlogBase = require('./blog-base');
 const Blog = require('./blog');
 const MapModels = require('./map');
 const Garden = require('./garden');
@@ -37,6 +38,7 @@ module.exports = {
   setup: MongoDB.setup,
 
   User,
+  ...BlogBase,
   ...Blog,
   ...MapModels,
   ...Garden,

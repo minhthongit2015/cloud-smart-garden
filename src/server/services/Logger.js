@@ -2,7 +2,7 @@ const winston = require('winston');
 const path = require('path');
 const colors = require('colors');
 const Debugger = require('./Debugger');
-const ApiResponse = require('../models/api-models');
+const APIResponse = require('../models/api-models');
 const Config = require('../config');
 
 const { createLogger, transports } = winston;
@@ -43,7 +43,7 @@ Logger.catch = async function _catch(func, handler = () => {}) {
       if (req && req.api) {
         delete error.stack; // No stack will be send to the client
         res.status(error.statusCode || error.status || error.code || 400)
-          .send(new ApiResponse().setError(error));
+          .send(new APIResponse().setError(error));
       }
     }
   }

@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-const Post = require('../posts/_Post');
+const Post = require('./Post');
 
 const { ObjectId } = mongoose.Schema.Types;
 

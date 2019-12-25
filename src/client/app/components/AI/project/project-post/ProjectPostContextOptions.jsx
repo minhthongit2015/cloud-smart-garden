@@ -1,5 +1,6 @@
-import UserService from '../../../services/user/UserService';
-import ContextOptions from '../../blog-base/ContextOptions';
+import UserService from '../../../../services/user/UserService';
+import CategoryService from '../../../../services/blog/CategoryService';
+import ContextOptions from '../../../blog-base/ContextOptions';
 
 
 function getOwnerCtxOptions(post) {

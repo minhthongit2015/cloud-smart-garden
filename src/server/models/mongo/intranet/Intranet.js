@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const Post = require('../blog/posts/_Post');
+const Post = require('../blog-base/Post');
 
 /**
  * Các tin tức/thông báo nội bộ - Và nếu mọi người muốn biết bên trong chúng ta làm việc như thế nào

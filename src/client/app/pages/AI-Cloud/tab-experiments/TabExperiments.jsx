@@ -13,6 +13,7 @@ import AlgorithmConstants from './AlgorithmConstants';
 import ExperimentService from '../../../services/AI/ExperimentService';
 import t from '../../../languages';
 import BasePage from '../../_base/BasePage';
+import ExperimentPostsModule from '../../../components/AI/experiment/experiment-posts-module/ExperimentPostsModule';
 
 
 class TabExperiments extends BasePage {
@@ -116,6 +117,12 @@ class TabExperiments extends BasePage {
 
     return (
       <React.Fragment>
+        <Section>
+          <SectionHeader>Danh sách chế độ chăm sóc</SectionHeader>
+          <SectionBody>
+            <ExperimentPostsModule />
+          </SectionBody>
+        </Section>
         <Section>
           <SectionHeader>Design Experiment</SectionHeader>
           <SectionBody>

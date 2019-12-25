@@ -20,7 +20,8 @@ import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
-import BaseComponent from '../../BaseComponent';
+import BasePureComponent from '../../BasePureComponent';
+import GlobalState from '../../../utils/GlobalState';
 
 
 const scrollToTop = () => {
@@ -29,7 +30,7 @@ const scrollToTop = () => {
 };
 
 
-export default class extends BaseComponent {
+export default class extends BasePureComponent {
   get createTitle() {
     return 'Viết bài mới';
   }
@@ -58,19 +59,30 @@ export default class extends BaseComponent {
     return '';
   }
 
+  get postType() {
+    return this.props.type || 'Post';
+  }
+
   get formData() {
     const { disabled, expanded, ...formData } = this.state;
+    delete formData[CategoryService.CATEGORIES_STATE_NAME];
     const isDraft = document.activeElement.value === 'draft';
     if (isDraft) {
       formData.status = 'draft';
     }
-    delete formData[CategoryService.CATEGORIES_STATE_NAME];
+    formData.__t = this.postType;
     return formData;
   }
 
   get isEmpty() {
     try {
-      return Object.values(this.formData).every(value => isZeroVariable(value));
+      const { formData } = this;
+      const savedState = GlobalState.saveState(formData, ['__t', 'status']);
+      delete formData.__t;
+      delete formData.status;
+      const isEmpty = Object.values(formData).every(value => isZeroVariable(value));
+      GlobalState.restoreFromSavedState(formData, savedState);
+      return isEmpty;
     } catch (error) {
       return true;
     }
@@ -168,7 +180,7 @@ export default class extends BaseComponent {
         setTimeout(() => {
           scrollToTop();
           resolve();
-        }, 500);
+        }, 300);
       });
     });
   }

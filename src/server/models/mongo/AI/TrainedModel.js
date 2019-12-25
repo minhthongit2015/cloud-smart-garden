@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const Base = require('./_BaseAIEntity');
+const Base = require('../blog-base/Post');
 
 const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
-  experiment: [{ type: ObjectId, ref: 'Experiment' }]
+  experiment: { type: ObjectId, ref: 'Experiment' }
 });
 Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'TrainedModel', field: 'order' });
 const Model = Base.discriminator('TrainedModel', Schema);

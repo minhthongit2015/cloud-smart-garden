@@ -1,6 +1,10 @@
 
 const xss = require('xss');
-const { Post } = require('../../models/mongo');
+const {
+  Post,
+  BlogPost,
+  Project, Experiment, Dataset, TrainedModel, Team, Folder
+} = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
 const CategoryService = require('./Category');
 const UserService = require('../user/User');
@@ -8,9 +12,18 @@ const ApiHelper = require('../../utils/ApiHelper');
 const ImgurService = require('../third-party/imgur');
 const { PostStatus } = require('../../utils/Constants');
 
+const PostTypes = [
+  Post,
+  BlogPost,
+  Project, Experiment, Dataset, TrainedModel, Team, Folder
+];
+
 module.exports = class extends CRUDService {
-  static getModel() {
-    return Post;
+  static getModel(post) {
+    if (!post || !post.__t) {
+      return Post;
+    }
+    return PostTypes.find(type => type.modelName === post.__t) || Post;
   }
 
   static get populate() {
@@ -44,27 +57,32 @@ module.exports = class extends CRUDService {
     return opts;
   }
 
-  static async create(doc) {
-    if (!doc.categories || doc.categories.length <= 0) {
-      return null;
-    }
+  static async createOrUpdate(doc) {
+    // if (!doc.categories || doc.categories.length <= 0) {
+    //   return null;
+    // }
     const docId = doc.id || doc._id;
     let oldDoc = null;
     if (docId) {
       oldDoc = await this.get(docId);
+    }
+    if (oldDoc) {
+      doc._id = oldDoc._id;
     }
 
     // Resolve status
     doc.status = doc.status || PostStatus.published;
 
     // Resolve Categories
-    doc.categories = await CategoryService.list({
-      where: {
-        type: {
-          $in: doc.categories
+    if (doc.categories) {
+      doc.categories = await CategoryService.list({
+        where: {
+          type: {
+            $in: doc.categories
+          }
         }
-      }
-    }).then(categories => categories.map(category => category._id));
+      }).then(categories => categories.map(category => category._id));
+    }
 
     // Resolve images
     if (doc.preview) {
@@ -72,26 +90,37 @@ module.exports = class extends CRUDService {
         title: doc.title
       });
     }
-    doc.content = await this.replaceImageBase64ToUrl(doc.content);
+
+    // Resolve content
+    if (doc.content) {
+      doc.content = await this.replaceImageBase64ToUrl(doc.content);
+      doc.content = xss(doc.content);
+    }
 
     // Resolve authors
-    const newAuthor = ApiHelper.getId(doc.newAuthor._id);
-    if (oldDoc) {
-      if (oldDoc.authors.every(authorId => authorId !== newAuthor._id.toString())) {
-        oldDoc.authors.push(newAuthor);
-        doc.authors = oldDoc.authors;
+    if (doc.newAuthor) {
+      const newAuthor = ApiHelper.getId(doc.newAuthor._id);
+      if (oldDoc) {
+        if (oldDoc.authors.every(authorId => authorId !== newAuthor._id.toString())) {
+          oldDoc.authors.push(newAuthor);
+          doc.authors = oldDoc.authors;
+        }
+      } else {
+        doc.authors = [newAuthor._id];
+        await UserService.updateSocialPoint(doc.newAuthor, 5);
       }
-    } else {
-      doc.authors = [newAuthor._id];
-      await UserService.updateSocialPoint(doc.newAuthor, 5);
+      delete doc.newAuthor;
     }
-    delete doc.newAuthor;
 
-    doc.content = xss(doc.content);
+    // Resolve owner
+    if (doc.owner) {
+      if (!oldDoc) {
+        doc.owner = doc.owner._id;
+        await UserService.updateSocialPoint(doc.newAuthor, 5);
+      }
+    }
 
-    return oldDoc
-      ? super.update(docId, doc)
-      : super.create(doc);
+    return super.createOrUpdate(doc);
   }
 
   static async getByOrder(baseOrder) {

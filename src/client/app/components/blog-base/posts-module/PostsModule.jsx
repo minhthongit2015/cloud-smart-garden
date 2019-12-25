@@ -6,14 +6,17 @@ import ContextOptions from '../ContextOptions';
 
 
 export default class extends React.Component {
+  get postType() {
+    return this.props.type || 'Post';
+  }
+
   get newPostProps() {
-    const {
-      categories, everyoneCanPost
-    } = this.props;
+    const { type = this.postType, categories, everyoneCanPost } = this.props;
     const canCreateNewPost = UserService.isAdmin || UserService.isModerator || everyoneCanPost;
 
     return {
       ref: this.newPostRef,
+      type,
       categories,
       hasPermission: canCreateNewPost,
       onPostPosted: this.handlePostPosted
@@ -22,13 +25,14 @@ export default class extends React.Component {
 
   get postListProps() {
     const {
-      categories, everyoneCanPost, ...restProps
+      type = this.postType, categories, everyoneCanPost, ...restProps
     } = this.props;
     const canCreateNewPost = UserService.isAdmin || UserService.isModerator || everyoneCanPost;
 
     return {
       ...restProps,
       ref: this.postListRef,
+      type,
       categories,
       hasPermission: canCreateNewPost,
       onContextActions: this.handleContextActions

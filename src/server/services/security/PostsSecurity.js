@@ -11,6 +11,7 @@ module.exports = class extends SecurityService {
     }
     const allowedProps = [
       '_id',
+      '__t',
       'title',
       'content',
       'summary',
@@ -29,7 +30,7 @@ module.exports = class extends SecurityService {
 
   static onlyValidPost(req, throwError = true) {
     const post = req.body;
-    if (!post || !post.categories || post.categories.length <= 0) {
+    if (!post /* || !post.categories || post.categories.length <= 0 */) {
       return errorOrFalse(HttpErrors.BadRequest(), throwError);
     }
     return true;

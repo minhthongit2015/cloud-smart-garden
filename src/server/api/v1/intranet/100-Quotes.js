@@ -23,7 +23,6 @@ router.get('/:quoteId?', (req, res) => {
     // if (user) {
     //   await RatingService.appendRatingOfUser(posts, user);
     //   await SavedPostService.appendIsSavedOfUser(posts, user);
-    //   await IDoPostService.appendIWillDoThisOfUser(posts, user);
     // }
 
     return res.send(APIResponse.setData(quotes));

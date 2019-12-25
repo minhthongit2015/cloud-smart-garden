@@ -51,4 +51,20 @@ module.exports = class {
     }
     return true;
   }
+
+  static onlyOwnerOrModOrAdmin(req, ownerId, throwError = true) {
+    if (!this.onlyLoggedInUser(req, throwError)) {
+      return errorOrFalse(HttpErrors.Unauthorized(), throwError);
+    }
+    if (this.onlyModOrAdmin(req, false)) {
+      return true;
+    }
+    if (typeof ownerId !== 'string') {
+      ownerId = ownerId.toString();
+    }
+    if (req.session.user._id.toString() !== ownerId) {
+      return errorOrFalse(HttpErrors.Unauthorized(), throwError);
+    }
+    return true;
+  }
 };

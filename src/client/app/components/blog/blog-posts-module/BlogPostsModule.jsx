@@ -5,7 +5,12 @@ import InfiniteBlogPostList from '../infinite-blog-post-list/InfiniteBlogPostLis
 
 
 export default class extends PostsModule {
+  get postType() {
+    return this.props.type || 'BlogPost';
+  }
+
   render() {
+    console.log('PostModule');
     return (
       <React.Fragment>
         <NewBlogPost {...this.newPostProps} />

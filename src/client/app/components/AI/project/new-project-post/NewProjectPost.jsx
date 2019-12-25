@@ -3,32 +3,36 @@ import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import NewPost from '../../blog-base/new-post/NewPost';
-import CategoryService from '../../../services/blog/CategoryService';
-import DropUploader from '../../utils/drop-uploader/DropUploader';
-import Composer from '../../utils/composer/Composer';
-import UserService from '../../../services/user/UserService';
-import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
-import { IconCommunity } from '../../../../assets/icons';
-import t from '../../../languages';
+import CategoryService from '../../../../services/blog/CategoryService';
+import DropUploader from '../../../utils/drop-uploader/DropUploader';
+import Composer from '../../../utils/composer/Composer';
+import MessageDialogHelper from '../../../../helpers/dialogs/MessageDialogHelper';
+import { IconCommunity } from '../../../../../assets/icons';
+import t from '../../../../languages';
+import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
 
 const animatedComponents = makeAnimated();
 
 
-export default class extends NewPost {
-  get formData() {
-    const formData = super.formData;
-    formData.categories = formData.categories.map(cate => cate.value);
-    formData.content = this.contentRef.current.value;
-    return formData;
+export default class extends NewBlogPost {
+  get createTitle() {
+    return 'Bắt đầu dự án mới';
   }
 
-  get action() {
-    return '/api/v1/blog/posts';
+  get updateTitle() {
+    return 'Cập nhập thông tin dự án';
+  }
+
+  get postButtonLabel() {
+    return 'Tạo dự án';
+  }
+
+  get updateButtonLabel() {
+    return 'Lưu chỉnh sửa';
   }
 
   get postType() {
-    return this.props.type || 'BlogPost';
+    return this.props.type || 'Project';
   }
 
   constructor(props) {
@@ -49,21 +53,6 @@ export default class extends NewPost {
     CategoryService.useCategoriesState(this);
   }
 
-  resetAndClose() {
-    super.resetAndClose();
-    this.contentRef.current.value = '';
-  }
-
-  reset(extraStates) {
-    super.reset(extraStates);
-    this.contentRef.current.value = '';
-  }
-
-  handleCategoriesChange(value) {
-    this.setState({
-      categories: value
-    });
-  }
 
   setPost(post) {
     const postCategories = post.categories.map(cat => cat.type);
@@ -85,19 +74,7 @@ export default class extends NewPost {
   }
 
   async validate() {
-    if (this.formData.categories.length <= 0) {
-      alert('Vui lòng chọn "Chuyên mục" cho bài viết');
-      return false;
-    }
     return true;
-  }
-
-  async beforeSubmit() {
-    UserService.updateUserSocialPoint(5);
-  }
-
-  handleSubmitError() {
-    UserService.updateUserSocialPoint(-5);
   }
 
   handleMissingPermission() {
@@ -132,6 +109,7 @@ export default class extends NewPost {
               autoComplete="off"
               autofill="off"
               components={animatedComponents}
+              disabled
             />
             <MDBInput
               label="Tiêu đề"

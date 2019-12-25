@@ -2,10 +2,13 @@ import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import SubPageGroup from '../../_base/SubPageGroup';
+import ProjectPostsModule from '../../../components/AI/project/project-posts-module/ProjectPostsModule';
 
 export default class TabProjects extends SubPageGroup {
   constructor(props) {
     super(props, t('pages.aiCloud.title.projects'));
+    this.categories = undefined;
+    this.everyoneCanPost = true;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -21,7 +24,10 @@ export default class TabProjects extends SubPageGroup {
           </ul>
         </SectionBody>
         <SectionBody>
-          {/* <PostsModule /> */}
+          <ProjectPostsModule
+            categories={this.categories}
+            everyoneCanPost={this.everyoneCanPost}
+          />
         </SectionBody>
       </Section>
     );

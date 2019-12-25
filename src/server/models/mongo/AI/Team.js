@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const Base = require('./_BaseAIEntity');
+const Base = require('../blog-base/Post');
 
 const { ObjectId } = mongoose.Schema.Types;
 

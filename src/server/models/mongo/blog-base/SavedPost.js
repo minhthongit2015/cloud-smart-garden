@@ -1,16 +1,13 @@
 
 const mongoose = require('mongoose');
-const Post = require('../posts/_Post');
+const Post = require('./Post');
 
 const { ObjectId } = mongoose.Schema.Types;
 
 const SavedPostSchema = new mongoose.Schema({
   user: { type: ObjectId, ref: 'User' },
   post: { type: ObjectId, ref: 'Post' },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: { type: Date, default: Date.now }
 });
 
 let SavedPostModel;

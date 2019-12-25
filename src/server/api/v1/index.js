@@ -10,7 +10,7 @@ const UsersRoute = require('./users');
 const MapRoute = require('./map');
 const BlogRoute = require('./blog');
 const GardenRouter = require('./garden');
-const AICentralRoute = require('./ai-central');
+const AICentralRoute = require('./AI');
 
 router.use('/server-status', ServerStatusRoute);
 router.use('/api-info', ApiInfoRoute);
@@ -22,6 +22,6 @@ router.use('/users', UsersRoute);
 router.use('/map', MapRoute);
 router.use('/blog', BlogRoute);
 router.use('/garden', GardenRouter);
-router.use('/ai-central', AICentralRoute);
+router.use('/AI', AICentralRoute);
 
 module.exports = router;

@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const ApiResponse = require('../../../models/api-models');
-const ExperimentService = require('../../../services/ai/Experiments');
+const APIResponse = require('../../../models/api-models');
+const ExperimentService = require('../../../services/AI/Experiments');
 
 router.get('/', (req, res) => {
   Logger.catch(async () => {
     const { limit, offset, sort } = req.query;
     const dataset = await ExperimentService.list({ limit, offset, sort });
-    res.send(new ApiResponse().setData(dataset));
+    res.send(new APIResponse().setData(dataset));
   }, { req, res });
 });
 
@@ -15,7 +15,7 @@ router.get('/:experimentId', (req, res) => {
   Logger.catch(async () => {
     const { experimentId } = req.params;
     const dataset = await ExperimentService.get(experimentId);
-    res.send(new ApiResponse().setData(dataset));
+    res.send(new APIResponse().setData(dataset));
   }, { req, res });
 });
 
@@ -29,7 +29,7 @@ router.post('/:experimentId/build', (req, res) => {
     const { experimentId } = req.params;
     const trainedModel = await ExperimentService.build(experimentId, req.body);
     await ExperimentService.save(experimentId, trainedModel);
-    res.send(new ApiResponse().setData(trainedModel));
+    res.send(new APIResponse().setData(trainedModel));
   }, { req, res });
 });
 

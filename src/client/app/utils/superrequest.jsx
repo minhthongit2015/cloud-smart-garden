@@ -6,10 +6,14 @@ import Config from '../config';
 export default class {
   static resolveAgentResponse(agent) {
     return agent.catch((res) => {
-      const { error } = res.response.body;
-      const newError = new Error(error.message);
-      Object.assign(newError, error);
-      throw newError;
+      const { body: { error } = {} } = res.response;
+      if (!error) {
+        throw new Error('Kết nối đến máy chủ bị gián đoạn. Mời bạn vui lòng thử lại sau ít phút.');
+      } else {
+        const newError = new Error(error.message);
+        Object.assign(newError, error);
+        throw newError;
+      }
     })
       .then(res => res.body);
   }

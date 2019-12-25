@@ -6,7 +6,6 @@ const APIResponse = require('../../../models/api-models');
 const PostsSecurityService = require('../../../services/security/PostsSecurity');
 const SavedPostService = require('../../../services/blog/SavedPost');
 const RatingService = require('../../../services/blog/Rating');
-const IDoPostService = require('../../../services/blog/IDoPost');
 
 
 router.get('/:savedPostId?', (req, res) => {
@@ -16,7 +15,6 @@ router.get('/:savedPostId?', (req, res) => {
     const { savedPostId } = req.params;
     const savedPosts = await SavedPostService.getOrListMin(savedPostId, req.query, user);
     await RatingService.appendRatingOfUser(savedPosts, user);
-    await IDoPostService.appendIWillDoThisOfUser(savedPosts, user);
     return res.send(new APIResponse().setData(savedPosts));
   }, { req, res });
 });

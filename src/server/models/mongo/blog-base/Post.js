@@ -6,17 +6,15 @@ const { PostStatus } = require('../../../utils/Constants');
 const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
+  categories: [{ type: ObjectId, ref: 'Category' }],
   title: String,
   content: String,
   summary: String,
   preview: String,
   video: String,
-  status: {
-    type: String,
-    enum: Object.values(PostStatus)
-  },
-  parent: { type: ObjectId, ref: 'Folder' },
-  owner: [{ type: ObjectId, ref: 'User' }], // Belong to a Person
+  status: { type: String, enum: Object.values(PostStatus) },
+  authors: [{ type: ObjectId, ref: 'User' }], // Written by multi people
+  owner: { type: ObjectId, ref: 'User' }, // Belong to a Person
   team: [{ type: ObjectId, ref: 'Team' }], // Belong to a Team
   totalRating: { type: Number, default: 0 },
   totalVotes: { type: Number, default: 0 },
@@ -27,11 +25,11 @@ const Schema = new mongoose.Schema({
 
 async function deleteRelatedDocs(post) {
   // eslint-disable-next-line global-require
-  const Rating = require('../blog/relateds/Rating');
+  const Rating = require('./Rating');
   await Rating.deleteMany({ post: post._id });
 
   // eslint-disable-next-line global-require
-  const SavedPost = require('../blog/relateds/SavedPost');
+  const SavedPost = require('./SavedPost');
   await SavedPost.deleteMany({ post: post._id });
 }
 
@@ -52,7 +50,7 @@ Schema.post('findByIdAndDelete', async (post) => {
 });
 
 
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'BaseAIEntity', field: 'baseOrder' });
-const Model = mongoose.model('BaseAIEntity', Schema);
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Post', field: 'baseOrder' });
+const Model = mongoose.model('Post', Schema);
 
 module.exports = Model;

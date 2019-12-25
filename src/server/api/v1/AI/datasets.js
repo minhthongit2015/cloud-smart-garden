@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const ApiResponse = require('../../../models/api-models');
-const DatasetService = require('../../../services/ai/Dataset');
+const APIResponse = require('../../../models/api-models');
+const DatasetService = require('../../../services/AI/Dataset');
 
 router.get('/', (req, res) => {
   Logger.catch(() => {
-    res.send(new ApiResponse().setData([
+    res.send(new APIResponse().setData([
       { id: 1, name: 'Realtime Dataset' }
     ]));
   }, { req, res });
@@ -16,7 +16,7 @@ router.get('/:datasetId', (req, res) => {
     // const demoData = require('./data');
     const { limit, offset, sort } = req.query;
     const dataset = await DatasetService.list({ limit, offset, sort });
-    res.send(new ApiResponse().setData(dataset));
+    res.send(new APIResponse().setData(dataset));
   }, { req, res });
 });
 
@@ -25,7 +25,7 @@ router.put('/:datasetId', (req, res) => {
     const { datasetId } = req.params;
     const dataset = req.body;
     await DatasetService.update(datasetId, dataset);
-    res.send(new ApiResponse().success());
+    res.send(new APIResponse().success());
   }, { req, res });
 });
 

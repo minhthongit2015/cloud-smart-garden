@@ -14,7 +14,7 @@ export default class PostList extends BaseComponent {
   }
 
   get PostComponent() {
-    return Post;
+    return this.props.PostComponent || Post;
   }
 
   get postProps() {
@@ -86,7 +86,7 @@ export default class PostList extends BaseComponent {
   }
 
   renderPost(post) {
-    const PostComponent = this.props.PostComponent || this.PostComponent;
+    const { PostComponent } = this;
     return (
       <PostComponent
         post={post}

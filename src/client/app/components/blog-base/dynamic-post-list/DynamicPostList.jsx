@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import superrequest from '../../../utils/superrequest';
@@ -18,6 +19,10 @@ export default class extends BasePureComponent {
     const { posts } = this.state;
     const { posts: postsz, ...restProps } = this.props;
     return { posts, ...restProps };
+  }
+
+  get postType() {
+    return this.props.type || 'Post';
   }
 
   constructor(props) {
@@ -64,7 +69,7 @@ export default class extends BasePureComponent {
     const offset = 0;
 
     let endPoint = overrideEndpoint || `${this.postEndpoint}?categories=${JSON.stringify(categories)}`;
-    endPoint = `${endPoint}${endPoint.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}`;
+    endPoint = `${endPoint}${endPoint.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&__t=${this.postType}`;
 
     const mappingRes = this.props.mappingRes || (res => res);
 
