@@ -5,18 +5,19 @@ import Categories from '../../utils/Categories';
 import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
 import t from '../../languages';
 import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export default class extends PageDialogHelper {
   static get defaultEndpoint() {
-    return '/api/v1/blog/posts';
+    return ApiEndpoints.posts;
   }
 
   static get defaultRatingEndpoint() {
-    return '/api/v1/blog/rating';
+    return ApiEndpoints.rating;
   }
 
   static get defaultSavePostEndpoint() {
-    return '/api/v1/blog/saved-posts';
+    return ApiEndpoints.savedPosts;
   }
 
   static async fetchPost(postOrder, endpoint) {

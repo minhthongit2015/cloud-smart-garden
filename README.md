@@ -14,6 +14,7 @@
 3. Heroku CLI
 4. Node Version Manager (nvm)
 5. Nodemon
+6. Tortoise + Fork
 
 #### [B] Các thiết lập cần thiết
 1. Cài đặt `nvm`

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import superrequest from '../../utils/superrequest';
 import GlobalState from '../../utils/GlobalState';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 
 export default class {
@@ -37,7 +38,7 @@ export default class {
   }
 
   static async fetchCategories() {
-    return superrequest.get('/api/v1/blog/categories')
+    return superrequest.get(ApiEndpoints.categories)
       .then((response) => {
         if (response && response.ok) {
           this._categories = {};

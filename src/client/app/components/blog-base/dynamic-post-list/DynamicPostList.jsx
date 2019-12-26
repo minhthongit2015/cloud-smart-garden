@@ -4,11 +4,12 @@ import React from 'react';
 import superrequest from '../../../utils/superrequest';
 import BasePureComponent from '../../BasePureComponent';
 import ShufflePostList from '../shuffle-post-list/ShufflePostList';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class extends BasePureComponent {
   get postEndpoint() {
-    return '/api/v1/blog/posts';
+    return ApiEndpoints.posts;
   }
 
   get scrollableTarget() {

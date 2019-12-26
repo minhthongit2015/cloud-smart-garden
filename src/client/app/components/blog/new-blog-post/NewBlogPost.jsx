@@ -11,6 +11,7 @@ import UserService from '../../../services/user/UserService';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 const animatedComponents = makeAnimated();
 
@@ -24,7 +25,7 @@ export default class extends NewPost {
   }
 
   get action() {
-    return '/api/v1/blog/posts';
+    return ApiEndpoints.posts;
   }
 
   get postType() {

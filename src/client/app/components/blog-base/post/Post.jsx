@@ -10,18 +10,19 @@ import t from '../../../languages';
 import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
 import PostBase from './PostBase';
 import ContextOptions from '../ContextOptions';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 export default class Post extends PostBase {
   get postEndpoint() {
-    return '/api/v1/blog/posts';
+    return ApiEndpoints.posts;
   }
 
   get ratingEndpoint() {
-    return '/api/v1/blog/rating';
+    return ApiEndpoints.rating;
   }
 
   get savePostEndpoint() {
-    return '/api/v1/blog/saved-posts';
+    return ApiEndpoints.savedPosts;
   }
 
   handlePostClick() {

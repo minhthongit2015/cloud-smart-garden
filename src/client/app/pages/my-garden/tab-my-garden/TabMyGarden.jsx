@@ -6,6 +6,7 @@ import t from '../../../languages';
 import SubPageGroup from '../../_base/SubPageGroup';
 import superrequest from '../../../utils/superrequest';
 import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class extends SubPageGroup {
@@ -45,7 +46,7 @@ export default class extends SubPageGroup {
   // eslint-disable-next-line class-methods-use-this
   handleToggle(event) {
     const { target: { name } } = event;
-    superrequest.post('/api/v1/garden/stations/set-state', {
+    superrequest.post(ApiEndpoints.setStationState, {
       [name]: !this.state[name]
     });
     this.setState(prevState => ({

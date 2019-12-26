@@ -1,5 +1,6 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 // import { ApiEndpoints } from '../../utils/Constants';
 
 
@@ -18,7 +19,7 @@ export default class MapService {
 
   static async fetchPlaces() {
     // const endpoint = `${ApiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`;
-    return superrequest.get('/api/v1/map/places?sort=-createdAt')
+    return superrequest.get(ApiEndpoints.placesSorted)
       .then((res) => {
         if (!res || !res.data) {
           return [];
@@ -29,18 +30,18 @@ export default class MapService {
   }
 
   static async createPlace(place) {
-    return superrequest.agentPost('/api/v1/map/places', place);
+    return superrequest.agentPost(ApiEndpoints.places, place);
   }
 
   static async updatePlace(place) {
     const placeToUpdate = { ...place };
     delete placeToUpdate.marker;
     delete placeToUpdate.ref;
-    return superrequest.agentPost('/api/v1/map/places', placeToUpdate);
+    return superrequest.agentPost(ApiEndpoints.places, placeToUpdate);
   }
 
   static async deletePlace(place) {
-    return superrequest.agentDelete(`/api/v1/map/places/${place._id}`);
+    return superrequest.agentDelete(ApiEndpoints.placeI(place._id));
   }
 
   static mapEntities(places) {

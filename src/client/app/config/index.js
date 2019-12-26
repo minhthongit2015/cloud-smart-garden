@@ -1,14 +1,12 @@
-// const isDevelopment = process.env.NODE_ENV === 'development';
-const isLocal = window.location.hostname.includes('localhost');
-const isStaging = window.location.hostname.includes('staging');
+import Runtime from '../utils/Runtime';
 
 let wsEndpoint = `wss://${window.location.host}`;
-if (isLocal) {
+if (Runtime.isLocal) {
   wsEndpoint = 'ws://localhost:5000';
 }
 
 let httpEndpoint = '';
-if (isLocal) {
+if (Runtime.isLocal) {
   httpEndpoint = 'http://localhost:5000';
 }
 
@@ -37,9 +35,9 @@ const production = {
 };
 
 let currentConfig;
-if (isLocal) {
+if (Runtime.isLocal) {
   currentConfig = developmentLocal;
-} else if (isStaging) {
+} else if (Runtime.isStaging) {
   currentConfig = developmentStaging;
 } else {
   currentConfig = production;

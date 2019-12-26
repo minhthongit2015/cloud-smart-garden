@@ -14,6 +14,7 @@ import t from '../../../languages';
 import superrequest from '../../../utils/superrequest';
 import Rating from '../../utils/rating/Rating';
 import NewsTracker from '../../../services/blog/NewsTracker';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class PostDetails extends React.PureComponent {
@@ -60,7 +61,7 @@ export default class PostDetails extends React.PureComponent {
       // this.parseFBButtons();
     });
 
-    superrequest.agentPost(`/api/v1/blog/rating/${post._id}`, {
+    superrequest.agentPost(ApiEndpoints.ratingI(post._id), {
       rating
     }).then((res) => {
       if (!res || !res.ok) {
