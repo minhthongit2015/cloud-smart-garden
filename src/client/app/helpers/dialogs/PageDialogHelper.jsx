@@ -1,8 +1,7 @@
 import DialogHelper from './DialogHelper';
 
 export default class PageDialogHelper extends DialogHelper {
-  static init(dialogRef) {
-    super.init(dialogRef);
+  static init() {
     if (!window.popCallbacks) {
       window.popCallbacks = [];
       window.onpopstate = (event) => {

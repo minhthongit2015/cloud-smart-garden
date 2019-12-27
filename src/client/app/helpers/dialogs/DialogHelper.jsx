@@ -1,12 +1,20 @@
 import React from 'react';
 
 export default class DialogHelper {
+  static init() {
+    return true;
+  }
+
   static get dialog() {
     return this.dialogRef;
   }
 
   static setDialog(dialogRef) {
+    const isFirstTime = !this.dialogRef;
     this.dialogRef = dialogRef;
+    if (isFirstTime) {
+      this.init();
+    }
   }
 
   static render(DialogComponent) {

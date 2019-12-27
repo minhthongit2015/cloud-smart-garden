@@ -48,7 +48,7 @@ const nextSpeciesPath = `${nextFeaturesPath}/plant`;
 const nextSpeciesLink = `${nextFeaturesLink}/plant`;
 
 
-export default {
+module.exports = {
   homePath,
   homeLink,
 

@@ -9,6 +9,7 @@ const CategorySchema = new mongoose.Schema({
   name: String,
   type: String,
   description: String,
+  path: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

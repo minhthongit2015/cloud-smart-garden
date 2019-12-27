@@ -2,6 +2,7 @@ import moment from 'moment';
 import superrequest from '../../utils/superrequest';
 import GlobalState from '../../utils/GlobalState';
 import ApiEndpoints from '../../utils/ApiEndpoints';
+import ServerCategories from '../../../../server/models/mongo/test/categories';
 
 
 export default class {
@@ -72,5 +73,9 @@ export default class {
         || targetCategory.children.some(childCategory => childCategory.type === postCategory.type)
       )
     );
+  }
+
+  static getByCategoryId(categoryId) {
+    return ServerCategories.find(serverCategory => serverCategory.id.toString() === categoryId);
   }
 }

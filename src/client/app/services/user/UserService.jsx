@@ -1,6 +1,7 @@
 import GlobalState from '../../utils/GlobalState';
 import superrequest from '../../utils/superrequest';
-import { ApiEndpoints, UserTypes } from '../../utils/Constants';
+import { UserTypes } from '../../utils/Constants';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export const UserObjectKeys = {
   fbUser: 'fbUser',
@@ -37,7 +38,7 @@ export default class UserService {
     if (!this.fbUser) {
       return this.clearUser();
     }
-    return superrequest.agentGet(ApiEndpoints.user.FB_LOGIN)
+    return superrequest.agentGet(ApiEndpoints.fbAuth)
       .then((response) => {
         if (this.fbUser && response && response.ok) {
           this.setUser(response.data);

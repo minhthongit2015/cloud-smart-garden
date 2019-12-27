@@ -10,6 +10,7 @@ const quoteI = _id => `${oneHundredQuotes}/${_id}`;
 
 const users = `${APIv1}/users`;
 const auth = `${users}/auth`;
+const signin = `${users}/signin`;
 const fbAuth = `${auth}/facebook`;
 
 const map = `${APIv1}/map`;
@@ -17,7 +18,7 @@ const places = `${map}/places`;
 const placesSorted = `${places}?sort=-createdAt`;
 const placeI = _id => `${places}/${_id}`;
 
-const blog = `${APIv1}/map`;
+const blog = `${APIv1}/blog`;
 const posts = `${blog}/posts`;
 const news = `${posts}/news`;
 const categories = `${blog}/categories`;
@@ -33,7 +34,10 @@ const setStationState = `${stations}/set-state`;
 const AI = `${APIv1}/AI`;
 const projects = `${AI}/projects`;
 const experiments = `${AI}/experiments`;
-const datasets = `${AI}/AI`;
+const experimentI = _id => `${experiments}/${_id}`;
+const buildExperimentI = _id => `${experimentI(_id)}/build`;
+const datasets = `${AI}/datasets`;
+const datasetI = _id => `${datasets}/${_id}`;
 
 export default {
   APIv1,
@@ -45,6 +49,7 @@ export default {
   quoteI,
 
   users,
+  signin,
   auth,
   fbAuth,
 
@@ -69,5 +74,8 @@ export default {
   AI,
   projects,
   experiments,
-  datasets
+  experimentI,
+  buildExperimentI,
+  datasets,
+  datasetI
 };
