@@ -20,6 +20,8 @@ const placeI = _id => `${places}/${_id}`;
 
 const blog = `${APIv1}/blog`;
 const posts = `${blog}/posts`;
+const postI = _id => `${posts}/${_id}`;
+const postOrder = order => `${posts}?where={"baseOrder":${order}}`;
 const news = `${posts}/news`;
 const categories = `${blog}/categories`;
 const rating = `${blog}/rating`;
@@ -60,6 +62,8 @@ export default {
 
   blog,
   posts,
+  postI,
+  postOrder,
   news,
   categories,
   rating,

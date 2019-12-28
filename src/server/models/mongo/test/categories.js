@@ -1,7 +1,7 @@
 const { generateId, mapParent } = require('./utils');
 const RouteConstants = require('../../../../client/app/utils/RouteConstants');
 
-const categories = {
+const categoriesMap = {
   // Chuyên mục ẩn - Dùng làm đánh giá / đường dẫn
   AI: { name: 'AI', path: RouteConstants.aiCloudLink },
   Project: { name: 'Project', parent: 'AI', path: RouteConstants.aiProjectsLink },
@@ -22,7 +22,10 @@ const categories = {
   Intranet: { name: 'Intranet', path: RouteConstants.intranetLink } // Tin tức/Thông báo nội bộ
 };
 
-generateId(Object.values(categories), 200);
-mapParent(categories);
+generateId(Object.values(categoriesMap), 200);
+Object.entries(categoriesMap).forEach(([key, category]) => {
+  category.type = key;
+});
+mapParent(categoriesMap);
 
-module.exports = Object.values(categories);
+module.exports = categoriesMap;

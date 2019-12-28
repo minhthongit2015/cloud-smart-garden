@@ -95,7 +95,7 @@ export default class extends PageDialogHelper {
 
   static getPathnameByCategory(category) {
     const categoryId = typeof category === 'string' ? category : category._id;
-    const foundCategory = CategoryService.getByCategoryId(categoryId);
+    const foundCategory = CategoryService.findByCategoryId(categoryId);
     if (!foundCategory) return '#';
     return foundCategory.path;
   }

@@ -1,10 +1,6 @@
-const mongoose = require('mongoose');
-
-const { ObjectId } = mongoose.Types;
-
 function generateId(array, start = 100) {
   array.forEach((element, index) => {
-    element.id = new ObjectId((start + index).toString().padStart(24, '0'));
+    element._id = (start + index).toString().padStart(24, '0');
   });
 }
 
@@ -16,11 +12,11 @@ function mapParent(treeMap) {
         if (!parent.children) {
           parent.children = [];
         }
-        parent.children.push(item.id);
+        parent.children.push(item._id);
         return parentKey === item.parent;
       });
       if (foundParent) {
-        item.parent = new ObjectId(foundParent.id);
+        item.parent = foundParent._id;
       }
     }
   });

@@ -35,6 +35,16 @@ export default class extends NewBlogPost {
     return this.props.type || 'Project';
   }
 
+  get excludeKeys() {
+    return ['categories', ...super.excludeKeys];
+  }
+
+  get formData() {
+    const formData = super.formData;
+    formData.categories = [CategoryService.categoriesMap.Project];
+    return formData;
+  }
+
   constructor(props) {
     super(props);
     this.contentRef = React.createRef();

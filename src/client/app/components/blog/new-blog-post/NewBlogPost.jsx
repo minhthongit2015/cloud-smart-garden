@@ -20,7 +20,7 @@ export default class extends NewPost {
   get formData() {
     const formData = super.formData;
     formData.categories = formData.categories.map(cate => cate.value);
-    formData.content = this.contentRef.current.value;
+    formData.content = this.contentRef.current && this.contentRef.current.value;
     return formData;
   }
 
@@ -50,14 +50,14 @@ export default class extends NewPost {
     CategoryService.useCategoriesState(this);
   }
 
-  resetAndClose() {
-    super.resetAndClose();
+  async resetAndClose() {
     this.contentRef.current.value = '';
+    return super.resetAndClose();
   }
 
-  reset(extraStates) {
-    super.reset(extraStates);
+  async reset(extraStates) {
     this.contentRef.current.value = '';
+    return super.reset(extraStates);
   }
 
   handleCategoriesChange(value) {

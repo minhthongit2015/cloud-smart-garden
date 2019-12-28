@@ -13,7 +13,6 @@ export default class TabProjects extends SubPageGroup {
 
   // eslint-disable-next-line class-methods-use-this
   renderBody() {
-    console.log('render tab project');
     return (
       <Section>
         <SectionHeader>Projects</SectionHeader>

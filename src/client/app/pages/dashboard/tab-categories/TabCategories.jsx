@@ -45,8 +45,8 @@ export default class extends AdminPage {
   render() {
     console.log('render categories');
     if (!this.state.items
-      && CategoryService.categoryArray && CategoryService.categoryArray.length) {
-      this.loadItems(CategoryService.categoryArray);
+      && CategoryService.categories && CategoryService.categories.length) {
+      this.loadItems(CategoryService.categories);
       // this.loadItems(CategoryService.categoryArray);
     }
 
