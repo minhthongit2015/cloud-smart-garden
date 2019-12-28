@@ -31,10 +31,6 @@ export default class extends NewBlogPost {
     return 'Lưu chỉnh sửa';
   }
 
-  get postType() {
-    return this.props.type || 'Project';
-  }
-
   get excludeKeys() {
     return ['categories', ...super.excludeKeys];
   }

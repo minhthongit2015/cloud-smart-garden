@@ -90,7 +90,7 @@ class App extends Component {
         </Switch>
         {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}
 
-        {PageDialogHelper.render(PageDialog)}
+        {/* {PageDialogHelper.render(PageDialog)} */}
         {PostDetailsDialogHelper.render(PageDialog)}
         {SavedPostsDialogHelper.render(PageDialog)}
         {IDoPostsDialogHelper.render(PageDialog)}

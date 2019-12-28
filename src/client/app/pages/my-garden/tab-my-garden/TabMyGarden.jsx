@@ -7,6 +7,8 @@ import SubPageGroup from '../../_base/SubPageGroup';
 import superrequest from '../../../utils/superrequest';
 import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import GardenModule from './GardenModule';
+import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 
 
 export default class extends SubPageGroup {
@@ -61,45 +63,53 @@ export default class extends SubPageGroup {
     } = this.state;
 
     return (
-      <Card className="w-50 mx-auto mt-5">
-        <CardHeader>Vườn 01</CardHeader>
-        <CardBody>
-          <div>Chỉ số (<small><TimeAgo time={lastCheckpoint} /></small>):</div>
-          <table className="w-100">
-            <tbody>
-              <tr>
-                <td>Nhiệt độ</td>
-                <td>{temperature.toFixed(2)}°C</td>
-              </tr>
-              <tr>
-                <td>Độ ẩm</td>
-                <td>{humidity.toFixed(2)}%</td>
-              </tr>
-              <tr>
-                <td>Ánh sáng</td>
-                <td>{light.toLocaleString()} lux</td>
-              </tr>
-            </tbody>
-          </table>
-          <hr className="mx-4" />
-          <div className="text-right">
-            <MDBBtn
-              name="pump"
-              onClick={this.handleToggle}
-              size="sm"
-              color={pump ? 'default' : 'none'}
-            >Bơm
-            </MDBBtn>
-            <MDBBtn
-              name="led"
-              onClick={this.handleToggle}
-              size="sm"
-              color={led ? 'default' : 'none'}
-            >Đèn
-            </MDBBtn>
-          </div>
-        </CardBody>
-      </Card>
+      <React.Fragment>
+        <GardenModule />
+        <Section>
+          <SectionHeader>Demo</SectionHeader>
+          <SectionBody>
+            <Card className="w-50 mx-auto mt-5">
+              <CardHeader>Vườn 01</CardHeader>
+              <CardBody>
+                <div>Chỉ số (<small><TimeAgo time={lastCheckpoint} /></small>):</div>
+                <table className="w-100">
+                  <tbody>
+                    <tr>
+                      <td>Nhiệt độ</td>
+                      <td>{temperature.toFixed(2)}°C</td>
+                    </tr>
+                    <tr>
+                      <td>Độ ẩm</td>
+                      <td>{humidity.toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                      <td>Ánh sáng</td>
+                      <td>{light.toLocaleString()} lux</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr className="mx-4" />
+                <div className="text-right">
+                  <MDBBtn
+                    name="pump"
+                    onClick={this.handleToggle}
+                    size="sm"
+                    color={pump ? 'default' : 'none'}
+                  >Bơm
+                  </MDBBtn>
+                  <MDBBtn
+                    name="led"
+                    onClick={this.handleToggle}
+                    size="sm"
+                    color={led ? 'default' : 'none'}
+                  >Đèn
+                  </MDBBtn>
+                </div>
+              </CardBody>
+            </Card>
+          </SectionBody>
+        </Section>
+      </React.Fragment>
     );
   }
 }

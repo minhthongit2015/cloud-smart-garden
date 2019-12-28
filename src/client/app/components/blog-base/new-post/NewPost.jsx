@@ -15,13 +15,12 @@ import ButtonBar from '../../dialog/ButtonBar';
 import UserService from '../../../services/user/UserService';
 import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
-import { IconCommunity, IconThanks } from '../../../../assets/icons';
+import { IconThanks } from '../../../../assets/icons';
 import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
-import BasePureComponent from '../../BasePureComponent';
-import GlobalState from '../../../utils/GlobalState';
+import BaseComponent from '../../BaseComponent';
 
 
 const scrollToTop = () => {
@@ -30,7 +29,7 @@ const scrollToTop = () => {
 };
 
 
-export default class extends BasePureComponent {
+export default class extends BaseComponent {
   get createTitle() {
     return 'Viết bài mới';
   }

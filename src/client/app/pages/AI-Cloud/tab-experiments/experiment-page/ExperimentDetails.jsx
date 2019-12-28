@@ -1,5 +1,5 @@
 import React from 'react';
-import BasePureComponent from '../../../BasePureComponent';
+import BasePureComponent from '../../../../components/BasePureComponent';
 
 
 export default class extends BasePureComponent {

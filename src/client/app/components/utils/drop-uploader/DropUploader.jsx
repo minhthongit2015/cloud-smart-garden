@@ -119,7 +119,7 @@ export default class extends React.Component {
   render() {
     const {
       className, wrapperProps, innerClass, useVideo = true, useAudio = false,
-      label, name, videoName, audioName, value = '', video = '', audio = '', ...restProps
+      label, name = 'preview', videoName = 'video', audioName = 'audio', value = '', video = '', audio = '', ...restProps
     } = this.props;
     const { uploading } = this.state;
     const urlInputValue = value && value.startsWith('http')
@@ -144,18 +144,18 @@ export default class extends React.Component {
           <input
             type="file"
             accept="image/*"
+            style={{ display: 'none' }}
             name={name}
             onChange={this.handleFileUpload}
             onInput={this.handleStartUpload}
             ref={this.inputRef}
-            style={{ display: 'none' }}
           />
         </label>
         <input
           className="drop-uploader__url-input px-2 rounded"
-          placeholder="URL hình ảnh"
+          placeholder="📸 URL hình ảnh"
           name={name}
-          value={urlInputValue}
+          value={value}
           onChange={this.handleInputChange}
           onPaste={this.handlePaste}
           autoComplete="off"
@@ -166,7 +166,7 @@ export default class extends React.Component {
         {useVideo && (
           <input
             className="drop-uploader__url-input px-2 mt-2 rounded"
-            placeholder="URL đoạn phim"
+            placeholder="🎬 URL đoạn phim"
             name={videoName}
             value={video}
             onChange={this.handleInputChange}
@@ -180,7 +180,7 @@ export default class extends React.Component {
         {useAudio && (
           <input
             className="drop-uploader__url-input px-2 mt-2 rounded"
-            placeholder="URL đoạn nhạc"
+            placeholder="🎼 URL đoạn nhạc ♪"
             name={audioName}
             value={audio}
             onChange={this.handleInputChange}

@@ -1,50 +1,36 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
-import DropUploader from '../../../utils/drop-uploader/DropUploader';
-import Composer from '../../../utils/composer/Composer';
-import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
-import CategoryService from '../../../../services/blog/CategoryService';
+import NewBlogPost from '../../../components/blog/new-blog-post/NewBlogPost';
+import DropUploader from '../../../components/utils/drop-uploader/DropUploader';
+// import Composer from '../../../components/utils/composer/Composer';
+import CategoryService from '../../../services/blog/CategoryService';
 
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Thử nghiệm chế độ chăm sóc mới';
+    return 'Mở một khu vườn mới';
   }
 
   get updateTitle() {
-    return 'Cập nhập thông tin chế độ chăm sóc';
+    return 'Thay đổi thông tin khu vườn';
   }
 
   get postButtonLabel() {
-    return 'Tạo chế độ mới';
+    return 'Tạo khu vườn';
   }
 
   get updateButtonLabel() {
     return 'Lưu chỉnh sửa';
   }
 
-  get postType() {
-    return this.props.type || 'Experiment';
-  }
-
-  get excludeKeys() {
-    return ['categories', ...super.excludeKeys];
-  }
-
-  get formData() {
-    const formData = super.formData;
-    formData.categories = [CategoryService.categoriesMap.Experiment];
-    return formData;
-  }
-
-  validate() {
-    return true;
+  get defaultCategories() {
+    return [CategoryService.categoriesMap.Garden];
   }
 
   renderBody() {
     const {
-      title, summary, preview, video
+      title, summary, preview, video, audio
     } = this.state;
 
     return (
@@ -52,7 +38,7 @@ export default class extends NewBlogPost {
         <Row>
           <Col size="12" sm="6">
             <MDBInput
-              label="Tiêu đề"
+              label="🌱 Đặt tên cho khu vườn"
               name="title"
               value={title}
               onChange={this.handleInputChange}
@@ -61,7 +47,7 @@ export default class extends NewBlogPost {
               required
             />
             <MDBInput
-              label="Mô tả ngắn gọn"
+              label="Đây sẽ là một khu vườn như thế nào?"
               name="summary"
               value={summary}
               onChange={this.handleInputChange}
@@ -73,17 +59,18 @@ export default class extends NewBlogPost {
           </Col>
           <Col size="12" sm="6">
             <DropUploader
-              label="Tải ảnh xem trước"
+              label="Bạn có muốn chia sẻ hình ảnh về khu vườn của bạn?"
               name="preview"
               value={preview}
-              videoName="video"
               video={video}
+              useAudio
+              audio={audio}
               onChange={this.handleInputChange}
               className="px-2 pb-4 pt-1"
             />
           </Col>
         </Row>
-        <Composer ref={this.contentRef} />
+        {/* <Composer ref={this.contentRef} placeholder="123" /> */}
       </React.Fragment>
     );
   }

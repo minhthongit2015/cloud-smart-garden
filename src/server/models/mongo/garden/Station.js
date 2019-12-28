@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
+const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
+const Post = require('../blog-base/Post');
 
 const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
-  gardenId: { type: ObjectId, ref: 'Garden' },
-  stationId: { type: ObjectId, ref: 'Station' },
-  state: Object,
-  createdAt: { type: Date, default: Date.now }
+  garden: { type: ObjectId, ref: 'Garden' },
+  model: String,
+  state: Object
 });
-const Model = mongoose.model('Station', Schema);
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Station', field: 'order' });
+const Model = Post.discriminator('Station', Schema);
 
 module.exports = Model;

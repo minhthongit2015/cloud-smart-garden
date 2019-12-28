@@ -1,6 +1,11 @@
 import React from 'react';
 
+/**
+ * Class gốc của các Dialog Helper
+ */
 export default class DialogHelper {
+  static isInitialized = false;
+
   static init() {
     return true;
   }
@@ -10,9 +15,9 @@ export default class DialogHelper {
   }
 
   static setDialog(dialogRef) {
-    const isFirstTime = !this.dialogRef;
     this.dialogRef = dialogRef;
-    if (isFirstTime) {
+    if (!this.isInitialized) {
+      this.isInitialized = true;
       this.init();
     }
   }

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { User, Category } = require('../db');
+const { User, Category, Post } = require('../db');
 const users = require('./users');
 const categoriesMap = require('./categories');
 
@@ -28,6 +28,7 @@ module.exports = async () => {
 
   // await Category.collection.drop();
   // await Category.deleteMany({}).exec();
+  const posts = await Post.find({}).populate('categories').exec();
   await Promise.all(
     categories.map(async (category) => {
       const categoryToSave = { ...category };
@@ -43,6 +44,15 @@ module.exports = async () => {
   );
   const savedCategories = await Promise.all(
     categories.map(category => Category.findById(category.id))
+  );
+  await Promise.all(
+    posts.map((post) => {
+      post.categories = post.categories.map((oldCategory) => {
+        const newCategory = categoriesMap[oldCategory.type];
+        return new ObjectId(newCategory._id);
+      });
+      return post.save();
+    })
   );
 
   return {

@@ -3,7 +3,6 @@ import { Row, Col, Button } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import SubPageGroup from '../../../_base/SubPageGroup';
-import ExperimentDetails from '../../../../components/AI/experiment/experiment-details/ExperimentDetails';
 import superrequest from '../../../../utils/superrequest';
 import ApiEndpoints from '../../../../utils/ApiEndpoints';
 import t from '../../../../languages';
@@ -11,6 +10,7 @@ import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/se
 import AlgorithmConstants from './AlgorithmConstants';
 import ExperimentService from '../../../../services/AI/ExperimentService';
 import TrainingProgressChart from '../../../../components/charts/TrainingProgressChart';
+import ExperimentDetails from './ExperimentDetails';
 
 
 export default class extends SubPageGroup {
