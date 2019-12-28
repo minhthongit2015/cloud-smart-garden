@@ -155,7 +155,7 @@ export default class extends React.Component {
           className="drop-uploader__url-input px-2 rounded"
           placeholder="📸 URL hình ảnh"
           name={name}
-          value={value}
+          value={urlInputValue}
           onChange={this.handleInputChange}
           onPaste={this.handlePaste}
           autoComplete="off"

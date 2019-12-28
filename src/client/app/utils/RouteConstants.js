@@ -34,6 +34,8 @@ const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
 const myGardenPath = '/my-garden';
 const myGardenLink = '/my-garden';
+const stationsPath = `${myGardenPath}/stations`;
+const stationsLink = `${myGardenLink}/stations`;
 const storehousePath = `${myGardenPath}/storehouse`;
 const storehouseLink = `${myGardenLink}/storehouse`;
 const helpMyGardenPath = `${myGardenPath}/help`;
@@ -73,6 +75,8 @@ module.exports = {
   // Public
   myGardenPath,
   myGardenLink,
+  stationsPath,
+  stationsLink,
   storehousePath,
   storehouseLink,
   helpMyGardenPath,

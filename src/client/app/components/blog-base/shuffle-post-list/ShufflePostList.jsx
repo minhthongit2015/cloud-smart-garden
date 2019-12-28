@@ -87,10 +87,11 @@ export default class ShufflePostList extends PostList {
   }
 
   getPostSize(image, post) { // return one of ['w1', 'w2', 'w3', 'w4']
-    const contentLength = post.title.length + post.summary.length;
+    const summaryLength = post.summary ? post.summary.length : 0;
+    const contentLength = post.title.length + summaryLength;
     if (image == null) {
       if (contentLength > 70) {
-        return 'w3';
+        return 'w2';
       }
       if (contentLength > 30) {
         return 'w2';
@@ -103,16 +104,16 @@ export default class ShufflePostList extends PostList {
     const ratio = width / height;
     if (ratio > 1) { // width > height
       if (contentLength > 400) {
-        return 'w4';
+        return 'w2';
       } if (contentLength > 300) {
-        return 'w3';
+        return 'w2';
       } if (contentLength > 100) {
         return 'w2';
       }
       if (ratio > 4) {
-        return 'w4';
+        return 'w2';
       } if (ratio > 3) {
-        return 'w3';
+        return 'w2';
       } if (ratio > 2) {
         return 'w2';
       }
@@ -124,9 +125,9 @@ export default class ShufflePostList extends PostList {
       return 'w1';
     } // height > width
     if (contentLength > 500) {
-      return 'w4';
+      return 'w2';
     } if (contentLength > 400) {
-      return 'w3';
+      return 'w2';
     } if (contentLength > 100) {
       return 'w2';
     }

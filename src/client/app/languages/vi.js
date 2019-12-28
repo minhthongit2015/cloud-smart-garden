@@ -55,16 +55,19 @@ export default {
     myGarden: {
       nav: {
         myGarden: 'My Garden',
+        stations: 'Khu vực trong vườn',
         storehouse: 'Kho vật dụng',
         help: 'Tìm trợ giúp'
       },
       title: {
         myGarden: 'My Garden',
+        stations: 'Khu vực trong vườn',
         storehouse: 'Kho vật dụng',
         help: 'Tìm trợ giúp'
       },
       message: {
         myGarden: 'My Garden',
+        stations: 'Quản lý các khu vực trong vườn!',
         storehouse: 'Kho vật dụng',
         help: 'Tìm trợ giúp'
       }
