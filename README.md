@@ -3,6 +3,7 @@
 ---
 
 ## Hướng dẫn thiết lập môi trường lập trình
+> Tiến hành theo mục `[C]`
 
 #### [A] Môi trường
 1. NodeJS (v12.13.0) `(*Lưu ý phải chọn phiên bản tương thích với TensorflowJS)`
@@ -16,31 +17,42 @@
 5. Nodemon
 6. Tortoise + Fork
 
-#### [B] Các thiết lập cần thiết
+#### [C] Các thiết lập cần thiết
 1. Cài đặt `nvm`
   > https://github.com/coreybutler/nvm-windows/releases
 2. Cài đặt `NodeJS`
-  ```bash
+  ```console
   > nvm install node 12.13.0 && nvm use 12.13.0
   ```
 3. Cài đặt `Python 2.7`
   > https://www.python.org/downloads/windows/
 4. Cài đặt `Windows Build Tools` dưới quyền **Admin**
-  ```bash
+  ```console
   > npm install -g --production windows-build-tools
   ```
 5. Cài đặt các thư viện cần thiết
-  ```bash
+  ```console
   > npm install
   ```
 6. Cài đặt `nodemon`
-  ```bash
+  ```console
   > npm install -g nodemon
   ```
 7. Tạo file `.env.dev.ini` để truyền biến môi trường vào (`*Đường dẫn bên dưới là đường dẫn mẫu, bạn cần truyền đường dẫn thật tới Database`)
   ```ini
   DB_MONGO_URI=mongodb+srv://<username>:<password>@cluster0-abcd.gcp.mongodb.net/BeyondGarden?retryWrites=true&w=majority
   ```
+
+#### [D] Khởi chạy chương trình
+1. Build phần giao diện
+```console
+> npm run watchs
+```
+2. Chạy Server
+> Nhấn [F5] trong VSCode (chạy Debug `No Webpack`)
+
+
+(Một số cấu hình chạy khác có thể xem thêm trong file `package.json`)
 
 ---
 

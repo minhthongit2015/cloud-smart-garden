@@ -32,18 +32,8 @@ export default class extends SubPageGroup {
 
   componentDidMount() {
     super.componentDidMount();
-    const params = new URLSearchParams(window.location.search);
-
-    const isShowSavedPost = params.get('saved-posts');
-    if (isShowSavedPost) {
-      SavedPostsDialogHelper.openSavedPostsInCurrentHistory();
-    }
-
-    const hashtag = params.get('hashtag');
-    if (hashtag) {
-      PostDetailsDialogHelper.openPostDetailsCurrentTab(hashtag);
-      PostService.refreshCache();
-    }
+    SavedPostsDialogHelper.checkToOpen();
+    PostDetailsDialogHelper.checkToOpen();
   }
 
   renderBody() {

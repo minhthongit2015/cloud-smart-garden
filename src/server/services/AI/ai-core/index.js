@@ -1,6 +1,5 @@
-// const { Environment } = require('../../models/mongo');
 const tf = require('@tensorflow/tfjs-node');
-const EnvironmentService = require('../../garden/Environment');
+const RecordService = require('../../garden/Record');
 const ApiHelper = require('../../../utils/ApiHelper');
 const ConverterFactory = require('../../../models/converters/ConverterFactory');
 const NeralNetwork = require('./NeuralNetwork');
@@ -10,7 +9,7 @@ const SyncService = require('../../../services/sync');
 module.exports = class {
   static async build(opts = ApiHelper.listParams) {
     // Prepare dataset
-    const rawData = await EnvironmentService.list(opts);
+    const rawData = await RecordService.list(opts);
     const features = {
       // 'state.temperature': 'temperature',
       // 'state.humidity': 'humidity',
@@ -87,7 +86,7 @@ module.exports = class {
   }
 
   static async create(object) {
-    return EnvironmentService.create(object);
+    return RecordService.create(object);
   }
 
   static update() {

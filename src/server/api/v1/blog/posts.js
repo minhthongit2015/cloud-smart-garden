@@ -2,7 +2,7 @@ const router = require('express').Router();
 // const Debugger = require('../../../services/Debugger');
 const Logger = require('../../../services/Logger');
 const PostService = require('../../../services/blog/Post');
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const PostsSecurityService = require('../../../services/security/PostsSecurity');
 const FacebookService = require('../../../services/third-party/Facebook');
 const RatingService = require('../../../services/blog/Rating');
@@ -15,6 +15,7 @@ router.post('/', (req, res) => {
     const post = PostsSecurityService.filterUnallowedProperties(req.body);
     await PostsSecurityService.onlyPublicOwnerModAdmin(req, post);
     post.newAuthor = req.session.user;
+    post.owner = req.session.user;
     const newPost = await PostService.createOrUpdate(post);
     await SessionService.checkForDirtySession(req);
     res.send(new APIResponse().setData(newPost));

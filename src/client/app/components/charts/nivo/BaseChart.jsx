@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ResponsiveLine } from '@nivo/line';
+import { ResponsiveLine, ResponsiveLineCanvas } from '@nivo/line';
 import './BaseChart.scss';
 
 
@@ -18,8 +18,9 @@ export default class BaseChart extends Component {
     return (
       <div className="base-chart-wrapper">
         <div className={`base-chart ${className}`} {...wrapperProps}>
-          <ResponsiveLine
+          <ResponsiveLineCanvas
             data={data}
+            xScale={{ type: 'linear' }}
             {...baseOptions}
             {...restProps}
           />

@@ -9,6 +9,8 @@ import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import StationModule from './StationModule';
+import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
+import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
 
 
 export default class extends SubPageGroup {
@@ -28,17 +30,19 @@ export default class extends SubPageGroup {
 
   componentDidMount() {
     super.componentDidMount();
-    superrequest.on('stateChange', (state) => {
-      delete state.pump;
-      delete state.led;
+    superrequest.on('stateChange', (record) => {
+      delete record.state.pump;
+      delete record.state.led;
       this.setState({
         lastCheckpoint: Date.now(),
-        ...state
+        ...record.state
       });
     });
     superrequest.on('accept', (msg) => {
       console.log(msg);
     });
+    SavedPostsDialogHelper.checkToOpen();
+    PostDetailsDialogHelper.checkToOpen();
   }
 
   componentWillUnmount() {

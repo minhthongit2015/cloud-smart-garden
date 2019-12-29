@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ApexChart from 'react-apexcharts';
-import Random from '../../../utils/Random';
+import Random from '../../../../../utils/Random';
 
 export default class ActionChart extends Component {
   get selectedPoints() {

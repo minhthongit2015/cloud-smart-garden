@@ -21,6 +21,10 @@ export default class PageDialogHelper extends DialogHelper {
     return false;
   }
 
+  static checkToOpen() {
+    return false;
+  }
+
   static renderPageDialog(/* state */) {
     return null;
   }

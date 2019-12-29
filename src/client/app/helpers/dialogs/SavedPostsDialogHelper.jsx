@@ -14,6 +14,14 @@ export default class extends PageDialogHelper {
     return state && state.isSavedPostsPage != null;
   }
 
+  static checkToOpen() {
+    const params = new URLSearchParams(window.location.search);
+    const isShowSavedPost = params.get('saved-posts');
+    if (isShowSavedPost) {
+      this.openSavedPostsInCurrentHistory();
+    }
+  }
+
   static renderPageDialog() {
     return (
       <React.Fragment>

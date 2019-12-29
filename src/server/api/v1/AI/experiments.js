@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const ExperimentService = require('../../../services/AI/Experiments');
 
 router.get('/', (req, res) => {

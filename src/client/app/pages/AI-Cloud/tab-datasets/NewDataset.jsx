@@ -9,15 +9,15 @@ import CategoryService from '../../../services/blog/CategoryService';
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Thêm khu vực cây mới';
+    return 'Tạo bộ dữ liệu mới';
   }
 
   get updateTitle() {
-    return 'Thay đổi thông tin khu vực';
+    return 'Cập nhập thông tin bộ dữ liệu';
   }
 
   get postButtonLabel() {
-    return 'Tạo khu vực mới';
+    return 'Tạo bộ dữ liệu';
   }
 
   get updateButtonLabel() {
@@ -25,7 +25,7 @@ export default class extends NewBlogPost {
   }
 
   get defaultCategories() {
-    return [CategoryService.categoriesMap.Station.type];
+    return [CategoryService.categoriesMap.Garden.type];
   }
 
   renderBody() {
@@ -38,7 +38,7 @@ export default class extends NewBlogPost {
         <Row>
           <Col size="12" sm="6">
             <MDBInput
-              label="Tên khu vực cây"
+              label="Tên bộ dữ liệu"
               name="title"
               value={title}
               onChange={this.handleInputChange}
@@ -47,7 +47,7 @@ export default class extends NewBlogPost {
               required
             />
             <MDBInput
-              label="Mô tả về khu vực này"
+              label="Mô tả"
               name="summary"
               value={summary}
               onChange={this.handleInputChange}
@@ -59,7 +59,7 @@ export default class extends NewBlogPost {
           </Col>
           <Col size="12" sm="6">
             <DropUploader
-              label="Hình ảnh về khu vực?"
+              label="Hình ảnh từ quá trình chăm sóc?"
               name="preview"
               value={preview}
               video={video}

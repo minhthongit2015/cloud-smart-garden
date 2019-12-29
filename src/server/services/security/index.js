@@ -4,6 +4,13 @@ const { UserRole } = require('../../utils/Constants');
 
 
 module.exports = class {
+  static onlyNotNullObject(object, throwError = true, error = null) {
+    if (object == null) {
+      return errorOrFalse(error || HttpErrors.BadRequest(), throwError);
+    }
+    return true;
+  }
+
   static onlyLoggedInUser(req, throwError = true) {
     if (!req.session.user) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
@@ -52,6 +59,14 @@ module.exports = class {
     return true;
   }
 
+  static onlyOwner(req, ownerId, throwError = true) {
+    const userId = req.session.user._id;
+    if (userId.toString() !== ownerId.toString()) {
+      return errorOrFalse(HttpErrors.Unauthorized(), throwError);
+    }
+    return true;
+  }
+
   static onlyOwnerOrModOrAdmin(req, ownerId, throwError = true) {
     if (!this.onlyLoggedInUser(req, throwError)) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
@@ -59,12 +74,6 @@ module.exports = class {
     if (this.onlyModOrAdmin(req, false)) {
       return true;
     }
-    if (typeof ownerId !== 'string') {
-      ownerId = ownerId.toString();
-    }
-    if (req.session.user._id.toString() !== ownerId) {
-      return errorOrFalse(HttpErrors.Unauthorized(), throwError);
-    }
-    return true;
+    return this.onlyOwner(req, ownerId, throwError);
   }
 };

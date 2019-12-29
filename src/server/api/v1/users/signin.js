@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const AuthService = require('../../../services/user/Auth');
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const Logger = require('../../../services/Logger');
 
 const { isNone, isBlank } = require('../../../utils');

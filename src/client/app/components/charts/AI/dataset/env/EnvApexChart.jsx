@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApexChart from 'react-apexcharts';
-import '../../charts/EnvApexChart.scss';
-import Random from '../../../utils/Random';
+import './EnvApexChart.scss';
+import Random from '../../../../../utils/Random';
 
 export default class DatasetChart extends Component {
   constructor(props) {

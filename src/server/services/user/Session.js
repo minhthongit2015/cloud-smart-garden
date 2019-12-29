@@ -37,4 +37,23 @@ module.exports = class SessionService {
     }
     return isDirty;
   }
+
+  // ---
+
+  static getEntities(req) {
+    return {
+      session: req.session,
+      headers: req.headers,
+      cookie: req.cookie,
+      params: req.params,
+      query: req.query,
+      body: req.body,
+      socket: req.socket,
+
+      user: req.session.user,
+      fbUser: req.session.fbUser,
+      garden: req.session.garden,
+      station: req.session.station
+    };
+  }
 };

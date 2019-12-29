@@ -25,7 +25,7 @@ export default class extends NewBlogPost {
   }
 
   get defaultCategories() {
-    return [CategoryService.categoriesMap.Garden];
+    return [CategoryService.categoriesMap.Garden.type];
   }
 
   renderBody() {

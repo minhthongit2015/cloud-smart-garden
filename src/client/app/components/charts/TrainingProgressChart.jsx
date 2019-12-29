@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ApexChart from 'react-apexcharts';
-import './EnvApexChart.scss';
+// import './EnvApexChart.scss';
 import Random from '../../utils/Random';
 
 export default class TrainingProgressChart extends Component {

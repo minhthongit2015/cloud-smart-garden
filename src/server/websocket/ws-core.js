@@ -14,7 +14,7 @@ module.exports = class WebsocketManagerCore {
     return this.wsServer;
   }
 
-  static get clients() {
+  static get clientsMap() {
     try {
       return this.wsServer.sockets.sockets;
     } catch {
@@ -22,12 +22,12 @@ module.exports = class WebsocketManagerCore {
     }
   }
 
-  static get clientArray() {
-    return Object.keys(this.clients).map(key => this.clients[key]);
+  static get clients() {
+    return Object.values(this.clientsMap);
   }
 
   static getClientById(socketId) {
-    return this.clients[socketId];
+    return this.clientsMap[socketId];
   }
 
   static setup(wsServer) {

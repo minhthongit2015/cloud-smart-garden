@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const SecurityService = require('../../../services/security');
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const OneHundredQuotesService = require('../../../services/intranet/100Quotes');
 
 router.post('/', (req, res) => {

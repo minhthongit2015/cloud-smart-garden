@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const V1Route = require('./v1');
 const Debugger = require('../services/Debugger');
-const APIResponse = require('../models/api-models');
+const APIResponse = require('../models/api-models/APIResponse');
 
 router.use((req, res, next) => {
   req.api = true;
