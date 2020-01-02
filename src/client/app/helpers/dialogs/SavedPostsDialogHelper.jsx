@@ -4,6 +4,7 @@ import superrequest from '../../utils/superrequest';
 import PageDialogHelper from './PageDialogHelper';
 import DeepMessage from '../../components/utils/messages/DeepMessage';
 import InfinitePostList from '../../components/blog-base/infinite-post-list/InfinitePostList';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 
 const defaultState = { isSavedPostsPage: true };
@@ -11,6 +12,14 @@ const defaultState = { isSavedPostsPage: true };
 export default class extends PageDialogHelper {
   static shouldOpenWithState(state) {
     return state && state.isSavedPostsPage != null;
+  }
+
+  static checkToOpen() {
+    const params = new URLSearchParams(window.location.search);
+    const isShowSavedPost = params.get('saved-posts');
+    if (isShowSavedPost) {
+      this.openSavedPostsInCurrentHistory();
+    }
   }
 
   static renderPageDialog() {
@@ -21,7 +30,7 @@ export default class extends PageDialogHelper {
           parentPage="saved-posts"
           noPostMsg="chưa có bài viết nào được lưu"
           endMessage=""
-          endPoint="/api/v1/blog/saved-posts"
+          endPoint={ApiEndpoints.savedPosts}
           mappingRes={this.mappingRes}
           allSmall
           scrollableTarget="page-dialog-instance"
@@ -51,7 +60,7 @@ export default class extends PageDialogHelper {
   }
 
   static async fetchSavedPosts() {
-    return superrequest.get('/api/v1/blog/saved-posts')
+    return superrequest.get(ApiEndpoints.savedPost)
       .then(this.mappingRes);
   }
 

@@ -48,25 +48,26 @@ export default class extends BasePage {
 
   toggle(noBack) {
     if (this.state.disabled) return;
-    if (this.isOpen) {
-      if (noBack) {
-        this.historyBack = false;
-      }
-      if (this.historyBack) {
-        this.historyBack = false;
-        window.history.back();
-      } else {
-        const { location } = window;
-        const parentUrl = `${location.origin}${location.pathname}`;
-        window.history.pushState(undefined, '', parentUrl);
-      }
-      if (this.historyPrevTitle) {
-        document.title = this.historyPrevTitle;
-        this.historyPrevTitle = null;
-      }
-    }
     this.setState({
       isShowLoginModal: !this.isOpen
+    }, () => {
+      if (!this.isOpen) {
+        if (noBack) {
+          this.historyBack = false;
+        }
+        if (this.historyBack) {
+          this.historyBack = false;
+          window.history.back();
+        } else {
+          const { location } = window;
+          const parentUrl = `${location.origin}${location.pathname}`;
+          window.history.pushState(undefined, '', parentUrl);
+        }
+        if (this.historyPrevTitle) {
+          document.title = this.historyPrevTitle;
+          this.historyPrevTitle = null;
+        }
+      }
     });
   }
 

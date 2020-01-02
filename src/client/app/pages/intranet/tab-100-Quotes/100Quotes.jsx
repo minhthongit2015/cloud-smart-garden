@@ -4,6 +4,7 @@ import superrequest from '../../../utils/superrequest';
 import Quote from '../../../components/utils/messages/Quote';
 import './100Quotes.scss';
 import UserService from '../../../services/user/UserService';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 export default class extends React.PureComponent {
   constructor(props) {
@@ -20,7 +21,7 @@ export default class extends React.PureComponent {
   }
 
   fetch() {
-    superrequest.get('/api/v1/intranet/100-Quotes').then((res) => {
+    superrequest.get(ApiEndpoints.oneHundredQuotes).then((res) => {
       if (!res || !res.ok) {
         return;
       }
@@ -45,7 +46,7 @@ export default class extends React.PureComponent {
     if (!window.confirm('Bạn có chắc chắn muốn xóa trích dẫn này?')) {
       return;
     }
-    superrequest.agentDelete(`/api/v1/intranet/100-Quotes/${quote._id}`)
+    superrequest.agentDelete(ApiEndpoints.quoteI(quote._id))
       .then(() => {
         this.refresh();
         if (this.props.onDelete) {

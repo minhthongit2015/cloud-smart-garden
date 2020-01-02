@@ -2,6 +2,7 @@
 import moment from 'moment';
 import superrequest from '../../utils/superrequest';
 import GlobalState from '../../utils/GlobalState';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 const NEWS_STATE_NAME = 'news';
 
@@ -21,7 +22,7 @@ export default class {
     if (!force && this.news != null) {
       return this.news;
     }
-    return superrequest.agentGet('/api/v1/blog/posts/news')
+    return superrequest.agentGet(ApiEndpoints.news)
       .then(this.handleNewsResult);
   }
 
@@ -39,7 +40,7 @@ export default class {
         });
       }
       if (readCategories.length > 0) {
-        superrequest.agentPost('/api/v1/blog/posts/news', readCategories)
+        superrequest.agentPost(ApiEndpoints.news, readCategories)
           .then(this.handleNewsResult);
       }
     });

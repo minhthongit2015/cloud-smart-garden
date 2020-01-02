@@ -10,6 +10,14 @@ export default class extends React.Component {
     return this.props.type || 'Post';
   }
 
+  get NewPostComponent() {
+    return this.props.NewPostComponent || NewPost;
+  }
+
+  get PostListComponent() {
+    return this.props.PostListComponent || InfinitePostList;
+  }
+
   get newPostProps() {
     const { type = this.postType, categories, everyoneCanPost } = this.props;
     const canCreateNewPost = UserService.isAdmin || UserService.isModerator || everyoneCanPost;
@@ -72,10 +80,7 @@ export default class extends React.Component {
   }
 
   render() {
-    const {
-      NewPostComponent = NewPost,
-      PostListComponent = InfinitePostList
-    } = this.props;
+    const { NewPostComponent, PostListComponent } = this;
 
     return (
       <React.Fragment>

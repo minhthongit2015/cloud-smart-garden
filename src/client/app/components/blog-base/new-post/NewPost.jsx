@@ -15,13 +15,12 @@ import ButtonBar from '../../dialog/ButtonBar';
 import UserService from '../../../services/user/UserService';
 import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
-import { IconCommunity, IconThanks } from '../../../../assets/icons';
+import { IconThanks } from '../../../../assets/icons';
 import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
-import BasePureComponent from '../../BasePureComponent';
-import GlobalState from '../../../utils/GlobalState';
+import BaseComponent from '../../BaseComponent';
 
 
 const scrollToTop = () => {
@@ -30,7 +29,7 @@ const scrollToTop = () => {
 };
 
 
-export default class extends BasePureComponent {
+export default class extends BaseComponent {
   get createTitle() {
     return t('components.blogBase.newForm.createTitle');
   }
@@ -66,7 +65,7 @@ export default class extends BasePureComponent {
   get formData() {
     const { disabled, expanded, ...formData } = this.state;
     delete formData[CategoryService.CATEGORIES_STATE_NAME];
-    const isDraft = document.activeElement.value === 'draft';
+    const isDraft = document.activeElement && document.activeElement.value === 'draft';
     if (isDraft) {
       formData.status = 'draft';
     }
@@ -74,16 +73,17 @@ export default class extends BasePureComponent {
     return formData;
   }
 
+  get excludeKeys() {
+    return ['status', '__t'];
+  }
+
   get isEmpty() {
     try {
-      const { formData } = this;
-      const savedState = GlobalState.saveState(formData, ['__t', 'status']);
-      delete formData.__t;
-      delete formData.status;
-      const isEmpty = Object.values(formData).every(value => isZeroVariable(value));
-      GlobalState.restoreFromSavedState(formData, savedState);
-      return isEmpty;
+      const { formData, excludeKeys } = this;
+      return Object.entries(formData || {})
+        .every(([key, value]) => excludeKeys.includes(key) || isZeroVariable(value));
     } catch (error) {
+      console.log(error);
       return true;
     }
   }
@@ -112,7 +112,7 @@ export default class extends BasePureComponent {
       : undefined;
   }
 
-  toggleExpand() {
+  async toggleExpand() {
     return new Promise((resolve) => {
       this.setState(prevState => ({
         expanded: !prevState.expanded
@@ -120,7 +120,7 @@ export default class extends BasePureComponent {
     });
   }
 
-  toggleState(state) {
+  async toggleState(state) {
     return new Promise((resolve) => {
       this.setState(prevState => ({
         disabled: state != null ? state : prevState.disabled
@@ -128,15 +128,15 @@ export default class extends BasePureComponent {
     });
   }
 
-  disable() {
+  async disable() {
     return this.toggleState(true);
   }
 
-  enable() {
+  async enable() {
     return this.toggleState(false);
   }
 
-  reset(extraStates = {}) {
+  async reset(extraStates = {}) {
     return new Promise((resolve) => {
       const formData = { ...this.formData };
       Object.entries(formData).forEach(([key, value]) => {
@@ -150,7 +150,7 @@ export default class extends BasePureComponent {
     });
   }
 
-  close() {
+  async close() {
     return new Promise((resolve) => {
       this.setState({
         expanded: false
@@ -158,17 +158,17 @@ export default class extends BasePureComponent {
     });
   }
 
-  resetAndClose() {
+  async resetAndClose() {
     return this.reset({ expanded: false });
   }
 
-  sayThanks() {
+  async sayThanks() {
     this.disable().then(() => {
       this.thankForYourPostRef.current.sayThanks();
     });
   }
 
-  setFormData(formData) {
+  async setFormData(formData) {
     return new Promise((resolve) => {
       this.setState({
         expanded: true

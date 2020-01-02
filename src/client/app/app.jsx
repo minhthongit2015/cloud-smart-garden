@@ -72,24 +72,25 @@ class App extends Component {
     ]);
 
     KeyTracker();
+    window.historyz = props.history || window.historyz;
   }
 
   render() {
     const routes = (
       <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
         <Switch>
-          <Route exact path={RouteConstants.homePath} component={props => <HomePage {...props} />} />
-          <Route path={RouteConstants.adminPath} component={props => <Dashboard {...props} />} />
-          <Route path={RouteConstants.intranetPath} component={props => <Intranet {...props} />} />
-          <Route path={RouteConstants.myGardenPath} component={props => <MyGarden {...props} />} />
-          <Route path={RouteConstants.aiCloudPath} component={props => <AICloud {...props} />} />
-          <Route path={RouteConstants.nextFeaturesPath} component={props => <NextFeatures {...props} />} />
+          <Route exact path={RouteConstants.homePath}><HomePage /></Route>
+          <Route path={RouteConstants.adminPath}><Dashboard /></Route>
+          <Route path={RouteConstants.intranetPath}><Intranet /></Route>
+          <Route path={RouteConstants.myGardenPath}><MyGarden /></Route>
+          <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
+          <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
           <Route exact path={RouteConstants.userNetworkPath} component={props => <DummyUserNetwork {...props} />} />
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
         {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}
 
-        {PageDialogHelper.render(PageDialog)}
+        {/* {PageDialogHelper.render(PageDialog)} */}
         {PostDetailsDialogHelper.render(PageDialog)}
         {SavedPostsDialogHelper.render(PageDialog)}
         {IDoPostsDialogHelper.render(PageDialog)}

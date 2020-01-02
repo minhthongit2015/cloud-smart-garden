@@ -204,16 +204,16 @@ export default class Post extends BasePureComponent {
             </div>
           </MDBPopoverBody>
         </MDBPopover>
-        <CardBody className={classnames({ 'p-0': !preview && !summary })}>
+        <CardBody className={!preview && !summary ? 'p-0' : 'p-2'}>
           {preview && <div className="post__title"><b>{title}</b></div>}
           {(!preview || !allSmall) && summary && <div className="post__summary mt-2">{summary}</div>}
         </CardBody>
-        <CardFooter className="d-flex align-items-center justify-content-stretch flex-wrap">
+        <CardFooter className="d-flex align-items-center justify-content-stretch flex-wrap p-2">
           <div className="flex-fill post__socials">
             {this.renderSocials()}
           </div>
           <div className="">
-            <TimeAgo time={createdAt} />
+            <TimeAgo time={createdAt} className="small" />
           </div>
         </CardFooter>
       </Card>

@@ -11,6 +11,7 @@ import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
 import NewPost from '../../blog-base/new-post/NewPost';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class extends NewPost {
@@ -31,7 +32,7 @@ export default class extends NewPost {
   }
 
   get action() {
-    return '/api/v1/intranet/100-Quotes';
+    return ApiEndpoints.oneHundredQuotes;
   }
 
   constructor(props) {

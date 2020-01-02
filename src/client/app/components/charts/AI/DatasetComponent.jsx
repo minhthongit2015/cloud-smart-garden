@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'mdbreact';
-import EnvChart from './env/EnvApexChart';
-import ActionChart from './action/ActionChart';
-import Random from '../../utils/Random';
+import EnvChart from './dataset/env/EnvApexChart';
+import ActionChart from './dataset/action/ActionChart';
+import Random from '../../../utils/Random';
 
 export default class DatasetComponent extends Component {
   constructor(props) {

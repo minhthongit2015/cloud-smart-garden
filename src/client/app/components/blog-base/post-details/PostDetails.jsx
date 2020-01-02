@@ -11,7 +11,6 @@ import GlobalState from '../../../utils/GlobalState';
 import UserService from '../../../services/user/UserService';
 import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../languages';
-import superrequest from '../../../utils/superrequest';
 import Rating from '../../utils/rating/Rating';
 import NewsTracker from '../../../services/blog/NewsTracker';
 
@@ -37,7 +36,7 @@ export default class PostDetails extends React.PureComponent {
     NewsTracker.markAsRead(post);
   }
 
-  handleRating(rating) {
+  handleRating(event, rating) {
     const { post } = this.props;
     if (!UserService.isLoggedIn) {
       LoginDialogHelper.show(t('components.loginDialog.loginToRating'));
@@ -56,22 +55,14 @@ export default class PostDetails extends React.PureComponent {
       UserService.updateUserSocialPoint(1);
     }
     post.rating = rating;
-    this.forceUpdate(() => {
-      // this.parseFBButtons();
-    });
+    this.forceUpdate();
 
-    superrequest.agentPost(`/api/v1/blog/rating/${post._id}`, {
-      rating
-    }).then((res) => {
+    PostService.rating(post, rating, this.ratingEndpoint).then((res) => {
       if (!res || !res.ok) {
-        GlobalState.restoreFromSavedState(post, savedState, this)
-          .then(() => {
-            // this.parseFBButtons();
-          });
+        GlobalState.restoreFromSavedState(post, savedState, this);
         UserService.updateUserSocialPoint(-1);
       } else {
-        Object.assign(UserService.user, res.data.user);
-        UserService.setUser(UserService.user);
+        UserService.updateUser(res.data.user);
       }
     });
   }
@@ -109,7 +100,7 @@ export default class PostDetails extends React.PureComponent {
           <Col size="12" md={preview ? '4' : '12'}>
             <div className="post-details__title">{title}</div>
             <sup key="1" className="post-details__time text-sm mr-2"><TimeAgo time={createdAt} /></sup>
-            <div className="post-details__action-buttons d-flex justify-content-between mt-2">
+            <div className="post-details__action-buttons d-flex flex-wrap justify-content-between mt-2">
               <Rating {...ratingInfo} onRating={this.handleRating} id={_id} />
               <ShareButton url={PostService.buildPostUrl(post)} />
             </div>

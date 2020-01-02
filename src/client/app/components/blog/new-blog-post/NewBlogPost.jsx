@@ -11,24 +11,39 @@ import UserService from '../../../services/user/UserService';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 const animatedComponents = makeAnimated();
 
 
 export default class extends NewPost {
+  get postType() {
+    return this.props.type || 'BlogPost';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get defaultCategories() {
+    return undefined;
+  }
+
+  get excludeKeys() {
+    const excludeKeys = super.excludeKeys;
+    if (this.defaultCategories) {
+      return excludeKeys.concat('categories');
+    }
+    return excludeKeys;
+  }
+
   get formData() {
     const formData = super.formData;
-    formData.categories = formData.categories.map(cate => cate.value);
-    formData.content = this.contentRef.current.value;
+    formData.categories = this.defaultCategories
+      || (formData.categories && formData.categories.map(cate => cate.value));
+    formData.content = this.contentRef.current && this.contentRef.current.value;
     return formData;
   }
 
   get action() {
-    return '/api/v1/blog/posts';
-  }
-
-  get postType() {
-    return this.props.type || 'BlogPost';
+    return ApiEndpoints.posts;
   }
 
   constructor(props) {
@@ -36,27 +51,21 @@ export default class extends NewPost {
     this.contentRef = React.createRef();
     this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
 
-    this.state = {
-      ...this.state,
-      _id: null,
-      title: '',
-      summary: '',
-      preview: '',
-      video: '',
-      categories: []
-    };
-
     CategoryService.useCategoriesState(this);
   }
 
-  resetAndClose() {
-    super.resetAndClose();
-    this.contentRef.current.value = '';
+  async resetAndClose() {
+    if (this.contentRef.current) {
+      this.contentRef.current.value = '';
+    }
+    return super.resetAndClose();
   }
 
-  reset(extraStates) {
-    super.reset(extraStates);
-    this.contentRef.current.value = '';
+  async reset(extraStates) {
+    if (this.contentRef.current) {
+      this.contentRef.current.value = '';
+    }
+    return super.reset(extraStates);
   }
 
   handleCategoriesChange(value) {
@@ -70,13 +79,16 @@ export default class extends NewPost {
     const categories = CategoryService.getCategoriesAsOptions()
       .filter(cat => postCategories.includes(cat.value));
 
-    this.contentRef.current.value = post.content;
+    if (this.contentRef.current) {
+      this.contentRef.current.value = post.content;
+    }
     this.setFormData({
       _id: post._id,
       title: post.title,
       summary: post.summary,
       preview: post.preview,
-      video: post.video
+      video: post.video,
+      audio: post.audio
     }).then(() => {
       this.setState({
         categories
@@ -111,7 +123,7 @@ export default class extends NewPost {
 
   renderBody() {
     const {
-      title, summary, preview, video, categories
+      title, summary, categories, preview, video, audio
     } = this.state;
     const { categories: categoryOptionKeys } = this.props;
     const categoryOptions = CategoryService.getCategoriesAsOptions(categoryOptionKeys);
@@ -158,8 +170,8 @@ export default class extends NewPost {
               label="Tải ảnh xem trước"
               name="preview"
               value={preview}
-              videoName="video"
               video={video}
+              audio={audio}
               onChange={this.handleInputChange}
               className="px-2 pb-4 pt-1"
             />

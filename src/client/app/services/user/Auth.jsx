@@ -1,7 +1,7 @@
 import superagent from 'superagent';
-import { ApiEndpoints } from '../../utils/Constants';
 import FbService from './FbService';
 import UserService from './UserService';
+import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export default class Auth {
   static async init() {
@@ -27,7 +27,7 @@ export default class Auth {
   }
 
   static signin(email, password) {
-    return superagent.post(ApiEndpoints.user.SIGN_IN).withCredentials()
+    return superagent.post(ApiEndpoints.signin).withCredentials()
       .send({ email, password });
   }
 

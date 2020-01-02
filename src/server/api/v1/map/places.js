@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const PlaceService = require('../../../services/map/Place');
 const MapSecurityService = require('../../../services/security/MapSecurity');
 const ApiHelper = require('../../../utils/ApiHelper');

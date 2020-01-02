@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const APIResponse = require('../../../models/api-models');
+const APIResponse = require('../../../models/api-models/APIResponse');
 const Logger = require('../../../services/Logger');
 
 router.get('/facebook', (req, res) => {

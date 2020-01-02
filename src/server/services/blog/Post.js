@@ -3,6 +3,7 @@ const xss = require('xss');
 const {
   Post,
   BlogPost,
+  Garden, Station,
   Project, Experiment, Dataset, TrainedModel, Team, Folder
 } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
@@ -15,6 +16,7 @@ const { PostStatus } = require('../../utils/Constants');
 const PostTypes = [
   Post,
   BlogPost,
+  Garden, Station,
   Project, Experiment, Dataset, TrainedModel, Team, Folder
 ];
 
@@ -115,8 +117,9 @@ module.exports = class extends CRUDService {
     // Resolve owner
     if (doc.owner) {
       if (!oldDoc) {
+        const { owner } = doc;
         doc.owner = doc.owner._id;
-        await UserService.updateSocialPoint(doc.newAuthor, 5);
+        await UserService.updateSocialPoint(owner, 5);
       }
     }
 

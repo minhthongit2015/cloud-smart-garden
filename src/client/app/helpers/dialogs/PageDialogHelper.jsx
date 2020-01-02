@@ -1,8 +1,7 @@
 import DialogHelper from './DialogHelper';
 
 export default class PageDialogHelper extends DialogHelper {
-  static init(dialogRef) {
-    super.init(dialogRef);
+  static init() {
     if (!window.popCallbacks) {
       window.popCallbacks = [];
       window.onpopstate = (event) => {
@@ -19,6 +18,10 @@ export default class PageDialogHelper extends DialogHelper {
   }
 
   static shouldOpenWithState(/* state */) {
+    return false;
+  }
+
+  static checkToOpen() {
     return false;
   }
 

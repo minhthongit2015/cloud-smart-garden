@@ -31,8 +31,14 @@ export default class extends NewBlogPost {
     return t('pages.aiCloud.tabs.projects.newForm.updateButton');
   }
 
-  get postType() {
-    return this.props.type || 'Project';
+  get excludeKeys() {
+    return ['categories', ...super.excludeKeys];
+  }
+
+  get formData() {
+    const formData = super.formData;
+    formData.categories = [CategoryService.categoriesMap.Project];
+    return formData;
   }
 
   constructor(props) {

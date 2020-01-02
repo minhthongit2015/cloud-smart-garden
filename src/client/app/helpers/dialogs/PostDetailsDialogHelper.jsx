@@ -4,6 +4,15 @@ import PostDetails from '../../components/blog-base/post-details/PostDetails';
 import PostService from '../../services/blog/PostService';
 
 export default class extends PageDialogHelper {
+  static checkToOpen() {
+    const params = new URLSearchParams(window.location.search);
+    const hashtag = params.get('hashtag');
+    if (hashtag) {
+      this.openPostDetailsCurrentTab(hashtag);
+      PostService.refreshCache();
+    }
+  }
+
   static shouldOpenWithState(post) {
     return post && post.baseOrder;
   }

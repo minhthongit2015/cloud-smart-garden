@@ -25,6 +25,8 @@ const aiProjectsPath = `${aiCloudPath}/projects`;
 const aiProjectsLink = `${aiCloudLink}/projects`;
 const aiExperimentsPath = `${aiCloudPath}/experiments`;
 const aiExperimentsLink = `${aiCloudLink}/experiments`;
+const aiExperimentIPath = `${aiExperimentsPath}/:experimentId`;
+const aiExperimentILink = _id => _id && `${aiExperimentsLink}/${_id}`;
 const aiModelsPath = `${aiCloudPath}/models`;
 const aiModelsLink = `${aiCloudLink}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
@@ -32,6 +34,8 @@ const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
 const myGardenPath = '/my-garden';
 const myGardenLink = '/my-garden';
+const stationsPath = `${myGardenPath}/stations`;
+const stationsLink = `${myGardenLink}/stations`;
 const storehousePath = `${myGardenPath}/storehouse`;
 const storehouseLink = `${myGardenLink}/storehouse`;
 const helpMyGardenPath = `${myGardenPath}/help`;
@@ -48,7 +52,7 @@ const nextSpeciesPath = `${nextFeaturesPath}/plant`;
 const nextSpeciesLink = `${nextFeaturesLink}/plant`;
 
 
-export default {
+module.exports = {
   homePath,
   homeLink,
 
@@ -71,6 +75,8 @@ export default {
   // Public
   myGardenPath,
   myGardenLink,
+  stationsPath,
+  stationsLink,
   storehousePath,
   storehouseLink,
   helpMyGardenPath,
@@ -85,6 +91,8 @@ export default {
   aiProjectsLink,
   aiExperimentsPath,
   aiExperimentsLink,
+  aiExperimentIPath,
+  aiExperimentILink,
   aiModelsPath,
   aiModelsLink,
   aiDatasetsPath,

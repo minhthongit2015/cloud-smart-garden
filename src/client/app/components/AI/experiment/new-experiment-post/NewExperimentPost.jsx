@@ -4,6 +4,7 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import DropUploader from '../../../utils/drop-uploader/DropUploader';
 import Composer from '../../../utils/composer/Composer';
 import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
+import CategoryService from '../../../../services/blog/CategoryService';
 import t from '../../../../languages';
 
 
@@ -26,6 +27,16 @@ export default class extends NewBlogPost {
 
   get postType() {
     return this.props.type || 'Experiment';
+  }
+
+  get excludeKeys() {
+    return ['categories', ...super.excludeKeys];
+  }
+
+  get formData() {
+    const formData = super.formData;
+    formData.categories = [CategoryService.categoriesMap.Experiment];
+    return formData;
   }
 
   validate() {

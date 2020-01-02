@@ -1,22 +1,23 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
 import PageDialogHelper from '../../helpers/dialogs/PageDialogHelper';
-import Categories from '../../utils/Categories';
 import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
 import t from '../../languages';
 import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
+import ApiEndpoints from '../../utils/ApiEndpoints';
+import CategoryService from './CategoryService';
 
 export default class extends PageDialogHelper {
   static get defaultEndpoint() {
-    return '/api/v1/blog/posts';
+    return ApiEndpoints.posts;
   }
 
   static get defaultRatingEndpoint() {
-    return '/api/v1/blog/rating';
+    return ApiEndpoints.rating;
   }
 
   static get defaultSavePostEndpoint() {
-    return '/api/v1/blog/saved-posts';
+    return ApiEndpoints.savedPosts;
   }
 
   static async fetchPost(postOrder, endpoint) {
@@ -94,7 +95,7 @@ export default class extends PageDialogHelper {
 
   static getPathnameByCategory(category) {
     const categoryId = typeof category === 'string' ? category : category._id;
-    const foundCategory = Categories.find(cate => cate._id === categoryId);
+    const foundCategory = CategoryService.findByCategoryId(categoryId);
     if (!foundCategory) return '#';
     return foundCategory.path;
   }
