@@ -31,27 +31,27 @@ const scrollToTop = () => {
 
 export default class extends BaseComponent {
   get createTitle() {
-    return 'Viết bài mới';
+    return t('components.blogBase.newForm.createTitle');
   }
 
   get updateTitle() {
-    return 'Chỉnh sửa bài viết';
+    return t('components.blogBase.newForm.updateTitle');
   }
 
   get postingMessage() {
-    return 'đang đăng bài...';
+    return t('components.blogBase.newForm.postMessage');
   }
 
   get preventLeaveMessage() {
-    return 'Bài viết của bạn vẫn chưa được lưu! Bạn có chắc muốn rời đi?';
+    return t('components.blogBase.newForm.preventLeaveMessage');
   }
 
   get postButtonLabel() {
-    return 'Đăng bài';
+    return t('components.blogBase.newForm.postButton');
   }
 
   get updateButtonLabel() {
-    return 'Cập nhập bài viết';
+    return t('components.blogBase.newForm.updateButton');
   }
 
   get action() {

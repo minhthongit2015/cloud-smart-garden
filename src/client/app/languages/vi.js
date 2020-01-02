@@ -86,6 +86,24 @@ export default {
         experiments: 'Experiments',
         trainedModels: 'Trained Models',
         datasets: 'Datasets'
+      },
+      tabs: {
+        projects: {
+          newForm: {
+            createTitle: 'Bắt đầu dự án mới',
+            updateTitle: 'Cập nhập thông tin dự án',
+            postButton: 'Tạo dự án',
+            updateButton: 'Lưu chỉnh sửa'
+          }
+        },
+        experiments: {
+          newForm: {
+            createTitle: 'Thử nghiệm chế độ chăm sóc mới',
+            updateTitle: 'Cập nhập thông tin chế độ chăm sóc',
+            postButton: 'Tạo chế độ mới',
+            updateButton: 'Lưu chỉnh sửa'
+          }
+        }
       }
     },
     nextFeatures: {
@@ -111,6 +129,16 @@ export default {
     }
   },
   components: {
+    blogBase: {
+      newForm: {
+        createTitle: 'Viết bài mới',
+        updateTitle: 'Chỉnh sửa bài viết',
+        postMessage: 'đang đăng bài...',
+        preventLeaveMessage: 'Bài viết của bạn vẫn chưa được lưu! Bạn có chắc muốn rời đi?',
+        postButton: 'Đăng bài',
+        updateButton: 'Cập nhập bài viết',
+      }
+    },
     blog: {
       infinitePostList: {
         loadingText: 'đang tải các bài viết...',

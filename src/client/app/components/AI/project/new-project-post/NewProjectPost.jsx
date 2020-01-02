@@ -8,27 +8,27 @@ import DropUploader from '../../../utils/drop-uploader/DropUploader';
 import Composer from '../../../utils/composer/Composer';
 import MessageDialogHelper from '../../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../../assets/icons';
-import t from '../../../../languages';
 import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
+import t from '../../../../languages';
 
 const animatedComponents = makeAnimated();
 
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Bắt đầu dự án mới';
+    return t('pages.aiCloud.tabs.projects.newForm.createTitle');
   }
 
   get updateTitle() {
-    return 'Cập nhập thông tin dự án';
+    return t('pages.aiCloud.tabs.projects.newForm.updateTitle');
   }
 
   get postButtonLabel() {
-    return 'Tạo dự án';
+    return t('pages.aiCloud.tabs.projects.newForm.postButton');
   }
 
   get updateButtonLabel() {
-    return 'Lưu chỉnh sửa';
+    return t('pages.aiCloud.tabs.projects.newForm.updateButton');
   }
 
   get excludeKeys() {

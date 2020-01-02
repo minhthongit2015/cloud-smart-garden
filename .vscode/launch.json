@@ -4,22 +4,18 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-  {
-    "type": "node",
-    "request": "launch",
-    "name": "Debug File",
-    "runtimeExecutable": "nodemon",
-    "program": "${file}",
-    "console": "integratedTerminal",
-    "internalConsoleOptions": "neverOpen"
-  },
     {
       "type": "node",
       "request": "launch",
       "name": "No Webpack",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/server/server.js",
-      "args": ["--exclude", "${workspaceFolder}/src/client", "-w", "${workspaceFolder}/src/server"],
+      "args": [
+        "--exclude",
+        "${workspaceFolder}/src/client",
+        "-w",
+        "${workspaceFolder}/src/server"
+      ],
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -36,8 +32,11 @@
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/test/test.js",
       "args": [
-        "--exclude", "${workspaceFolder}/src/client", "${workspaceFolder}/src/server",
-        "-w", "${workspaceFolder}/src/test"
+        "--exclude",
+        "${workspaceFolder}/src/client",
+        "${workspaceFolder}/src/server",
+        "-w",
+        "${workspaceFolder}/src/test"
       ],
       "restart": true,
       "console": "integratedTerminal",
@@ -53,7 +52,10 @@
       "name": "Webpack",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/dist/build/server-bundle.js",
-      "args": ["-w", "${workspaceFolder}/dist/build/server-bundle.js"],
+      "args": [
+        "-w",
+        "${workspaceFolder}/dist/build/server-bundle.js"
+      ],
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
