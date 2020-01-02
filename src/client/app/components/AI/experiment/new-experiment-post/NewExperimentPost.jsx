@@ -4,23 +4,24 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import DropUploader from '../../../utils/drop-uploader/DropUploader';
 import Composer from '../../../utils/composer/Composer';
 import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
+import t from '../../../../languages';
 
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Thử nghiệm chế độ chăm sóc mới';
+    return t('pages.aiCloud.tabs.experiments.newForm.createTitle');
   }
 
   get updateTitle() {
-    return 'Cập nhập thông tin chế độ chăm sóc';
+    return t('pages.aiCloud.tabs.experiments.newForm.updateTitle');
   }
 
   get postButtonLabel() {
-    return 'Tạo chế độ mới';
+    return t('pages.aiCloud.tabs.experiments.newForm.postButton');
   }
 
   get updateButtonLabel() {
-    return 'Lưu chỉnh sửa';
+    return t('pages.aiCloud.tabs.experiments.newForm.updateButton');
   }
 
   get postType() {
