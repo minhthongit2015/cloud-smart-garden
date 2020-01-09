@@ -28,8 +28,8 @@ export default class SuperWebsocket {
     }
     return new Promise((resolve, reject) => {
       this.socket.emit(...args, (res) => {
-        if (res.ok === false && res.error) {
-          return reject(res.error);
+        if (!res || res.ok === false) {
+          return reject(res && res.error);
         }
         return resolve(res);
       });

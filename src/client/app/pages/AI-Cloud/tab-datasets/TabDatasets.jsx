@@ -1,36 +1,24 @@
 import React from 'react';
+import { MDBBtn } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
-import RecordsStream from '../../../components/charts/AI/RecordsStream';
 import t from '../../../languages';
 import BasePage from '../../_base/BasePage';
 import DatasetModule from './DatasetModule';
+import DynamicTimeSeries from '../../../components/charts/base/DynamicTimeSeriesApex';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
+import Calendar from '../../../components/utils/calendar/Calendar';
 import superrequest from '../../../utils/superrequest';
-import DatasetComponent from '../../../components/charts/AI/DatasetComponent';
-import NivoHelper from '../../../helpers/charts/NivoHelper';
+
 
 export default class TabDataset extends BasePage {
   constructor(props) {
     super(props, t('pages.aiCloud.title.datasets'));
+    this.postModuleRef = React.createRef();
+    this.handleCalendarChange = this.handleCalendarChange.bind(this);
+    this.handleCreateDataset = this.handleCreateDataset.bind(this);
     this.state = {
-      chartData: []
+      selection: null
     };
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    this.fetchRecords();
-  }
-
-  fetchRecords() {
-    superrequest.get('/api/v1/garden/records?limit=100')
-      .then((res) => {
-        if (!res || !res.ok) {
-          return;
-        }
-        this.setState({
-          chartData: NivoHelper.recordsToLine(res.data)
-        });
-      });
   }
 
   onSaveDataset(/* dataset */) {
@@ -38,8 +26,22 @@ export default class TabDataset extends BasePage {
     // ExperimentService.updateDataset(dataset);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  handleCalendarChange(event, selection) {
+    this.setState({
+      selection
+    });
+  }
+
+  handleCreateDataset() {
+    this.postModuleRef.current.newPostRef.current.setPost({
+      title: 'Dataset 02',
+      days: this.state.selection
+    });
+  }
+
   render() {
-    const { chartData } = this.state;
+    const { selection } = this.state;
     return (
       <React.Fragment>
         {/* <RecordsStream
@@ -54,7 +56,14 @@ export default class TabDataset extends BasePage {
           dataset={chartData}
           onSave={this.onSaveDataset}
         /> */}
-        <DatasetModule />
+        <DynamicTimeSeries endPoint={ApiEndpoints.records} />
+        <Calendar selection={selection} onChange={this.handleCalendarChange} months={2} />
+        <div className="text-center mt-4 mb-3">
+          <MDBBtn onClick={this.handleCreateDataset}>
+            <i className="fas fa-plus-square" /> Tạo dataset từ dữ liệu đã chọn
+          </MDBBtn>
+        </div>
+        <DatasetModule ref={this.postModuleRef} />
         <Section>
           <SectionHeader>Note</SectionHeader>
           <SectionBody>

@@ -4,7 +4,7 @@ const Logger = require('../../../services/Logger');
 const CategoryService = require('../../../services/blog/Category');
 const APIResponse = require('../../../models/api-models/APIResponse');
 const ImgurService = require('../../../services/third-party/imgur');
-const SecurityService = require('../../../services/security');
+const SecurityService = require('../../../services/security/SecurityService');
 
 
 router.post('/', (req, res) => {

@@ -9,6 +9,7 @@ const oneHundredQuotes = `${intranet}/100-Quotes`;
 const quoteI = _id => `${oneHundredQuotes}/${_id}`;
 
 const users = `${APIv1}/users`;
+const characteristics = _id => `${users}/${_id}/Characteristics`;
 const auth = `${users}/auth`;
 const signin = `${users}/signin`;
 const fbAuth = `${auth}/facebook`;
@@ -32,6 +33,7 @@ const garden = `${APIv1}/garden`;
 const gardens = `${garden}/gardens`;
 const stations = `${garden}/stations`;
 const setStationState = `${stations}/set-state`;
+const records = `${garden}/records`;
 
 const AI = `${APIv1}/AI`;
 const projects = `${AI}/projects`;
@@ -51,6 +53,7 @@ export default {
   quoteI,
 
   users,
+  characteristics,
   signin,
   auth,
   fbAuth,
@@ -74,6 +77,7 @@ export default {
   gardens,
   stations,
   setStationState,
+  records,
 
   AI,
   projects,

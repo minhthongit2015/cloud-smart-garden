@@ -1,14 +1,18 @@
 import React from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
+// import { AutoSizer } from 'react-virtualized';
+import demoData from './demodata';
 
-export default ({ data }) => (
+export default ({ data, keys, indexBy }) => (
   <ResponsiveRadar
-    data={data}
-    keys={['chardonay', 'carmenere', 'syrah']}
-    indexBy="taste"
-    maxValue="auto"
+    // height={height || 300}
+    // width={width}
+    data={data || demoData}
+    keys={keys || ['chardonay', 'carmenere', 'syrah']}
+    indexBy={indexBy || 'taste'}
+    maxValue={100}
     margin={{
-      top: 70, right: 80, bottom: 40, left: 80
+      top: 70, right: 0, bottom: 70, left: 80
     }}
     curve="linearClosed"
     borderWidth={2}

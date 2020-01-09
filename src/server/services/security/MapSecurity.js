@@ -1,6 +1,6 @@
 const HttpErrors = require('http-errors');
 const { errorOrFalse } = require('./SecurityHelper');
-const SecurityService = require('./index');
+const SecurityService = require('./SecurityService');
 
 
 module.exports = class extends SecurityService {

@@ -5,17 +5,23 @@ import Config from '../config';
 
 export default class {
   static resolveAgentResponse(agent) {
-    return agent.catch((res) => {
-      const { body: { error } = {} } = res.response;
-      if (!error) {
-        throw new Error('Kết nối đến máy chủ bị gián đoạn. Mời bạn vui lòng thử lại sau ít phút.');
-      } else {
-        const newError = new Error(error.message);
-        Object.assign(newError, error);
-        throw newError;
-      }
-    })
-      .then(res => res.body);
+    return agent
+      .catch((res) => {
+        const { body: { error } = {} } = res.response;
+        if (!error) {
+          throw new Error('Kết nối đến máy chủ bị gián đoạn. Mời bạn vui lòng thử lại sau ít phút.');
+        } else {
+          const newError = new Error(error.message);
+          Object.assign(newError, error);
+          throw newError;
+        }
+      })
+      .then((agentRes) => {
+        if (!agentRes.body || agentRes.body.ok === false) {
+          throw new Error(agentRes.body && agentRes.body.error);
+        }
+        return agentRes.body;
+      });
   }
 
   static mapUrl(url) {

@@ -1,6 +1,7 @@
+import ChartHelper from './ChartHelper';
 
 
-export default class {
+export default class extends ChartHelper {
   static recordsToLine(records,
     keys = ['temperature', 'humidity', 'light'],
     colors = [

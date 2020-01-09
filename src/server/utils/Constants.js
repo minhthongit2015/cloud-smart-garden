@@ -13,7 +13,20 @@ const PostStatus = {
   archived: 'archived'
 };
 
+const MemberBadge = {
+  Leader: 'Leader',
+  Administrator: 'Administrator',
+  Inventor: 'Inventor',
+  Scientist: 'Scientist',
+  Biologist: 'Biologist',
+  Botanist: 'Botanist',
+  Developer: 'Developer',
+  ElectricalEngineer: 'Electrical Engineer',
+  MechanicalEngineer: 'Mechanical Engineer'
+};
+
 module.exports = {
   UserRole,
-  PostStatus
+  PostStatus,
+  MemberBadge
 };

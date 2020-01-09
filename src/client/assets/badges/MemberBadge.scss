@@ -1,0 +1,10 @@
+
+.member-badge {
+  display: inline-block;
+  max-width: 2em;
+  max-height: 1.5em;
+
+  &.lighter {
+    opacity: .5;
+  }
+}

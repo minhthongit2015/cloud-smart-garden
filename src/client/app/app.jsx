@@ -89,6 +89,11 @@ class App extends Component {
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
         {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}
+      </React.Suspense>
+    );
+    return (
+      <ErrorBoundary>
+        <SimplestLayout routes={routes} />
 
         {/* {PageDialogHelper.render(PageDialog)} */}
         {PostDetailsDialogHelper.render(PageDialog)}
@@ -100,11 +105,6 @@ class App extends Component {
         {GuideDialogHelper.render(GuideDialog)}
 
         {EditPlaceDialogHelper.render()}
-      </React.Suspense>
-    );
-    return (
-      <ErrorBoundary>
-        <SimplestLayout routes={routes} />
       </ErrorBoundary>
     );
   }

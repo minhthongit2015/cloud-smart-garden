@@ -1,0 +1,27 @@
+
+
+.member-editor {
+  &__info {
+    display: inline-block;
+    background: #ffb678;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  &__name {
+    font-weight: bolder;
+  }
+  &__badges {
+
+  }
+
+  &__form {
+    border: 2px dashed #ffb679;
+    border-radius: 4px;
+  }
+}

@@ -1,0 +1,70 @@
+
+
+$cell-size: 40px;
+
+.bg-calendar {
+  .week-header {
+    border-bottom: 1px solid rgba(255, 121, 121, 0.2);
+  }
+
+  .today {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+      border-radius: 100%;
+      border: 1px solid rgb(255, 178, 78);
+    }
+    &:hover::after {
+      border-color: #fff;
+    }
+  }
+
+  .sunday {
+    color: rgb(255, 163, 78);
+  }
+
+  .other-month {
+    color: #c5c5c5;
+  }
+
+  .marked {
+    border: 1px solid rgb(255, 163, 78);
+  }
+
+  &__cell {
+    box-sizing: border-box;
+    position: relative;
+    width: $cell-size;
+    height: $cell-size;
+    user-select: none;
+    font-weight: bolder;
+    transition: all .2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: #8a9bcabd;
+      color: #fff;
+    }
+
+    &.selected {
+      background: rgba(255, 0, 0, 0.14);
+      &:hover {
+        background: rgba(255, 0, 0, 0.384);
+      }
+    }
+
+    &.selected-splice {
+      background: rgba(255, 166, 0, 0.14);
+      cursor: url(/images/subtract-10.png), zoom-out;
+      &:hover {
+        background: rgba(255, 166, 0, 0.384);
+      }
+    }
+  }
+}

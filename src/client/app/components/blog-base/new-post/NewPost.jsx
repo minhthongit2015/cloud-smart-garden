@@ -25,7 +25,8 @@ import BaseComponent from '../../BaseComponent';
 
 const scrollToTop = () => {
   const scrollBox = document.getElementById('sidebar-layout__content');
-  scrollBox.scrollTo({ top: 0, behavior: 'smooth' });
+  const newForm = document.getElementsByClassName('new-form')[0].parentNode;
+  scrollBox.scrollTo({ top: newForm.offsetTop - 50, behavior: 'smooth' });
 };
 
 

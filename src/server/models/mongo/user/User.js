@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const { MemberBadge } = require('../../../utils/Constants');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -29,7 +30,9 @@ const UserSchema = new mongoose.Schema({
   socialPoint: {
     type: Number,
     default: 10
-  }
+  },
+  spotlight: Object,
+  badges: [{ type: String, enum: Object.values(MemberBadge) }]
 });
 const UserModel = mongoose.model('User', UserSchema);
 

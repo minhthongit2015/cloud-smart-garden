@@ -77,7 +77,4 @@
 - Server có 1 bảng là các API Endpoints
 - Client có 2 bảng:
   + 1 Bảng định tuyến các trang (`/utils/RouterConstants.jsx`)
-  + 1 Bảng giúp xây dựng lại url từ Category của bài viết (`/utils/Categories`)
-    + **Dùng tại 1 điểm:**
-      1. Tạo link tới `bài viết` từ `place` trên bản đồ
-  + Ngoài ra có 1 bảng để lưu các API Endpoints (`/utils/ApiEndpoints.jsx`)
+  + 1 bảng để lưu các API Endpoints (`/utils/ApiEndpoints.jsx`)

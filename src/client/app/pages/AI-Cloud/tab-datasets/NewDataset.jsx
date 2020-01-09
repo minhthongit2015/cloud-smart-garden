@@ -28,6 +28,11 @@ export default class extends NewBlogPost {
     return [CategoryService.categoriesMap.Garden.type];
   }
 
+  get formData() {
+    const { days } = this.state;
+    return { ...super.formData, days };
+  }
+
   renderBody() {
     const {
       title, summary, preview, video, audio

@@ -75,14 +75,18 @@ export default class extends NewPost {
   }
 
   setPost(post) {
-    const postCategories = post.categories.map(cat => cat.type);
-    const categories = CategoryService.getCategoriesAsOptions()
-      .filter(cat => postCategories.includes(cat.value));
+    let categories;
+    if (post.categories) {
+      const postCategories = post.categories.map(cat => cat.type);
+      categories = CategoryService.getCategoriesAsOptions()
+        .filter(cat => postCategories.includes(cat.value));
+    }
 
     if (this.contentRef.current) {
       this.contentRef.current.value = post.content;
     }
     this.setFormData({
+      ...post,
       _id: post._id,
       title: post.title,
       summary: post.summary,
@@ -91,7 +95,7 @@ export default class extends NewPost {
       audio: post.audio
     }).then(() => {
       this.setState({
-        categories
+        categories: categories || this.defaultCategories
       });
     });
   }
