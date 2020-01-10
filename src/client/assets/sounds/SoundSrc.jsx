@@ -9,4 +9,6 @@ export default class {
   static SUBTLE = '/sounds/subtle_confirm_simple_8.mp3';
 
   static MAGIC = '/sounds/Magic_Game_Heal_Buff_2.mp3';
+
+  static PAPER = '/sounds/Parched_paper_movement_parchment_soft_fuzzy_flap_wobble_snap_scuff.mp3';
 }

@@ -11,9 +11,9 @@ $border-left-color: rgba(255, 159, 159, 0.774);
     position: absolute;
     top: -6px;
     left: 0;
-    height: 100%;
+    height: calc(100% + 30px);
     width: 1px;
-    background: $border-left-color;
+    background: radial-gradient(circle at 50% 0, rgb(255, 148, 148) 0, rgba(255, 148, 148, 0.5) 40%, transparent 100%);
   }
 
   &__icon {

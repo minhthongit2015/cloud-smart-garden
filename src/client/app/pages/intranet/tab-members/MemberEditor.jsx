@@ -11,6 +11,10 @@ import UISounds from '../../../../assets/sounds/UISounds';
 import superrequest from '../../../utils/superrequest';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import UserService from '../../../services/user/UserService';
+import Tabs from '../../../components/tabs/Tabs';
+import TabHeader from '../../../components/tabs/TabHeader';
+import Tab from '../../../components/tabs/Tab';
+import TabBody from '../../../components/tabs/TabBody';
 
 
 export default class extends BaseComponent {
@@ -19,7 +23,9 @@ export default class extends BaseComponent {
     this.toggle = this.toggle.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
 
+    this.isEditingTarget = false;
     this.state = {
       isOpen: false
     };
@@ -37,8 +43,10 @@ export default class extends BaseComponent {
   handleInputChange(event) {
     const { target: { name, value } } = event;
     const { member } = this.props;
+    const spotlightKey = this.isEditingTarget ? 'target' : 'spotlight';
+
     if (member && member.spotlight) {
-      member.spotlight[name] = value;
+      member[spotlightKey][name] = value;
       this.forceUpdate(() => {
         this.dispatchEvent({ typez: 'change', target: { name, value } });
       });
@@ -49,14 +57,95 @@ export default class extends BaseComponent {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
+    const { member } = this.props;
+    this.submit((event && event.currentTarget.action) || ApiEndpoints.characteristics(member._id));
+  }
+
+  submit(endpoint) {
     const { isOpen, ...spotlight } = this.state;
     const { member } = this.props;
-    const body = { ...(member.spotlight || {}), ...(spotlight || {}) };
-    superrequest.agentPost(ApiEndpoints.characteristics(member._id), body)
+    const spotlightKey = this.isEditingTarget ? 'target' : 'spotlight';
+    const body = { ...(member[spotlightKey] || {}), ...(spotlight || {}) };
+    superrequest.agentPost(endpoint, body)
       .then(() => {
         this.toggle();
         this.dispatchEvent({ typez: 'submit' }, body);
       });
+  }
+
+  handleTabChange(event, tabIndex) {
+    if (tabIndex === 1) {
+      this.isEditingTarget = true;
+      this.dispatchEvent({ typez: 'view target' }, this.props.member, 'target');
+    } else if (tabIndex === 0) {
+      this.isEditingTarget = false;
+      this.dispatchEvent({ typez: 'view present' }, this.props.member, 'present');
+    }
+  }
+
+  renderEditTable(member, isTarget = false) {
+    const readOnly = !UserService.isOwnerOrModOrAdmin(member._id);
+    const spotlightKey = isTarget ? 'target' : 'spotlight';
+
+    function getInputId(key) {
+      return isTarget ? `target-${key}` : key;
+    }
+
+    function getLabel(label, key) {
+      const isEqual = +member.target[key] === +member.spotlight[key];
+      const isUp = +member.target[key] > +member.spotlight[key];
+      const targetLabel = !isEqual
+        ? `${label} (${isUp ? '⬆' : '⬇'}${member.target[key]})`
+        : label;
+      const currentLabel = !isEqual
+        ? `${label} (${isUp ? '+' : '-'}${member.target[key] - member.spotlight[key]})`
+        : label;
+      return isTarget
+        ? currentLabel
+        : targetLabel;
+    }
+
+    return (
+      <form
+        className="member-editor__form p-3"
+        action={isTarget
+          ? ApiEndpoints.targetCharacteristics(member._id)
+          : ApiEndpoints.characteristics(member._id)}
+        onSubmit={this.handleSubmit}
+      >
+        <Row className="mx-0">
+          {Object.entries(MembersChartHelper.Characteristics).map(([key, text]) => (
+            <Col xs="12" sm="6" md="4" lg="4" key={key} className="px-1">
+              <MDBInput
+                label={getLabel(_.startCase(key), key)}
+                title={text}
+                id={getInputId(key)}
+                type="number"
+                min="0"
+                step="1"
+                name={key}
+                value={member && member[spotlightKey] && member[spotlightKey][key]}
+                onChange={this.handleInputChange}
+                readOnly={readOnly}
+              />
+            </Col>
+          ))}
+          {readOnly ? (
+            <MDBBtn
+              className="d-inline-block px-3 py-2 align-self-center"
+              onClick={this.toggle}
+            >Ẩn chi tiết
+            </MDBBtn>
+          ) : (
+            <MDBBtn
+              type="submit"
+              className={`d-inline-block px-3 py-2 align-self-center ${isTarget ? 'peach-gradient' : ''}`}
+            >{isTarget ? 'Lưu Mục Tiêu' : 'Lưu Thay Đổi'}
+            </MDBBtn>
+          )}
+        </Row>
+      </form>
+    );
   }
 
   render() {
@@ -65,7 +154,6 @@ export default class extends BaseComponent {
       return null;
     }
     const { isOpen } = this.state;
-    const readOnly = !UserService.isOwnerOrModOrAdmin(member._id);
 
     return (
       <div className="member-editor">
@@ -76,39 +164,16 @@ export default class extends BaseComponent {
           </div>
         </div>
         <MDBCollapse isOpen={isOpen}>
-          <form className="member-editor__form p-3" onSubmit={this.handleSubmit}>
-            <Row>
-              {Object.entries(MembersChartHelper.Characteristics).map(([key, text]) => (
-                <Col lg="3" key={key}>
-                  <MDBInput
-                    label={_.startCase(key)}
-                    title={text}
-                    id={key}
-                    type="number"
-                    min="0"
-                    step="1"
-                    name={key}
-                    value={member && member.spotlight && member.spotlight[key]}
-                    onChange={this.handleInputChange}
-                    readOnly={readOnly}
-                  />
-                </Col>
-              ))}
-              {readOnly ? (
-                <MDBBtn
-                  className="d-inline-block px-3 py-2 align-self-center"
-                  onClick={this.toggle}
-                >Ẩn chi tiết
-                </MDBBtn>
-              ) : (
-                <MDBBtn
-                  type="submit"
-                  className="d-inline-block px-3 py-2 align-self-center"
-                >Lưu Thay Đổi
-                </MDBBtn>
-              )}
-            </Row>
-          </form>
+          <Tabs onChange={this.handleTabChange}>
+            <Tab>
+              <TabHeader>Hiện Tại</TabHeader>
+              <TabBody>{this.renderEditTable(member)}</TabBody>
+            </Tab>
+            <Tab>
+              <TabHeader>Mục Tiêu</TabHeader>
+              <TabBody>{this.renderEditTable(member, true)}</TabBody>
+            </Tab>
+          </Tabs>
         </MDBCollapse>
       </div>
     );

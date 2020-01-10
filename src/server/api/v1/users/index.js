@@ -24,12 +24,23 @@ router.get('/:userId?', (req, res) => {
   }, { req, res });
 });
 
-router.post('/:userId/Characteristics', (req, res) => {
+router.post('/:userId/characteristics', (req, res) => {
   Logger.catch(async () => {
     const { userId } = req.params;
     SecurityService.onlyOwnerOrModOrAdmin(req, userId);
     const updatedUser = await UserService.update(userId, {
       spotlight: req.body
+    });
+    return res.send(APIResponse.setData(updatedUser));
+  }, { req, res });
+});
+
+router.post('/:userId/target-characteristics', (req, res) => {
+  Logger.catch(async () => {
+    const { userId } = req.params;
+    SecurityService.onlyOwnerOrModOrAdmin(req, userId);
+    const updatedUser = await UserService.update(userId, {
+      target: req.body
     });
     return res.send(APIResponse.setData(updatedUser));
   }, { req, res });

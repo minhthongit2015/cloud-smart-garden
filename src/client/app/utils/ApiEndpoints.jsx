@@ -9,7 +9,8 @@ const oneHundredQuotes = `${intranet}/100-Quotes`;
 const quoteI = _id => `${oneHundredQuotes}/${_id}`;
 
 const users = `${APIv1}/users`;
-const characteristics = _id => `${users}/${_id}/Characteristics`;
+const characteristics = _id => `${users}/${_id}/characteristics`;
+const targetCharacteristics = _id => `${users}/${_id}/target-characteristics`;
 const auth = `${users}/auth`;
 const signin = `${users}/signin`;
 const fbAuth = `${auth}/facebook`;
@@ -54,6 +55,7 @@ export default {
 
   users,
   characteristics,
+  targetCharacteristics,
   signin,
   auth,
   fbAuth,

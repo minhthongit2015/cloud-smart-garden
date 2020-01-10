@@ -12,7 +12,7 @@ export default ({ data, keys, indexBy }) => (
     indexBy={indexBy || 'taste'}
     maxValue={100}
     margin={{
-      top: 70, right: 0, bottom: 70, left: 80
+      top: 70, right: 0, bottom: 70, left: 110
     }}
     curve="linearClosed"
     borderWidth={2}
@@ -21,9 +21,11 @@ export default ({ data, keys, indexBy }) => (
     gridShape="circular"
     gridLabelOffset={36}
     enableDots
-    dotSize={10}
-    dotColor={{ theme: 'background' }}
-    dotBorderWidth={2}
+    dotSize={6}
+    // dotColor={{ theme: 'background' }}
+    // dotColor={{ from: 'color' }}
+    dotColor="#fff"
+    dotBorderWidth={3}
     dotBorderColor={{ from: 'color' }}
     enableDotLabel
     dotLabel="value"
@@ -39,7 +41,7 @@ export default ({ data, keys, indexBy }) => (
       {
         anchor: 'top-left',
         direction: 'column',
-        translateX: -50,
+        translateX: -90,
         translateY: -40,
         itemWidth: 80,
         itemHeight: 20,

@@ -22,6 +22,10 @@ img {
   white-space: pre-wrap;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .modern-scrollbar {
   &::-webkit-scrollbar {
     background: #E2E5E8;

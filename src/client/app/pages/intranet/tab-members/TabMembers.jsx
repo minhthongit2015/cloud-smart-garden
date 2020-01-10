@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import DeepMessage from '../../../components/utils/messages/DeepMessage';
@@ -20,10 +21,14 @@ export default class extends AdminPage {
     this.handlePreviewMember = this.handlePreviewMember.bind(this);
     this.handleSelectMember = this.handleSelectMember.bind(this);
     this.handleMemberUpdated = this.handleMemberUpdated.bind(this);
+    this.handleViewTarget = this.handleViewTarget.bind(this);
+    this.handleViewPresent = this.handleViewPresent.bind(this);
     this.state = {
       selectedMembers: [],
       randomMember: null,
       hoveringMember: null,
+      isViewTarget: false,
+      isForceViewTarget: false,
       members: []
     };
   }
@@ -46,7 +51,8 @@ export default class extends AdminPage {
   handlePreviewMember(event, members, member) {
     this.setState({
       selectedMembers: members,
-      hoveringMember: member
+      hoveringMember: member,
+      isForceViewTarget: window.key.alt || (event && event.altKey)
     });
   }
 
@@ -68,9 +74,21 @@ export default class extends AdminPage {
     this.forceUpdate();
   }
 
+  handleViewTarget() {
+    this.setState({
+      isViewTarget: true
+    });
+  }
+
+  handleViewPresent() {
+    this.setState({
+      isViewTarget: false
+    });
+  }
+
   render() {
     const {
-      members, selectedMembers, hoveringMember, randomMember
+      members, selectedMembers, hoveringMember, randomMember, isViewTarget, isForceViewTarget
     } = this.state;
 
     const isNotSelectAnyMember = selectedMembers.length <= 0;
@@ -85,34 +103,46 @@ export default class extends AdminPage {
       viewMembers.push(editingMember);
     }
 
+    if ((isViewTarget || isForceViewTarget) && editingMember) {
+      viewMembers.push({
+        name: `${editingMember.name} (mục tiêu)`,
+        spotlight: editingMember.target
+      });
+    }
+
     return (
       <Section>
         <SectionHeader>
           <DeepMessage>{t('pages.intranet.message.memberSpotlight')}</DeepMessage>
         </SectionHeader>
         <SectionBody>
-          <div className="d-flex">
-            <div>
+          <Row className="flex-lg-nowrap">
+            <Col size="auto" className="pr-0">
               <MemberList
+                className="mb-4"
                 members={members}
                 onSelect={this.handleSelectMember}
                 onMouseEnter={this.handlePreviewMember}
                 onMouseLeave={this.handleLeaveMember}
               />
-            </div>
-            <div className="flex-fill d-flex flex-column align-items-center mb-5" style={{ height: '300px' }}>
-              <MemberKeysEditor
-                member={editingMember}
-                onSubmit={this.handleMemberUpdated}
-                onChange={this.handleMemberUpdated}
-              />
-              <RatioRect ratio={6 / 3}>
-                <MembersSpotlightChart
-                  {...MembersChartHelper.buildProps(viewMembers)}
+            </Col>
+            <Col sm="12" className="flex-lg-fill pl-0">
+              <div className="flex-fill d-flex flex-column align-items-center mb-5">
+                <MemberKeysEditor
+                  member={editingMember}
+                  onSubmit={this.handleMemberUpdated}
+                  onChange={this.handleMemberUpdated}
+                  onViewTarget={this.handleViewTarget}
+                  onViewPresent={this.handleViewPresent}
                 />
-              </RatioRect>
-            </div>
-          </div>
+                <RatioRect ratio={6 / 3}>
+                  <MembersSpotlightChart
+                    {...MembersChartHelper.buildProps(viewMembers)}
+                  />
+                </RatioRect>
+              </div>
+            </Col>
+          </Row>
         </SectionBody>
       </Section>
     );

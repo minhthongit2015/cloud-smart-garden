@@ -31,6 +31,7 @@ export default class extends BaseComponent {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleIconClick = this.handleIconClick.bind(this);
     this.state = {
       mx: 0,
       my: 0,
@@ -69,20 +70,22 @@ export default class extends BaseComponent {
   handleMouseEnter(event) {
     UISounds.playTock2();
     const member = this.getMemberFromEvent(event);
+    event.persist();
     this.setState(prevState => ({
       hoveringMember: this.getHoveringMember(prevState, member)
     }), () => {
-      this.dispatchEvent({ typez: 'mouse enter' }, this.selectedMembers, member);
+      this.dispatchEvent(event, this.selectedMembers, member);
     });
   }
 
   handleMouseLeave(event) {
     UISounds.playTock2();
     const member = this.getMemberFromEvent(event);
+    event.persist();
     this.setState(prevState => ({
       hoveringMember: this.getHoveringMember(prevState, member)
     }), () => {
-      this.dispatchEvent({ typez: 'mouse leave' }, this.selectedMembers, member);
+      this.dispatchEvent(event, this.selectedMembers, member);
     });
   }
 
@@ -99,6 +102,13 @@ export default class extends BaseComponent {
     this.setState({
       mx: x,
       my: y
+    });
+  }
+
+  handleIconClick() {
+    UISounds.playFuture1();
+    this.setState({
+      selectedMembers: []
     });
   }
 
@@ -139,7 +149,10 @@ export default class extends BaseComponent {
     return (
       <div className={`member-list ${className || ''}`} {...restProps}>
         {members.map(member => this.renderMember(member))}
-        <IconAlphaTeam className="member-list__icon" />
+        <IconAlphaTeam
+          className="member-list__icon cursor-pointer"
+          onClick={this.handleIconClick}
+        />
       </div>
     );
   }

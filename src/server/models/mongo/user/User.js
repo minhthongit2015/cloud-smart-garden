@@ -32,6 +32,7 @@ const UserSchema = new mongoose.Schema({
     default: 10
   },
   spotlight: Object,
+  target: Object,
   badges: [{ type: String, enum: Object.values(MemberBadge) }]
 });
 const UserModel = mongoose.model('User', UserSchema);

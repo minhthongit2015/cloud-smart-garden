@@ -12,6 +12,9 @@ export default class Sound extends SoundSrc {
       this.runtimeSounds[soundId].volume = +volume;
     }
     this.runtimeSounds[soundId].currentTime = 0;
-    this.runtimeSounds[soundId].play();
+    this.runtimeSounds[soundId].play()
+      .catch(() => {
+        // Just skip
+      });
   }
 }

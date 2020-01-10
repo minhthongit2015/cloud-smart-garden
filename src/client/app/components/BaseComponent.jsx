@@ -5,6 +5,19 @@ import { camelize, isFunction } from '../utils';
 import Random from '../utils/Random';
 
 
+const eventTypeMap = {
+  mouseenter: 'mouseEnter',
+  mouseleave: 'mouseLeave',
+  mousemove: 'mouseMove'
+};
+
+function translateEventType(event) {
+  if (!event || !event.type) {
+    return;
+  }
+  event.typez = eventTypeMap[event.type];
+}
+
 export default class extends React.Component {
   get idPrefix() {
     return 'component';
@@ -37,6 +50,7 @@ export default class extends React.Component {
   }
 
   dispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, ...args) {
+    translateEventType(event);
     const eventName = camelize(`on ${event.typez || event.type}`);
     if (isFunction(this.props[eventName])) {
       this.props[eventName](event, ...args);

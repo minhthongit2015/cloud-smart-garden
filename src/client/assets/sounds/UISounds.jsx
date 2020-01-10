@@ -10,10 +10,14 @@ export default class extends Sound {
   }
 
   static playFuture1() {
-    this.play(this.FUTURE_1, 0.5);
+    this.play(this.FUTURE_1, 0.3);
   }
 
   static playMagic() {
     this.play(this.MAGIC, 0.5);
+  }
+
+  static playTabChange() {
+    this.play(this.PAPER);
   }
 }
