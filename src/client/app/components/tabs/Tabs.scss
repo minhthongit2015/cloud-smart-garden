@@ -8,6 +8,7 @@
 
     &::after {
       content: "";
+      z-index: 1;
       position: absolute;
       left: -10px;
       bottom: -7px;
@@ -42,6 +43,7 @@
     }
 
     .nav-link.active {
+      z-index: 1;
       box-shadow: -3px -2px 8px #f7d4b6;
       // border: 2px dashed #ffb679;
       border-radius: 4px 4px 0 0;
