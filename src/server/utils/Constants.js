@@ -22,7 +22,10 @@ const MemberBadge = {
   Botanist: 'Botanist',
   Developer: 'Developer',
   ElectricalEngineer: 'Electrical Engineer',
-  MechanicalEngineer: 'Mechanical Engineer'
+  MechanicalEngineer: 'Mechanical Engineer',
+  Accountant: 'Accountant',
+  Communicator: 'Communicator',
+  Influencer: 'Incluencer'
 };
 
 module.exports = {

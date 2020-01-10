@@ -11,7 +11,10 @@ const badgeMap = {
   Botanist: <i className="fas fa-seedling" />,
   Developer: <i className="fas fa-laptop-code" />,
   ElectricalEngineer: <i className="fas fa-tools" />,
-  MechanicalEngineer: <i className="fas fa-microchip" />
+  MechanicalEngineer: <i className="fas fa-microchip" />,
+  Accountant: <i className="fas fa-hand-holding-usd" />,
+  Communicator: <i className="far fa-comments" />,
+  Influencer: <i className="fab fa-microblog" />
 };
 
 export default ({ badges, lighter }) => (
