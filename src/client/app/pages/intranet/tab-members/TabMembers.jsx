@@ -39,7 +39,7 @@ export default class extends AdminPage {
   }
 
   fetchMembers() {
-    superrequest.agentGet(ApiEndpoints.members)
+    superrequest.get(ApiEndpoints.members)
       .then((res) => {
         this.setState({
           members: res.data,

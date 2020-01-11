@@ -27,10 +27,7 @@ const UserSchema = new mongoose.Schema({
     twitter: String,
     instagram: String
   },
-  socialPoint: {
-    type: Number,
-    default: 10
-  },
+  socialPoint: { type: Number, default: 10 },
   spotlight: { type: Map, of: Number },
   target: { type: Map, of: Number },
   badges: [{ type: String, enum: Object.values(MemberBadge) }]
