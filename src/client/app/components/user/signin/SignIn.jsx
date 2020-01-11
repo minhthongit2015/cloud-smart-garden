@@ -83,7 +83,7 @@ export default class SignIn extends Component {
 
   renderAvatar() {
     const { disabled } = this.state;
-    const { fbProfile, user, isModOrAdmin } = UserService;
+    const { fbProfile, user, isMember } = UserService;
     const nextLevel = 100;
     const socialPoint = user
       ? user.socialPoint || 0
@@ -143,7 +143,7 @@ export default class SignIn extends Component {
               <MDBDropdownItem divider />
             </React.Fragment>
           )}
-          {isModOrAdmin && (
+          {isMember && (
             <React.Fragment>
               <MDBDropdownItem
                 disabled={disabled}
