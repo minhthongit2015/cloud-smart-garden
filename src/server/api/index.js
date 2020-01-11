@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const V1Route = require('./v1');
 const Debugger = require('../services/Debugger');
+const Logger = require('../services/Logger');
 const APIResponse = require('../models/api-models/APIResponse');
 
 router.use((req, res, next) => {
@@ -15,6 +16,10 @@ router.use((req, res, next) => {
 });
 
 router.use('/v1', V1Route);
+
+router.use((error, req, res, next) => {
+  Logger.handleError(error, { req, res }, next);
+});
 
 router.use((req, res) => {
   res.status(404).send(APIResponse.setErrorMessage('API Not Found!'));

@@ -1,12 +1,12 @@
 
 const mongoose = require('mongoose');
-const { MemberBadge } = require('../../../utils/Constants');
+const { MemberBadge, UserRole } = require('../../../utils/Constants');
 
-const { ObjectId } = mongoose.Schema.Types;
+// const { ObjectId } = mongoose.Schema.Types;
 
 const UserSchema = new mongoose.Schema({
   password: String,
-  role: String,
+  role: { type: String, enum: Object.values(UserRole) },
   name: String,
   email: String,
   picture: String,
@@ -31,8 +31,8 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 10
   },
-  spotlight: Object,
-  target: Object,
+  spotlight: { type: Map, of: Number },
+  target: { type: Map, of: Number },
   badges: [{ type: String, enum: Object.values(MemberBadge) }]
 });
 const UserModel = mongoose.model('User', UserSchema);

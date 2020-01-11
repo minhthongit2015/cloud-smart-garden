@@ -39,7 +39,7 @@ export default class extends AdminPage {
   }
 
   fetchMembers() {
-    superrequest.get(`${ApiEndpoints.users}?where={"role":{"$in":["admin","moderator"]}}`)
+    superrequest.agentGet(ApiEndpoints.members)
       .then((res) => {
         this.setState({
           members: res.data,
@@ -134,6 +134,7 @@ export default class extends AdminPage {
                   onChange={this.handleMemberUpdated}
                   onViewTarget={this.handleViewTarget}
                   onViewPresent={this.handleViewPresent}
+                  isViewTarget={isViewTarget}
                 />
                 <RatioRect ratio={6 / 3}>
                   <MembersSpotlightChart

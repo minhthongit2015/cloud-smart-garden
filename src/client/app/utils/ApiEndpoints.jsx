@@ -1,3 +1,4 @@
+import { UserRole } from '../../../server/utils/Constants';
 
 const host = '';
 const APIv1 = `${host}/api/v1`;
@@ -9,10 +10,12 @@ const oneHundredQuotes = `${intranet}/100-Quotes`;
 const quoteI = _id => `${oneHundredQuotes}/${_id}`;
 
 const users = `${APIv1}/users`;
+const members = `${users}/?where={"role":{"$in":${JSON.stringify(Object.values(UserRole))}}}`;
 const characteristics = _id => `${users}/${_id}/characteristics`;
 const targetCharacteristics = _id => `${users}/${_id}/target-characteristics`;
 const auth = `${users}/auth`;
 const signin = `${users}/signin`;
+const signout = `${users}/signout`;
 const fbAuth = `${auth}/facebook`;
 
 const map = `${APIv1}/map`;
@@ -54,9 +57,11 @@ export default {
   quoteI,
 
   users,
+  members,
   characteristics,
   targetCharacteristics,
   signin,
+  signout,
   auth,
   fbAuth,
 

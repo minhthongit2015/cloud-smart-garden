@@ -25,7 +25,7 @@ export default class extends BaseComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
 
-    this.isEditingTarget = false;
+    this.isEditingTarget = props.isViewTarget || false;
     this.state = {
       isOpen: false
     };
@@ -62,7 +62,7 @@ export default class extends BaseComponent {
   }
 
   submit(endpoint) {
-    const { isOpen, ...spotlight } = this.state;
+    const { isOpen, user, ...spotlight } = this.state;
     const { member } = this.props;
     const spotlightKey = this.isEditingTarget ? 'target' : 'spotlight';
     const body = { ...(member[spotlightKey] || {}), ...(spotlight || {}) };
@@ -76,10 +76,10 @@ export default class extends BaseComponent {
   handleTabChange(event, tabIndex) {
     if (tabIndex === 1) {
       this.isEditingTarget = true;
-      this.dispatchEvent({ typez: 'view target' }, this.props.member, 'target');
+      this.dispatchEvent({ typez: 'view target' }, this.props.member);
     } else if (tabIndex === 0) {
       this.isEditingTarget = false;
-      this.dispatchEvent({ typez: 'view present' }, this.props.member, 'present');
+      this.dispatchEvent({ typez: 'view present' }, this.props.member);
     }
   }
 
@@ -164,7 +164,7 @@ export default class extends BaseComponent {
           </div>
         </div>
         <MDBCollapse isOpen={isOpen}>
-          <Tabs onChange={this.handleTabChange}>
+          <Tabs onChange={this.handleTabChange} tabIndex={this.isEditingTarget ? 1 : 0}>
             <Tab>
               <TabHeader>Hiện Tại</TabHeader>
               <TabBody>{this.renderEditTable(member)}</TabBody>

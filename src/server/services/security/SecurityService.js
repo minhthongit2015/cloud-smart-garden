@@ -32,7 +32,7 @@ module.exports = class {
     if (!this.onlyRoleUser(req, throwError)) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
-    if (req.session.user.role !== UserRole.MODERATOR) {
+    if (req.session.user.role !== UserRole.Moderator) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
     return true;
@@ -42,7 +42,7 @@ module.exports = class {
     if (!this.onlyRoleUser(req, throwError)) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
-    if (req.session.user.role !== UserRole.ADMIN) {
+    if (req.session.user.role !== UserRole.Admin) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
     return true;
@@ -52,8 +52,8 @@ module.exports = class {
     if (!this.onlyRoleUser(req, throwError)) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
-    if (req.session.user.role !== UserRole.MODERATOR
-      && req.session.user.role !== UserRole.ADMIN) {
+    if (req.session.user.role !== UserRole.Moderator
+      && req.session.user.role !== UserRole.Admin) {
       return errorOrFalse(HttpErrors.Unauthorized(), throwError);
     }
     return true;

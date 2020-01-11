@@ -1,8 +1,8 @@
 import React from 'react';
-import BasePureComponent from '../../../../components/BasePureComponent';
+import BaseComponent from '../../../../components/BaseComponent';
 
 
-export default class extends BasePureComponent {
+export default class extends BaseComponent.Pure {
   render() {
     const { experiment } = this.props;
     return (

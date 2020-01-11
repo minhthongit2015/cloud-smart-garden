@@ -1,6 +1,6 @@
 import GlobalState from '../../utils/GlobalState';
 import superrequest from '../../utils/superrequest';
-import { UserTypes } from '../../utils/Constants';
+import { UserRole } from '../../../../server/utils/Constants';
 import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export const UserObjectKeys = {
@@ -16,9 +16,9 @@ export default class UserService {
 
   static get isLoggedIn() { return this.user != null; }
 
-  static get isAdmin() { return this.isLoggedIn && this.user.role === UserTypes.admin; }
+  static get isAdmin() { return this.isLoggedIn && this.user.role === UserRole.Admin; }
 
-  static get isModerator() { return this.isLoggedIn && this.user.role === UserTypes.moderator; }
+  static get isModerator() { return this.isLoggedIn && this.user.role === UserRole.Moderator; }
 
   static get isModOrAdmin() { return this.isModerator || this.isAdmin; }
 
@@ -74,7 +74,7 @@ export default class UserService {
   }
 
   static async logout() {
-    superrequest.agentGet(ApiEndpoints.user.SIGN_OUT)
+    superrequest.agentGet(ApiEndpoints.signout)
       .then(() => {
         this.clearUser();
       });

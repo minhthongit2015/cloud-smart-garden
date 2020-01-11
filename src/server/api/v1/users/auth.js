@@ -4,8 +4,8 @@ const Logger = require('../../../services/Logger');
 
 router.get('/facebook', (req, res) => {
   Logger.catch(() => res.send(
-    new APIResponse().setData(req.session.user || null)
-  ));
+    APIResponse.setData(req.session.user || null)
+  ), { req, res });
 });
 
 module.exports = router;

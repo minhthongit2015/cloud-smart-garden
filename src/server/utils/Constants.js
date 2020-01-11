@@ -1,7 +1,8 @@
 
 const UserRole = {
-  MODERATOR: 'moderator',
-  ADMIN: 'admin'
+  Moderator: 'Moderator',
+  Admin: 'Admin',
+  Member: 'Member'
 };
 
 const PostStatus = {

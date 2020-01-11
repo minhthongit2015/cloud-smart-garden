@@ -1,7 +1,7 @@
-import BasePureComponent from '../BasePureComponent';
+import BaseComponent from '../BaseComponent';
 
 
-export default class Tab extends BasePureComponent {
+export default class Tab extends BaseComponent.Pure {
   render() {
     return this.props.children;
   }

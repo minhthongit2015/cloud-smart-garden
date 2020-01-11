@@ -1,15 +1,15 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import ApexChart from 'react-apexcharts';
-import BasePureComponent from '../../BasePureComponent';
 import DemoDataApexLineChart from './DemoDataApexLineChart';
+import BaseComponent from '../../BaseComponent';
 
 
 /**
  * Đặc điểm của Apex Line Chart
  * - Tự động tick theo tỉ lệ phù hợp trên trục thời gian
  */
-export default class TimeSeriesChart extends BasePureComponent {
+export default class TimeSeriesChart extends BaseComponent.Pure {
   get idPrefix() {
     return 'line-chart';
   }

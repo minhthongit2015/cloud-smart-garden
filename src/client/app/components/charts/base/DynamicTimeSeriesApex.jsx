@@ -3,11 +3,11 @@ import React from 'react';
 import TimeSeriesChart from './TimeSeriesChartApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import superrequest from '../../../utils/superrequest';
-import BasePureComponent from '../../BasePureComponent';
 import ApexchartsHelper from '../../../helpers/charts/ApexchartsHelper';
+import BaseComponent from '../../BaseComponent';
 
 
-export default class DynamicTimeSeries extends BasePureComponent {
+export default class DynamicTimeSeries extends BaseComponent.Pure {
   get endPoint() {
     return this.props.endPoint || ApiEndpoints.records;
   }

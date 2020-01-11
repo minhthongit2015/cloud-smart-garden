@@ -20,6 +20,7 @@ $border-left-color: rgba(255, 159, 159, 0.774);
     position: absolute;
     top: -35px;
     left: -15px;
+    min-width: 32px;
     filter: hue-rotate(230deg) drop-shadow(0 0 rgba(255, 118, 118, 1));
   }
 

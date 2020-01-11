@@ -18,7 +18,7 @@ function translateEventType(event) {
   event.typez = eventTypeMap[event.type];
 }
 
-export default class extends React.Component {
+const BaseComponentMixer = SuperClass => class _BaseComponent extends SuperClass {
   get idPrefix() {
     return 'component';
   }
@@ -56,4 +56,15 @@ export default class extends React.Component {
       this.props[eventName](event, ...args);
     }
   }
+};
+
+class PureComponent extends BaseComponentMixer(React.PureComponent) {
 }
+
+class BaseComponent extends BaseComponentMixer(React.Component) {
+  static get Pure() {
+    return PureComponent;
+  }
+}
+
+export default BaseComponent;

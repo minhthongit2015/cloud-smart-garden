@@ -2,12 +2,12 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import superrequest from '../../../utils/superrequest';
-import BasePureComponent from '../../BasePureComponent';
 import ShufflePostList from '../shuffle-post-list/ShufflePostList';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import BaseComponent from '../../BaseComponent';
 
 
-export default class extends BasePureComponent {
+export default class extends BaseComponent.Pure {
   get postEndpoint() {
     return ApiEndpoints.posts;
   }

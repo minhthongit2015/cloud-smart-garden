@@ -17,10 +17,10 @@ import Rating from '../../utils/rating/Rating';
 import { IconBookmark, IconRaisedFist, IconThanks } from '../../../../assets/icons';
 import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
-import BasePureComponent from '../../BasePureComponent';
+import BaseComponent from '../../BaseComponent';
 
 
-export default class Post extends BasePureComponent {
+export default class Post extends BaseComponent.Pure {
   get post() {
     return this.props.post;
   }

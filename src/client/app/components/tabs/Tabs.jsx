@@ -4,14 +4,14 @@ import {
   MDBNav, MDBNavItem, MDBNavLink, MDBTabPane, MDBTabContent
 } from 'mdbreact';
 import './Tabs.scss';
-import BasePureComponent from '../BasePureComponent';
 import Tab from './Tab';
 import TabHeader from './TabHeader';
 import TabBody from './TabBody';
 import UISounds from '../../../assets/sounds/UISounds';
+import BaseComponent from '../BaseComponent';
 
 
-export default class extends BasePureComponent {
+export default class extends BaseComponent.Pure {
   getTabId(tabIndex) {
     return `${this.id}-${tabIndex}`;
   }
@@ -22,7 +22,7 @@ export default class extends BasePureComponent {
     this.tabHeaders = [];
     this.tabBodies = [];
     this.state = {
-      activeItem: this.getTabId(0)
+      activeItem: this.getTabId(props.tabIndex || 0)
     };
   }
 

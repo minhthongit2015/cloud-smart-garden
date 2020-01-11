@@ -18,6 +18,7 @@ router.use('/profile', ProfileRoute);
 
 router.get('/:userId?', (req, res) => {
   Logger.catch(async () => {
+    throw APIResponse.throwError.BadRequest();
     const { userId } = req.params;
     const users = await UserService.getOrList(userId, req.query);
     return res.send(APIResponse.setData(users));
