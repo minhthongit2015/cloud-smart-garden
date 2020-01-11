@@ -65,7 +65,7 @@ function FacebookSession(req, res, next) {
   if (!next) {
     next = res;
   }
-  Logger.catch(async () => {
+  Logger.tryCatch(async () => {
     let sessionHasChange = false;
     try {
       sessionHasChange = await resolveFbUser(req);

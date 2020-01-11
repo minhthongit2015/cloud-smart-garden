@@ -8,21 +8,19 @@ const PostsSecurityService = require('../../../services/security/PostsSecurity')
 const RatingService = require('../../../services/blog/Rating');
 
 
-router.post('/:postId', (req, res) => {
-  Logger.catch(async () => {
-    await PostsSecurityService.onlyLoggedInUser(req);
-    const { user } = req.session;
-    const { postId } = req.params;
-    const { rating } = req.body;
-    const post = await PostService.get(postId);
-    if (!post) {
-      throw APIResponse.throwError.NotFound();
-    }
-    const ratingObject = await RatingService.rating(post, user, rating);
-    await SessionService.checkForDirtySession(req);
+router.post('/:postId', Logger.catch(async (req, res) => {
+  await PostsSecurityService.onlyLoggedInUser(req);
+  const { user } = req.session;
+  const { postId } = req.params;
+  const { rating } = req.body;
+  const post = await PostService.get(postId);
+  if (!post) {
+    throw APIResponse.throwError.NotFound();
+  }
+  const ratingObject = await RatingService.rating(post, user, rating);
+  await SessionService.checkForDirtySession(req);
 
-    return res.send(new APIResponse().setData({ rating: ratingObject, user }));
-  }, { req, res });
-});
+  return res.send(new APIResponse().setData({ rating: ratingObject, user }));
+}));
 
 module.exports = router;

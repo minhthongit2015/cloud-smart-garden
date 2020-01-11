@@ -16,35 +16,28 @@ router.use('/signout', SignoutRoute);
 router.use('/signup', SignupRoute);
 router.use('/profile', ProfileRoute);
 
-router.get('/:userId?', (req, res) => {
-  Logger.catch(async () => {
-    throw APIResponse.throwError.BadRequest();
-    const { userId } = req.params;
-    const users = await UserService.getOrList(userId, req.query);
-    return res.send(APIResponse.setData(users));
-  }, { req, res });
-});
+router.get('/:userId?', Logger.catch(async (req, res) => {
+  const { userId } = req.params;
+  const users = await UserService.getOrList(userId, req.query);
+  return res.send(APIResponse.setData(users));
+}));
 
-router.post('/:userId/characteristics', (req, res) => {
-  Logger.catch(async () => {
-    const { userId } = req.params;
-    SecurityService.onlyOwnerOrModOrAdmin(req, userId);
-    const updatedUser = await UserService.update(userId, {
-      spotlight: req.body
-    });
-    return res.send(APIResponse.setData(updatedUser));
-  }, { req, res });
-});
+router.post('/:userId/characteristics', Logger.catch(async (req, res) => {
+  const { userId } = req.params;
+  SecurityService.onlyOwnerOrModOrAdmin(req, userId);
+  const updatedUser = await UserService.update(userId, {
+    spotlight: req.body
+  });
+  return res.send(APIResponse.setData(updatedUser));
+}));
 
-router.post('/:userId/target-characteristics', (req, res) => {
-  Logger.catch(async () => {
-    const { userId } = req.params;
-    SecurityService.onlyOwnerOrModOrAdmin(req, userId);
-    const updatedUser = await UserService.update(userId, {
-      target: req.body
-    });
-    return res.send(APIResponse.setData(updatedUser));
-  }, { req, res });
-});
+router.post('/:userId/target-characteristics', Logger.catch(async (req, res) => {
+  const { userId } = req.params;
+  SecurityService.onlyOwnerOrModOrAdmin(req, userId);
+  const updatedUser = await UserService.update(userId, {
+    target: req.body
+  });
+  return res.send(APIResponse.setData(updatedUser));
+}));
 
 module.exports = router;

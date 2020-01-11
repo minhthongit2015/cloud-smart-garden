@@ -15,24 +15,20 @@ router.get('/google/auth', Logger.catch((req, res) => {
   }
 }));
 
-router.get('/google/test', (req, res) => {
-  Logger.catch(async () => {
-    GoogleService.test();
-  }, { req, res });
-});
+router.get('/google/test', Logger.catch(async () => {
+  GoogleService.test();
+}));
 
-router.get('/imgurl/auth', (req, res) => {
-  Logger.catch(async () => {
-    const { code } = req.query;
-    if (!code) {
-      const authUrl = ImgUrService.oauth2();
-      res.redirect(authUrl);
-    } else {
-      ImgUrService.saveTokenFromCode(code);
-      res.redirect('/');
-    }
-  }, { req, res });
-});
+router.get('/imgurl/auth', Logger.catch(async (req, res) => {
+  const { code } = req.query;
+  if (!code) {
+    const authUrl = ImgUrService.oauth2();
+    res.redirect(authUrl);
+  } else {
+    ImgUrService.saveTokenFromCode(code);
+    res.redirect('/');
+  }
+}));
 
 
 module.exports = router;

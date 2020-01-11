@@ -6,7 +6,7 @@ function RegisterFacebookUser(req, res, next) {
   if (!next) {
     next = res;
   }
-  Logger.catch(async () => {
+  Logger.tryCatch(async () => {
     try {
       if (req.session && req.session.fbUser && !req.session.user) {
         // Find again - Just for sure

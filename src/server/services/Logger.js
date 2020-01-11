@@ -41,7 +41,7 @@ function _handleError(error, errorHandler, ...args) {
     stack: error.stack
   });
   if (typeof errorHandler === 'function') {
-    errorHandler(error);
+    errorHandler(error, ...args);
     return;
   }
   const [req, res] = args;
