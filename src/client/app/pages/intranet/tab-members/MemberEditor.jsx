@@ -24,6 +24,7 @@ export default class extends BaseComponent {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleCreateMark = this.handleCreateMark.bind(this);
 
     this.isEditingTarget = props.isViewTarget || false;
     this.state = {
@@ -70,6 +71,16 @@ export default class extends BaseComponent {
       .then(() => {
         this.toggle();
         this.dispatchEvent({ typez: 'submit' }, body);
+      });
+  }
+
+  handleCreateMark() {
+    const { member } = this.props;
+    const body = { ...(member.spotlight || {}) };
+    superrequest.agentPost(ApiEndpoints.createMark(member._id), body)
+      .then((res) => {
+        this.toggle();
+        this.dispatchEvent({ typez: 'create mark' }, res.data);
       });
   }
 
@@ -143,6 +154,15 @@ export default class extends BaseComponent {
             >{isTarget ? 'Lưu Mục Tiêu' : 'Lưu Thay Đổi'}
             </MDBBtn>
           )}
+        </Row>
+        <Row className="mx-0">
+          <Col className="px-1 text-center">
+            <MDBBtn
+              className="peach-gradient"
+              onClick={this.handleCreateMark}
+            >Đánh Dấu Mốc Thay Đổi
+            </MDBBtn>
+          </Col>
         </Row>
       </form>
     );

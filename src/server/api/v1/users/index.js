@@ -40,4 +40,13 @@ router.post('/:userId/target-characteristics', Logger.catch(async (req, res) => 
   return res.send(APIResponse.setData(updatedUser));
 }));
 
+router.post('/:userId/marks', Logger.catch(async (req, res) => {
+  const { userId } = req.params;
+  const user = await UserService.get(userId);
+  SecurityService.onlyNotNullObject(user, true, APIResponse.throwError.NotFound());
+  SecurityService.onlyOwnerOrModOrAdmin(req, userId);
+  const updatedUser = await UserService.mark(user, req.body);
+  return res.send(APIResponse.setData(updatedUser));
+}));
+
 module.exports = router;

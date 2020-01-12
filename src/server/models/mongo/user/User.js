@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema({
   },
   socialPoint: { type: Number, default: 10 },
   spotlight: { type: Map, of: Number },
+  marks: [{
+    time: { type: Date, default: Date.now },
+    spotlight: { type: Map, of: Number }
+  }],
   target: { type: Map, of: Number },
   badges: [{ type: String, enum: Object.values(MemberBadge) }]
 });
