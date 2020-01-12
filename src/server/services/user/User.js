@@ -86,4 +86,15 @@ module.exports = class extends CRUDService {
     user.dirty = true;
     return user;
   }
+
+  static async mark(user, spotlight) {
+    if (!user.marks) {
+      user.marks = [];
+    }
+    user.spotlight = spotlight;
+    user.marks.push({
+      spotlight
+    });
+    return this.update(user);
+  }
 };
