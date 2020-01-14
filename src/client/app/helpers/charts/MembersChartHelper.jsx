@@ -1,3 +1,4 @@
+import moment from 'moment';
 import ChartHelper from './ChartHelper';
 import Random from '../../utils/Random';
 
@@ -51,6 +52,26 @@ export default class extends ChartHelper {
     return {
       keys,
       indexBy,
+      data
+    };
+  }
+
+  static buildMemberMarksProps(member) {
+    const marks = member && member.marks;
+    const data = Object.entries(this.Characteristics)
+      .map(([key, text]) => {
+        const dataz = marks && marks
+          .sort((t1, t2) => new Date(t1) - new Date(t2))
+          .map(mark => ({
+            x: moment(mark.time).format('YYYY-MM-DD'),
+            y: mark.spotlight[key]
+          }));
+        return {
+          id: text,
+          data: dataz || []
+        };
+      });
+    return {
       data
     };
   }

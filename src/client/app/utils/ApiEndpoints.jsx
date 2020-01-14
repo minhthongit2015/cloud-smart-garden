@@ -13,6 +13,7 @@ const users = `${APIv1}/users`;
 const members = `${users}/?where={"role":{"$in":${JSON.stringify(Object.values(UserRole))}}}`;
 const characteristics = _id => `${users}/${_id}/characteristics`;
 const targetCharacteristics = _id => `${users}/${_id}/target-characteristics`;
+const createMark = _id => `${users}/${_id}/marks`;
 const auth = `${users}/auth`;
 const signin = `${users}/signin`;
 const signout = `${users}/signout`;
@@ -61,6 +62,7 @@ export default {
   members,
   characteristics,
   targetCharacteristics,
+  createMark,
   signin,
   signout,
   auth,

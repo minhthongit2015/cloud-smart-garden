@@ -50,7 +50,7 @@ module.exports = class CRUDService {
     id = ApiHelper.getId(id);
     const { id: idz, _id, ...restProps } = doc;
     const updatedDoc = await this.getModel(...convertArgumentsToArray(arguments))
-      .findByIdAndUpdate(id, restProps).exec();
+      .findByIdAndUpdate(id, restProps, { new: true }).exec();
     return this.converter.convert(updatedDoc);
   }
 

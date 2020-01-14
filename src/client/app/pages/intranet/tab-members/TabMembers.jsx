@@ -12,6 +12,7 @@ import MembersChartHelper from '../../../helpers/charts/MembersChartHelper';
 import RatioRect from '../../../components/utils/ratio-rect/RatioRect';
 import MemberKeysEditor from './MemberEditor';
 import Random from '../../../utils/Random';
+import MembersMarksChart from '../../../components/charts/intranet/MembersMarksChart';
 
 
 export default class extends AdminPage {
@@ -23,6 +24,8 @@ export default class extends AdminPage {
     this.handleMemberUpdated = this.handleMemberUpdated.bind(this);
     this.handleViewTarget = this.handleViewTarget.bind(this);
     this.handleViewPresent = this.handleViewPresent.bind(this);
+    this.handleMarkCreated = this.handleMarkCreated.bind(this);
+
     this.state = {
       selectedMembers: [],
       randomMember: null,
@@ -86,6 +89,14 @@ export default class extends AdminPage {
     });
   }
 
+  handleMarkCreated(event, member) {
+    const { members } = this.state;
+    const foundMember = members.find(memberz => memberz._id === member._id);
+    if (foundMember) {
+      foundMember.marks = member.marks;
+    }
+  }
+
   render() {
     const {
       members, selectedMembers, hoveringMember, randomMember, isViewTarget, isForceViewTarget
@@ -134,11 +145,15 @@ export default class extends AdminPage {
                   onChange={this.handleMemberUpdated}
                   onViewTarget={this.handleViewTarget}
                   onViewPresent={this.handleViewPresent}
+                  onCreateMark={this.handleMarkCreated}
                   isViewTarget={isViewTarget}
                 />
                 <RatioRect ratio={6 / 3}>
                   <MembersSpotlightChart
                     {...MembersChartHelper.buildProps(viewMembers)}
+                  />
+                  <MembersMarksChart
+                    {...MembersChartHelper.buildMemberMarksProps(editingMember)}
                   />
                 </RatioRect>
               </div>

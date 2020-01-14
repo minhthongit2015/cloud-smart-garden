@@ -10,7 +10,8 @@ module.exports = class UserConverter extends Converter {
       'socialPoint',
       'spotlight',
       'target',
-      'badges'
+      'badges',
+      'marks'
     ];
   }
 };
