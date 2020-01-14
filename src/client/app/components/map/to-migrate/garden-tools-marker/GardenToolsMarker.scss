@@ -43,7 +43,7 @@ $window-height: 500px;
             .store-body {
               text-align: center;
               .preview-image {
-                @include fixed-ratio-wrapper(100% * 2 / 3);
+                @include fixed-ratio-wrapper(2 / 3);
                 & > * {
                   object-fit: cover;
                   @include fixed-ratio;

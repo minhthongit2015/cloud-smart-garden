@@ -1,19 +1,21 @@
 import Polyline from '../components/map/polyline/Polyline';
-import { MarkerTypes } from '../../../server/utils/Constants';
-import { FarmMarker } from '../pages/user-network/markers';
+import { MarkerTypes } from './Constants';
+import {
+  FarmMarker, FoodStoreMarker, ToolStoreMarker, GardenMarker
+} from '../pages/user-network/markers';
 import { Place } from '../components/map';
 
 export default class {
   static getMarkerByType(type) {
     switch (type) {
     case MarkerTypes.garden:
-      return FarmMarker;
+      return GardenMarker;
     case MarkerTypes.farm:
       return FarmMarker;
     case MarkerTypes.foodStore:
-      return FarmMarker;
+      return FoodStoreMarker;
     case MarkerTypes.toolStore:
-      return FarmMarker;
+      return ToolStoreMarker;
     case MarkerTypes.charityRestaurant:
       return FarmMarker;
     case 'Path':

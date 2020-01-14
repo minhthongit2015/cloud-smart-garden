@@ -1,4 +1,4 @@
-import { UserRole } from '../../../server/utils/Constants';
+import { UserRole } from './Constants';
 
 const host = '';
 const APIv1 = `${host}/api/v1`;

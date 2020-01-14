@@ -1,6 +1,6 @@
 import GlobalState from '../../utils/GlobalState';
 import superrequest from '../../utils/superrequest';
-import { UserRole } from '../../../../server/utils/Constants';
+import { UserRole } from '../../utils/Constants';
 import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export const UserObjectKeys = {

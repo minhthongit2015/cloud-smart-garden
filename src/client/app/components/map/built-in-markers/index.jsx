@@ -1,5 +1,5 @@
 
-export { EventMarker } from './EventMarker';
+export { default as EventMarker } from './EventMarker';
 
 export { default as PageMarker } from './PageMarker';
 

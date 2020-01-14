@@ -16,30 +16,30 @@ $shadow: #8ce4a8;
 .marker {
   &__page {
     &__title {
-      font-size: 1.25em;
+      z-index: 1;
+      font-size: 1.5em;
+      font-family: 'icielz-bambola';
+      letter-spacing: 2px;
       font-weight: bold;
-      color: $color;
-      margin-bottom: .5em;
       text-align: center;
-      padding: .5em .5em;
+      margin: 1em auto -1em;
+      width: calc(100% - 40px);
+      position: relative;
+      padding: .5em .25em;
+      background: $color;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px lighten($color: $color, $amount: .5);
     }
     &__banner {
       border-radius: 8px;
-    }
-    &__branding {
-      text-align: center;
-      background: #3ed08d;
-      margin: auto;
-      padding: 4px;
-      width: 88%;
-      border-radius: 25px;
-      color: #fff;
-      font-size: 22px;
-      font-family: 'icielz-bambola';
-      letter-spacing: 2px;
-      border: 3px solid #ffffff;
-      margin-bottom: -18px;
-      position: relative;
+      overflow: hidden;
+      @include fixed-ratio-wrapper(5/3);
+      & > img {
+        @include fixed-ratio;
+      }
+      width: calc(100% - 20px);
     }
   }
 }

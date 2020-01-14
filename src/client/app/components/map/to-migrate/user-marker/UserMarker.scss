@@ -74,7 +74,7 @@ $window-height: 450px;
                 padding: 4px;
               }
               .preview-image {
-                @include fixed-ratio-wrapper(100% * 2 / 3);
+                @include fixed-ratio-wrapper(2 / 3);
                 & > * {
                   object-fit: cover;
                   @include fixed-ratio;

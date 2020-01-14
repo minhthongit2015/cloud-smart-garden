@@ -8,6 +8,8 @@ import MapService from '../../../services/map/MapService';
 import './Place.scss';
 import FbService from '../../../services/user/FbService';
 
+import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
+import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
 
 export default class Place extends MarkerWithPopup {
   get customClass() {
@@ -37,6 +39,14 @@ export default class Place extends MarkerWithPopup {
       onOpen: this.handleOpen,
       onClose: this.handleClose
     };
+  }
+
+  get markerIcon() {
+    return FarmIconSrc;
+  }
+
+  get defaultCoverImage() {
+    return FarmImageSrc;
   }
 
   constructor(props) {

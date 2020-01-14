@@ -3,7 +3,7 @@ import RightClickContextMenu from '../../../components/map-tools/right-click-con
 import UserService from '../../../services/user/UserService';
 // import MapService from '../../services/MapService';
 import BaseComponent from '../../../components/BaseComponent';
-import { MarkerTypes } from '../../../../../server/utils/Constants';
+import { MarkerTypes } from '../../../utils/Constants';
 
 const ContextOptions = {
   addPlace: { label: '+ Địa điểm mới', value: `add-${MarkerTypes.place}` },

@@ -1,6 +1,6 @@
 import React from 'react';
 import './MemberBadge.scss';
-import { MemberBadge } from '../../../server/utils/Constants';
+import { MemberBadge } from '../../app/utils/Constants';
 
 const badgeMap = {
   Leader: <i className="fab fa-jedi-order" />,

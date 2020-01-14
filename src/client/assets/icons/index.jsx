@@ -6,7 +6,7 @@ export const SmileCitySrc = '/images/smile-city.png';
 export const ShoppingCartSrc = '/images/shopping-cart.svg';
 export const PlantPot1Src = '/images/plant.svg';
 export const FarmSrc = '/images/agriculture.svg';
-export const GardenToolsSrc = '/images/trowel.svg';
+export const ToolStoreSrc = '/images/trowel.svg';
 export const GardenOwnerSrc = '/images/bonsai.svg';
 export const DinosaurSrc = '/images/triceratops.svg';
 
@@ -44,7 +44,7 @@ export default {
   ShoppingCartSrc,
   PlantPot1Src,
   FarmSrc,
-  GardenToolsSrc,
+  ToolStoreSrc,
   GardenOwnerSrc,
   DinosaurSrc,
   FlagSrc,

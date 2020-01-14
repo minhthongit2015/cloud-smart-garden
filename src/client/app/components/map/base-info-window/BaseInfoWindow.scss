@@ -30,6 +30,7 @@ $shadow: #8ce4a8;
           .gm-style-iw-d + button {
             background: $color !important;
             border-radius: 0 0 0 10px;
+            z-index: 9999;
             img {
               display: none !important;
             }

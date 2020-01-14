@@ -5,9 +5,29 @@ import Place from '../place/Place';
 import Video from '../../utils/video/Video';
 
 
+import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
+import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
+
 export default class PageMarker extends Place {
   get customClass() {
     return 'page';
+  }
+
+  get markerIcon() {
+    return FarmIconSrc;
+  }
+
+  get defaultCoverImage() {
+    return FarmImageSrc;
+  }
+
+  get title() {
+    const {
+      place: {
+        name
+      } = {}
+    } = this.props;
+    return name;
   }
 
   renderHeader() {
@@ -20,12 +40,12 @@ export default class PageMarker extends Place {
     } = this.props;
     return (
       <React.Fragment>
-        <div className="marker__page__branding">{name}</div>
-        <div>
+        <div className="marker__page__title">{this.title || name}</div>
+        <div className="marker__page__banner">
           {video ? (
-            <Video title={name} preview={cover} src={video} />
+            <Video title={name} preview={cover || this.defaultCoverImage} src={video} />
           ) : (
-            <img className="marker__page__banner" src={cover} alt="" />
+            <img src={cover || this.defaultCoverImage} alt="" />
           )}
         </div>
         {this.renderZoomTool()}
