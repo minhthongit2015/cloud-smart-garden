@@ -73,8 +73,8 @@ export default class UserService {
     GlobalState.setState(UserObjectKeys.user, null);
   }
 
-  static useUserState(component) {
-    return GlobalState.useState(UserObjectKeys.user, null, component);
+  static useUserState(component, useNativeState) {
+    return GlobalState.useState(UserObjectKeys.user, null, component, useNativeState);
   }
 
   static async logout() {
@@ -135,8 +135,8 @@ export default class UserService {
     superrequest.setAccessToken(null);
   }
 
-  static useFbUserState(component) {
-    return GlobalState.useState(UserObjectKeys.fbUser, null, component);
+  static useFbUserState(component, useNativeState) {
+    return GlobalState.useState(UserObjectKeys.fbUser, null, component, useNativeState);
   }
 
   // --- --- ---
@@ -155,8 +155,8 @@ export default class UserService {
     GlobalState.setState(UserObjectKeys.fbProfile, null);
   }
 
-  static useFbProfileState(component) {
-    return GlobalState.useState(UserObjectKeys.fbProfile, null, component);
+  static useFbProfileState(component, useNativeState) {
+    return GlobalState.useState(UserObjectKeys.fbProfile, null, component, useNativeState);
   }
 
   // --- --- ---

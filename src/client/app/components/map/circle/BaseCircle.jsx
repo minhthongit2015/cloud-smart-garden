@@ -1,149 +1,49 @@
-/* eslint-disable react/require-default-props */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React from 'react';
-import PropTypes from 'prop-types';
+import Circle from './Circle';
+import BaseComponent from '../../BaseComponent';
 
-import { arePathsEqual } from 'google-maps-react/dist/lib/arePathsEqual';
-import { camelize } from 'google-maps-react/dist/lib/String';
 
-const evtNames = ['click', 'mouseout', 'mouseover'];
-
-const wrappedPromise = function z() {
-  const wrappedPromisez = {};
-  const promise = new Promise(((resolve, reject) => {
-    wrappedPromisez.resolve = resolve;
-    wrappedPromisez.reject = reject;
-  }));
-  wrappedPromisez.then = promise.then.bind(promise);
-  wrappedPromisez.catch = promise.catch.bind(promise);
-  wrappedPromisez.promise = promise;
-
-  return wrappedPromisez;
-};
-
-export class Circle extends React.Component {
-  componentDidMount() {
-    this.circlePromise = wrappedPromise();
-    this.renderCircle();
+export default class BaseCircle extends BaseComponent.Pure {
+  constructor(props) {
+    super(props);
+    this.bind(this.handleClick, this.handleMouseEnter, this.handleMouseLeave);
   }
 
-  componentDidUpdate(prevProps) {
-    const { path, map } = this.props;
-
-    if (
-      this.propsChanged(prevProps)
-      || map !== prevProps.map
-      || !arePathsEqual(path, prevProps.path)
-    ) {
-      this.destroyCircle();
-      this.renderCircle();
-    }
+  handleClick() {
+    this.dispatchEvent(this.Events.click, this);
   }
 
-  centerChanged = (newCenter) => {
-    const { lat, lng } = this.props.center;
-    return lat !== newCenter.lat || lng !== newCenter.lng;
-  };
-
-  propsChanged = (newProps) => {
-    if (this.centerChanged(newProps.center)) return true;
-
-    return Object.keys(Circle.propTypes).some(key => (
-      this.props[key] !== newProps[key]
-    ));
-  };
-
-  componentWillUnmount() {
-    this.destroyCircle();
+  handleMouseEnter() {
+    this.dispatchEvent(this.Events.mouseEnter, this);
   }
 
-  destroyCircle = () => {
-    if (this.circle) {
-      this.circle.setMap(null);
-    }
-  }
-
-  renderCircle() {
-    const {
-      map,
-      google,
-      center,
-      radius,
-      strokeColor,
-      strokeOpacity,
-      strokeWeight,
-      fillColor,
-      fillOpacity,
-      draggable,
-      visible,
-      ...props
-    } = this.props;
-
-    if (!google) {
-      return;
-    }
-
-    const params = {
-      ...props,
-      map,
-      center,
-      radius,
-      draggable,
-      visible,
-      options: {
-        strokeColor,
-        strokeOpacity,
-        strokeWeight,
-        fillColor,
-        fillOpacity
-      }
-    };
-
-    this.circle = new google.maps.Circle(params);
-
-    evtNames.forEach((e) => {
-      this.circle.addListener(e, this.handleEvent(e));
-    });
-
-    this.circlePromise.resolve(this.circle);
-  }
-
-  getCircle() {
-    return this.circlePromise;
-  }
-
-  handleEvent(evt) {
-    return (e) => {
-      const evtName = `on${camelize(evt)}`;
-      if (this.props[evtName]) {
-        this.props[evtName](this.props, this.circle, e);
-      }
-    };
+  handleMouseLeave() {
+    this.dispatchEvent(this.Events.mouseLeave, this);
   }
 
   render() {
-    return null;
+    const {
+      google, map, center, radius, marker, ...restProps
+    } = this.props;
+    if (!google || !map) return null;
+
+    return (
+      <Circle
+        google={google}
+        map={map}
+        center={center}
+        radius={radius}
+        strokeColor="#fff"
+        strokeOpacity={0}
+        strokeWeight={5}
+        fillColor="#FF0000"
+        fillOpacity={0.2}
+        {...restProps}
+        onClick={this.handleClick}
+        onMouseover={this.handleMouseEnter}
+        onMouseout={this.handleMouseLeave}
+      />
+    );
   }
 }
-
-Circle.propTypes = {
-  name: PropTypes.string,
-  center: PropTypes.object,
-  radius: PropTypes.number,
-  strokeColor: PropTypes.string,
-  strokeOpacity: PropTypes.number,
-  strokeWeight: PropTypes.number,
-  fillColor: PropTypes.string,
-  fillOpacity: PropTypes.number,
-  draggable: PropTypes.bool,
-  visible: PropTypes.bool
-};
-
-evtNames.forEach((e) => {
-  Circle.propTypes[e] = PropTypes.func;
-});
-
-Circle.defaultProps = {
-  name: 'Circle'
-};
-
-export default Circle;

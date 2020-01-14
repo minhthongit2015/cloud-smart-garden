@@ -1,0 +1,18 @@
+
+$custom-class: 'extinction';
+$window-width: 400px * .8;
+$window-height: 400px * .8;
+$color: #d4884a;
+$shadow: #e2995d;
+
+// ---
+
+@import "../../marker-with-popup/MarkerWithPopup.scss";
+
+@mixin customStyle {
+  .marker__title {
+    color: #9c5831;
+  }
+}
+
+@include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

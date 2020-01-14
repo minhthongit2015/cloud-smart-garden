@@ -89,6 +89,7 @@
     "react-i18next": "^10.11.4",
     "react-infinite-scroll-component": "^4.5.3",
     "react-markdown": "^4.2.2",
+    "react-mindmap": "^2.1.6",
     "react-motion": "^0.5.2",
     "react-virtualized": "^9.21.2",
     "semver": "^6.3.0",

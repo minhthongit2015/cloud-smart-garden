@@ -1,7 +1,38 @@
+### **`[A]` Kiến trúc hệ thống**
+
+#### **`Client (Front-End)`**
+1. App.jsx<br>
+  (Điểm khởi đầu)
+2. Pages
+3. Components
+4. Layouts
+5. Services
+6. Helpers
+7. Utils
+8. Languages
+9. Configurations
+10. Styles
+11. Assets
+12. Public
+
+
+#### **`Server (Back-End)`**
+1. APIs
+2. Routes
+3. Views
+4. Middlewares
+5. Models
+6. Services
+7. Utils
+8. Assets
+9. Logs
+10. Websocket
+
+---
 
 #### Ghi chú
-##### A. Một số điểm phức tạp cần chú ý
-1. Routing
+#### B. Một số điểm phức tạp cần chú ý
+1. Routing - Định tuyến
 > [Tóm tắt]:\
 >   Có 3 bảng dùng trong định tuyến. 1 bảng ảo là các `API Endpoints` trên server. 1 bảng là `RouterConstants.jsx` định tuyến các **trang (page)** trên web site. 1 Bảng là `CategoriesMap.jsx` để map các `Category` với các `Route` bên phía `Client`, chỉ như vậy mới biết là 1 bài viết thuộc chuyên mục nào đó có URL là gì (Bài viết không lưu url trỏ đến nó. Để xác định đường dẫn tới bài viết chỉ cần `id` của bài viết là đủ. Nhưng như vậy có thể sẽ dẫn người dùng tới các chuyên mục không đúng với chuyên mục gốc của bài viết. Vậy nên ta mới cần 1 bảng để xác định `Category` nào đó được đặt ở `URL` nào.).
 

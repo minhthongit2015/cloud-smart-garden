@@ -22,6 +22,7 @@ const map = `${APIv1}/map`;
 const places = `${map}/places`;
 const placesSorted = `${places}?sort=-createdAt`;
 const placeI = _id => `${places}/${_id}`;
+const placeOrderI = baseOrder => `${places}?limit=1&where={"baseOrder":${baseOrder}}`;
 
 const blog = `${APIv1}/blog`;
 const posts = `${blog}/posts`;
@@ -69,6 +70,7 @@ export default {
   places,
   placesSorted,
   placeI,
+  placeOrderI,
 
   blog,
   posts,

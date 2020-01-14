@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './FarmMarker.scss';
 
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
@@ -47,7 +47,7 @@ export default class SupplierMarker extends Component {
   render() {
     const { name } = this.props;
     return (
-      <MarkerWithInfo
+      <MarkerWithPopup
         {...this.props}
         ref={this.onLoad}
         onOpen={this.onOpen}
@@ -82,7 +82,7 @@ export default class SupplierMarker extends Component {
             </div>
           </div>
         </div>
-      </MarkerWithInfo>
+      </MarkerWithPopup>
     );
   }
 }

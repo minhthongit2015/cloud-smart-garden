@@ -1,8 +1,8 @@
 
 module.exports.Place = require('./_Place');
-module.exports.Garden = require('./Garden');
-module.exports.Farm = require('./Farm');
-module.exports.FoodShop = require('./FoodShop');
-module.exports.ToolShop = require('./ToolShop');
-module.exports.Charity = require('./Charity');
-module.exports.News = require('./News');
+module.exports.EventMarker = require('./Event');
+module.exports.GardenMarker = require('./Garden');
+module.exports.FarmMarker = require('./Farm');
+module.exports.FoodStoreMarker = require('./FoodStore');
+module.exports.ToolStoreMarker = require('./ToolStore');
+module.exports.CharityRestaurantMarker = require('./CharityRestaurant');

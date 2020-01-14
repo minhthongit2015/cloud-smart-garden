@@ -1,0 +1,35 @@
+
+
+.marker {
+  &__header {
+
+  }
+  &__body {
+    margin: 1rem 1rem 0;
+    .preview-image {
+      @include fixed-ratio-wrapper(100% * 2 / 3);
+      & > * {
+        object-fit: cover;
+        @include fixed-ratio;
+      }
+    }
+  }
+  
+  &__section {
+    &__header {
+
+    }
+    &__body {
+      font-size: 1.2em;
+    }
+    &__summary {
+      color: rgb(73, 73, 73);
+      border-left: 2px solid lightgray;
+      padding-left: .5rem;
+    }
+    &__actions {
+      text-align: right;
+      margin-top: .5rem;
+    }
+  }
+}

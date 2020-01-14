@@ -1,27 +1,25 @@
-import DisasterMarker from '../components/map/disaster-marker/DisasterMarker';
-import ActionMarker from '../components/map/action-marker/ActionMarker';
-import ActivistMarker from '../components/map/activist-marker/ActivistMarker';
-import ExtinctionMarker from '../components/map/extinction-marker/ExtinctionMarker';
-import StrikeMarker from '../components/map/strike-marker/StrikeMarker';
 import Polyline from '../components/map/polyline/Polyline';
+import { MarkerTypes } from '../../../server/utils/Constants';
+import { FarmMarker } from '../pages/user-network/markers';
+import { Place } from '../components/map';
 
 export default class {
   static getMarkerByType(type) {
     switch (type) {
-    case 'Disaster':
-      return DisasterMarker;
-    case 'Activist':
-      return ActivistMarker;
-    case 'Action':
-      return ActionMarker;
-    case 'Extinction':
-      return ExtinctionMarker;
-    case 'Strike':
-      return StrikeMarker;
+    case MarkerTypes.garden:
+      return FarmMarker;
+    case MarkerTypes.farm:
+      return FarmMarker;
+    case MarkerTypes.foodStore:
+      return FarmMarker;
+    case MarkerTypes.toolStore:
+      return FarmMarker;
+    case MarkerTypes.charityRestaurant:
+      return FarmMarker;
     case 'Path':
       return Polyline;
     default:
-      return null;
+      return Place;
     }
   }
 

@@ -35,7 +35,7 @@ export default class extends BaseComponent {
     };
   }
 
-  // 3. Obvious Methods
+  // 3. Methods that be called from the outside component
   toggle() {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen

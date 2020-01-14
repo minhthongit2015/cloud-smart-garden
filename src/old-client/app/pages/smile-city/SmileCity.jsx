@@ -4,7 +4,7 @@ import BasePage from '../_base/BasePage';
 import './SmileCity.scss';
 
 import GGMap from '../../components/map/Map';
-import MarkerWithInfo from '../../components/map/marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../../components/map/marker-with-info/MarkerWithPopup';
 import StoreMarker from '../../components/map/store-marker/StoreMarker';
 import GardenToolsMarker from '../../components/map/garden-tools-marker/GardenToolsMarker';
 import UserMarker from '../../components/map/user-marker/UserMarker';
@@ -77,10 +77,10 @@ export default class SmileCity extends BasePage {
       return FarmMarker;
     case 'FoodShop':
       return StoreMarker;
-    case 'ToolShop':
+    case 'ToolStore':
       return GardenToolsMarker;
     default:
-      return MarkerWithInfo;
+      return MarkerWithPopup;
     }
   }
 

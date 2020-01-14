@@ -123,8 +123,8 @@ export default {
         nextSpecies: 'Loài cây tuyệt vời nào mà bạn sẽ muốn trồng trong khu vườn của bạn? (^_^)!'
       }
     },
-    theRealWorld: {
-      title: 'Thế Giới Thực',
+    userNetwork: {
+      title: 'Smile City',
       loadingText: 'đang cập nhập sự kiện thế giới...'
     }
   },
@@ -136,7 +136,7 @@ export default {
         postMessage: 'đang đăng bài...',
         preventLeaveMessage: 'Bài viết của bạn vẫn chưa được lưu! Bạn có chắc muốn rời đi?',
         postButton: 'Đăng bài',
-        updateButton: 'Cập nhập bài viết',
+        updateButton: 'Cập nhập bài viết'
       }
     },
     blog: {

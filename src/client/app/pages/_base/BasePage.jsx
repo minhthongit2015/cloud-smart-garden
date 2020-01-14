@@ -1,8 +1,8 @@
-import { Component } from 'react';
 import SiteConfig from '../../config/site';
 import { loadImage } from '../../utils';
+import BaseComponent from '../../components/BaseComponent';
 
-export default class extends Component {
+export default class extends BaseComponent {
   constructor(props, title, noBaseTitle) {
     super(props);
     this.title = title;

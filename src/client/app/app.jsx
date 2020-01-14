@@ -85,7 +85,7 @@ class App extends Component {
           <Route path={RouteConstants.myGardenPath}><MyGarden /></Route>
           <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
           <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
-          <Route exact path={RouteConstants.userNetworkPath} component={props => <DummyUserNetwork {...props} />} />
+          <Route exact path={RouteConstants.userNetworkPath}><DummyUserNetwork /></Route>
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
         {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}

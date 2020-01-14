@@ -36,7 +36,10 @@ export const mapTreeNodeToArray = (() => {
     if (isArrayOfNodes(root)) {
       currentPath = parentPath;
     } else {
-      currentPath = `${parentPath || ''} > ${root.type}:nth-child(${(childIndex || 0) + 1})`;
+      const childPath = typeof root.type === 'symbol'
+        ? ''
+        : `${root.type}:nth-child(${(childIndex || 0) + 1})`;
+      currentPath = `${parentPath || ''}${(parentPath && childPath) ? ' > ' : ''}${childPath}`;
     }
     if (isNode(root)) {
       array.push({

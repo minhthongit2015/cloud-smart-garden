@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './GardenToolsMarker.scss';
 
 import { GardenToolsSrc } from '../../../../assets/icons';
@@ -79,7 +79,7 @@ export default class GardenToolsMarker extends Component {
     goods.push(...goods);
     const { name } = this.props;
     return (
-      <MarkerWithInfo
+      <MarkerWithPopup
         {...this.props}
         ref={this.onLoad}
         customMarkerClass={CUSTOM_MARKER_CLASS}
@@ -106,7 +106,7 @@ export default class GardenToolsMarker extends Component {
             ))}
           </div>
         </div>
-      </MarkerWithInfo>
+      </MarkerWithPopup>
     );
   }
 }

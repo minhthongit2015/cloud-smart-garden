@@ -29,8 +29,28 @@ const MemberBadge = {
   Influencer: 'Incluencer'
 };
 
+const MarkerTypes = {
+  place: 'Place',
+  event: 'EventMarker',
+  garden: 'GardenMarker',
+  farm: 'FarmMarker',
+  toolStore: 'ToolStoreMarker',
+  foodStore: 'FoodStoreMarker',
+  charityRestaurant: 'CharityRestaurantMarker',
+  vegetarianRestaurant: 'VegetarianRestaurantMarker',
+  expert: 'ExpertMarker'
+};
+
+const ContactTypes = {
+  email: 'Email',
+  phone: 'Phone',
+  address: 'Address'
+};
+
 module.exports = {
   UserRole,
   PostStatus,
-  MemberBadge
+  MemberBadge,
+  MarkerTypes,
+  ContactTypes
 };

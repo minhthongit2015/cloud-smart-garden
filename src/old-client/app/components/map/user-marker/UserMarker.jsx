@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Peer from 'simple-peer';
-import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './UserMarker.scss';
 
 import { PlantPot1Src, GardenOwnerSrc } from '../../../../assets/icons';
@@ -178,7 +178,7 @@ export default class UserMarker extends Component {
     // });
 
     return (
-      <MarkerWithInfo
+      <MarkerWithPopup
         {...this.props}
         ref={this.onLoad}
         onClose={this.onClose}
@@ -245,7 +245,7 @@ export default class UserMarker extends Component {
             <video id={`vid-${this.state.uid}`} className="border rounded" />
           </div>
         </div>
-      </MarkerWithInfo>
+      </MarkerWithPopup>
     );
   }
 }

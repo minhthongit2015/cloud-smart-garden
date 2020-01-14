@@ -1,0 +1,47 @@
+
+
+$custom-class: 'place';
+$window-width: 400px * .8;
+$window-height: 400px * .8;
+$color: #3ecc89;
+$shadow: #8ce4a8;
+
+// ---
+
+@import "../marker-with-popup/StyleInjector.scss";
+
+@mixin customStyle {
+}
+
+.marker {
+  &__page {
+    &__title {
+      font-size: 1.25em;
+      font-weight: bold;
+      color: $color;
+      margin-bottom: .5em;
+      text-align: center;
+      padding: .5em .5em;
+    }
+    &__banner {
+      border-radius: 8px;
+    }
+    &__branding {
+      text-align: center;
+      background: #3ed08d;
+      margin: auto;
+      padding: 4px;
+      width: 88%;
+      border-radius: 25px;
+      color: #fff;
+      font-size: 22px;
+      font-family: 'icielz-bambola';
+      letter-spacing: 2px;
+      border: 3px solid #ffffff;
+      margin-bottom: -18px;
+      position: relative;
+    }
+  }
+}
+
+@include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

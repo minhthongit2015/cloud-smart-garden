@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './MarkerTemplate.scss';
 
 import { FarmSrc } from '../../../../assets/icons';
@@ -40,14 +40,14 @@ export default class MarkerTemplate extends Component {
   render() {
     const { name } = this.props;
     return (
-      <MarkerWithInfo
+      <MarkerWithPopup
         {...this.props}
         ref={this.markerRef}
         customMarkerClass={CUSTOM_MARKER_CLASS}
         customWindowClass={CUSTOM_WINDOW_CLASS}
       >
         <h4>Hello {name}</h4>
-      </MarkerWithInfo>
+      </MarkerWithPopup>
     );
   }
 }

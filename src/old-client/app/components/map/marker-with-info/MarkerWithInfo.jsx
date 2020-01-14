@@ -5,7 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import * as jQuery from 'jquery';
 import uuid from 'uuid';
-import './MarkerWithInfo.scss';
+import './MarkerWithPopup.scss';
 import { mapTreeNodeToArray } from '../../../utils/DOM';
 
 const CUSTOM_CLASS = 'custom';
@@ -13,7 +13,7 @@ const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
 const CUSTOM_WINDOW_CLASS = `${CUSTOM_CLASS}-info-window`;
 
 
-export default class MarkerWithInfo extends Component {
+export default class MarkerWithPopup extends Component {
   get isOpen() {
     return !!this.state.marker;
   }
@@ -283,7 +283,7 @@ export default class MarkerWithInfo extends Component {
   }
 }
 
-MarkerWithInfo.propTypes = {
+MarkerWithPopup.propTypes = {
   google: PropTypes.object,
   map: PropTypes.object,
   entity: PropTypes.object,
@@ -303,7 +303,7 @@ MarkerWithInfo.propTypes = {
   customWindowClass: PropTypes.string
 };
 
-MarkerWithInfo.defaultProps = {
+MarkerWithPopup.defaultProps = {
   google: null,
   map: null,
   entity: null,

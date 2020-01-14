@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
+const { MarkerTypes } = require('../../../../utils/Constants');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -8,9 +9,10 @@ const Schema = new mongoose.Schema({
   createdBy: { type: ObjectId, ref: 'User' },
   owners: [{ role: String, user: { type: ObjectId, ref: 'User' } }],
   name: String,
-  picture: String,
+  picture: String, // Avatar
   cover: String,
-  images: [String],
+  video: String,
+  gallery: [String],
   description: String,
   address: String,
   link: String,
@@ -22,7 +24,7 @@ const Schema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Place', field: 'baseOrder' });
+Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: MarkerTypes.place, field: 'baseOrder' });
 
-const Model = mongoose.model('Place', Schema);
+const Model = mongoose.model(MarkerTypes.place, Schema);
 module.exports = Model;

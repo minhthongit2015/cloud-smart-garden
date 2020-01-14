@@ -34,7 +34,11 @@ module.exports = class CRUDService {
   // Create & Update
 
   static async create(doc) {
-    const newDoc = await this.getModel(...convertArgumentsToArray(arguments)).create(doc);
+    const model = this.getModel(...convertArgumentsToArray(arguments));
+    const savedType = doc.__t;
+    delete doc.__t;
+    const newDoc = await model.create(doc);
+    doc.__t = savedType;
     return this.converter.convert(newDoc);
   }
 

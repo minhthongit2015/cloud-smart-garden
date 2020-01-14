@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 
 const {
-  User, Garden, Farm, FoodShop, ToolShop, Entity
+  User, Garden, Farm, FoodShop, ToolStore, Entity
 } = require('../db');
 
 const users = [
@@ -77,7 +77,7 @@ const entities = [
   {
     id: '301'.padStart(24, '0'),
     name: 'One Fix',
-    model: ToolShop,
+    model: ToolStore,
     position: { lat: 10.82152650027889, lng: 106.68726928436138 }
   },
   {

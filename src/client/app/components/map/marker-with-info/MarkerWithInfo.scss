@@ -1,9 +1,0 @@
-
-$custom-class: 'custom';
-$window-width: 400px;   // default width: 400px
-$window-height: 400px;  // default height: 400px
-$color: #7dd8ad;
-$shadow: #6ce8ff;
-
-@import "./BaseMarkerStyle.scss";
-@include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

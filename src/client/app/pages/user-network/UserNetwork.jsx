@@ -9,7 +9,7 @@ import t from '../../languages';
 import LeftToolBar from '../../components/map-tools/left-toolbar/LeftToolBar';
 import UserService from '../../services/user/UserService';
 import RightToolBar from '../../components/map-tools/right-toolbar/RightToolBar';
-import RightClickContextMenu from './RightClickContextMenu';
+import MapContextMenu from './utils/MapContextMenu';
 import MapUtils from '../../utils/MapUtils';
 import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
 // import CategoryService from '../../services/CategoryService';
@@ -17,22 +17,24 @@ import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
 
 export default class TheRealWorld extends BasePage {
   constructor(props) {
-    super(props, t('pages.theRealWorld.title'));
+    super(props, t('pages.userNetwork.title'));
     this.markers = new Set();
     this.mapRef = React.createRef();
     this.lineRef = React.createRef();
     this.mapCtxMenuRef = React.createRef();
     this.rightToolbarRef = React.createRef();
-    this.onMapReady = this.onMapReady.bind(this);
-    this.onMarkerRef = this.onMarkerRef.bind(this);
-    this.renderMapElements = this.renderMapElements.bind(this);
-    this.handleHotkeys = this.handleHotkeys.bind(this);
-    this.onMapClicked = this.onMapClicked.bind(this);
-    this.onMoveMarker = this.onMoveMarker.bind(this);
-    this.handleRightClick = this.handleRightClick.bind(this);
-    this.handleContextActions = this.handleContextActions.bind(this);
-    this.handleLeftToolbarAction = this.handleLeftToolbarAction.bind(this);
-    this.handleRightToolbarAction = this.handleRightToolbarAction.bind(this);
+    this.bind(
+      this.handleMapReady,
+      this.handleHotkeys,
+      this.handleMapClick,
+      this.handleRightClick,
+      this.handleMarkerRef,
+      this.handleMoveMarker,
+      this.handleContextActions,
+      this.handleLeftToolbarAction,
+      this.handleRightToolbarAction,
+      this.renderMapElements
+    );
 
     this.state = {
       dirty: false,
@@ -57,7 +59,7 @@ export default class TheRealWorld extends BasePage {
     return false;
   }
 
-  onMapReady() {
+  handleMapReady() {
     this.map.setMapTypeId(this.google.maps.MapTypeId.SATELLITE);
     this.map.setOptions({
       restriction: {
@@ -78,12 +80,12 @@ export default class TheRealWorld extends BasePage {
     window.map = this.map;
   }
 
-  onMarkerRef(ref) {
+  handleMarkerRef(ref) {
     if (!ref) return;
     this.markers.add(ref);
   }
 
-  async fetchPlaces() {
+  fetchPlaces() {
     return new Promise(async (resolve) => {
       const places = await MapService.fetchPlaces();
       places.forEach((place) => {
@@ -100,7 +102,7 @@ export default class TheRealWorld extends BasePage {
     this.setState({ dirty: true });
   }
 
-  onMapClicked(/* mapProps, map, event */) {
+  handleMapClick(/* mapProps, map, event */) {
     // if (window.key.ctrl) {
     //   prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
     // }
@@ -126,7 +128,7 @@ export default class TheRealWorld extends BasePage {
   }
 
   handleContextActions(event, option, newPlace) {
-    // const { ContextOptions } = RightClickContextMenu;
+    // const { ContextOptions } = MapContextMenu;
     if (newPlace) {
       if (!UserService.isLoggedIn) {
         LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
@@ -216,11 +218,11 @@ export default class TheRealWorld extends BasePage {
 
   switchMarker() {
     const markers = [...this.markers];
-    const focusedMarkerIndex = markers.findIndex(marker => marker.marker.isFocused);
+    const focusedMarkerIndex = markers.findIndex(marker => marker.isFocused);
     if (focusedMarkerIndex >= 0) {
       for (let i = focusedMarkerIndex + 1; (i % markers.length) !== focusedMarkerIndex; i++) {
-        if (markers[i % markers.length].marker.isOpen) {
-          markers[i % markers.length].marker.focus();
+        if (markers[i % markers.length].isOpen) {
+          markers[i % markers.length].focus();
         }
       }
     }
@@ -260,7 +262,7 @@ export default class TheRealWorld extends BasePage {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  onMoveMarker(markerProps, map, event, place) {
+  handleMoveMarker(markerProps, map, event, place) {
     if (!window.confirm('Xác nhận di chuyển địa điểm này?')) {
       place.ref.moveTo();
       event.stop();
@@ -286,22 +288,19 @@ export default class TheRealWorld extends BasePage {
           if (place.marker && place.__t !== 'Path') {
             return (
               <place.marker
-                {...baseProps}
-                mainMap={this}
                 key={place._id || Math.random()}
-                ref={(ref) => { this.onMarkerRef(ref); place.ref = ref; }}
-                entity={place}
-                markerProps={{
-                  name: place.name,
-                  position: place.position,
-                  radius: place.radius,
-                  draggable: UserService.isModOrAdmin,
-                  onDragend: (markerProps, mapz, event) => {
-                    this.onMoveMarker(markerProps, mapz, event, place);
-                  }
+                google={google}
+                map={map}
+                mainMap={this}
+                ref={(ref) => { this.handleMarkerRef(ref); place.ref = ref; }}
+                place={place}
+                markerProps={{}}
+                circleProps={{}}
+                popupProps={{}}
+                draggable={UserService.isModOrAdmin}
+                onDragend={(markerProps, mapz, event) => {
+                  this.handleMoveMarker(markerProps, mapz, event, place);
                 }}
-                windowProps={{}}
-                name={place.name}
               />
             );
           }
@@ -326,7 +325,7 @@ export default class TheRealWorld extends BasePage {
 
   render() {
     console.log('render "Pages/the-real-world/TheRealWorld.jsx"');
-    const { places } = this.state;
+    const { places, dirty } = this.state;
 
     // if (!window.myGoogleMap) {
     window.myGoogleMap = (
@@ -334,10 +333,10 @@ export default class TheRealWorld extends BasePage {
         ref={this.mapRef}
         google={this.props.google || window.google}
         {...this.defaultMapProps}
-        onClick={this.onMapClicked}
+        onClick={this.handleMapClick}
         onRightclick={this.handleRightClick}
-        onReady={this.onMapReady}
-        dirty={this.state.dirty}
+        onReady={this.handleMapReady}
+        dirty={dirty}
       >
         <this.renderMapElements />
         {false && <LeftToolBar handler={this.handleLeftToolbarAction} />}
@@ -346,10 +345,10 @@ export default class TheRealWorld extends BasePage {
           handler={this.handleRightToolbarAction}
           places={places}
         />
-        <RightClickContextMenu
+        <MapContextMenu
           ref={this.mapCtxMenuRef}
-          handler={this.handleContextActions}
           mainMap={this}
+          onSelect={this.handleContextActions}
         />
       </GGMap>
     );

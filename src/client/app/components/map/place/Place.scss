@@ -1,0 +1,21 @@
+
+$custom-class: 'place';
+$window-width: 400px * .8;
+$window-height: 400px * .8;
+$color: #00c5ff;
+$shadow: #6be8ff;
+
+// ---
+
+@import "../marker-with-popup/StyleInjector.scss";
+
+@mixin customStyle {
+  .marker__title {
+    color: #00c5ff;
+  }
+  .zoom-tool {
+    width: 30%;
+  }
+}
+
+@include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MarkerWithInfo from '../marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './StoreMarker.scss';
 
 import { ShoppingCartSrc } from '../../../../assets/icons';
@@ -81,7 +81,7 @@ export default class StoreMarker extends Component {
     goods.push(...goods);
     const { name } = this.props;
     return (
-      <MarkerWithInfo
+      <MarkerWithPopup
         {...this.props}
         ref={this.onLoad}
         customMarkerClass={CUSTOM_MARKER_CLASS}
@@ -108,7 +108,7 @@ export default class StoreMarker extends Component {
             ))}
           </div>
         </div>
-      </MarkerWithInfo>
+      </MarkerWithPopup>
     );
   }
 }

@@ -7,16 +7,16 @@ class Global {
     this.listeners = {};
   }
 
-  static useState(name, initialValue, classComponent) {
+  static useState(name, initialValue, classComponent, useNativeState = false) {
     let newState;
     let newSetState;
     if (classComponent) {
       newState = this.state[name]
         || (classComponent.state ? classComponent.state[name] : null)
         || initialValue;
-      newSetState = value => classComponent.setState({
-        [name]: value
-      });
+      newSetState = useNativeState
+        ? value => classComponent.setState({ [name]: value })
+        : () => classComponent.forceUpdate();
     } else {
       [newState, newSetState] = React.useState(this.state[name] || initialValue);
     }
@@ -66,12 +66,8 @@ class Global {
     this.state[name] = newState;
 
     Object.defineProperty(this, name, {
-      get: function _get() {
-        return this.state[name];
-      },
-      set: function _set(value) {
-        this.setState(name, value);
-      }
+      get: () => this.state[name],
+      set: value => this.setState(name, value)
     });
 
     return newState;

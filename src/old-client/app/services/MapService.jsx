@@ -3,7 +3,7 @@ import superagent from 'superagent';
 import superws from '../utils/superws';
 import { apiEndpoints } from '../utils/Constants';
 
-import MarkerWithInfo from '../components/map/marker-with-info/MarkerWithInfo';
+import MarkerWithPopup from '../components/map/marker-with-info/MarkerWithPopup';
 import StoreMarker from '../components/map/store-marker/StoreMarker';
 import GardenToolsMarker from '../components/map/garden-tools-marker/GardenToolsMarker';
 import UserMarker from '../components/map/user-marker/UserMarker';
@@ -17,10 +17,10 @@ function getMarkerByType(type) {
     return FarmMarker;
   case 'FoodShop':
     return StoreMarker;
-  case 'ToolShop':
+  case 'ToolStore':
     return GardenToolsMarker;
   default:
-    return MarkerWithInfo;
+    return MarkerWithPopup;
   }
 }
 

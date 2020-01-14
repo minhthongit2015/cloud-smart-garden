@@ -1,0 +1,18 @@
+
+$custom-class: 'disaster';
+$window-width: 400px * .8;
+$window-height: 400px * .8;
+$color: #ec4e4e;
+$shadow: #e76767;
+
+// ---
+
+@import "../../marker-with-popup/MarkerWithPopup.scss";
+
+@mixin customStyle {
+  .marker__title {
+    color: #6b1010;
+  }
+}
+
+@include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

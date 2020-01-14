@@ -1,13 +1,13 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
 import ApiEndpoints from '../../utils/ApiEndpoints';
-// import { ApiEndpoints } from '../../utils/Constants';
+import FbService from '../user/FbService';
 
 
 export default class MapService {
   static async fetchPlace(placeOrder) {
     if (!placeOrder) return null;
-    return superrequest.get(`/api/v1/map/places?limit=1&where={"baseOrder":${placeOrder}}`);
+    return superrequest.get(ApiEndpoints.placeOrderI(placeOrder));
   }
 
   static extractPlaceOrder(url) {
@@ -55,8 +55,7 @@ export default class MapService {
         }
       }
       if (place.__t === 'Garden') {
-        place.picture = `https://graph.facebook.com/${place.socials.fb}`
-          + '/picture?type=square&width=200&height=200';
+        place.picture = FbService.buildAvatarUrl(place.socials.fb);
         // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
       }
     });
@@ -141,7 +140,7 @@ export default class MapService {
   static closePlace() {
     const urlParams = new URLSearchParams(window.location.search);
     const placeOrder = urlParams.get('place');
-    if (!placeOrder || Date.now() - this.lastClose < 300) {
+    if (!placeOrder || Date.now() - this.lastClose < 500) {
       return;
     }
     const {
@@ -151,7 +150,7 @@ export default class MapService {
     if (this.pushState) {
       window.history.back();
     } else {
-      window.history.pushState(null, 'Thế Giới Thực | Climate Strike Vietnam', url);
+      window.history.pushState(null, 'Smile City | Beyond Garden', url);
     }
     this.lastClose = Date.now();
   }

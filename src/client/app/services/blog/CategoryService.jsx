@@ -61,8 +61,8 @@ export default class {
       });
   }
 
-  static useCategoriesState(component) {
-    GlobalState.useState(this.CATEGORIES_STATE_NAME, null, component);
+  static useCategoriesState(component, useNativeState) {
+    GlobalState.useState(this.CATEGORIES_STATE_NAME, null, component, useNativeState);
     this._categoriesMap = GlobalState[this.CATEGORIES_STATE_NAME];
     if (moment(moment.now()).diff(moment(this.lastCheckPoint), 'seconds')
         > this.CHECK_FOR_NEW_CATEGORIES_INTERVAL) {

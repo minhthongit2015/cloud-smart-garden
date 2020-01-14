@@ -128,4 +128,9 @@ export default class {
       this.FB.XFBML.parse();
     }
   }
+
+  static buildAvatarUrl(fbid, width = 200, height = 200) {
+    return `https://graph.facebook.com/${fbid}/picture`
+      + `?type=square&${width}=200&${height}=200`;
+  }
 }
