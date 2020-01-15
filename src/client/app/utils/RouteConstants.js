@@ -27,7 +27,7 @@ const aiExperimentsPath = `${aiCloudPath}/experiments`;
 const aiExperimentsLink = `${aiCloudLink}/experiments`;
 const aiExperimentIPath = `${aiExperimentsPath}/:experimentId`;
 const aiExperimentILink = _id => _id && `${aiExperimentsLink}/${_id}`;
-const aiModelsPath = `${aiCloudPath}/models`;
+const aiTrainedModelsPath = `${aiCloudPath}/models`;
 const aiModelsLink = `${aiCloudLink}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
 const aiDatasetsLink = `${aiCloudLink}/datasets`;
@@ -93,7 +93,7 @@ module.exports = {
   aiExperimentsLink,
   aiExperimentIPath,
   aiExperimentILink,
-  aiModelsPath,
+  aiTrainedModelsPath,
   aiModelsLink,
   aiDatasetsPath,
   aiDatasetsLink,

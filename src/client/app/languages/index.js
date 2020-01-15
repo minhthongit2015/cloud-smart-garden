@@ -1,8 +1,10 @@
 
-import i18n from 'i18next';
 // import { useTranslation, initReactI18next } from 'react-i18next';
-import English from './en';
-import Vietnamese from './vi';
+let i18n = require('i18next');
+const English = require('./en');
+const Vietnamese = require('./vi');
+
+i18n = i18n.default || i18n;
 
 const resources = {
   en: {
@@ -34,7 +36,7 @@ i18n
 
 // const useTranslationResponse = useTranslation();
 
-export default function t(text) {
+module.exports = function t(text) {
   return i18n.t(text);
   // return useTranslationResponse.t(text);
-}
+};

@@ -40,7 +40,7 @@ export default class extends MainPageGroup {
       {
         name: t('pages.aiCloud.nav.trainedModels'),
         link: RouteConstants.aiModelsLink,
-        path: RouteConstants.aiModelsPath,
+        path: RouteConstants.aiTrainedModelsPath,
         component: TabTrainedModels
       },
       {

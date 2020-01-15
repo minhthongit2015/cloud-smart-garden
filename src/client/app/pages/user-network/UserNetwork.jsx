@@ -14,7 +14,7 @@ import MapController from './controllers/MapController';
 import RightToolbarPanel from './utils/RightToolbarPanel';
 
 
-export default class TheRealWorld extends BasePage {
+export default class UserNetwork extends BasePage {
   constructor(props) {
     super(props, t('pages.userNetwork.title'));
     this.markers = new Set();
@@ -103,10 +103,12 @@ export default class TheRealWorld extends BasePage {
   }
 
   addMarker(newMarker) {
-    this.setState(prevState => ({
-      dirty: true,
-      places: [newMarker, ...prevState.places]
-    }));
+    return new Promise((resolve) => {
+      this.setState(prevState => ({
+        dirty: true,
+        places: [newMarker, ...prevState.places]
+      }), resolve);
+    });
   }
 
   addPath(newPath) {
@@ -218,7 +220,7 @@ export default class TheRealWorld extends BasePage {
   }
 
   render() {
-    console.log('render "Pages/the-real-world/TheRealWorld.jsx"');
+    console.log('render "Pages/the-real-world/UserNetwork.jsx"');
     const { places, dirty } = this.state;
 
     // if (!window.myGoogleMap) {

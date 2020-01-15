@@ -23,7 +23,6 @@ import KeyTracker from './utils/KeyTracker';
 import RouteConstants from './utils/RouteConstants';
 
 import AuthService from './services/user/Auth';
-import PageDialogHelper from './helpers/dialogs/PageDialogHelper';
 import LoginDialogHelper from './helpers/dialogs/LoginDialogHelper';
 import MessageDialogHelper from './helpers/dialogs/MessageDialogHelper';
 

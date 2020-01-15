@@ -29,9 +29,7 @@ export default class MapService {
   }
 
   static async updateOrCreatePlace(place) {
-    const placeToUpdate = { ...place };
-    delete placeToUpdate.marker;
-    delete placeToUpdate.ref;
+    const { marker, ref, ...placeToUpdate } = place;
     return superrequest.agentPost(ApiEndpoints.places, placeToUpdate);
   }
 
