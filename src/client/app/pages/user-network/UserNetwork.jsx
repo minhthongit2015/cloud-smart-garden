@@ -8,11 +8,10 @@ import MapService from '../../services/map/MapService';
 import t from '../../languages';
 import LeftToolBar from '../../components/map-tools/left-toolbar/LeftToolBar';
 import UserService from '../../services/user/UserService';
-import RightToolBar from '../../components/map-tools/right-toolbar/RightToolBar';
 import MapContextMenu from './utils/MapContextMenu';
 import MapUtils from '../../utils/MapUtils';
-import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
-// import CategoryService from '../../services/CategoryService';
+import MapController from './controllers/MapController';
+import RightToolbarPanel from './utils/RightToolbarPanel';
 
 
 export default class TheRealWorld extends BasePage {
@@ -23,22 +22,18 @@ export default class TheRealWorld extends BasePage {
     this.lineRef = React.createRef();
     this.mapCtxMenuRef = React.createRef();
     this.rightToolbarRef = React.createRef();
+
     this.bind(
       this.handleMapReady,
       this.handleHotkeys,
-      this.handleMapClick,
-      this.handleRightClick,
       this.handleMarkerRef,
-      this.handleMoveMarker,
-      this.handleContextActions,
-      this.handleLeftToolbarAction,
-      this.handleRightToolbarAction,
       this.renderMapElements
     );
 
+    MapController.init(this);
+
     this.state = {
       dirty: false,
-      mapEntities: [],
       places: []
     };
     const center = [15.821897348888664, 106.68697200200597];
@@ -80,11 +75,6 @@ export default class TheRealWorld extends BasePage {
     window.map = this.map;
   }
 
-  handleMarkerRef(ref) {
-    if (!ref) return;
-    this.markers.add(ref);
-  }
-
   fetchPlaces() {
     return new Promise(async (resolve) => {
       const places = await MapService.fetchPlaces();
@@ -98,78 +88,25 @@ export default class TheRealWorld extends BasePage {
     });
   }
 
-  refresh() {
-    this.setState({ dirty: true });
+  handleMarkerRef(ref) {
+    if (!ref) return;
+    this.markers.add(ref);
+    ref.place.ref = ref;
   }
 
-  handleMapClick(/* mapProps, map, event */) {
-    // if (window.key.ctrl) {
-    //   prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
-    // }
-    if (window.key.alt) {
-      //
-    }
-    if (window.key.shift) {
-      return this.fetchPlaces();
-    }
-    return this.closeAll();
+  refresh() {
+    this.setState({ dirty: true });
   }
 
   closeAll() {
     this.markers.forEach(marker => marker && marker.close());
   }
 
-  handleRightClick(mapProps, map, event) {
-    const originEvent = Object.values(event).find(prop => prop instanceof Event);
-    this.mapCtxMenuRef.current.open(originEvent, {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    });
-  }
-
-  handleContextActions(event, option, newPlace) {
-    // const { ContextOptions } = MapContextMenu;
-    if (newPlace) {
-      if (!UserService.isLoggedIn) {
-        LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
-        return;
-      }
-      const isActivist = newPlace.__t === 'Activist';
-      if (!UserService.isModOrAdmin && !isActivist) {
-        return;
-      }
-      const existedPlace = isActivist && this.state.places.find(
-        place => place.__t === 'Activist'
-          && (place.user || place.author)._id === UserService.user._id
-      );
-      const isForceNew = UserService.isModOrAdmin && window.key.ctrl;
-      const isRaiseYourVoice = isActivist && existedPlace;
-      if (isRaiseYourVoice && !isForceNew) {
-        existedPlace.ref.moveTo(newPlace.position);
-        MapService.updatePlace(existedPlace);
-        return;
-      }
-      this.addPlace(newPlace);
-    }
-  }
-
-  addPlace(newPlace) {
-    const newMarker = {
-      ...newPlace,
-      marker: MapUtils.getMarkerByType(newPlace.__t)
-    };
+  addMarker(newMarker) {
     this.setState(prevState => ({
       dirty: true,
       places: [newMarker, ...prevState.places]
     }));
-    MapService.createPlace(newPlace)
-      .then((res) => {
-        if (!res || !res.data) {
-          // rollback
-        }
-        Object.assign(newMarker, res.data);
-        this.refresh();
-      });
   }
 
   addPath(newPath) {
@@ -206,9 +143,9 @@ export default class TheRealWorld extends BasePage {
     let shouldPrevent = 9999;
     if (event.key === 'Tab') {
       if (window.key.shift) {
-        shouldPrevent = this.switchMarker();
-      } else {
         shouldPrevent = this.rightToolbarRef.current.toggle();
+      } else {
+        shouldPrevent = this.switchMarker();
       }
     }
     if (shouldPrevent !== 9999) {
@@ -228,49 +165,6 @@ export default class TheRealWorld extends BasePage {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  handleLeftToolbarAction(event) {
-    const { name/* , value, checked */ } = event.currentTarget;
-    switch (name) {
-    case 'Activist':
-      break;
-    case 'Strike':
-      break;
-    case 'Extinction':
-      break;
-    case 'Disaster':
-      break;
-    case 'Pollution':
-      break;
-    case 'Community':
-      break;
-    default:
-      break;
-    }
-    console.log(event);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleRightToolbarAction(event, place) {
-    this.closeAll();
-    if (place.zoom) {
-      place.ref.zoomTo();
-    } else {
-      place.ref.open();
-    }
-    this.mapRef.current.refs.map.focus();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleMoveMarker(markerProps, map, event, place) {
-    if (!window.confirm('Xác nhận di chuyển địa điểm này?')) {
-      place.ref.moveTo();
-      event.stop();
-      return;
-    }
-    place.position = event.latLng.toJSON();
-    MapService.updatePlace(place);
-  }
 
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
@@ -292,14 +186,14 @@ export default class TheRealWorld extends BasePage {
                 google={google}
                 map={map}
                 mainMap={this}
-                ref={(ref) => { this.handleMarkerRef(ref); place.ref = ref; }}
+                ref={this.handleMarkerRef}
                 place={place}
                 markerProps={{}}
                 circleProps={{}}
                 popupProps={{}}
                 draggable={UserService.isModOrAdmin}
                 onDragend={(markerProps, mapz, event) => {
-                  this.handleMoveMarker(markerProps, mapz, event, place);
+                  MapController.handleMoveMarker(markerProps, mapz, event, place);
                 }}
               />
             );
@@ -333,22 +227,22 @@ export default class TheRealWorld extends BasePage {
         ref={this.mapRef}
         google={this.props.google || window.google}
         {...this.defaultMapProps}
-        onClick={this.handleMapClick}
-        onRightclick={this.handleRightClick}
+        onClick={MapController.handleMapClick}
+        onRightclick={MapController.handleRightClick}
         onReady={this.handleMapReady}
         dirty={dirty}
       >
         <this.renderMapElements />
-        {false && <LeftToolBar handler={this.handleLeftToolbarAction} />}
-        <RightToolBar
+        {false && <LeftToolBar handler={MapController.handleLeftToolbarAction} />}
+        <RightToolbarPanel
           ref={this.rightToolbarRef}
-          handler={this.handleRightToolbarAction}
+          handler={MapController.handleRightToolbarAction}
           places={places}
         />
         <MapContextMenu
           ref={this.mapCtxMenuRef}
           mainMap={this}
-          onSelect={this.handleContextActions}
+          onSelect={MapController.handleContextActions}
         />
       </GGMap>
     );

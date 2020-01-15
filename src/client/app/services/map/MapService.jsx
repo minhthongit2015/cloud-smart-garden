@@ -18,7 +18,6 @@ export default class MapService {
   }
 
   static async fetchPlaces() {
-    // const endpoint = `${ApiEndpoints.map.entities.LIST}?sort=[["_id", 1]]`;
     return superrequest.get(ApiEndpoints.placesSorted)
       .then((res) => {
         if (!res || !res.data) {
@@ -29,11 +28,7 @@ export default class MapService {
       });
   }
 
-  static async createPlace(place) {
-    return superrequest.agentPost(ApiEndpoints.places, place);
-  }
-
-  static async updatePlace(place) {
+  static async updateOrCreatePlace(place) {
     const placeToUpdate = { ...place };
     delete placeToUpdate.marker;
     delete placeToUpdate.ref;

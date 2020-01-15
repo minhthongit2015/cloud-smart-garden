@@ -172,11 +172,6 @@ export default class UserMarker extends Component {
       }
     ];
 
-    // const { user } = this.props.data;
-    // mapEntities.forEach((entity) => {
-    //   entity.owned = entity.users.includes(user._id);
-    // });
-
     return (
       <MarkerWithPopup
         {...this.props}

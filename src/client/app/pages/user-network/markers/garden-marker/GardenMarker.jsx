@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import React from 'react';
 import { PageMarker } from '../../../../components/map';
 import { MarkerTypes } from '../../../../utils/Constants';
 import './GardenMarker.scss';
@@ -21,6 +22,11 @@ export default class GardenMarker extends PageMarker {
 
   get title() {
     const { place: { name } = {} } = this.props;
-    return `Vườn Gia Đình ❝${name || 'Chưa Đặt Tên'}❞`;
+    return (
+      <div>
+        {/* <small><small>Vườn Gia Đình</small></small><br /> */}
+        <span>❝{name || 'Chưa Đặt Tên'}❞</span>
+      </div>
+    );
   }
 }

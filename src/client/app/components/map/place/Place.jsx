@@ -12,6 +12,10 @@ import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
 import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
 
 export default class Place extends MarkerWithPopup {
+  get place() {
+    return this.props.place;
+  }
+
   get customClass() {
     return 'place';
   }

@@ -1,7 +1,7 @@
 import Polyline from '../components/map/polyline/Polyline';
 import { MarkerTypes } from './Constants';
 import {
-  FarmMarker, FoodStoreMarker, ToolStoreMarker, GardenMarker
+  FarmMarker, FoodStoreMarker, ToolStoreMarker, GardenMarker, ExpertMarker
 } from '../pages/user-network/markers';
 import { Place } from '../components/map';
 
@@ -21,7 +21,7 @@ export default class {
     case 'Path':
       return Polyline;
     default:
-      return Place;
+      return ExpertMarker;
     }
   }
 

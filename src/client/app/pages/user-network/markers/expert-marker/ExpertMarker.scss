@@ -1,23 +1,16 @@
 
 
-$custom-class: 'GardenMarker';
+$custom-class: 'ExpertMarker';
 $window-width: 400px * .8;
 $window-height: 400px * .8;
-$color: #4bcddf;
-$shadow: #58b2ce;
+$color: #3ecc89;
+$shadow: #8ce4a8;
 
 // ---
 
 @import "../../../../components/map/marker-with-popup/StyleInjector.scss";
 
 @mixin customStyle {
-  .marker {
-    &__page {
-      &__title {
-        margin-bottom: 10px;
-      }
-    }
-  }
 }
 
 @include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

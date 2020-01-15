@@ -51,7 +51,11 @@ class PureComponent extends React.PureComponent {
   }
 
   bind(...methods) {
-    methods.forEach((method) => { this[method.name] = method.bind(this); });
+    this.constructor.bindMethods(this, ...methods);
+  }
+
+  static bindMethods(_this, ...methods) {
+    methods.forEach((method) => { _this[method.name] = method.bind(_this); });
   }
 
   handleNothing() {
@@ -107,7 +111,11 @@ class BaseComponent extends React.Component {
   }
 
   bind(...methods) {
-    methods.forEach((method) => { this[method.name] = method.bind(this); });
+    this.constructor.bindMethods(this, ...methods);
+  }
+
+  static bindMethods(_this, ...methods) {
+    methods.forEach((method) => { _this[method.name] = method.bind(_this); });
   }
 
   handleNothing() {

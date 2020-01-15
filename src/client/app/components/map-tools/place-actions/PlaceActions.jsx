@@ -24,7 +24,7 @@ export default class extends React.Component {
       break;
     case 'edit-place':
       EditPlaceDialogHelper.edit(place, marker);
-      // MapService.updatePlace(place);
+      // MapService.updateOrCreatePlace(place);
       break;
     default:
       break;

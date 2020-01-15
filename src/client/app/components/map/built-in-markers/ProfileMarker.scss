@@ -10,65 +10,68 @@ $shadow: #6be8ff;
 @import "../marker-with-popup/StyleInjector.scss";
 
 @mixin customStyle {
-  .marker__title {
-    color: #00c5ff;
-  }
-  .zoom-tool {
-    width: 30%;
-  }
+}
 
-  .marker {
-    &__profile {
-      &__cover-photo {
-        background: transparent center center/cover no-repeat;
+.marker {
+  &__profile {
+    width: 100%;
+
+    &__cover-photo {
+      background: transparent center center/cover no-repeat;
+      width: 100%;
+      height: 0;
+      padding-top: 40%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
         width: 100%;
-        height: 0;
-        padding-top: 35%;
-        position: relative;
-        img {
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          opacity: 0;
-        }
+        opacity: 0;
       }
-      &__avatar {
-        width: 140px;
-        height: 140px;
-        margin-top: -70px;
-        position: relative;
-        left: calc(50% - 70px);
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid #fff;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+      .zoom-tool {
+        width: 30%;
+        margin-left: 10px;
       }
-      &__name {
-        font-size: 19px;
-        font-weight: bold;
-        color: #118075;
-        text-align: center;
+    }
+    &__avatar {
+      width: 100px;
+      height: 100px;
+      margin: -50px auto 0;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #fff;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
-      &__description {
-        text-align: center;
-        color: #30c150;
-        font-size: 16px;
-        margin: 4px;
-      }
-      &__social-point {
-        text-align: center;
-        color: #ff8a3c;
-        font-size: 16px;
-        margin: 4px;
-      }
+    }
+    &__name {
+      font-size: 19px;
+      font-weight: bold;
+      color: #118075;
+      text-align: center;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+    }
+    &__description {
+      text-align: center;
+      color: #30c150;
+      font-size: 16px;
+      margin: 4px;
+    }
+    &__social-point {
+      text-align: center;
+      color: #ff8a3c;
+      font-size: 16px;
+      margin: 4px;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
     }
   }
 }

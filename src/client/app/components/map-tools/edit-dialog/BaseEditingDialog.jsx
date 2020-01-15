@@ -163,7 +163,7 @@ export default class extends React.Component {
       disabled: true
     });
     this.state.marker.refresh();
-    MapService.updatePlace(this.place)
+    MapService.updateOrCreatePlace(this.place)
       .then(() => {
         this.setState({
           disabled: false
