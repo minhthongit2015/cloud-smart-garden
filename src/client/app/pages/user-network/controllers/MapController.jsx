@@ -12,10 +12,12 @@ export default class {
   static init(userNetwork) {
     this.userNetwork = userNetwork;
     BaseComponent.bindMethods(this,
-      this.handleMapClick, this.handleRightClick,
-      this.handleMoveMarker,
+      this.handleMapClick, this.handleRightClick, this.handleHotkeys,
+      this.handleOpenMarker, this.handleCloseMarker, this.handleMoveMarker,
       this.handleContextActions,
       this.handleLeftToolbarAction, this.handleRightToolbarAction);
+    this.openedMarkers = [];
+    this.focusedPlaceIndex = -1;
   }
 
   static get places() {
@@ -36,6 +38,7 @@ export default class {
     if (window.key.shift) {
       return this.userNetwork.fetchPlaces();
     }
+    this.openedMarkers = [];
     return this.userNetwork.closeAll();
   }
 
@@ -45,6 +48,44 @@ export default class {
       lat: event.latLng.lat(),
       lng: event.latLng.lng()
     });
+  }
+
+  static handleHotkeys(event) {
+    let shouldPrevent = 9999;
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      if (window.key.shift) {
+        shouldPrevent = this.userNetwork.rightToolbarRef.current.toggle();
+      } else {
+        shouldPrevent = this.switchMarker();
+      }
+    }
+    if (shouldPrevent !== 9999) {
+      event.preventDefault();
+    }
+  }
+
+  static switchMarker() {
+    const currentIndex = this.openedMarkers.findIndex(marker => marker.isFocused);
+    if (!this.openedMarkers.length) {
+      return;
+    }
+    const nextIndex = (currentIndex + 1) % this.openedMarkers.length;
+    this.openedMarkers[nextIndex || 0].focus();
+  }
+
+  static handleOpenMarker(event, marker) {
+    this.openedMarkers.push(marker);
+    MapService.openPlace(marker.place);
+  }
+
+  static handleCloseMarker(event, marker) {
+    const markerIndex = this.openedMarkers
+      .findIndex(openedMarker => openedMarker.id === marker.id);
+    if (markerIndex >= 0) {
+      this.openedMarkers.splice(markerIndex, 1);
+    }
+    MapService.closePlace();
   }
 
   static handleMoveMarker(markerProps, map, event, place) {

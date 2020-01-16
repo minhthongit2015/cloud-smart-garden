@@ -23,8 +23,9 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
   }
 
   get circleProps() {
-    const { position, radius } = this.props;
+    const { position, radius, circleProps = {} } = this.props;
     return {
+      ...circleProps,
       marker: null,
       center: position,
       radius
@@ -33,9 +34,10 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
 
   get markerProps() {
     const {
-      name, position, icon, draggable
+      name, position, icon, draggable, markerProps = {}
     } = this.props;
     return {
+      ...markerProps,
       customClass: this.customClass,
       name,
       position,
@@ -51,11 +53,15 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
   }
 
   get popupProps() {
+    const { popupProps = {} } = this.props;
     return {
+      ...popupProps,
       customClass: this.customClass,
       marker: this.markerRef.current && this.markerRef.current.rootMarker,
       children: this.props.children,
-      renderContent: this.renderContent
+      renderContent: this.renderContent,
+      onOpen: this.handleOpen,
+      onClose: this.handleClose
     };
   }
 
@@ -73,7 +79,7 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
     this.markerRef = React.createRef();
     this.popupRef = React.createRef();
     this.bind(
-      this.handleMakerLoad,
+      this.handleMakerLoad, this.handleOpen, this.handleClose,
       this.open, this.close, this.toggle, this.refresh, this.focus, this.remove,
       this.moveTo, this.zoomTo, this.handleGoToPost,
       this.renderContent
@@ -82,6 +88,14 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
 
   handleMakerLoad() {
     this.forceUpdate();
+  }
+
+  handleOpen(event) {
+    this.dispatchEvent(event, this);
+  }
+
+  handleClose(event) {
+    this.dispatchEvent(event, this);
   }
 
   open() {

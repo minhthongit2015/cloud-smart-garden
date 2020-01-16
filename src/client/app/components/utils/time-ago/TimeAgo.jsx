@@ -23,8 +23,7 @@ function getIntervalByContext(/* time */) {
   return 1000;
 }
 
-const TimeAgo = React.memo((props) => {
-  const { time: timez, className, ...restProps } = props;
+const TimeAgo = React.memo(({ time: timez, className, ...restProps }) => {
   const time = moment(timez);
   const [value, forceUpdate] = React.useState(true);
   React.useEffect(() => {

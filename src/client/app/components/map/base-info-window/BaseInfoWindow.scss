@@ -52,6 +52,7 @@ $shadow: #8ce4a8;
     }
 
     &.focused {
+      z-index: 999999999999 !important;
       .gm-style-iw-a {
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {

@@ -17,7 +17,6 @@ import RightToolbarPanel from './utils/RightToolbarPanel';
 export default class UserNetwork extends BasePage {
   constructor(props) {
     super(props, t('pages.userNetwork.title'));
-    this.markers = new Set();
     this.mapRef = React.createRef();
     this.lineRef = React.createRef();
     this.mapCtxMenuRef = React.createRef();
@@ -25,24 +24,23 @@ export default class UserNetwork extends BasePage {
 
     this.bind(
       this.handleMapReady,
-      this.handleHotkeys,
       this.handleMarkerRef,
       this.renderMapElements
     );
 
     MapController.init(this);
 
-    this.state = {
-      dirty: false,
-      places: []
-    };
     const center = [15.821897348888664, 106.68697200200597];
     this.defaultMapProps = {
       initialCenter: { lat: center[0], lng: center[1] },
       // zoom: 17
       zoom: 5
     };
-
+    this.markers = new Set();
+    this.state = {
+      dirty: false,
+      places: []
+    };
     UserService.useUserState(this);
   }
 
@@ -141,33 +139,6 @@ export default class UserNetwork extends BasePage {
     });
   }
 
-  handleHotkeys(event) {
-    let shouldPrevent = 9999;
-    if (event.key === 'Tab') {
-      if (window.key.shift) {
-        shouldPrevent = this.rightToolbarRef.current.toggle();
-      } else {
-        shouldPrevent = this.switchMarker();
-      }
-    }
-    if (shouldPrevent !== 9999) {
-      event.preventDefault();
-    }
-  }
-
-  switchMarker() {
-    const markers = [...this.markers];
-    const focusedMarkerIndex = markers.findIndex(marker => marker.isFocused);
-    if (focusedMarkerIndex >= 0) {
-      for (let i = focusedMarkerIndex + 1; (i % markers.length) !== focusedMarkerIndex; i++) {
-        if (markers[i % markers.length].isOpen) {
-          markers[i % markers.length].focus();
-        }
-      }
-    }
-  }
-
-
   // eslint-disable-next-line class-methods-use-this
   renderMapElements(props) {
     const { google, map } = props;
@@ -197,6 +168,8 @@ export default class UserNetwork extends BasePage {
                 onDragend={(markerProps, mapz, event) => {
                   MapController.handleMoveMarker(markerProps, mapz, event, place);
                 }}
+                onOpen={MapController.handleOpenMarker}
+                onClose={MapController.handleCloseMarker}
               />
             );
           }
@@ -238,8 +211,8 @@ export default class UserNetwork extends BasePage {
         {false && <LeftToolBar handler={MapController.handleLeftToolbarAction} />}
         <RightToolbarPanel
           ref={this.rightToolbarRef}
-          handler={MapController.handleRightToolbarAction}
           places={places}
+          onSelect={MapController.handleRightToolbarAction}
         />
         <MapContextMenu
           ref={this.mapCtxMenuRef}
@@ -251,7 +224,7 @@ export default class UserNetwork extends BasePage {
     // }
 
     return (
-      <div {...this.props} onKeyDown={this.handleHotkeys}>
+      <div {...this.props} onKeyDown={MapController.handleHotkeys}>
         {window.myGoogleMap}
       </div>
     );

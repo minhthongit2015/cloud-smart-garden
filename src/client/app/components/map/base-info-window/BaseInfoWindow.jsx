@@ -37,7 +37,7 @@ export default class extends BaseComponent.Pure {
   }
 
   get isOpen() {
-    return this.state && !!this.state.marker;
+    return this.state && !!this.state.isOpen;
   }
 
   constructor(props) {
@@ -45,13 +45,13 @@ export default class extends BaseComponent.Pure {
     this.bind(this.handleOpen, this.handleClose, this.focus);
     this.windowRef = React.createRef();
     this.state = {
-      marker: null
+      isOpen: false
     };
   }
 
   open() {
     this.setState({
-      marker: this.props.marker
+      isOpen: true
     });
   }
 
@@ -62,7 +62,7 @@ export default class extends BaseComponent.Pure {
       .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
         this.isClosing = false;
         this.setState({
-          marker: null
+          isOpen: false
         });
       });
     this.dispatchEvent(this.Events.close, this);
@@ -96,6 +96,7 @@ export default class extends BaseComponent.Pure {
 
   handleOpen() {
     this.infoWindowTopMost.addClass(this.windowClass);
+    this.infoWindowTopMost.addClass('custom-info-window');
     this.infoWindowWrapper.addClass(this.windowClass);
     this.focus();
     ReactDOM.render(this.renderContent(), document.getElementById(this.id));
@@ -106,7 +107,7 @@ export default class extends BaseComponent.Pure {
   handleClose() {
     this.isClosing = false;
     this.setState({
-      marker: null
+      isOpen: false
     });
     this.dispatchEvent(this.Events.close);
   }
@@ -117,14 +118,11 @@ export default class extends BaseComponent.Pure {
   }
 
   render() {
-    const {
-      google, map
-    } = this.props;
+    const { isOpen } = this.state;
+    const { google, map, marker } = this.props;
     if (!google || !map) return null;
 
-    const { marker } = this.state;
-
-    if (this.windowRef.current && marker
+    if (this.windowRef.current && marker && isOpen
       && this.windowRef.current.infowindow.map === null) {
       this.windowRef.current.infowindow.marker = marker;
       this.windowRef.current.infowindow.setMap(map);
@@ -138,7 +136,7 @@ export default class extends BaseComponent.Pure {
         marker={marker}
         onOpen={this.handleOpen}
         onClose={this.handleClose}
-        visible={!!marker}
+        visible={isOpen}
       >
         <div id={this.id} />
       </InfoWindow>

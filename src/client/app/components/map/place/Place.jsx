@@ -1,16 +1,17 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
+import PropTypes from 'prop-types';
 import MarkerWithPopup from '../marker-with-popup/MarkerWithPopup';
-import UserService from '../../../services/user/UserService';
 import ZoomTool from '../../map-tools/zoom-tool/ZoomTool';
 import PlaceActions from '../../map-tools/place-actions/PlaceActions';
-import MapService from '../../../services/map/MapService';
 import './Place.scss';
-import FbService from '../../../services/user/FbService';
 
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
 import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
 
+/**
+ * @augments {Component<Props, State>}
+ */
 export default class Place extends MarkerWithPopup {
   get place() {
     return this.props.place;
@@ -23,6 +24,7 @@ export default class Place extends MarkerWithPopup {
   get circleProps() {
     const { place: { position: center, radius } = {} } = this.props;
     return {
+      ...super.circleProps,
       center,
       radius
     };
@@ -37,35 +39,12 @@ export default class Place extends MarkerWithPopup {
     };
   }
 
-  get popupProps() {
-    return {
-      ...super.popupProps,
-      onOpen: this.handleOpen,
-      onClose: this.handleClose
-    };
-  }
-
   get markerIcon() {
     return FarmIconSrc;
   }
 
   get defaultCoverImage() {
     return FarmImageSrc;
-  }
-
-  constructor(props) {
-    super(props);
-    this.bind(this.handleOpen, this.handleClose);
-  }
-
-  handleOpen(...args) {
-    MapService.openPlace(this.props.place);
-    this.dispatchEvent(...args);
-  }
-
-  handleClose(...args) {
-    MapService.closePlace();
-    this.dispatchEvent(...args);
   }
 
   renderZoomTool() {
@@ -75,69 +54,32 @@ export default class Place extends MarkerWithPopup {
 
   renderHeader() {
     const {
-      place,
       place: {
         name: placeName,
-        avatar,
         cover,
-        description,
-        user,
-        author,
         zoom = 17
       } = {}
     } = this.props;
-    const {
-      name = UserService.user.name,
-      socialPoint,
-      socials: { facebook } = {}
-    } = user || author || {};
-    const fbAvatar = facebook && FbService.buildAvatarUrl(facebook);
-    const defaultDescription = 'cá nhân hoạt động vì môi trường';
     const defaultCover = '/images/cover-photo.jpg';
-    const defaultAvatar = UserService.fbAvatarSrc;
 
     return (
-      <React.Fragment>
-        <div className="marker__cover-photo" style={{ backgroundImage: `url(${cover || defaultCover})` }}>
+      <div className="marker__place">
+        <div className="marker__place__cover-photo" style={{ backgroundImage: `url(${cover || defaultCover})` }}>
           <img alt="" src={cover || defaultCover} />
           <ZoomTool zoom={zoom} zoomTo={this.zoomTo} />
         </div>
-        <div className="marker__avatar">
-          <img alt="" src={avatar || fbAvatar || defaultAvatar} />
+        <div className="marker__place__name">
+          {placeName}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 
   renderBody() {
-    const {
-      place,
-      place: {
-        name: placeName,
-        avatar,
-        cover,
-        description,
-        user,
-        author,
-        zoom = 17
-      } = {}
-    } = this.props;
-    const {
-      name = UserService.user.name,
-      socialPoint,
-      socials: { facebook } = {}
-    } = user || author || {};
-    const fbAvatar = facebook && FbService.buildAvatarUrl(facebook);
-    const defaultDescription = 'cá nhân hoạt động vì môi trường';
-    const defaultCover = '/images/cover-photo.jpg';
-    const defaultAvatar = UserService.fbAvatarSrc;
+    const { place } = this.props;
 
     return (
-      <div className="marker__profile px-3 pb-3">
-        <div className="marker__profile__name my-2">{placeName || name}</div>
-        <div className="marker__profile__description">{description || defaultDescription}</div>
-        <div className="marker__profile__social-point my-2">Điểm cộng đồng: <b>{socialPoint}</b></div>
-        <hr className="my-2 mx-5" />
+      <div className="marker__place px-3 pb-3">
         <PlaceActions place={place} marker={this} />
       </div>
     );
@@ -157,3 +99,11 @@ export default class Place extends MarkerWithPopup {
     );
   }
 }
+
+Place.propTypes = {
+  place: PropTypes.object.isRequired
+};
+
+Place.defaultProps = {
+  place: null
+};
