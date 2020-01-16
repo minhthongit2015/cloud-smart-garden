@@ -37,7 +37,7 @@ export default class extends BaseComponent.Pure {
   }
 
   get isOpen() {
-    return !!this.state.marker;
+    return this.state && !!this.state.marker;
   }
 
   constructor(props) {

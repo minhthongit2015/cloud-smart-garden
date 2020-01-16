@@ -55,7 +55,25 @@ class PureComponent extends React.PureComponent {
   }
 
   static bindMethods(_this, ...methods) {
-    methods.forEach((method) => { _this[method.name] = method.bind(_this); });
+    methods.forEach((method) => {
+      _this[this.findMethodName(_this, method)] = method.bind(_this);
+    });
+  }
+
+  static findMethodName(_this, method) {
+    let object = _this;
+    do {
+      const methodNames = Object.getOwnPropertyNames(object);
+      if (!methodNames) break;
+
+      const foundMethodIndex = methodNames.findIndex(methodName => _this[methodName] === method);
+      if (foundMethodIndex >= 0) {
+        return methodNames[foundMethodIndex];
+      }
+
+      object = Object.getPrototypeOf(object);
+    } while (object);
+    return null;
   }
 
   handleNothing() {
@@ -115,7 +133,25 @@ class BaseComponent extends React.Component {
   }
 
   static bindMethods(_this, ...methods) {
-    methods.forEach((method) => { _this[method.name] = method.bind(_this); });
+    methods.forEach((method) => {
+      _this[this.findMethodName(_this, method)] = method.bind(_this);
+    });
+  }
+
+  static findMethodName(_this, method) {
+    let object = _this;
+    do {
+      const methodNames = Object.getOwnPropertyNames(object);
+      if (!methodNames) break;
+
+      const foundMethodIndex = methodNames.findIndex(methodName => _this[methodName] === method);
+      if (foundMethodIndex >= 0) {
+        return methodNames[foundMethodIndex];
+      }
+
+      object = Object.getPrototypeOf(object);
+    } while (object);
+    return null;
   }
 
   handleNothing() {

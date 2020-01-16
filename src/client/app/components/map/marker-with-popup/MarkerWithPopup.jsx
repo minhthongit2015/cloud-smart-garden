@@ -60,11 +60,11 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
   }
 
   get isFocused() {
-    return this.popupRef.current.isFocused;
+    return this.popupRef.current && this.popupRef.current.isFocused;
   }
 
   get isOpen() {
-    return this.popupRef.current.isOpen;
+    return this.popupRef.current && this.popupRef.current.isOpen;
   }
 
   constructor(props) {

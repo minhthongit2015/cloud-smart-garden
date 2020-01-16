@@ -15,7 +15,7 @@ const CUSTOM_WINDOW_CLASS = `${CUSTOM_CLASS}-info-window`;
 
 export default class MarkerWithPopup extends Component {
   get isOpen() {
-    return !!this.state.marker;
+    return this.state && !!this.state.marker;
   }
 
   get infoWindowTopMost() {

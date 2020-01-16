@@ -65,6 +65,7 @@ class App extends Component {
     GlobalState.loadState();
     superws.init();
     AuthService.init();
+    console.log('Start App');
 
     EditPlaceDialogHelper.storeDialog([
       ActivistDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog

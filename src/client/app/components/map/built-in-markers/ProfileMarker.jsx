@@ -56,7 +56,7 @@ export default class ProfileMarker extends Place {
       } = {}
     } = this.props;
     const {
-      name = UserService.user.name,
+      name = UserService.user && UserService.user.name,
       socialPoint
     } = user || author || {};
 
