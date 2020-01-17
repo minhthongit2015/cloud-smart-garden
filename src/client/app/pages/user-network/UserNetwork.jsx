@@ -6,12 +6,12 @@ import GGMap from '../../components/map/Map';
 import Polyline from '../../components/map/polyline/Polyline';
 import MapService from '../../services/map/MapService';
 import t from '../../languages';
-import LeftToolBar from '../../components/map-tools/left-toolbar/LeftToolBar';
 import UserService from '../../services/user/UserService';
 import MapContextMenu from './utils/MapContextMenu';
 import MapUtils from '../../utils/MapUtils';
 import MapController from './controllers/MapController';
-import RightToolbarPanel from './utils/RightToolbarPanel';
+import MapRightFloatingPanel from './utils/MapRightFloatingPanel';
+import MapShoppingCart from './utils/MapShoppingCart';
 
 
 export default class UserNetwork extends BasePage {
@@ -208,11 +208,18 @@ export default class UserNetwork extends BasePage {
         dirty={dirty}
       >
         <this.renderMapElements />
-        {false && <LeftToolBar handler={MapController.handleLeftToolbarAction} />}
-        <RightToolbarPanel
+        {/* {true && <LeftToolBar handler={MapController.handleLeftToolbarAction} />} */}
+        <MapRightFloatingPanel
           ref={this.rightToolbarRef}
-          places={places}
+          items={places}
           onSelect={MapController.handleRightToolbarAction}
+          small
+        />
+        <MapShoppingCart
+          items={places}
+          open={false}
+          onSelect={MapController.handleRightToolbarAction}
+          small
         />
         <MapContextMenu
           ref={this.mapCtxMenuRef}

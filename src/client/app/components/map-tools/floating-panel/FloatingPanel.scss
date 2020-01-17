@@ -1,5 +1,8 @@
 
-.map-toolbar {
+$index-size: 25px;
+$color: orange;
+
+.floating-panel {
   position: absolute;
   border-radius: 25px;
   max-width: 50px;
@@ -12,10 +15,24 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  // right: 60px;
+  // top: 10px;
+
+  &.sm {
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  &.sm &__toggle {
+    width: 30px;
+    height: 30px;
+  }
 
   &.open {
     border-radius: 5px;
-    transition: all .3s ease-in;
+    transition: max-width .3s ease-in, max-height .3s ease-in;
+    // max-width: 300px;
+    // max-height: calc(100% - 34px);
   }
 
   &__title {
@@ -55,24 +72,6 @@
     &:active {
       transform: rotate(90deg);
     }
-  }
-
-  &__list {
-    margin-top: 0;
-    padding: 0;
-    transition: all .3s ease-in-out;
-    overflow-x: hidden;
-    overflow-y: auto;
-    @include modern-scrollbar;
-    
-    &__link {
-      cursor: pointer;
-    }
-  }
-
-  &.open &__list {
-    margin-top: .5rem;
-    padding: 0;
   }
 
   &.open &__toggle {

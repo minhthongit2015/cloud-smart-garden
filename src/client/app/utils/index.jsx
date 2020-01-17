@@ -135,8 +135,9 @@ export async function asyncForEach(array, callback) {
   }
 }
 
-export function groupBy(array, property) {
+export function groupBy(array, property = '_id') {
   if (!array || !property) return null;
+  if (!array.length) return {};
   const map = {};
   const unRecognizedItems = [];
   array.forEach((item) => {
@@ -150,7 +151,7 @@ export function groupBy(array, property) {
     }
     map[keyValue].push(item);
   });
-  return map;
+  return (Object.keys(map).length > 0 && map) || groupBy(array, '_id');
 }
 
 export function camelize(str) {

@@ -5,6 +5,7 @@ import { camelize, isFunction } from '../utils';
 import Random from '../utils/Random';
 
 const Events = {
+  change: { typez: 'change' },
   mouseEnter: { typez: 'mouse enter' },
   mouseLeave: { typez: 'mouse leave' },
   open: { typez: 'open' },

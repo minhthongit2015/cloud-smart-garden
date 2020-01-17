@@ -1,0 +1,65 @@
+
+$index-size: 25px;
+$color: orange;
+
+.item-list {
+  margin-top: 0;
+  padding: 0;
+  transition: all .3s ease-in-out;
+  overflow-x: hidden;
+  overflow-y: auto;
+  @include modern-scrollbar;
+  
+  &__link {
+    cursor: pointer;
+  }
+  &__item {
+    padding: 4px 10px 0;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      height: 1px;
+      width: 80%;
+      left: 10%;
+      background: radial-gradient(circle at 50% 50%, rgb(199, 210, 200) 0, transparent 100%);
+    }
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &__group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      &__index {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: orange;
+        border: 1px solid #fafafa;
+        border-radius: 25px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 12px;
+        margin: 4px;
+
+        &:hover {
+          color: lighten($color, .1);
+          box-shadow: 0 0 5px rgba(116, 116, 116, 0.2);
+          font-weight: bold;
+        }
+
+        &:active {
+          background: #f9f9f9;
+        }
+      }
+    }
+  }
+}

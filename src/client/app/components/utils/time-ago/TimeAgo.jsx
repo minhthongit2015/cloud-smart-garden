@@ -37,7 +37,7 @@ const TimeAgo = React.memo(({ time: timez, className, ...restProps }) => {
   return (
     <span
       title={getCustomTime(time)}
-      className={`time-ago text-monospace text-muted ${className}`}
+      className={`time-ago text-monospace text-muted ${className || ''}`}
       {...restProps}
     ><i className="far fa-clock" /> {time.fromNow()}
     </span>

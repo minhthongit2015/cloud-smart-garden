@@ -22,8 +22,21 @@ img {
   white-space: pre-wrap;
 }
 
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.overflow-visible {
+  overflow: visible !important;
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+
+kbd {
+  font-size: 75% !important;
+  padding: 2px 4px 1px !important;
 }
 
 .modern-scrollbar {
