@@ -35,6 +35,10 @@ $color: orange;
     // max-height: calc(100% - 34px);
   }
 
+  &.focus {
+    z-index: 9999;
+  }
+
   &__title {
     font-size: 16px;
     font-weight: 400;

@@ -13,7 +13,7 @@ const Schema = new mongoose.Schema({
   preview: String,
   video: String,
   status: { type: String, enum: Object.values(PostStatus) },
-  authors: [{ type: ObjectId, ref: 'User' }], // Written by multi people
+  authors: [{ type: ObjectId, ref: 'User' }], // Written by many people
   owner: { type: ObjectId, ref: 'User' }, // Belong to a Person
   team: [{ type: ObjectId, ref: 'Team' }], // Belong to a Team
   totalRating: { type: Number, default: 0 },

@@ -1,7 +1,6 @@
 import React from 'react';
-import './LeftFloatingPanel.scss';
 import Checkbox from '../../utils/checkbox/Checkbox';
-import FloatingPanel from './FloatingPanel';
+import FloatingListPanel from './FloatingListPanel';
 
 
 const options = [
@@ -11,7 +10,7 @@ const options = [
   { label: 'Chia sẻ từ cộng đồng', value: 'Community', default: true }
 ];
 
-export default class extends FloatingPanel {
+export default class extends FloatingListPanel {
   get width() {
     return this.props.width || '300px';
   }

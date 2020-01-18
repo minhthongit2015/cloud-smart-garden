@@ -16,6 +16,10 @@ const Schema = new mongoose.Schema({
   description: String,
   address: String,
   link: String,
+  socials: Object,
+  goods: [{
+    name: String, picture: String, like: Number, rating: Number
+  }],
   position: { lat: Number, lng: Number },
   zoom: Number,
   path: [{ lat: Number, lng: Number }], // Render Polyline

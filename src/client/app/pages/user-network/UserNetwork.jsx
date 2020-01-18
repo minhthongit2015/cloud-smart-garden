@@ -21,6 +21,7 @@ export default class UserNetwork extends BasePage {
     this.lineRef = React.createRef();
     this.mapCtxMenuRef = React.createRef();
     this.rightToolbarRef = React.createRef();
+    this.shoppingCartRef = React.createRef();
 
     this.bind(
       this.handleMapReady,
@@ -170,6 +171,7 @@ export default class UserNetwork extends BasePage {
                 }}
                 onOpen={MapController.handleOpenMarker}
                 onClose={MapController.handleCloseMarker}
+                onSelect={MapController.handleSelectToBuy}
               />
             );
           }
@@ -213,12 +215,18 @@ export default class UserNetwork extends BasePage {
           ref={this.rightToolbarRef}
           items={places}
           onSelect={MapController.handleRightToolbarAction}
+          onOpen={MapController.handleOpenPanel}
+          onClose={MapController.handleClosePanel}
+          onClick={MapController.handleClickPanel}
           small
         />
         <MapShoppingCart
+          ref={this.shoppingCartRef}
           items={places}
-          open={false}
           onSelect={MapController.handleRightToolbarAction}
+          onOpen={MapController.handleOpenPanel}
+          onClose={MapController.handleClosePanel}
+          onClick={MapController.handleClickPanel}
           small
         />
         <MapContextMenu

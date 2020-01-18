@@ -54,11 +54,7 @@ export default class PageMarker extends Place {
   }
 
   renderBody() {
-    const {
-      place: {
-        description
-      } = {}
-    } = this.props;
+    const { place: { description } = {} } = this.props;
     return (
       <React.Fragment>
         <section>

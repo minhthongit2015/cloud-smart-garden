@@ -25,4 +25,18 @@ export default class extends ShoppingCartPanel {
       return place.name || (place.post && place.post.title) || defaultName;
     }
   }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...this.state,
+      items: []
+    };
+  }
+
+  addItem(item, place) {
+    this.setState(prevState => ({
+      items: [{ ...item, place }, ...prevState.items]
+    }));
+  }
 }

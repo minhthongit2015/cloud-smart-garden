@@ -4,9 +4,7 @@ const Place = require('./_Place');
 const { MarkerTypes } = require('../../../../utils/Constants');
 
 const Schema = new mongoose.Schema({
-  local_ip: String,
-  socials: Object,
-  goods: [{ type: Object }]
+  local_ip: String
 });
 Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: MarkerTypes.garden, field: 'order' });
 const Model = Place.discriminator(MarkerTypes.garden, Schema);

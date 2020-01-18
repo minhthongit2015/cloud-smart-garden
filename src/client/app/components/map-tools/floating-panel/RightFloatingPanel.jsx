@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import FloatingPanel from './FloatingPanel';
+import FloatingListPanel from './FloatingListPanel';
 
 
-export default class RightFloatingPanel extends FloatingPanel {
+export default class RightFloatingPanel extends FloatingListPanel {
   get width() {
     return this.props.width || '300px';
   }

@@ -1,13 +1,13 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import FloatingPanel from '../../../components/map-tools/floating-panel/FloatingPanel';
 import { MarkerTypes } from '../../../utils/Constants';
 import { IconGift } from '../../../../assets/icons';
+import RightFloatingPanel from '../../../components/map-tools/floating-panel/RightFloatingPanel';
 
 
 const defaultName = 'Chưa Đặt Tên';
 
-export default class extends FloatingPanel {
+export default class extends RightFloatingPanel {
   get toggleIcon() {
     return <IconGift />;
   }

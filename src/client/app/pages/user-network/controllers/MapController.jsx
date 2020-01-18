@@ -1,162 +1,65 @@
-import UserService from '../../../services/user/UserService';
-import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
-import t from '../../../languages';
-import MapService from '../../../services/map/MapService';
-import MapUtils from '../../../utils/MapUtils';
-import BaseComponent from '../../../components/BaseComponent';
+import BaseMapController from './BaseMapController';
+import MapInteractionsController from './MapInteractionsController';
+import MapActionsController from './MapActionsController';
+import MapTradingController from './MapTradingController';
 
 
-export default class {
-  static userNetwork;
-
+export default class extends BaseMapController {
   static init(userNetwork) {
-    this.userNetwork = userNetwork;
-    BaseComponent.bindMethods(this,
-      this.handleMapClick, this.handleRightClick, this.handleHotkeys,
-      this.handleOpenMarker, this.handleCloseMarker, this.handleMoveMarker,
-      this.handleContextActions,
-      this.handleLeftToolbarAction, this.handleRightToolbarAction);
-    this.openedMarkers = [];
-    this.focusedPlaceIndex = -1;
+    MapInteractionsController.init(userNetwork);
+    MapActionsController.init(userNetwork);
+    MapTradingController.init(userNetwork);
   }
 
-  static get places() {
-    return this.userNetwork.state.places;
+  static get handleMapClick() {
+    return MapInteractionsController.handleMapClick;
   }
 
-  static get markers() {
-    return this.userNetwork.markers;
+  static get handleRightClick() {
+    return MapInteractionsController.handleRightClick;
   }
 
-  static handleMapClick(/* mapProps, map, event */) {
-    // if (window.key.ctrl) {
-    //   prompt('LatLng', `${event.latLng.lat()}, ${event.latLng.lng()}`);
-    // }
-    if (window.key.alt) {
-      //
-    }
-    if (window.key.shift) {
-      return this.userNetwork.fetchPlaces();
-    }
-    this.openedMarkers = [];
-    return this.userNetwork.closeAll();
+  static get handleHotkeys() {
+    return MapInteractionsController.handleHotkeys;
   }
 
-  static handleRightClick(mapProps, map, event) {
-    const originEvent = Object.values(event).find(prop => prop instanceof Event);
-    this.userNetwork.mapCtxMenuRef.current.open(originEvent, {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    });
+  static get handleOpenMarker() {
+    return MapInteractionsController.handleOpenMarker;
   }
 
-  static handleHotkeys(event) {
-    let shouldPrevent = 9999;
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      if (window.key.shift) {
-        shouldPrevent = this.userNetwork.rightToolbarRef.current.toggle();
-      } else {
-        shouldPrevent = this.switchMarker();
-      }
-    }
-    if (shouldPrevent !== 9999) {
-      event.preventDefault();
-    }
+  static get handleCloseMarker() {
+    return MapInteractionsController.handleCloseMarker;
   }
 
-  static switchMarker() {
-    const currentIndex = this.openedMarkers.findIndex(marker => marker.isFocused);
-    if (!this.openedMarkers.length) {
-      return;
-    }
-    const nextIndex = (currentIndex + 1) % this.openedMarkers.length;
-    this.openedMarkers[nextIndex || 0].focus();
+  static get handleOpenPanel() {
+    return MapInteractionsController.handleOpenPanel;
   }
 
-  static handleOpenMarker(event, marker) {
-    this.openedMarkers.push(marker);
-    MapService.openPlace(marker.place);
+  static get handleClosePanel() {
+    return MapInteractionsController.handleClosePanel;
   }
 
-  static handleCloseMarker(event, marker) {
-    const markerIndex = this.openedMarkers
-      .findIndex(openedMarker => openedMarker.id === marker.id);
-    if (markerIndex >= 0) {
-      this.openedMarkers.splice(markerIndex, 1);
-    }
-    MapService.closePlace();
+  static get handleClickPanel() {
+    return MapInteractionsController.handleClickPanel;
   }
 
-  static handleMoveMarker(markerProps, map, event, place) {
-    if (!window.confirm('Xác nhận di chuyển địa điểm này?')) {
-      place.ref.moveTo();
-      event.stop();
-      return;
-    }
-    place.position = event.latLng.toJSON();
-    MapService.updateOrCreatePlace(place);
+  static get handleMoveMarker() {
+    return MapActionsController.handleMoveMarker;
   }
 
-  static handleContextActions(event, option, newPlace) {
-    // const { ContextOptions } = MapContextMenu;
-    if (newPlace) {
-      return this.createNewPlace(newPlace);
-    }
-    return null;
+  static get handleContextActions() {
+    return MapActionsController.handleContextActions;
   }
 
-  static createNewPlace(newPlace) {
-    if (!newPlace) {
-      return null;
-    }
-    if (!UserService.isLoggedIn) {
-      return LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
-    }
-    const newMarker = {
-      ...newPlace,
-      marker: MapUtils.getMarkerByType(newPlace.__t)
-    };
-    this.userNetwork.addMarker(newMarker);
-    return MapService.updateOrCreatePlace(newPlace)
-      .then((res) => {
-        if (!res || !res.data) {
-          // rollback
-        }
-        Object.assign(newMarker, res.data);
-        this.refresh();
-      });
+  static get handleLeftToolbarAction() {
+    return MapActionsController.handleLeftToolbarAction;
   }
 
-  static handleLeftToolbarAction(event) {
-    const { name/* , value, checked */ } = event.currentTarget;
-    switch (name) {
-    case 'Activist':
-      break;
-    case 'Strike':
-      break;
-    case 'Extinction':
-      break;
-    case 'Disaster':
-      break;
-    case 'Pollution':
-      break;
-    case 'Community':
-      break;
-    default:
-      break;
-    }
-    console.log(event);
+  static get handleRightToolbarAction() {
+    return MapActionsController.handleRightToolbarAction;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  static handleRightToolbarAction(event, place) {
-    this.userNetwork.closeAll();
-    if (place.zoom) {
-      place.ref.zoomTo();
-    } else {
-      place.ref.open();
-    }
-    this.userNetwork.mapRef.current.refs.map.focus();
+  static get handleSelectToBuy() {
+    return MapTradingController.handleSelectToBuy;
   }
 }

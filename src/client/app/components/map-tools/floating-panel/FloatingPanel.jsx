@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import './FloatingPanel.scss';
 import { IconPlus } from '../../../../assets/icons';
 import BaseComponent from '../../BaseComponent';
-import ItemList from '../toolbar-content/ItemList';
 
 
 export default class extends BaseComponent.Pure {
@@ -14,8 +13,8 @@ export default class extends BaseComponent.Pure {
     return this.props.title || 'Tin tức mới';
   }
 
-  labelProvider(item) {
-    return item.name;
+  get titleColor() {
+    return '';
   }
 
   get width() {
@@ -34,27 +33,74 @@ export default class extends BaseComponent.Pure {
 
   get left() { return this.props.left || 'initial'; }
 
-  get isRow() {
-    return (this.props.row != null && this.props.row) || false;
-  }
-
   get toggleIcon() {
     return <IconPlus width="100%" height="100%" />;
   }
 
   constructor(props) {
     super(props);
-    this.bind(this.toggle, this.handleTransitionEnd);
+    this.bind(
+      this.toggle, this.open, this.close, this.focus, this.unfocus,
+      this.handleTransitionEnd, this.handleClick
+    );
+    const isOpen = this.props.open != null ? this.props.open : false;
     this.state = {
-      isOpen: this.props.open != null ? this.props.open : true
+      isOpen,
+      isFocus: isOpen
     };
   }
 
-  toggle() {
+  open(event) {
+    this.stopEvent(event);
+    if (this.state.isOpen) {
+      return;
+    }
+    this.setState({
+      isOpen: true,
+      isFocus: true,
+      overflow: false
+    }, () => {
+      this.dispatchEvent(this.Events.open, this);
+    });
+  }
+
+  close(event) {
+    this.stopEvent(event);
+    if (!this.state.isOpen) {
+      return;
+    }
+    this.setState({
+      isOpen: false,
+      isFocus: false,
+      overflow: false
+    }, () => {
+      this.dispatchEvent(this.Events.close, this);
+    });
+  }
+
+  toggle(event) {
+    this.stopEvent(event);
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
+      isFocus: !prevState.isOpen,
       overflow: false
-    }));
+    }), () => {
+      const eventToDispatch = this.state.isOpen ? this.Events.open : this.Events.close;
+      this.dispatchEvent(eventToDispatch, this);
+    });
+  }
+
+  focus(event) {
+    this.stopEvent(event);
+    this.setState({
+      isFocus: true
+    });
+  }
+
+  unfocus() {
+    this.setState({
+      isFocus: false
+    });
   }
 
   handleTransitionEnd() {
@@ -63,12 +109,19 @@ export default class extends BaseComponent.Pure {
     }));
   }
 
+  handleClick() {
+    this.focus();
+    this.dispatchEvent(this.Events.click, this);
+  }
+
   renderHeader() {
     const { isOpen, overflow } = this.state;
     return (
       <div className="d-flex justify-content-end align-items-center">
         {isOpen && (
-          <div className="floating-panel__title mx-2">{this.title}</div>
+          <div className="floating-panel__title mx-2" style={{ color: this.titleColor }}>
+            {this.title}
+          </div>
         )}
         <MDBTooltip placement="bottom" isVisible={overflow ? undefined : false}>
           <MDBBtn
@@ -88,20 +141,14 @@ export default class extends BaseComponent.Pure {
   }
 
   renderContent() {
-    const { items, onSelect } = this.props;
     return (
-      <ItemList
-        items={items}
-        labelProvider={this.labelProvider}
-        onSelect={onSelect}
-        row={this.isRow}
-      />
+      this.props.children
     );
   }
 
   render() {
     const { className, style, small } = this.props;
-    const { isOpen, overflow } = this.state;
+    const { isOpen, isFocus, overflow } = this.state;
     const wrapperStyle = {
       ...style,
       top: this.top,
@@ -117,10 +164,16 @@ export default class extends BaseComponent.Pure {
         className={classnames(
           'floating-panel',
           className,
-          { open: isOpen, 'overflow-visible': overflow, sm: small }
+          {
+            open: isOpen,
+            'overflow-visible': overflow,
+            sm: small,
+            focus: isFocus
+          }
         )}
         style={wrapperStyle}
         onTransitionEnd={this.handleTransitionEnd}
+        onClick={this.handleClick}
       >
         {this.renderHeader()}
         {this.renderContent()}

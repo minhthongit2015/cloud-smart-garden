@@ -1,13 +1,13 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import classnames from 'classnames';
 import BaseComponent from '../../BaseComponent';
 import './ItemList.scss';
 import { groupBy } from '../../../utils';
-import TimeAgo from '../../utils/time-ago/TimeAgo';
+import TimeAgo from '../time-ago/TimeAgo';
 
 
-export default class extends BaseComponent {
-  // eslint-disable-next-line class-methods-use-this
+export default class ItemList extends BaseComponent {
   get groupKey() {
     return this.props.groupKey || 'post._id';
   }
@@ -16,8 +16,21 @@ export default class extends BaseComponent {
     return this.props.items || [];
   }
 
+  get row() {
+    return this.props.row || false;
+  }
+
   getItemLabel(item) {
     return (this.props.labelProvider && this.props.labelProvider(item)) || item.name;
+  }
+
+  getItemIcon(item) {
+    return (this.props.iconProvider && this.props.iconProvider(item)) || item.icon;
+  }
+
+  getItemContent(item) {
+    return (this.props.itemContentProvider && this.props.itemContentProvider(item))
+      || this.renderItemContent(item);
   }
 
   findItemById(id) {
@@ -26,13 +39,13 @@ export default class extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.bind(this.handleItemClicked);
+    this.bind(this.handleClickItem);
     this.state = {
       isOpen: true
     };
   }
 
-  handleItemClicked(event) {
+  handleClickItem(event) {
     const { currentTarget: { id } } = event;
     const item = this.findItemById(id);
     this.dispatchEvent(this.Events.select, item);
@@ -40,7 +53,7 @@ export default class extends BaseComponent {
 
   renderItemGroup(items) {
     const { length } = items;
-    return this.renderItem(items[0], (
+    return this.renderItem(items[0], null, (
       <div className="item-list__item__group">
         {items.map((item, index) => (
           <div
@@ -48,7 +61,7 @@ export default class extends BaseComponent {
             className="item-list__item__group__index"
             tabIndex="-1"
             id={item._id}
-            onClick={this.handleItemClicked}
+            onClick={this.handleClickItem}
             title={TimeAgo.fromNowDetailLn(item.createdAt)}
           >{length - index}
           </div>
@@ -57,30 +70,55 @@ export default class extends BaseComponent {
     ));
   }
 
-  renderItem(item, extraContent = null) {
+  renderItem(item, beforeContent, afterContent) {
+    const { _id } = item;
+    const icon = this.getItemIcon(item);
     return (
       <div
-        key={item._id}
-        className="item-list__item"
+        key={_id}
+        className="item-list__item d-flex"
         tabIndex="-1"
       >
+        {beforeContent}
+        {this.renderBeforeItem(item)}
+        {icon && <div className="item-list__item__icon mr-2">{icon}</div>}
+        <div>
+          {this.getItemContent(item)}
+        </div>
+        {this.renderAfterItem(item)}
+        {afterContent}
+      </div>
+    );
+  }
+
+  renderBeforeItem() {
+    return null;
+  }
+
+  renderAfterItem() {
+    return null;
+  }
+
+  renderItemContent(item) {
+    const { _id, createdAt } = item;
+    return (
+      <React.Fragment>
         <div
-          className="item-list__link"
+          className="item-list__item__link"
           tabIndex="-1"
-          id={item._id}
-          onClick={this.handleItemClicked}
+          id={_id}
+          onClick={this.handleClickItem}
         >
           {this.getItemLabel(item)}
         </div>
-        <sup><TimeAgo time={item.createdAt} className="text-light" /></sup>
-        {extraContent}
-      </div>
+        <sup><TimeAgo time={createdAt} className="text-light" /></sup>
+      </React.Fragment>
     );
   }
 
   render() {
     const { items } = this;
-    const { row, className } = this.props;
+    const { className } = this.props;
     let groupedItems;
     if (items) {
       groupedItems = groupBy(items, this.groupKey);
@@ -90,14 +128,14 @@ export default class extends BaseComponent {
     }
     return (
       <div className={classnames(
-        'item-list d-flex flex-fill p-2',
+        'item-list d-flex flex-fill',
         className,
-        row ? 'flex-wrap' : 'flex-column'
+        this.row ? 'horizontal flex-wrap' : 'vertical flex-column'
       )}
       >
         {Object.values(groupedItems).map(groupedItem => (
-          groupedItem.length === 1
-            ? this.renderItem(groupedItem[0])
+          (groupedItem.length == null || groupedItem.length === 1)
+            ? this.renderItem(groupedItem[0] || groupedItem)
             : this.renderItemGroup(groupedItem)
         ))}
       </div>

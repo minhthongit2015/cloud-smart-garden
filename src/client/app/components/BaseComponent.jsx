@@ -53,6 +53,10 @@ class PureComponent extends React.PureComponent {
     return Events;
   }
 
+  stopEvent(event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
+  }
+
   bind(...methods) {
     this.constructor.bindMethods(this, ...methods);
   }
@@ -129,6 +133,10 @@ class BaseComponent extends React.Component {
 
   get Events() {
     return Events;
+  }
+
+  stopEvent(event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
   bind(...methods) {

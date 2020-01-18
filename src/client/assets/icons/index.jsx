@@ -12,6 +12,7 @@ export const GardenOwnerSrc = '/icons/bonsai.svg';
 export const ToolStoreSrc = '/icons/trowel.svg';
 export const ShoppingCartSrc = '/icons/shopping-cart.svg';
 export const FlagSrc = '/icons/flag.svg';
+export const BasketSrc = '/icons/basket.svg';
 
 export const GiftSrc = '/icons/gift.svg';
 export const GiftOpenSrc = '/icons/gift-open.svg';
@@ -28,6 +29,7 @@ export const IconSmileCity = CreateIcon(SmileCitySrc, 'Smile City');
 export const IconShoppingCart = CreateIcon(ShoppingCartSrc, 'Shopping Cart');
 export const IconGiftOpen = CreateIcon(GiftOpenSrc, 'Gift', '', { width: '80%', height: '80%' });
 export const IconGift = CreateIcon(GiftSrc, 'Gift', '', { width: '80%', height: '80%' });
+export const IconBasket = CreateIcon(BasketSrc, 'Giỏ Hàng', '', { width: '80%', height: '80%' });
 
 export { default as IconAlphaTeam } from './layout/IconAlphaTeam';
 export { default as IconEarth } from './layout/IconEarth';
@@ -56,6 +58,7 @@ export default {
   IconGiftOpen,
   IconSmileCity,
   IconShoppingCart,
+  IconBasket,
 
   ShoppingCartSrc,
   PlantPot1Src,

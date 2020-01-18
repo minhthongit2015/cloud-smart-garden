@@ -4,7 +4,6 @@ const Place = require('./_Place');
 const { MarkerTypes, ContactTypes } = require('../../../../utils/Constants');
 
 const Schema = new mongoose.Schema({
-  socials: Object,
   contact: [{
     type: { type: String, enum: Object.values(ContactTypes) },
     value: String

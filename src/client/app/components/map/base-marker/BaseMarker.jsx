@@ -84,7 +84,7 @@ export default class BaseMarker extends BaseComponent.Pure {
   initMarker() {
     const { title } = this.props;
     this.originMarkerElement
-      .addClass(BaseMarker.markerClass)
+      .addClass('custom-marker')
       .addClass(this.markerClass)
       .attr('title', title || '')
       .attr('id', this.id);

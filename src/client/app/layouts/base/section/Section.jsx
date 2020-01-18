@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Section.scss';
 
-export default class Section extends Component {
-  render() {
-    const { className, ...restProps } = this.props;
-    return (
-      <section className={`base-section ${className || ''}`} {...restProps} />
-    );
-  }
-}
+export default React.memo(({
+  className, title, beautyFont, children, ...restProps
+}) => (
+  <section
+    className={`base-section ${className || ''}`}
+    {...restProps}
+  >
+    {title && (
+      <div className={`base-section__title ${beautyFont ? 'beauty-font' : ''}`}>{title}</div>
+    )}
+    {children}
+  </section>
+));

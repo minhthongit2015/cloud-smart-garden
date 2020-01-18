@@ -140,6 +140,9 @@ export function groupBy(array, property = '_id') {
   if (!array.length) return {};
   const map = {};
   const unRecognizedItems = [];
+  if (!(property in array[0])) {
+    return array;
+  }
   array.forEach((item) => {
     const keyValue = _.get(item, property);
     if (!keyValue) {

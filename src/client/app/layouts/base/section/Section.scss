@@ -5,4 +5,29 @@ $section-spacing: 40px;
   & ~ & {
     margin-top: $section-spacing;
   }
+  &__title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    
+    &.beauty-font {
+      font-family: icielz-bambola;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    &::before, &::after {
+      content: "";
+      background: #b5b5b5;
+      height: 1px;
+      display: block;
+      flex: 1;
+    }
+    &::before {
+      margin-right: 8px;
+    }
+    &::after {
+      margin-left: 8px;
+    }
+  }
 }

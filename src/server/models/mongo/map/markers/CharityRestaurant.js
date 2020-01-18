@@ -4,7 +4,6 @@ const Place = require('./_Place');
 const { MarkerTypes } = require('../../../../utils/Constants');
 
 const Schema = new mongoose.Schema({
-  socials: Object,
   menu: Array
 });
 Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: MarkerTypes.charityRestaurant, field: 'order' });
