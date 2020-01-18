@@ -15,7 +15,9 @@ const Events = {
   click: { typez: 'click' },
   contextMenu: { typez: 'context menu' },
   load: { typez: 'load' },
-  select: { typez: 'select' }
+  select: { typez: 'select' },
+  submit: { typez: 'submit' },
+  submited: { typez: 'submited' }
 };
 
 const EventTypesMap = {

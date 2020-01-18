@@ -1,29 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import FloatingPanel from '../../../components/map-tools/floating-panel/FloatingPanel';
 import { MarkerTypes } from '../../../utils/Constants';
-import { ShoppingCartIcon } from '../../../../../old-client/assets/icons';
+import ShoppingCartPanel from '../../../components/map-tools/floating-panel/ShoppingCartPanel';
 
 
 const defaultName = 'Chưa Đặt Tên';
 
-export default class extends FloatingPanel {
-  get title() {
-    return 'Giỏ hàng';
-  }
-
-  get size() {
-    return '40px';
-  }
-
-  get right() {
-    return '10px';
-  }
-
-  get top() {
-    return '60px';
-  }
-
+export default class extends ShoppingCartPanel {
   labelProvider(place) {
     switch (place.__t) {
     case MarkerTypes.farm:
@@ -41,9 +24,5 @@ export default class extends FloatingPanel {
     default:
       return place.name || (place.post && place.post.title) || defaultName;
     }
-  }
-
-  renderIcon() {
-    return <ShoppingCartIcon />;
   }
 }

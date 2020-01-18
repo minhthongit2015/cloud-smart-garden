@@ -34,6 +34,14 @@ export default class extends BaseComponent.Pure {
 
   get left() { return this.props.left || 'initial'; }
 
+  get isRow() {
+    return (this.props.row != null && this.props.row) || false;
+  }
+
+  get toggleIcon() {
+    return <IconPlus width="100%" height="100%" />;
+  }
+
   constructor(props) {
     super(props);
     this.bind(this.toggle, this.handleTransitionEnd);
@@ -68,7 +76,7 @@ export default class extends BaseComponent.Pure {
             color="none"
             onClick={this.toggle}
           >
-            {this.renderIcon()}
+            {this.toggleIcon}
           </MDBBtn>
           <div className="text-center text-nowrap">
             {this.title}
@@ -79,10 +87,6 @@ export default class extends BaseComponent.Pure {
     );
   }
 
-  renderIcon() {
-    return <IconPlus width="100%" height="100%" />;
-  }
-
   renderContent() {
     const { items, onSelect } = this.props;
     return (
@@ -90,6 +94,7 @@ export default class extends BaseComponent.Pure {
         items={items}
         labelProvider={this.labelProvider}
         onSelect={onSelect}
+        row={this.isRow}
       />
     );
   }

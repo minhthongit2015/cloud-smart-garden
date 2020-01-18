@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import BaseComponent from '../../BaseComponent';
 import './ItemList.scss';
 import { groupBy } from '../../../utils';
@@ -79,6 +80,7 @@ export default class extends BaseComponent {
 
   render() {
     const { items } = this;
+    const { row, className } = this.props;
     let groupedItems;
     if (items) {
       groupedItems = groupBy(items, this.groupKey);
@@ -87,7 +89,12 @@ export default class extends BaseComponent {
       return null;
     }
     return (
-      <div className="item-list d-flex flex-column flex-fill p-2">
+      <div className={classnames(
+        'item-list d-flex flex-fill p-2',
+        className,
+        row ? 'flex-wrap' : 'flex-column'
+      )}
+      >
         {Object.values(groupedItems).map(groupedItem => (
           groupedItem.length === 1
             ? this.renderItem(groupedItem[0])

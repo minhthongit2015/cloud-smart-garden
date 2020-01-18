@@ -2,11 +2,16 @@
 import React from 'react';
 import FloatingPanel from '../../../components/map-tools/floating-panel/FloatingPanel';
 import { MarkerTypes } from '../../../utils/Constants';
+import { IconGift } from '../../../../assets/icons';
 
 
 const defaultName = 'Chưa Đặt Tên';
 
 export default class extends FloatingPanel {
+  get toggleIcon() {
+    return <IconGift />;
+  }
+
   labelProvider(place) {
     switch (place.__t) {
     case MarkerTypes.farm:

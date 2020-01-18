@@ -1,5 +1,5 @@
 import React from 'react';
-import { getParameters } from './EffectHelper';
+import { getParameters } from '../EffectHelper';
 
 
 export default (props) => {

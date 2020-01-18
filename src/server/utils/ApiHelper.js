@@ -85,7 +85,7 @@ class SortBuilder {
     if (typeof opts.sort === 'object') {
       sortObject = opts.sort;
     }
-    if (opts && sortObject) {
+    if (sortObject) {
       opts.sort = '';
       this.addSortObject(opts, sortObject);
     }
