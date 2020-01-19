@@ -10,6 +10,10 @@ export default class extends RawItemList {
     this.bind(this.handleSelectItem);
   }
 
+  handleClickItem() {
+    // do nothing
+  }
+
   handleSelectItem(event) {
     const { currentTarget: { id } } = event;
     const item = this.findItemById(id);

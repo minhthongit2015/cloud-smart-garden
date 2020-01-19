@@ -19,6 +19,10 @@ export default class extends BaseMapController {
     return MapInteractionsController.handleRightClick;
   }
 
+  static get handleZoomChange() {
+    return MapInteractionsController.handleZoomChange;
+  }
+
   static get handleHotkeys() {
     return MapInteractionsController.handleHotkeys;
   }

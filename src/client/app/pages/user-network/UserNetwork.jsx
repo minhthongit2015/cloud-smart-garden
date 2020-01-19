@@ -12,16 +12,18 @@ import MapUtils from '../../utils/MapUtils';
 import MapController from './controllers/MapController';
 import MapRightFloatingPanel from './utils/MapRightFloatingPanel';
 import MapShoppingCart from './utils/MapShoppingCart';
+import ZoomTool from '../../components/map-tools/zoom-tool/ZoomTool';
+import './UserNetwork.scss';
 
 
 export default class UserNetwork extends BasePage {
   constructor(props) {
     super(props, t('pages.userNetwork.title'));
     this.mapRef = React.createRef();
-    this.lineRef = React.createRef();
     this.mapCtxMenuRef = React.createRef();
     this.rightToolbarRef = React.createRef();
     this.shoppingCartRef = React.createRef();
+    this.zoomToolRef = React.createRef();
 
     this.bind(
       this.handleMapReady,
@@ -31,6 +33,7 @@ export default class UserNetwork extends BasePage {
 
     MapController.init(this);
 
+    this.map = null;
     const center = [15.821897348888664, 106.68697200200597];
     this.defaultMapProps = {
       initialCenter: { lat: center[0], lng: center[1] },
@@ -72,6 +75,7 @@ export default class UserNetwork extends BasePage {
       MapService.checkOpenCurrentPlace(places);
     });
     window.map = this.map;
+    this.zoomToolRef.current.forceUpdate();
   }
 
   fetchPlaces() {
@@ -206,6 +210,7 @@ export default class UserNetwork extends BasePage {
         {...this.defaultMapProps}
         onClick={MapController.handleMapClick}
         onRightclick={MapController.handleRightClick}
+        onZoom_changed={MapController.handleZoomChange}
         onReady={this.handleMapReady}
         dirty={dirty}
       >
@@ -234,6 +239,7 @@ export default class UserNetwork extends BasePage {
           mainMap={this}
           onSelect={MapController.handleContextActions}
         />
+        <ZoomTool ref={this.zoomToolRef} id="main-zoom-tool" zoom={6} />
       </GGMap>
     );
     // }

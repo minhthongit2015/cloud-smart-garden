@@ -7,7 +7,7 @@ export default class extends BaseMapController {
   static init(userNetwork) {
     super.init(userNetwork);
     BaseComponent.bindMethods(this,
-      this.handleMapClick, this.handleRightClick, this.handleHotkeys,
+      this.handleMapClick, this.handleRightClick, this.handleZoomChange, this.handleHotkeys,
       this.handleOpenMarker, this.handleCloseMarker,
       this.handleOpenPanel, this.handleClosePanel, this.handleClickPanel);
     this.openedMarkers = [];
@@ -35,6 +35,10 @@ export default class extends BaseMapController {
       lat: event.latLng.lat(),
       lng: event.latLng.lng()
     });
+  }
+
+  static handleZoomChange() {
+    this.userNetwork.zoomToolRef.current.forceUpdate();
   }
 
   static handleHotkeys(event) {
