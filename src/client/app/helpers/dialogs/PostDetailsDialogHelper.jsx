@@ -24,14 +24,12 @@ export default class extends PageDialogHelper {
   // Direct access
   static async openPostDetailsCurrentTab(postOrder) {
     return PostService.fetchPost(postOrder).then((res) => {
-      if (res && res.data) {
-        const post = res.data[0];
-        this.openInCurrentHistory({
-          url: PostService.buildPostUrl(post, { keepQuery: true }),
-          title: post.title,
-          state: post
-        });
-      }
+      const post = res.data[0];
+      this.openInCurrentHistory({
+        url: PostService.buildPostUrl(post, { keepQuery: true }),
+        title: post.title,
+        state: post
+      });
     });
   }
 

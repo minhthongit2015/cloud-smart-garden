@@ -1,4 +1,5 @@
 import React from 'react';
+import { MDBBtn } from 'mdbreact';
 import MapService from '../../../services/map/MapService';
 import UserService from '../../../services/user/UserService';
 import EditPlaceDialogHelper from '../../../helpers/dialogs/EditPlaceDialogHelper';
@@ -37,18 +38,24 @@ export default class extends React.Component {
 
     return (
       canEdit && (
-        <div className="place-actions text-center">
-          <div
-            name="delete-place"
-            className="btn btn-sm py-1 px-4 grey lighten-1 text-white"
-            onClick={this.handlePlaceActions}
-          >Xóa
+        <div className="place-actions text-center mt-2">
+          <hr className="my-3" />
+          <div>
+            <MDBBtn
+              name="edit-place"
+              className="py-1 px-4 btn-default"
+              onClick={this.handlePlaceActions}
+              size="sm"
+            >Cập nhập thông tin
+            </MDBBtn>
           </div>
-          <div
-            name="edit-place"
-            className="btn btn-sm py-1 px-4 btn-default"
-            onClick={this.handlePlaceActions}
-          >Sửa
+          <div>
+            <span
+              name="delete-place"
+              className="link py-1 text-light hover-light-red"
+              onClick={this.handlePlaceActions}
+            >gỡ bỏ địa điểm này
+            </span>
           </div>
         </div>
       )

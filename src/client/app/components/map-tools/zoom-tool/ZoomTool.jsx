@@ -47,7 +47,7 @@ export default class ZoomTool extends BaseComponent.Pure {
 
   render() {
     const {
-      className, id, style, zoomTo, zoom, ...restProps
+      className, id, style, zoomTo, zoom, mapCenter, ...restProps
     } = this.props;
     if (!window.map) {
       return null;

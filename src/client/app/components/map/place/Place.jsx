@@ -76,11 +76,11 @@ export default class Place extends MarkerWithPopup {
   }
 
   renderBody() {
-    const { place } = this.props;
+    const { place = {} } = this.props;
 
     return (
       <div className="marker__place px-3 pb-3">
-        <PlaceActions place={place} marker={this} />
+        {place.name}
       </div>
     );
   }

@@ -26,10 +26,10 @@ import AuthService from './services/user/Auth';
 import LoginDialogHelper from './helpers/dialogs/LoginDialogHelper';
 import MessageDialogHelper from './helpers/dialogs/MessageDialogHelper';
 
-import PageDialog from './components/dialog/PageDialog';
-import LoginDialog from './components/dialog/LoginDialog';
-import MessageDialog from './components/dialog/MessageDialog';
-import GuideDialog from './components/dialog/GuideDialog';
+import PageDialog from './components/dialogs/PageDialog';
+import LoginDialog from './components/dialogs/LoginDialog';
+import MessageDialog from './components/dialogs/MessageDialog';
+import GuideDialog from './components/dialogs/GuideDialog';
 
 import SavedPostsDialogHelper from './helpers/dialogs/SavedPostsDialogHelper';
 import IDoPostsDialogHelper from './helpers/dialogs/IDoPostsDialogHelper';
@@ -56,7 +56,7 @@ const UserNetwork = React.lazy(() => import('./pages/user-network/UserNetwork'))
 class App extends Component {
   // eslint-disable-next-line class-methods-use-this
   get isUserNetwork() {
-    return window.location.pathname === RouteConstants.userNetworkPath;
+    return window.location.pathname.startsWith(RouteConstants.userNetworkPath);
   }
 
   constructor(props) {
@@ -85,7 +85,7 @@ class App extends Component {
           <Route path={RouteConstants.myGardenPath}><MyGarden /></Route>
           <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
           <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
-          <Route exact path={RouteConstants.userNetworkPath}><DummyUserNetwork /></Route>
+          <Route path={RouteConstants.userNetworkPath} component={DummyUserNetwork} />
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
         {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}

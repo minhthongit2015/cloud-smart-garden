@@ -7,6 +7,7 @@ import { MarkerTypes } from '../../../utils/Constants';
 
 const ContextOptions = {
   addPlace: { label: '+ Địa điểm mới', value: `add-${MarkerTypes.place}` },
+  addExpert: { label: '+ Chuyên gia cây trồng', value: `add-${MarkerTypes.expert}` },
   addMyGarden: { label: '+ Đánh dấu vườn của tôi', value: `add-${MarkerTypes.garden}` },
   addGarden: { label: '+ Vườn gia đình', value: `add-${MarkerTypes.garden}` },
   addFarm: { label: '+ Nông trại xanh', value: `add-${MarkerTypes.farm}` },
@@ -21,7 +22,8 @@ const ownerCtxOptions = [
   ContextOptions.addFarm,
   ContextOptions.addFoodStore,
   ContextOptions.addToolStore,
-  ContextOptions.addCharityRestaurant
+  ContextOptions.addCharityRestaurant,
+  ContextOptions.addExpert
   // ContextOptions.addVegetarianRestaurant
 ];
 const adminCtxOptions = [

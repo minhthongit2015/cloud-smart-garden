@@ -22,7 +22,7 @@ export default class UserService {
 
   static get isModOrAdmin() { return this.isModerator || this.isAdmin; }
 
-  static get isNormalMember() { return this.isLoggedIn || this.user.role === UserRole.Member; }
+  static get isNormalMember() { return this.isLoggedIn && this.user.role === UserRole.Member; }
 
   static get isMember() { return this.isModOrAdmin || this.isNormalMember; }
 

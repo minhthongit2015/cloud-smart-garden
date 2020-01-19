@@ -30,18 +30,25 @@ export default class extends DialogHelper {
       DialogComponent => (
         <DialogComponent
           key={DialogComponent.type}
-          ref={ref => this.dialogs.push(ref)}
+          ref={(ref) => {
+            if (!ref) {
+              this.dialogs[DialogComponent.type] = null;
+              return;
+            }
+            this.dialogs[ref.constructor.type] = ref;
+          }}
         />
       )
     );
   }
 
   static findDialog(place) {
-    return this.dialogs.find(dialogRef => dialogRef.current.constructor.type === place.__t);
+    return this.dialogs[place.__t];
   }
 
   static edit(place, marker) {
     const dialogRef = this.findDialog(place);
-    return dialogRef.current.edit(place, marker);
+    if (!dialogRef) return null;
+    return dialogRef.edit(place, marker);
   }
 }

@@ -59,13 +59,8 @@ export default class extends BaseComponent.Pure {
     if (!this.isOpen || this.isClosing) return;
     this.isClosing = true;
     this.infoWindowWrapper.addClass('fadeOut animated faster')
-      .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
-        this.isClosing = false;
-        this.setState({
-          isOpen: false
-        });
-      });
-    this.dispatchEvent(this.Events.close, this);
+      .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+        this.handleClose);
   }
 
   toggle() {

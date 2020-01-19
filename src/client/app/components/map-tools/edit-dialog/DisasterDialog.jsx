@@ -2,10 +2,11 @@ import React from 'react';
 import { MDBInput } from 'mdbreact';
 import BaseEditingDialog from './BaseEditingDialog';
 import ZoomInput from '../zoom-input/ZoomInput';
+import { MarkerTypes } from '../../../utils/Constants';
 
 
 export default class DisasterDialog extends BaseEditingDialog {
-  static get type() { return 'Disaster'; }
+  static get type() { return MarkerTypes.farm; }
 
   get place() {
     const originPlace = super.place;

@@ -1,7 +1,7 @@
 
 const {
   Place, EventMarker,
-  GardenMarker, FarmMarker, FoodStoreMarker, ToolStoreMarker, CharityRestaurantMarker
+  GardenMarker, ExpertMarker, FarmMarker, FoodStoreMarker, ToolStoreMarker, CharityRestaurantMarker
 } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
 const ApiHelper = require('../../utils/ApiHelper');
@@ -9,7 +9,7 @@ const ImgurService = require('../third-party/imgur');
 
 const PlaceTypes = [
   Place, EventMarker,
-  GardenMarker, FarmMarker, FoodStoreMarker, ToolStoreMarker, CharityRestaurantMarker
+  GardenMarker, ExpertMarker, FarmMarker, FoodStoreMarker, ToolStoreMarker, CharityRestaurantMarker
 ];
 
 module.exports = class extends CRUDService {

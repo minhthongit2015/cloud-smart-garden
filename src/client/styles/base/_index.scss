@@ -1,6 +1,8 @@
 
+@import '../abstracts/index';
 @import './fonts/iciel-bambola';
 @import './override';
+@import './hover';
 
 img {
   max-width: 100%;
@@ -37,6 +39,22 @@ img {
 kbd {
   font-size: 75% !important;
   padding: 2px 4px 1px !important;
+}
+
+$link-underline-size: 1px;
+$link-underline-color: $color-light-red;
+.link {
+  background: transparent 0 100%/0 $link-underline-size no-repeat;
+  background-image: linear-gradient(90deg, $link-underline-color 0, $link-underline-color);
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    background-size: 100% $link-underline-size;
+  }
+  &:active {
+    opacity: .5;
+  }
 }
 
 .modern-scrollbar {

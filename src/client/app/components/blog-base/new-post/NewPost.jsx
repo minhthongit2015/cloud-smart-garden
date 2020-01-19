@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import './NewPost.scss';
 
 import LeafLoading from '../../utils/loadings/LeafLoading';
-import ButtonBar from '../../dialog/ButtonBar';
+import ButtonBar from '../../dialogs/ButtonBar';
 import UserService from '../../../services/user/UserService';
 import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';

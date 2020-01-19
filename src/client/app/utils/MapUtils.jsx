@@ -16,12 +16,14 @@ export default class {
       return FoodStoreMarker;
     case MarkerTypes.toolStore:
       return ToolStoreMarker;
+    case MarkerTypes.expert:
+      return ExpertMarker;
     case MarkerTypes.charityRestaurant:
       return FarmMarker;
     case 'Path':
       return Polyline;
     default:
-      return ExpertMarker;
+      return Place;
     }
   }
 

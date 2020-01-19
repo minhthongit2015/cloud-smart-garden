@@ -2,6 +2,7 @@ import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
 import ApiEndpoints from '../../utils/ApiEndpoints';
 import FbService from '../user/FbService';
+import MapGenerator from './MapGenerator';
 
 
 export default class MapService {
@@ -10,11 +11,11 @@ export default class MapService {
     return superrequest.get(ApiEndpoints.placeOrderI(placeOrder));
   }
 
-  static extractPlaceOrder(url) {
+  static extractPlaceOrder(url = window.location.href) {
     if (!url) return null;
     if (!Number.isNaN(+url)) return url;
     const urlz = new URL(url || window.location.href);
-    return urlz.searchParams.get('place');
+    return +urlz.searchParams.get('place');
   }
 
   static async fetchPlaces() {
@@ -55,12 +56,12 @@ export default class MapService {
     places.filter(place => place.__t === 'Strike')
       .forEach((place, i, arr) => {
         if (place.next && arr.every(pl => !pl.next || pl.next._id !== place._id)) {
-          const strikePathEntity = this.generateStrikeRoutePath(place);
+          const strikePathEntity = MapGenerator.generateStrikeRoutePath(place);
           paths.push(strikePathEntity);
         }
         if (place.members) {
           place.members.forEach((member) => {
-            const strikerPath = this.generateStrikerPath(places, member._id, place);
+            const strikerPath = MapGenerator.generateStrikerPath(places, member._id, place);
             if (strikerPath) {
               paths.push(strikerPath);
             }
@@ -70,82 +71,38 @@ export default class MapService {
     return [...places, ...paths];
   }
 
-  static generateStrikeRoutePath(place) {
-    const strikePathEntity = this.generatePathEntity(place);
-    strikePathEntity.path = this.getPathFromStart(place);
-    strikePathEntity.type = 'Strike';
-    return strikePathEntity;
-  }
-
-  static generateStrikerPath(places, userId, place) {
-    const userMarker = places.find(
-      placez => placez.__t === 'Activist' && (placez.user || placez.author)._id === userId
-    );
-    if (!userMarker) {
-      return null;
-    }
-    const memberPathEntity = this.generatePathEntity(place);
-    memberPathEntity.path = [userMarker.position, place.position];
-    memberPathEntity.type = 'Activist-Strike';
-    memberPathEntity.user = userMarker.user || userMarker.author;
-    memberPathEntity.target = place;
-    return memberPathEntity;
-  }
-
-  static generatePathEntity(place) {
-    return {
-      _id: `${place && place._id}${Math.round(Math.random() * 10000000)}`,
-      __t: 'Path',
-      type: 'Path',
-      name: place && place.name,
-      path: []
-    };
-  }
-
-  static getPathFromStart(startPlace) {
-    const path = [];
-    let prev;
-    while (startPlace) {
-      startPlace.prev = prev;
-      path.push(startPlace.position);
-      prev = startPlace;
-      startPlace = startPlace.next;
-    }
-    return path;
-  }
-
   static openPlace(place) {
     if (!place) return;
-    const urlParams = new URLSearchParams(window.location.search);
-    const placeOrder = urlParams.get('place');
-    const {
-      protocol, host, pathname, hash
-    } = window.location;
-    const url = `${protocol}//${host}${pathname}?place=${place.baseOrder}${hash}`;
-    if (placeOrder) {
-      window.history.replaceState({ placeOrder: place.baseOrder }, place.name, url);
+    const currentPlaceOrder = this.extractPlaceOrder();
+    const newPlaceUrl = this.buildPlaceUrl(place);
+    if (currentPlaceOrder) {
+      window.history.replaceState({ placeOrder: place.baseOrder }, place.name, newPlaceUrl);
     } else {
       this.pushState = true;
-      window.history.pushState({ placeOrder: place.baseOrder }, place.name, url);
+      window.history.pushState({ placeOrder: place.baseOrder }, place.name, newPlaceUrl);
     }
   }
 
   static closePlace() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const placeOrder = urlParams.get('place');
+    const placeOrder = this.extractPlaceOrder();
     if (!placeOrder || Date.now() - this.lastClose < 500) {
+      this.lastClose = Date.now();
       return;
     }
-    const {
-      protocol, host, pathname, hash
-    } = window.location;
-    const url = `${protocol}//${host}${pathname}${hash}`;
+    const noPlaceUrl = this.buildPlaceUrl(null);
     if (this.pushState) {
       window.history.back();
     } else {
-      window.history.pushState(null, 'Smile City | Beyond Garden', url);
+      window.history.pushState(null, 'Smile City | Beyond Garden', noPlaceUrl);
     }
     this.lastClose = Date.now();
+  }
+
+  static buildPlaceUrl(place) {
+    const {
+      protocol, host, pathname, hash
+    } = window.location;
+    return `${protocol}//${host}${pathname}${place ? `?place=${place.baseOrder}` : ''}${hash}`;
   }
 
   static checkOpenCurrentPlace(places) {
