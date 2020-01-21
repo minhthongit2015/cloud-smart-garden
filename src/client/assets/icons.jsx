@@ -26,8 +26,8 @@ export const GiftSrc = '/icons/map-tools/gift.svg';
 export const GiftOpenSrc = '/icons/map-tools/gift-open.svg';
 
 // Intranet
-export const MilitaryRankSrc = '/icons/military-rank.svg';
-export const FeatherPenSrc = '/icons/feather-pen.svg';
+export const MilitaryRankSrc = '/icons/intranet/military-rank.svg';
+export const FeatherPenSrc = '/icons/intranet/feather-pen.svg';
 
 function CreateIcon(imgSrc, alt, title, attributes) {
   return props => (

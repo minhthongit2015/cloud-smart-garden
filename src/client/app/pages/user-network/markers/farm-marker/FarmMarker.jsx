@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { PageMarker } from '../../../../components/map';
+import { StoreMarker } from '../../../../components/map';
 import { MarkerTypes } from '../../../../utils/Constants';
 import './FarmMarker.scss';
 
@@ -7,7 +7,7 @@ import { FarmSrc as FarmIconSrc } from '../../../../../assets/icons';
 import { FarmImgSrc } from '../../../../../assets/images';
 
 
-export default class FarmMarker extends PageMarker {
+export default class FarmMarker extends StoreMarker {
   get customClass() {
     return MarkerTypes.farm;
   }
@@ -22,14 +22,5 @@ export default class FarmMarker extends PageMarker {
 
   get placeTypeTitle() {
     return 'nông trại xanh';
-  }
-
-  get title() {
-    const {
-      place: {
-        name
-      } = {}
-    } = this.props;
-    return `❝${name || 'Chưa Đặt Tên'}❞`;
   }
 }

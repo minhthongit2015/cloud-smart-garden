@@ -239,7 +239,7 @@ export default class UserNetwork extends BasePage {
           mainMap={this}
           onSelect={MapController.handleContextActions}
         />
-        <ZoomTool id="main-zoom-tool" ref={this.zoomToolRef} zoom={6} />
+        <ZoomTool id="main-zoom-tool" ref={this.zoomToolRef} zoom={5} />
       </GGMap>
     );
     // }

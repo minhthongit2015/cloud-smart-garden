@@ -75,7 +75,7 @@ $border-color: #ff7380;
       height: 1px;
       width: 80%;
       left: 10%;
-      background: radial-gradient(circle at 50% 50%, $border-color 0, transparent 100%);
+      background: radial-gradient(circle at 50% 50%, transparentize($color: $border-color, $amount: .5) 0, transparent 100%);
     }
     &:hover {
       border-color: $border-color;
