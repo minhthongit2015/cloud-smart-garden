@@ -73,8 +73,8 @@ export default class UserService {
     GlobalState.setState(UserObjectKeys.user, null);
   }
 
-  static useUserState(component, useNativeState) {
-    return GlobalState.useState(UserObjectKeys.user, null, component, useNativeState);
+  static useUserState(component, useNativeState, callback) {
+    return GlobalState.useState(UserObjectKeys.user, null, component, useNativeState, callback);
   }
 
   static async logout() {

@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 import MarkerWithPopup from '../../marker-with-popup/MarkerWithPopup';
 import './UserMarker.scss';
 
-import { PlantPot1Src, GardenOwnerSrc } from '../../../../../assets/icons';
+import { GardenSrc, GardenOwnerSrc } from '../../../../../assets/icons';
 
 const CUSTOM_CLASS = 'user';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -251,6 +251,6 @@ UserMarker.propTypes = {
 };
 
 UserMarker.defaultProps = {
-  iconSrc: PlantPot1Src,
+  iconSrc: GardenSrc,
   entity: {}
 };

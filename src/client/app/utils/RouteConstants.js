@@ -17,6 +17,8 @@ const oneHundredQuotesPath = `${intranetPath}/100-Quotes`;
 const oneHundredQuotesLink = `${intranetLink}/100-Quotes`;
 const membersPath = `${intranetPath}/sparkles`;
 const membersLink = `${intranetLink}/sparkles`;
+const nextLevelPath = `${intranetPath}/next-level`;
+const nextLevelLink = `${intranetLink}/next-level`;
 
 // Public
 const aiCloudPath = '/ai-cloud';
@@ -71,6 +73,8 @@ module.exports = {
   oneHundredQuotesLink,
   membersPath,
   membersLink,
+  nextLevelPath,
+  nextLevelLink,
 
   // Public
   myGardenPath,

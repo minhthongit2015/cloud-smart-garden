@@ -5,6 +5,9 @@ import OneHundredQuotes from './tab-100-Quotes/Tab100Quotes';
 import MainPageGroup from '../_base/MainPageGroup';
 import TabIntranet from './tab-intranet/TabIntranet';
 import TabMembers from './tab-members/TabMembers';
+import TabNextLevel from './tab-next-level/TabNextLevel';
+import UserService from '../../services/user/UserService';
+import { IconFeatherPen } from '../../../assets/icons';
 
 
 export default class extends MainPageGroup {
@@ -18,7 +21,7 @@ export default class extends MainPageGroup {
     };
     this.tabs = [
       {
-        name: <b>{t('pages.intranet.nav.oneHundredQuotes')}</b>,
+        name: <b><IconFeatherPen /> {t('pages.intranet.nav.oneHundredQuotes')}</b>,
         path: RouteConstants.oneHundredQuotesPath,
         link: RouteConstants.oneHundredQuotesLink,
         component: OneHundredQuotes
@@ -29,5 +32,27 @@ export default class extends MainPageGroup {
         component: TabMembers
       }
     ];
+
+    const nextLevelTab = {
+      name: t('pages.intranet.nav.nextLevel'),
+      path: RouteConstants.nextLevelPath,
+      link: RouteConstants.nextLevelLink,
+      component: TabNextLevel
+    };
+    if (UserService.isMember) {
+      this.tabs.push(nextLevelTab);
+    }
+    UserService.useUserState(this, false, () => {
+      if (UserService.isMember) {
+        if (!this.tabs.find(tab => tab === nextLevelTab)) {
+          this.tabs.push(nextLevelTab);
+        }
+      } else {
+        const index = this.tabs.findIndex(tab => tab === nextLevelTab);
+        if (index >= 0) {
+          this.tabs.splice(index, 1);
+        }
+      }
+    });
   }
 }

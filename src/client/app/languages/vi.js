@@ -39,17 +39,20 @@ module.exports = {
       title: {
         intranet: 'Alpha Team',
         oneHundredQuotes: '100 Quotes | Alpha Team',
-        memberSpotlight: 'Member Spotlight | Alpha Team'
+        memberSpotlight: 'Member Spotlight | Alpha Team',
+        nextLevel: 'Next Level | Alpha Team'
       },
       nav: {
         intranet: 'Đại Sảnh Alpha Team',
         oneHundredQuotes: '100 Quotes',
-        memberSpotlight: 'Tiêu Điểm Thành Viên'
+        memberSpotlight: 'Tiêu Điểm Thành Viên',
+        nextLevel: 'Next Level'
       },
       message: {
         intranet: 'Welcome to the Tomorrowland!',
         oneHundredQuotes: 'Some people dream of success,\r\nwhile other people get up every morning and make it happen\r\n- Wayne Huizenga',
-        memberSpotlight: ''
+        memberSpotlight: '',
+        nextLevel: 'If you\'re not one of us you\'re one of them.'
       }
     },
     myGarden: {
@@ -125,7 +128,7 @@ module.exports = {
     },
     userNetwork: {
       title: 'Smile City',
-      loadingText: 'đang cập nhập sự kiện thế giới...'
+      loadingText: 'đang kết nối đến mạng lưới...'
     }
   },
   components: {

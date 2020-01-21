@@ -12,10 +12,6 @@ export default class ProfileMarker extends Place {
     return 'profile';
   }
 
-  get defaultDescription() {
-    return 'Chuyên gia thực vật học';
-  }
-
   renderHeader() {
     const {
       place: {
@@ -46,26 +42,27 @@ export default class ProfileMarker extends Place {
     );
   }
 
+  renderProfile() {
+    return null;
+  }
+
   renderBody() {
     const {
       place: {
         name: placeName,
-        description,
-        user,
-        author
+        user
       } = {}
     } = this.props;
     const {
-      name = UserService.user && UserService.user.name,
-      socialPoint
-    } = user || author || {};
+      name = UserService.user && UserService.user.name
+    } = user || {};
 
     return (
       <div className="marker__profile">
         <div className="marker__profile__name">{placeName || name}</div>
-        <div className="marker__profile__description">{description || this.defaultDescription}</div>
-        <div className="marker__profile__social-point">Điểm cộng đồng: <b>{socialPoint || 0}</b></div>
+        <div className="marker__profile__description">{this.placeTypeTitle}</div>
         <hr className="my-2 mx-5" />
+        {this.renderProfile()}
       </div>
     );
   }

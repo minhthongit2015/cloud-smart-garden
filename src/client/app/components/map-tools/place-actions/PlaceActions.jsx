@@ -46,7 +46,7 @@ export default class extends React.Component {
               className="py-1 px-4 btn-default"
               onClick={this.handlePlaceActions}
               size="sm"
-            >Cập nhập thông tin
+            ><i className="fas fa-pencil-alt" /> Cập nhập thông tin
             </MDBBtn>
           </div>
           <div>
@@ -54,7 +54,7 @@ export default class extends React.Component {
               name="delete-place"
               className="link py-1 text-light hover-light-red"
               onClick={this.handlePlaceActions}
-            >gỡ bỏ địa điểm này
+            ><i className="fas fa-times" /> gỡ bỏ địa điểm này
             </span>
           </div>
         </div>

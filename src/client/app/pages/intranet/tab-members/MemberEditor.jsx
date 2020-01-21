@@ -35,7 +35,7 @@ export default class extends BaseComponent {
   }
 
   toggle() {
-    UISounds.playMagic();
+    UISounds.open();
     this.setState(prevState => ({
       isOpen: !prevState.isOpen
     }));

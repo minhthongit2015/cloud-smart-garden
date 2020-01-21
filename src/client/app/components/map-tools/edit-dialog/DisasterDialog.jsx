@@ -10,8 +10,8 @@ export default class DisasterDialog extends BaseEditingDialog {
 
   get place() {
     const originPlace = super.place;
-    const { place } = this.state;
-    const post = place.post ? place.post._id : null;
+    const { place } = this.state || {};
+    const post = (place && place.post) ? place.post._id : null;
     return {
       ...originPlace,
       post
@@ -19,7 +19,7 @@ export default class DisasterDialog extends BaseEditingDialog {
   }
 
   renderContent() {
-    const { place = {}, link = '' } = this.state;
+    const { place = {}, link = '' } = this.state || {};
     const { post = {}, radius, zoom } = place;
     const { title = '' } = post;
 

@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this */
-import React from 'react';
+// import React from 'react';
 import { PageMarker } from '../../../../components/map';
 import { MarkerTypes } from '../../../../utils/Constants';
 import './GardenMarker.scss';
 
-import { PlantPot1Src } from '../../../../../assets/icons';
-import { GardenSrc } from '../../../../../assets/images';
+import { GardenSrc } from '../../../../../assets/icons';
+import { GardenImgSrc } from '../../../../../assets/images';
 
 export default class GardenMarker extends PageMarker {
   get customClass() {
@@ -13,20 +13,21 @@ export default class GardenMarker extends PageMarker {
   }
 
   get markerIcon() {
-    return PlantPot1Src;
+    return GardenSrc;
   }
 
   get defaultCoverImage() {
-    return GardenSrc;
+    return GardenImgSrc;
+  }
+
+  get placeTypeTitle() {
+    return 'vườn gia đình';
   }
 
   get title() {
     const { place: { name } = {} } = this.props;
     return (
-      <div>
-        {/* <small><small>Vườn Gia Đình</small></small><br /> */}
-        <span>❝{name || 'Chưa Đặt Tên'}❞</span>
-      </div>
+      `❝${name || 'Chưa Đặt Tên'}❞`
     );
   }
 }

@@ -118,8 +118,10 @@ export default class extends React.Component {
 
   render() {
     const {
-      className, wrapperProps, innerClass, useVideo = true, useAudio = false,
-      label, name = 'preview', videoName = 'video', audioName = 'audio', value = '', video = '', audio = '', ...restProps
+      className, wrapperProps, innerClass,
+      avatar, useImage = true, useVideo = true, useAudio = false,
+      label, name = 'preview', videoName = 'video', audioName = 'audio',
+      value = '', video = '', audio = '', ...restProps
     } = this.props;
     const { uploading } = this.state;
     const urlInputValue = value && value.startsWith('http')
@@ -134,12 +136,16 @@ export default class extends React.Component {
         {...wrapperProps}
       >
         <label
-          className={classnames('drop-uploader__drop-zone rounded text-center', innerClass)}
+          className={classnames(
+            'drop-uploader__drop-zone rounded text-center',
+            innerClass,
+            avatar && 'avatar'
+          )}
           style={{ backgroundImage: `url(${value || ''})` }}
           {...restProps}
         >
           {uploading
-            ? <span>đang tải ảnh lên...</span>
+            ? <span>đang {label || 'tải ảnh lên'}...</span>
             : !value && <span>{label || 'tải ảnh lên'}</span>}
           <input
             type="file"
@@ -151,18 +157,20 @@ export default class extends React.Component {
             ref={this.inputRef}
           />
         </label>
-        <input
-          className="drop-uploader__url-input px-2 rounded"
-          placeholder="📸 URL hình ảnh"
-          name={name}
-          value={urlInputValue}
-          onChange={this.handleInputChange}
-          onPaste={this.handlePaste}
-          autoComplete="off"
-          autofill="off"
-          spellCheck="false"
-          autoCorrect="false"
-        />
+        {useImage && (
+          <input
+            className="drop-uploader__url-input px-2 rounded"
+            placeholder="📸 URL hình ảnh"
+            name={name}
+            value={urlInputValue}
+            onChange={this.handleInputChange}
+            onPaste={this.handlePaste}
+            autoComplete="off"
+            autofill="off"
+            spellCheck="false"
+            autoCorrect="false"
+          />
+        )}
         {useVideo && (
           <input
             className="drop-uploader__url-input px-2 mt-2 rounded"

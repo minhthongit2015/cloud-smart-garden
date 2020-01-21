@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MarkerWithPopup from '../../marker-with-popup/MarkerWithPopup';
 import './ActivistMarker.scss';
 
-import { PlantPot1Src } from '../../../../../assets/icons';
+import { GardenSrc } from '../../../../../assets/icons';
 import PlaceActions from '../../../map-tools/place-actions/PlaceActions';
 import UserService from '../../../../services/user/UserService';
 import ZoomTool from '../../../map-tools/zoom-tool/ZoomTool';
@@ -64,6 +64,6 @@ ActivistMarker.propTypes = {
 };
 
 ActivistMarker.defaultProps = {
-  iconSrc: PlantPot1Src,
+  iconSrc: GardenSrc,
   entity: {}
 };

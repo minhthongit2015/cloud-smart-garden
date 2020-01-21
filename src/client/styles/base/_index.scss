@@ -44,6 +44,7 @@ kbd {
 $link-underline-size: 1px;
 $link-underline-color: $color-light-red;
 .link {
+  display: inline-block;
   background: transparent 0 100%/0 $link-underline-size no-repeat;
   background-image: linear-gradient(90deg, $link-underline-color 0, $link-underline-color);
   cursor: pointer;

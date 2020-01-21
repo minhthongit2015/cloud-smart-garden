@@ -37,7 +37,7 @@ import GuideDialogHelper from './helpers/dialogs/GuideDialogHelper';
 import PostDetailsDialogHelper from './helpers/dialogs/PostDetailsDialogHelper';
 
 import EditPlaceDialogHelper from './helpers/dialogs/EditPlaceDialogHelper';
-import ActivistDialog from './components/map-tools/edit-dialog/ActivistDialog';
+import ExpertDialog from './components/map-tools/edit-dialog/ExpertDialog';
 import StrikeDialog from './components/map-tools/edit-dialog/StrikeDialog';
 import ActionDialog from './components/map-tools/edit-dialog/ActionDialog';
 import DisasterDialog from './components/map-tools/edit-dialog/DisasterDialog';
@@ -61,14 +61,25 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    if (window.appLoaded) {
+      console.log('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
+      window.hasNewUpdate = true;
+      return;
+    }
+    console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
+      .then((image) => {
+        console.h1('Welcome To The Tomorrowland!');
+        console.logImage(image);
+      });
+    window.appLoaded = true;
+
     GlobalState.init();
     GlobalState.loadState();
     superws.init();
     AuthService.init();
-    console.log('Start App');
 
     EditPlaceDialogHelper.storeDialog([
-      ActivistDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog
+      ExpertDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog
     ]);
 
     KeyTracker();
@@ -76,6 +87,12 @@ class App extends Component {
   }
 
   render() {
+    if (window.hasNewUpdate) {
+      return (
+        <ErrorBoundary reload />
+      );
+    }
+
     const routes = (
       <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
         <Switch>

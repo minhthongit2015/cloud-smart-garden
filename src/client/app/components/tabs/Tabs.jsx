@@ -27,7 +27,7 @@ export default class extends BaseComponent.Pure {
   }
 
   toggleTab(event) {
-    UISounds.playTabChange();
+    UISounds.tabChange();
     const { currentTarget: { name: tabIndex, id: tabId } } = event;
     if (this.state.activeItem !== tabId) {
       this.setState({

@@ -4,7 +4,7 @@ import { MarkerTypes } from '../../../../utils/Constants';
 import './FarmMarker.scss';
 
 import { FarmSrc as FarmIconSrc } from '../../../../../assets/icons';
-import { FarmSrc as FarmImageSrc } from '../../../../../assets/images';
+import { FarmImgSrc } from '../../../../../assets/images';
 
 
 export default class FarmMarker extends PageMarker {
@@ -17,7 +17,11 @@ export default class FarmMarker extends PageMarker {
   }
 
   get defaultCoverImage() {
-    return FarmImageSrc;
+    return FarmImgSrc;
+  }
+
+  get placeTypeTitle() {
+    return 'nông trại xanh';
   }
 
   get title() {
@@ -26,6 +30,6 @@ export default class FarmMarker extends PageMarker {
         name
       } = {}
     } = this.props;
-    return `Nông Trại ❝${name}❞`;
+    return `❝${name || 'Chưa Đặt Tên'}❞`;
   }
 }

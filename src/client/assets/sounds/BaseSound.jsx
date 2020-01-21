@@ -1,7 +1,7 @@
 import SoundSrc from './SoundSrc';
 
 
-export default class Sound extends SoundSrc {
+export default class BaseSound extends SoundSrc {
   static runtimeSounds = {};
 
   static play(soundId, volume) {

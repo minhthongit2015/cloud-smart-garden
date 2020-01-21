@@ -4,7 +4,7 @@ import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './FarmMarker.scss';
 
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
-import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
+import { FarmImgSrc } from '../../../../assets/images';
 
 const CUSTOM_CLASS = 'farm';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -56,7 +56,7 @@ export default class SupplierMarker extends Component {
       >
         <div className="farm-header mx-3 mt-3">
           <div className="farm-branding">Nông trại <span className="text-nowrap">{name}</span></div>
-          <img className="farm-illustration" src={FarmImageSrc} alt="" />
+          <img className="farm-illustration" src={FarmImgSrc} alt="" />
         </div>
         <div className="farm-body mb-3">
           <div className="farm-actions">

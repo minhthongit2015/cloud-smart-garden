@@ -3,10 +3,11 @@ import { MDBInput } from 'mdbreact';
 import BaseEditingDialog from './BaseEditingDialog';
 import DropUploader from '../../utils/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
+import { MarkerTypes } from '../../../utils/Constants';
 
 
-export default class ActivistDialog extends BaseEditingDialog {
-  static get type() { return 'Activist'; }
+export default class ExpertDialog extends BaseEditingDialog {
+  static get type() { return MarkerTypes.expert; }
 
   // get place() {
   //   const originPlace = super.place;
@@ -36,6 +37,7 @@ export default class ActivistDialog extends BaseEditingDialog {
           className="px-2 pb-4 pt-1"
         />
         <DropUploader
+          avatar
           label="Tải ảnh đại diện"
           name="avatar"
           value={avatar}

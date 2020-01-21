@@ -4,7 +4,7 @@ import { MarkerTypes } from '../../../../utils/Constants';
 import './ToolStoreMarker.scss';
 
 import { ToolStoreSrc } from '../../../../../assets/icons';
-import { ToolStoreSrc as ToolStoreImageSrc } from '../../../../../assets/images';
+import { ToolStoreImgSrc } from '../../../../../assets/images';
 
 export default class ToolStoreMarker extends StoreMarker {
   get customClass() {
@@ -16,6 +16,10 @@ export default class ToolStoreMarker extends StoreMarker {
   }
 
   get defaultCoverImage() {
-    return ToolStoreImageSrc;
+    return ToolStoreImgSrc;
+  }
+
+  get placeTypeTitle() {
+    return 'cửa hàng vật dụng';
   }
 }

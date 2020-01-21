@@ -37,6 +37,7 @@ const admin = `${APIv1}/admin`;
 const intranet = `${APIv1}/intranet`;
 const oneHundredQuotes = `${intranet}/100-Quotes`;
 const quoteI = _id => `${oneHundredQuotes}/${_id}`;
+const nextLevel = `${intranet}/next-level`;
 
 const users = `${APIv1}/users`;
 const members = whereIn(users, 'role', Object.values(UserRole));
@@ -92,6 +93,7 @@ export default {
   intranet,
   oneHundredQuotes,
   quoteI,
+  nextLevel,
 
   users,
   members,

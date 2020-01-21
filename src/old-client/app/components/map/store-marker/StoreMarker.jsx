@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import MarkerWithPopup from '../marker-with-info/MarkerWithPopup';
 import './StoreMarker.scss';
 
-import { ShoppingCartSrc } from '../../../../assets/icons';
-import { ShopEavesSrc } from '../../../../assets/images';
+import { FoodStoreSrc } from '../../../../assets/icons';
+import { ShopEavesImgSrc } from '../../../../assets/images';
 
 const CUSTOM_CLASS = 'store';
 const CUSTOM_MARKER_CLASS = `${CUSTOM_CLASS}-marker`;
@@ -89,7 +89,7 @@ export default class StoreMarker extends Component {
       >
         <div className="store-header mx-3 mt-3">
           <div className="store-branding">Cửa hàng <span className="text-nowrap">{name}</span></div>
-          <img className="store-eaves" src={ShopEavesSrc} alt="" />
+          <img className="store-eaves" src={ShopEavesImgSrc} alt="" />
         </div>
         <div className="store-body mb-3">
           <div className="bg-default text-white h6 py-2 m-3">Danh mục sản phẩm</div>
@@ -118,5 +118,5 @@ StoreMarker.propTypes = {
 };
 
 StoreMarker.defaultProps = {
-  iconSrc: ShoppingCartSrc
+  iconSrc: FoodStoreSrc
 };

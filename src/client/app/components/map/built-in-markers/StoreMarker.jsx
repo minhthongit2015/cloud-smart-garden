@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import PageMarker from './PageMarker';
-import { ShoppingCartSrc } from '../../../../assets/icons';
-import { FoodStoreSrc } from '../../../../assets/images';
+import { FoodStoreSrc } from '../../../../assets/icons';
+import { FoodStoreImgSrc } from '../../../../assets/images';
 import Section from '../../../layouts/base/section/Section';
 import demogoods from './demogoods';
 import './StoreMarker.scss';
@@ -15,20 +15,20 @@ export default class StoreMarker extends PageMarker {
   }
 
   get markerIcon() {
-    return ShoppingCartSrc;
-  }
-
-  get defaultCoverImage() {
     return FoodStoreSrc;
   }
 
+  get defaultCoverImage() {
+    return FoodStoreImgSrc;
+  }
+
+  get placeTypeTitle() {
+    return 'cửa hàng';
+  }
+
   get title() {
-    const {
-      place: {
-        name
-      } = {}
-    } = this.props;
-    return `Cửa Hàng ❝${name || 'Chưa Đặt Tên'}❞`;
+    const { place: { name } = {} } = this.props;
+    return `❝${name || 'Chưa Đặt Tên'}❞`;
   }
 
   constructor(props) {

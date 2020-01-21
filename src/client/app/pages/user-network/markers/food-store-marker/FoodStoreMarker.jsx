@@ -3,8 +3,8 @@ import { StoreMarker } from '../../../../components/map';
 import { MarkerTypes } from '../../../../utils/Constants';
 import './FoodStoreMarker.scss';
 
-import { ShoppingCartSrc } from '../../../../../assets/icons';
-import { FoodStoreSrc } from '../../../../../assets/images';
+import { FoodStoreSrc } from '../../../../../assets/icons';
+import { FoodStoreImgSrc } from '../../../../../assets/images';
 
 export default class FoodStoreMarker extends StoreMarker {
   get customClass() {
@@ -12,10 +12,14 @@ export default class FoodStoreMarker extends StoreMarker {
   }
 
   get markerIcon() {
-    return ShoppingCartSrc;
+    return FoodStoreSrc;
   }
 
   get defaultCoverImage() {
-    return FoodStoreSrc;
+    return FoodStoreImgSrc;
+  }
+
+  get placeTypeTitle() {
+    return 'cửa hàng rau củ';
   }
 }

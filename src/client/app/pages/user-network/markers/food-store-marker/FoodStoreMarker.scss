@@ -11,6 +11,9 @@ $shadow: #a7ffba;
 @import "../../../../components/map/marker-with-popup/StyleInjector.scss";
 
 @mixin customStyle {
+  // .marker__page__before-title {
+  //   color: $color;
+  // }
 }
 
 @include markerStyle($custom-class, $window-width, $window-height, $color, $shadow);

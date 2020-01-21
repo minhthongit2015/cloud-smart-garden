@@ -7,7 +7,7 @@ class Global {
     this.listeners = {};
   }
 
-  static useState(name, initialValue, classComponent, useNativeState = false) {
+  static useState(name, initialValue, classComponent, useNativeState = false, changeListener) {
     let newState;
     let newSetState;
     if (classComponent) {
@@ -47,15 +47,29 @@ class Global {
         };
       }
       classComponent._componentDidMount.add(() => {
+        if (changeListener) {
+          this.listeners[name].add(changeListener);
+        }
         this.listeners[name].add(newSetState);
       });
       classComponent._componentWillUnmount.add(() => {
+        if (changeListener) {
+          this.listeners[name].delete(changeListener);
+        }
         this.listeners[name].delete(newSetState);
       });
     } else {
       React.useEffect(() => {
+        if (changeListener) {
+          this.listeners[name].add(changeListener);
+        }
         this.listeners[name].add(newSetState);
-        return () => this.listeners[name].delete(newSetState);
+        return () => {
+          if (changeListener) {
+            this.listeners[name].delete(changeListener);
+          }
+          this.listeners[name].delete(newSetState);
+        };
       }, []);
     }
 

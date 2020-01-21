@@ -1,23 +1,19 @@
-import Sound from '.';
+import Sounds from './Sounds';
 
-export default class extends Sound {
-  static playTock() {
-    this.play(this.TOCK);
+export default class extends Sounds {
+  static hover() {
+    this.tock2();
   }
 
-  static playTock2() {
-    this.play(this.SUBTLE, 0.2);
+  static select() {
+    this.future1();
   }
 
-  static playFuture1() {
-    this.play(this.FUTURE_1, 0.3);
+  static open() {
+    this.magic();
   }
 
-  static playMagic() {
-    this.play(this.MAGIC, 0.5);
-  }
-
-  static playTabChange() {
-    this.play(this.PAPER);
+  static tabChange() {
+    this.paper();
   }
 }

@@ -7,7 +7,7 @@ import PlaceActions from '../../map-tools/place-actions/PlaceActions';
 import './Place.scss';
 
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
-import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
+import { FarmImgSrc } from '../../../../assets/images';
 
 /**
  * @augments {Component<Props, State>}
@@ -19,6 +19,10 @@ export default class Place extends MarkerWithPopup {
 
   get customClass() {
     return 'place';
+  }
+
+  get placeTypeTitle() {
+    return '';
   }
 
   get circleProps() {
@@ -44,7 +48,7 @@ export default class Place extends MarkerWithPopup {
   }
 
   get defaultCoverImage() {
-    return FarmImageSrc;
+    return FarmImgSrc;
   }
 
   renderZoomTool() {

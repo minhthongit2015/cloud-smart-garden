@@ -6,16 +6,27 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+
+    img {
+      filter: brightness(1);
+      transform: scale(1);
+      transition: filter .3s ease-in-out;
+      position: relative;
+
+      &:hover {
+        filter: brightness(1.1);
+      }
+    }
   }
   &__body {
     margin: 1rem 1rem 1rem;
-    .preview-image {
-      @include fixed-ratio-wrapper(2 / 3);
-      & > * {
-        object-fit: cover;
-        @include fixed-ratio;
-      }
-    }
+    // .preview-image {
+    //   @include fixed-ratio-wrapper(2 / 3);
+    //   & > * {
+    //     object-fit: cover;
+    //     @include fixed-ratio;
+    //   }
+    // }
   }
   
   &__section {

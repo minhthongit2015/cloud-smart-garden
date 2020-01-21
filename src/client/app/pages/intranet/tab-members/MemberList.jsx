@@ -47,7 +47,7 @@ export default class extends BaseComponent {
   }
 
   handleSelect(event) {
-    UISounds.playFuture1();
+    UISounds.select();
     const member = this.getMemberFromEvent(event);
     this.setState((prevState) => {
       const newSelectedMembers = [...prevState.selectedMembers];
@@ -68,7 +68,7 @@ export default class extends BaseComponent {
   }
 
   handleMouseEnter(event) {
-    UISounds.playTock2();
+    UISounds.hover();
     const member = this.getMemberFromEvent(event);
     event.persist();
     this.setState(prevState => ({
@@ -79,7 +79,7 @@ export default class extends BaseComponent {
   }
 
   handleMouseLeave(event) {
-    UISounds.playTock2();
+    UISounds.hover();
     const member = this.getMemberFromEvent(event);
     event.persist();
     this.setState(prevState => ({
@@ -106,7 +106,7 @@ export default class extends BaseComponent {
   }
 
   handleIconClick() {
-    UISounds.playFuture1();
+    UISounds.select();
     this.setState({
       selectedMembers: []
     });

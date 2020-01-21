@@ -7,47 +7,43 @@ import {
 import LeafLoading from '../../utils/loadings/LeafLoading';
 import MapService from '../../../services/map/MapService';
 import PostService from '../../../services/blog/PostService';
+import BaseComponent from '../../BaseComponent';
 
 
-export default class extends React.Component {
-  get isOpen() { return this.state.isShowModal; }
-
+export default class BaseEditingDialog extends BaseComponent.Pure {
   static get type() { return 'EditingDialog'; }
 
+  get isOpen() { return this.state && this.state.isShowModal; }
+
+  // eslint-disable-next-line class-methods-use-this
+  get fields() {
+    return [
+      '_id', 'name', 'picture', 'cover', 'video', 'description', 'gallery',
+      'link', 'address', 'position', 'zoom', 'path', 'radius',
+      'events', 'socials'
+    ];
+  }
+
   get place() {
-    const { place } = this.state;
-    return {
-      _id: place._id,
-      __t: place.__t,
-      name: place.name,
-      avatar: place.avatar,
-      cover: place.cover,
-      description: place.description,
-      address: place.address,
-      time: place.time,
-      position: place.position,
-      zoom: place.zoom,
-      path: place.path,
-      radius: place.radius,
-      events: place.events
-    };
+    if (!this.state || !this.state.place) return {};
+    const placeState = this.state.place;
+    const place = {};
+    this.fields.forEach((key) => {
+      place[key] = placeState[key];
+    });
+    return place;
   }
 
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDiscard = this.handleDiscard.bind(this);
-    this.handleLinkChange = this.handleLinkChange.bind(this);
-    this.setZoomToRecommeded = this.setZoomToRecommeded.bind(this);
-    this.zoomToMap = this.zoomToMap.bind(this);
+    this.bind(
+      this.handleClick, // for waves effect
+      this.open, this.close, this.toggle, this.show, this.edit,
+      this.handleInputChange, this.handleSubmit, this.handleDiscard,
+      this.handleLinkChange, this.setZoomToRecommeded, this.zoomToMap
+    );
 
     this.state = {
-      // eslint-disable-next-line react/no-unused-state
       link: '',
       place: {},
       marker: null,
@@ -58,11 +54,11 @@ export default class extends React.Component {
     };
   }
 
-  handleClick = (e) => {
-    e.stopPropagation();
-    const cursorPos = { top: e.clientY, left: e.clientX, time: Date.now() };
+  handleClick(event) {
+    this.stopEvent(event);
+    const cursorPos = { top: event.clientY, left: event.clientX, time: Date.now() };
     this.setState({ cursorPos });
-  };
+  }
 
   open() {
     if (this.isOpen) return;
@@ -78,15 +74,15 @@ export default class extends React.Component {
     if (this.state.disabled) {
       return;
     }
-    this.setState({
-      isShowModal: !this.isOpen
-    });
+    this.setState(prevState => ({
+      isShowModal: !prevState.isShowModal
+    }));
   }
 
   show(title) {
     this.setState({
       title
-    }, () => this.open());
+    }, this.open);
   }
 
   edit(place, marker) {
@@ -142,7 +138,6 @@ export default class extends React.Component {
     this.setPlaceState('zoom', window.map.getZoom());
   }
 
-  // eslint-disable-next-line class-methods-use-this
   zoomToMap(event) {
     if (!window.map) return;
     const { dataset: { zoom } } = event.currentTarget;
@@ -158,24 +153,23 @@ export default class extends React.Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
+    this.stopEvent(event);
     this.setState({
       disabled: true
+    }, () => {
+      this.state.marker.refresh();
+      MapService.updateOrCreatePlace(this.place)
+        .then(() => {
+          this.setState({
+            disabled: false
+          }, this.close);
+        })
+        .catch(() => {
+          this.setState({
+            disabled: false
+          });
+        });
     });
-    this.state.marker.refresh();
-    MapService.updateOrCreatePlace(this.place)
-      .then(() => {
-        this.setState({
-          disabled: false
-        });
-        this.close();
-      })
-      .catch(() => {
-        this.setState({
-          disabled: false
-        });
-        this.close();
-      });
   }
 
   handleDiscard() {

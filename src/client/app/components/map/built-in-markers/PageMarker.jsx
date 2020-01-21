@@ -6,7 +6,7 @@ import Video from '../../utils/video/Video';
 
 
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
-import { FarmSrc as FarmImageSrc } from '../../../../assets/images';
+import { FarmImgSrc } from '../../../../assets/images';
 
 export default class PageMarker extends Place {
   get customClass() {
@@ -18,7 +18,7 @@ export default class PageMarker extends Place {
   }
 
   get defaultCoverImage() {
-    return FarmImageSrc;
+    return FarmImgSrc;
   }
 
   get title() {
@@ -40,6 +40,7 @@ export default class PageMarker extends Place {
     } = this.props;
     return (
       <React.Fragment>
+        <div className="marker__page__before-title">{this.placeTypeTitle}</div>
         <div className="marker__page__title">{this.title || name}</div>
         <div className="marker__page__banner">
           {video ? (

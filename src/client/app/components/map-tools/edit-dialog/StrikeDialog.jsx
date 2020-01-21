@@ -10,10 +10,11 @@ export default class StrikeDialog extends BaseEditingDialog {
 
   get place() {
     const originPlace = super.place;
-    const { place } = this.state;
     const {
-      prev, next, datez, timez
-    } = place;
+      place: {
+        prev, next, datez, timez
+      } = {}
+    } = this.state || {};
     return {
       ...originPlace,
       prev: prev && prev._id,

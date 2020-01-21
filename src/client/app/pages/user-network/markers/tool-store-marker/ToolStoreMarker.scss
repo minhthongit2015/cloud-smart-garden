@@ -11,6 +11,9 @@ $shadow: #58b2ce;
 @import "../../../../components/map/marker-with-popup/StyleInjector.scss";
 
 @mixin customStyle {
+  .marker__page__before-title {
+    color: $color;
+  }
   .marker__page__title {
     background: $color;
     box-shadow: 0 0 5px lighten($color: $color, $amount: .5);
