@@ -64,13 +64,13 @@ export default class {
   static useCategoriesState(component, useNativeState) {
     GlobalState.useState(this.CATEGORIES_STATE_NAME, null, component, useNativeState);
     this._categoriesMap = GlobalState[this.CATEGORIES_STATE_NAME];
-    if (moment(moment.now()).diff(moment(this.lastCheckPoint), 'seconds')
-        > this.CHECK_FOR_NEW_CATEGORIES_INTERVAL) {
-      this.lastCheckPoint = moment.now();
-      this.fetchCategories().then(() => {
-        this.lastCheckPoint = moment.now();
-      });
-    }
+    // if (moment(moment.now()).diff(moment(this.lastCheckPoint), 'seconds')
+    //     > this.CHECK_FOR_NEW_CATEGORIES_INTERVAL) {
+    //   this.lastCheckPoint = moment.now();
+    //   this.fetchCategories().then(() => {
+    //     this.lastCheckPoint = moment.now();
+    //   });
+    // }
   }
 
   static isBelongsToCategory(post, categoryName) {

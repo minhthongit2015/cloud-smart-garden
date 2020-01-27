@@ -5,13 +5,13 @@ const ConverterFactory = require('../models/converters/ConverterFactory');
 const { isNotSet } = require('../utils');
 const ImgurService = require('./third-party/imgur');
 
-function convertArgumentsToArray(args) {
-  const outputArgs = [];
-  for (let i = 0; i < args.length; i++) {
-    outputArgs.push(args[i]);
-  }
-  return outputArgs;
-}
+// function toArray(args) {
+//   const outputArgs = [];
+//   for (let i = 0; i < args.length; i++) {
+//     outputArgs.push(args[i]);
+//   }
+//   return outputArgs;
+// }
 
 module.exports = class CRUDService {
   static getModel() {
@@ -19,7 +19,7 @@ module.exports = class CRUDService {
   }
 
   static get converter() {
-    return ConverterFactory.get(this.getModel(...convertArgumentsToArray(arguments)).modelName);
+    return ConverterFactory.get(this.getModel().modelName);
   }
 
   static get populate() {
@@ -34,7 +34,7 @@ module.exports = class CRUDService {
   // Create & Update
 
   static async create(doc) {
-    const model = this.getModel(...convertArgumentsToArray(arguments));
+    const model = this.getModel(doc);
     const savedType = doc.__t;
     delete doc.__t;
     const newDoc = await model.create(doc);
@@ -49,21 +49,21 @@ module.exports = class CRUDService {
     }
     id = ApiHelper.getId(id);
     const { id: idz, _id, ...restProps } = doc;
-    const updatedDoc = await this.getModel(...convertArgumentsToArray(arguments))
+    const updatedDoc = await this.getModel(doc)
       .findByIdAndUpdate(id, restProps, { new: true }).exec();
     return this.converter.convert(updatedDoc);
   }
 
   static async updateWhere(doc, where) {
     const { id: idz, _id, ...restProps } = doc;
-    const updatedDocs = await this.getModel(...convertArgumentsToArray(arguments))
+    const updatedDocs = await this.getModel(doc)
       .updateMany(where, restProps).exec();
     return updatedDocs;
   }
 
   static async createOrUpdate(doc, where) {
     if (where) {
-      return this.getModel(...convertArgumentsToArray(arguments)).updateOne(where, doc,
+      return this.getModel(doc).updateOne(where, doc,
         { upsert: true, new: true, setDefaultsOnInsert: true }).exec();
     }
     if (doc._id || doc.id) {
@@ -99,7 +99,7 @@ module.exports = class CRUDService {
 
   static async get(id) {
     id = ApiHelper.getId(id);
-    let query = this.getModel(...convertArgumentsToArray(arguments)).findById(id);
+    let query = this.getModel().findById(id);
     query = this.populate.reduce(
       (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
       query
@@ -120,7 +120,7 @@ module.exports = class CRUDService {
       return [];
     }
     let query = ApiHelper.findWithModel(
-      this.getModel(...convertArgumentsToArray(arguments)), listOptions
+      this.getModel(opts && opts.where), listOptions
     );
     query = this.populate.reduce(
       (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
@@ -150,19 +150,19 @@ module.exports = class CRUDService {
 
   static async delete(id) {
     id = ApiHelper.getId(id);
-    const deleteResult = await this.getModel(...convertArgumentsToArray(arguments))
+    const deleteResult = await this.getModel()
       .findByIdAndDelete(id).exec();
     return deleteResult;
   }
 
   static async findOneAndDelete(where) {
-    const deleteResult = await this.getModel(...convertArgumentsToArray(arguments))
+    const deleteResult = await this.getModel(where)
       .findOneAndDelete(where).exec();
     return deleteResult;
   }
 
   static async findAndDelete(where) {
-    const deleteResult = await this.getModel(...convertArgumentsToArray(arguments))
+    const deleteResult = await this.getModel(where)
       .deleteMany(where).exec();
     return deleteResult;
   }

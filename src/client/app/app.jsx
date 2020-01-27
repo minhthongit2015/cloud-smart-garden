@@ -62,7 +62,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     if (window.appLoaded) {
-      console.log('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
+      console.h1('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
       window.hasNewUpdate = true;
       return;
     }

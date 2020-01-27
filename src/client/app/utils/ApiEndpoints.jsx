@@ -7,8 +7,17 @@ function ep(endpoint) {
     : (endpoint.endsWith('&') ? endpoint : `${endpoint}&`);
 }
 
+function params(endpoint, queryParams) {
+  return `${ep(endpoint)}${
+    Object.entries(queryParams)
+      .map(([key, value]) => (value ? `${key}=${value}` : null))
+      .filter(param => param)
+      .join('&')
+  }`;
+}
+
 function where(endpoint, whereCondiction) {
-  return `${ep(endpoint)}where=${JSON.stringify(whereCondiction)}`;
+  return params(endpoint, { where: JSON.stringify(whereCondiction) });
 }
 
 function whereIn(endpoint, key, inArray) {
@@ -16,17 +25,71 @@ function whereIn(endpoint, key, inArray) {
   return where(endpoint, { [key]: { $in: inArray } });
 }
 
-function offset(endpoint, offsetValue) {
-  return `${ep(endpoint)}offset=${offsetValue}`;
-}
-
 function limit(endpoint, limitLength) {
-  return `${ep(endpoint)}limit=${limitLength}`;
+  return params(endpoint, { limit: limitLength });
 }
 
+function offset(endpoint, offsetValue) {
+  return params(endpoint, { offset: offsetValue });
+}
+
+function __t(endpoint, modelType) {
+  return where(endpoint, { __t: modelType });
+}
+
+/**
+ * @param  {...any} keys e.g: (..., '-_id', 'baseOrder', '-createdAt')
+ */
 function sort(endpoint, ...keys) {
   if (!keys) return endpoint;
-  return `${ep(endpoint)}sort=${keys.join(' ')}`;
+  return params(endpoint, { sort: keys.join(' ') });
+}
+
+class Builder {
+  constructor(endpoint) {
+    this.endpoint(endpoint);
+  }
+
+  toString() {
+    return this._endpoint;
+  }
+
+  endpoint(endpoint) {
+    this._endpoint = endpoint;
+    return this;
+  }
+
+  params(queryParams) {
+    return this.endpoint(params(this._endpoint, queryParams));
+  }
+
+  where(whereCondiction) {
+    return this.endpoint(where(this._endpoint, whereCondiction));
+  }
+
+  whereIn(key, inArray) {
+    return this.endpoint(whereIn(this._endpoint, key, inArray));
+  }
+
+  limit(limitLength) {
+    return this.endpoint(limit(this._endpoint, limitLength));
+  }
+
+  offset(offsetValue) {
+    return this.endpoint(offset(this._endpoint, offsetValue));
+  }
+
+  __t(modelType) {
+    return this.endpoint(__t(this._endpoint, modelType));
+  }
+
+  sort(...keys) {
+    return this.endpoint(sort(this._endpoint, ...keys));
+  }
+}
+
+function builder(endpoint) {
+  return new Builder(endpoint);
 }
 
 const host = '';
@@ -70,6 +133,7 @@ const gardens = `${garden}/gardens`;
 const stations = `${garden}/stations`;
 const setStationState = `${stations}/set-state`;
 const records = `${garden}/records`;
+const generateRecords = `${records}/generate`;
 
 const AI = `${APIv1}/AI`;
 const projects = `${AI}/projects`;
@@ -80,11 +144,15 @@ const datasets = `${AI}/datasets`;
 const datasetI = _id => `${datasets}/${_id}`;
 
 export default {
+  ep,
+  params,
   where,
   whereIn,
-  offset,
   limit,
+  offset,
+  __t,
   sort,
+  builder,
 
   APIv1,
 
@@ -126,6 +194,7 @@ export default {
   stations,
   setStationState,
   records,
+  generateRecords,
 
   AI,
   projects,

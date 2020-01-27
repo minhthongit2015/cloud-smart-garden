@@ -117,7 +117,7 @@ export default class HomePage extends BasePage {
             }
           </div>
           {fbProfile && (
-            <div className="text-center text-light mt-2 mt-xs-3 mt-sm-5 px-3 px-md-5">
+            <div className="text-center text-light-red mt-2 mt-xs-3 mt-sm-5 px-3 px-md-5">
               {this.getRandomQuote(fbProfile.short_name)}
             </div>
           )}

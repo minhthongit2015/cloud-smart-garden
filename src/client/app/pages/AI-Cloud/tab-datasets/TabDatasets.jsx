@@ -8,29 +8,28 @@ import DynamicTimeSeries from '../../../components/charts/base/DynamicTimeSeries
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import Calendar from '../../../components/utils/calendar/Calendar';
 import superrequest from '../../../utils/superrequest';
+import EditableLineChart from '../../../components/charts/base/EditableLineChart';
 
 
 export default class TabDataset extends BasePage {
   constructor(props) {
     super(props, t('pages.aiCloud.title.datasets'));
     this.postModuleRef = React.createRef();
-    this.handleCalendarChange = this.handleCalendarChange.bind(this);
-    this.handleCreateDataset = this.handleCreateDataset.bind(this);
+    this.bind(this.handleCalendarChange, this.handleCreateDataset, this.handleGenerateRecords);
     this.state = {
       selection: null
     };
   }
 
-  onSaveDataset(/* dataset */) {
-    console.log(this.state.dataset);
-    // ExperimentService.updateDataset(dataset);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   handleCalendarChange(event, selection) {
     this.setState({
       selection
     });
+  }
+
+  handleGenerateRecords() {
+    const { selection } = this.state;
+    superrequest.agentPost(ApiEndpoints.generateRecords, selection);
   }
 
   handleCreateDataset() {
@@ -44,23 +43,15 @@ export default class TabDataset extends BasePage {
     const { selection } = this.state;
     return (
       <React.Fragment>
-        {/* <RecordsStream
-          options={{
-            ...options,
-            ...baseOptions
-          }}
-          data={chartData}
-        /> */}
-        {/* <DatasetComponent
-          ref={this.datasetChartRef}
-          dataset={chartData}
-          onSave={this.onSaveDataset}
-        /> */}
         <DynamicTimeSeries endPoint={ApiEndpoints.records} />
+        <EditableLineChart />
         <Calendar selection={selection} onChange={this.handleCalendarChange} months={2} />
         <div className="text-center mt-4 mb-3">
+          <MDBBtn onClick={this.handleGenerateRecords} className="mr-3">
+            <i className="fas fa-plus-square" /> Tạo dữ liệu mẫu
+          </MDBBtn>
           <MDBBtn onClick={this.handleCreateDataset}>
-            <i className="fas fa-plus-square" /> Tạo dataset từ dữ liệu đã chọn
+            <i className="fas fa-plus-square" /> Tạo Dataset
           </MDBBtn>
         </div>
         <DatasetModule ref={this.postModuleRef} />

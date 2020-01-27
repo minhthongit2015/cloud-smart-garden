@@ -2,6 +2,7 @@ const router = require('express').Router();
 const SyncService = require('../../../services/sync');
 const Logger = require('../../../services/Logger');
 const PostService = require('../../../services/blog/Post');
+const StationService = require('../../../services/garden/Station');
 const RecordService = require('../../../services/garden/Record');
 const SessionService = require('../../../services/user/Session');
 const GardenSecurity = require('../../../services/security/GardenSecurity');
@@ -27,6 +28,14 @@ router.post('/', Logger.catch(async (req, res) => {
 
 router.get('/', Logger.catch(async (req, res) => {
   const records = await RecordService.list(req.query);
+  res.send(APIResponse.setData(records));
+}));
+
+router.post('/generate', Logger.catch(async (req, res) => {
+  const dates = req.body;
+  GardenSecurity.onlyNotNullObject(dates && dates.length > 0);
+  const station = await StationService.first();
+  const records = await RecordService.generateRecordByDates(dates, station._id);
   res.send(APIResponse.setData(records));
 }));
 

@@ -69,12 +69,13 @@ export default class extends BaseComponent.Pure {
     const limit = (this.page + 1) * postsPerPage;
     const offset = 0;
 
-    let endPoint = overrideEndpoint || `${this.postEndpoint}?categories=${JSON.stringify(categories)}`;
-    endPoint = `${endPoint}${endPoint.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&__t=${this.postType}`;
+    let endPoint = overrideEndpoint
+      || ApiEndpoints.params(this.postEndpoint, { categories: JSON.stringify(categories) });
+    endPoint = ApiEndpoints.builder(endPoint).limit(limit).offset(offset).__t(this.postType);
 
     const mappingRes = this.props.mappingRes || (res => res);
 
-    return superrequest.get(endPoint)
+    return superrequest.get(endPoint.toString())
       .then(mappingRes)
       .then((res) => {
         this.setState({
@@ -90,12 +91,13 @@ export default class extends BaseComponent.Pure {
     const limit = postsPerPage;
     const offset = this.page * limit;
 
-    let endPoint = this.props.endPoint || `${this.postEndpoint}?categories=${JSON.stringify(categories)}`;
-    endPoint = `${endPoint}${endPoint.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}`;
+    let endPoint = this.props.endPoint
+      || ApiEndpoints.params(this.postEndpoint, { categories: JSON.stringify(categories) });
+    endPoint = ApiEndpoints.builder(endPoint).limit(limit).offset(offset).__t(this.postType);
 
     const mappingRes = this.props.mappingRes || (res => res);
 
-    return superrequest.get(endPoint)
+    return superrequest.get(endPoint.toString())
       .then(mappingRes)
       .then((res) => {
         if (!res || !res.ok) {
