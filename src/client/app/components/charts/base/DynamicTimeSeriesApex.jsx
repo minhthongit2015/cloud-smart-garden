@@ -24,10 +24,13 @@ export default class DynamicTimeSeries extends BaseComponent.Pure {
   }
 
   fetch() {
+    this.dispatchEvent(this.Events.fetch);
     superrequest.get(`${this.endPoint}?limit=100`)
       .then((res) => {
         this.setState({
           chartProps: ApexchartsHelper.buildProps(res.data)
+        }, () => {
+          this.dispatchEvent(this.Events.fetched, res.data);
         });
       });
   }

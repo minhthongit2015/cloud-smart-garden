@@ -13,7 +13,7 @@ module.exports = class extends CRUDService {
     return [];
   }
 
-  static async getOrListMin(id, opts = ApiHelper.listParams, user) {
+  static async getOrListMin(id, opts = { ...ApiHelper.listParams }, user) {
     opts = Object.assign(opts || {}, {
       where: {
         user: user._id

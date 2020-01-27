@@ -32,7 +32,7 @@ module.exports = class extends CRUDService {
     return ['categories'];
   }
 
-  static async resolveListOptions(opts = ApiHelper.listParams) {
+  static async resolveListOptions(opts = { ...ApiHelper.listParams }) {
     opts.where = Object.assign(opts.where || {}, {
       status: PostStatus.published
     });

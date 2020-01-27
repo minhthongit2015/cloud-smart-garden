@@ -1,6 +1,6 @@
 
 $index-size: 25px;
-$color: orange;
+$color: $color-orange;
 
 .floating-panel {
   position: absolute;
@@ -8,7 +8,7 @@ $color: orange;
   max-width: 50px;
   max-height: 50px;
   padding: 5px 5px;
-  color: rgb(36, 172, 47);
+  color: $color-green;
   background: #fff;
   box-shadow: rgba(145, 143, 143, 0.3) 0px 1px 4px -1px;
   transition: all .3s ease-out;

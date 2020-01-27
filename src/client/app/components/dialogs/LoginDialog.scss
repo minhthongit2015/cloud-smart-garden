@@ -1,8 +1,8 @@
 
 .login-modal {
   &__message {
-    color: orange;
-    border-left: 2px solid orange;
+    color: $color-orange;
+    border-left: 2px solid $color-orange;
     padding-left: .5rem;
   }
 }

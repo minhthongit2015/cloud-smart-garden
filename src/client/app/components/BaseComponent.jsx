@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-// import { getAutoDispatcher } from './Helper';
 import { camelize, isFunction } from '../utils';
 import Random from '../utils/Random';
 
@@ -13,8 +12,12 @@ const Events = {
   toggle: { typez: 'toggle' },
   focus: { typez: 'focus' },
   click: { typez: 'click' },
-  contextMenu: { typez: 'context menu' },
+  contextMenu: { typez: 'context menu' }, // right click
+  contextActions: { typez: 'context actions' },
   load: { typez: 'load' },
+  fetch: { typez: 'fetch' },
+  fetched: { typez: 'fetched' },
+  fetchError: { typez: 'fetch error' },
   select: { typez: 'select' },
   submit: { typez: 'submit' },
   submited: { typez: 'submited' }
@@ -102,13 +105,6 @@ class PureComponent extends React.PureComponent {
     return this._id;
   }
 
-  // constructor(props) {
-  //   super(props);
-
-  //   // onEvent... will be auto dispatch to `props.handler`
-  //   this.redirectToHandler = getAutoDispatcher(this);
-  // }
-
   componentDidMount() {
     this._ismounted = true;
   }
@@ -183,13 +179,6 @@ class BaseComponent extends React.Component {
     }
     return this._id;
   }
-
-  // constructor(props) {
-  //   super(props);
-
-  //   // onEvent... will be auto dispatch to `props.handler`
-  //   this.redirectToHandler = getAutoDispatcher(this);
-  // }
 
   componentDidMount() {
     this._ismounted = true;

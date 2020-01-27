@@ -1,7 +1,7 @@
 
 $index-size: 25px;
-$color: orange;
-$border-color: #ff7380;
+$color: $color-orange;
+$border-color: $color-red;
 
 .item-list {
   margin-top: 0;
@@ -43,7 +43,7 @@ $border-color: #ff7380;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: orange;
+        color: $color;
         border: 1px solid #fafafa;
         border-radius: 25px;
         background: #fff;
@@ -96,7 +96,7 @@ $border-color: #ff7380;
     // }
     &:hover {
       border-color: $border-color;
-      color: #f9a82f;
+      color: $color;
     }
   }
 }

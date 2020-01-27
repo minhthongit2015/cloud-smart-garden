@@ -127,13 +127,6 @@ function zeroVariable(variable, toNull = false) {
   return undefined;
 }
 
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    // eslint-disable-next-line no-await-in-loop
-    await callback(array[index], index, array);
-  }
-}
-
 function camelize(str) {
   return str.replace(
     /(?:^\w|[A-Z]|\b\w)/g,
@@ -157,7 +150,6 @@ module.exports = {
   parseStringToNumber,
   isZeroVariable,
   zeroVariable,
-  asyncForEach,
   camelize,
   sentenceCase
 };

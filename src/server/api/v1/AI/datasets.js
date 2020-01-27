@@ -1,24 +1,21 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models/APIResponse');
-// const DatasetService = require('../../../services/AI/Dataset');
+const DatasetService = require('../../../services/AI/management/Dataset');
+const StationService = require('../../../services/garden/Station');
 
-// router.get('/', (req, res) => {
-//   Logger.catch(() => {
-//     res.send(new APIResponse().setData([
-//       { id: 1, name: 'Realtime Dataset' }
-//     ]));
-//   }, { req, res });
-// });
 
-// router.get('/:datasetId', (req, res) => {
-//   Logger.catch(async () => {
-//     // const demoData = require('./data');
-//     const { limit, offset, sort } = req.query;
-//     // const dataset = await DatasetService.list({ limit, offset, sort });
-//     res.send(new APIResponse().setData({}));
-//   }, { req, res });
-// });
+router.get('/:datasetId?', Logger.catch(async (req, res) => {
+  const datasets = await DatasetService.getOrList(req.params.datasetId, req.query);
+  res.send(APIResponse.setData(datasets));
+}));
+
+router.post('/', Logger.catch(async (req, res) => {
+  const station = await StationService.first();
+  req.body.station = station._id;
+  const dataset = await DatasetService.createOrUpdate(req.body);
+  return res.send(APIResponse.setData(dataset));
+}));
 
 // router.put('/:datasetId', (req, res) => {
 //   Logger.catch(async () => {

@@ -7,7 +7,7 @@ const NeralNetwork = require('./NeuralNetwork');
 const SyncService = require('../../../services/sync');
 
 module.exports = class {
-  static async build(opts = ApiHelper.listParams) {
+  static async build(opts = { ...ApiHelper.listParams }) {
     // Prepare dataset
     const rawData = await RecordService.list(opts);
     const features = {

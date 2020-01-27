@@ -26,7 +26,7 @@ module.exports = class CRUDService {
     return [];
   }
 
-  static resolveListOptions(opts = ApiHelper.listParams) {
+  static resolveListOptions(opts = { ...ApiHelper.listParams }) {
     return opts;
   }
 
@@ -90,7 +90,7 @@ module.exports = class CRUDService {
 
   // Read
 
-  static async getOrList(id, opts = ApiHelper.listParams) {
+  static async getOrList(id, opts = { ...ApiHelper.listParams }) {
     if (isNotSet(id)) {
       return this.list(opts);
     }
@@ -108,13 +108,13 @@ module.exports = class CRUDService {
     return this.converter.convert(doc);
   }
 
-  static async first(opts = ApiHelper.listParams) {
+  static async first(opts = { ...ApiHelper.listParams }) {
     opts.limit = 1;
     const foundDocs = await this.list(opts);
     return this.converter.convert(foundDocs[0]);
   }
 
-  static async list(opts = ApiHelper.listParams) {
+  static async list(opts = { ...ApiHelper.listParams }) {
     const listOptions = await this.resolveListOptions(opts);
     if (!listOptions) { // null mean that is have some errors
       return [];

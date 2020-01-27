@@ -1,5 +1,6 @@
 import BlogPostsModule from '../../../components/blog/blog-posts-module/BlogPostsModule';
 import NewDataset from './NewDataset';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class extends BlogPostsModule {
@@ -9,5 +10,9 @@ export default class extends BlogPostsModule {
 
   get NewPostComponent() {
     return this.props.NewPostComponent || NewDataset;
+  }
+
+  get postListProps() {
+    return { ...super.postListProps, endPoint: ApiEndpoints.datasets };
   }
 }

@@ -4,7 +4,7 @@ import _ from 'lodash';
 export {
   isNotSet, isNone, isEmpty, isBlank,
   isFunction, isString, isZeroVariable, zeroVariable,
-  parseStringToNumber, asyncForEach,
+  parseStringToNumber,
   camelize, sentenceCase
 } from '../../../server/utils';
 

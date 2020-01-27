@@ -1,4 +1,6 @@
 
+$color: $color-orange;
+$color-hover: $color-orange-light;
 
 .rating {
   position: relative;
@@ -6,32 +8,32 @@
   &__toggle {
     cursor: pointer;
     &:hover {
-      color: orange;
+      color: $color;
     }
     &.rated {
-      color: #ffc75f;
+      color: $color-orange-lighter;
     }
   }
 
   &__points {
     &__point {
-      color: #ffc75f;
+      color: $color-orange-lighter;
       font-weight: bolder;
       &:hover {
-        color: orange;
+        color: $color;
       }
       &.active {
         color: #fff;
-        background: orange;
+        background: $color;
       }
     }
   }
 
   &__average.btn-link.btn {
-    color: orange !important;
+    color: $color !important;
   }
   &__star {
-    color: orange;
+    color: $color;
     font-size: .7em !important;
     line-height: .5em;
     vertical-align: middle;

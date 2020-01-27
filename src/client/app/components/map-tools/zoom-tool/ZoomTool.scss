@@ -1,4 +1,8 @@
 
+$color-inactive: #727272;
+$color: $color-blue;
+$color-hover: $color-turquoise;
+
 .zoom-tool {
   display: flex;
   flex-wrap: wrap;
@@ -7,20 +11,16 @@
 
   &__option {
     cursor: pointer;
-    color: #727272;
+    color: $color-inactive;
     font-size: 1rem;
     margin: 2px 4px;
 
     &:hover {
-      color: #2196f3;
+      color: $color;
     }
     
     &:active {
-      color: #82c7ff;
-    }
-
-    &.active {
-      color: #3bd6bc;
+      color: $color-hover;
     }
   }
 }

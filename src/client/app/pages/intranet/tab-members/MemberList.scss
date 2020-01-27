@@ -43,7 +43,7 @@ $border-left-color: rgba(255, 159, 159, 0.774);
     padding: 8px 15px;
     transition: all .2s ease-in-out;
     background: #fff;
-    color: #ff9a43;
+    color: $color-orange;
     cursor: pointer;
     position: relative;
 
@@ -54,7 +54,7 @@ $border-left-color: rgba(255, 159, 159, 0.774);
       position: absolute;
       left: -8px;
       top: 10px;
-      color: orange;
+      color: $color-orange;
       font-size: 13px;
       display: block;
       opacity: 0;
@@ -70,7 +70,7 @@ $border-left-color: rgba(255, 159, 159, 0.774);
     }
 
     &:not(:first-child) {
-      border-top: 1px solid rgba(255, 168, 168, 0.336);
+      border-top: 1px solid $color-red-light;
     }
 
     &:hover {

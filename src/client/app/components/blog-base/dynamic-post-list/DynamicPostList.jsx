@@ -87,11 +87,11 @@ export default class extends BaseComponent.Pure {
   }
 
   async fetchPosts() {
-    const { categories, postsPerPage = 4 } = this.props;
+    const { categories, postsPerPage = 4, endPoint: overrideEndpoint } = this.props;
     const limit = postsPerPage;
     const offset = this.page * limit;
 
-    let endPoint = this.props.endPoint
+    let endPoint = overrideEndpoint
       || ApiEndpoints.params(this.postEndpoint, { categories: JSON.stringify(categories) });
     endPoint = ApiEndpoints.builder(endPoint).limit(limit).offset(offset).__t(this.postType);
 

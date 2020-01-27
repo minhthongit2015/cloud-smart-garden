@@ -12,19 +12,23 @@ function getId(id) {
 }
 
 const listParams = {
+  where: {},
   offset: 0,
   limit: 0,
   sort: '-_id',
-  fields: [],
-  where: {}
+  fields: [''] || '',
+  populate: ['']
 };
 
-function parseListParams(opts = listParams) {
+function parseListParams(opts = { ...listParams }) {
   if (opts.offset != null) {
     opts.offset = parseInt(opts.offset, 10) || 0;
   }
   if (opts.limit != null) {
     opts.limit = parseInt(opts.limit, 10) || 0;
+  }
+  if (typeof opts.fields === 'object' && opts.fields.length > 0) {
+    opts.fields = opts.fields.join(' ');
   }
   // if (typeof opts.sort === 'string') {
   //   opts.sort = JSON.parse(opts.sort);
@@ -34,20 +38,29 @@ function parseListParams(opts = listParams) {
   return parsedOption;
 }
 
-function find(queryObject, opts = listParams) {
+function find(queryObject, opts = { ...listParams }) {
   opts = parseListParams(opts);
-  return queryObject // model.find()...
+  let query = queryObject // model.find()...
     .sort(opts.sort)
     .skip(opts.offset)
-    .limit(opts.limit);
+    .limit(opts.limit)
+    .select(opts.fields);
+  if (opts.populate && opts.populate.length > 0) {
+    opts.populate
+      .filter(path => path)
+      .forEach((path) => {
+        query = query.populate(path);
+      });
+  }
+  return query;
 }
 
-function findWithModel(model, opts = listParams) {
+function findWithModel(model, opts = { ...listParams }) {
   opts = parseListParams(opts);
   return find(model.find(opts.where), opts);
 }
 
-function findWithFunc(findFunc, opts = listParams) {
+function findWithFunc(findFunc, opts = { ...listParams }) {
   opts = parseListParams(opts);
   return find(findFunc(opts.where), opts);
 }

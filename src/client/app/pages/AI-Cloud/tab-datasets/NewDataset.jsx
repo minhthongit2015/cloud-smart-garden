@@ -5,6 +5,7 @@ import NewBlogPost from '../../../components/blog/new-blog-post/NewBlogPost';
 import DropUploader from '../../../components/utils/drop-uploader/DropUploader';
 // import Composer from '../../../components/utils/composer/Composer';
 import CategoryService from '../../../services/blog/CategoryService';
+import ApiEndpoints from '../../../utils/ApiEndpoints';
 
 
 export default class extends NewBlogPost {
@@ -33,9 +34,13 @@ export default class extends NewBlogPost {
     return { ...super.formData, days };
   }
 
+  get action() {
+    return ApiEndpoints.datasets;
+  }
+
   renderBody() {
     const {
-      title, summary, preview, video, audio
+      title, summary, preview, video, audio, days
     } = this.state;
 
     return (
@@ -61,6 +66,11 @@ export default class extends NewBlogPost {
               autoComplete="off"
               autofill="off"
             />
+            {days && (
+              <div>
+                {days.map(day => <div className="p-2">{day}</div>)}
+              </div>
+            )}
           </Col>
           <Col size="12" sm="6">
             <DropUploader

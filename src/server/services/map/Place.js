@@ -24,7 +24,7 @@ module.exports = class extends CRUDService {
     return ['author', 'user', 'post', 'members', 'leaders'];
   }
 
-  static resolveListOptions(opts = ApiHelper.listParams) {
+  static resolveListOptions(opts = { ...ApiHelper.listParams }) {
     ApiHelper.SortBuilder.add(opts, '-createdAt');
     return opts;
   }

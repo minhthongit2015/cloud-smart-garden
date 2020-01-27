@@ -72,7 +72,7 @@ export default class HomePage extends BasePage {
 
   renderNav(nav) {
     const colMd = 12 / this.links.length;
-    const colSm = colMd === 4 ? 4 : 4;
+    const colSm = colMd === 3 ? 3 : 3;
     return (
       <div className={`col-12 col-sm-${colSm} col-md-${colMd} p-0`} key={nav.link}>
         <NavIconLink

@@ -33,10 +33,10 @@ export default class Post extends BaseComponent.Pure {
     super(props);
     this.thankForDoItRef = React.createRef();
     this.thankForSaveRef = React.createRef();
-    this.handlePostClick = this.handlePostClick.bind(this);
-    this.handlePreviewPopupChange = this.handlePreviewPopupChange.bind(this);
-    this.handleContextActions = this.handleContextActions.bind(this);
-    this.handleRating = this.handleRating.bind(this);
+    this.bind(
+      this.handlePostClick, this.handlePreviewPopupChange,
+      this.handleContextActions, this.handleRating
+    );
 
     this.state = {
       clickable: false,
@@ -58,10 +58,7 @@ export default class Post extends BaseComponent.Pure {
   }
 
   handleContextActions(event, option) {
-    event.preventDefault();
-    event.typez = 'contextActions';
-    this.dispatchEvent(event, option, this.post, this);
-    return null;
+    this.dispatchEvent(this.Events.contextActions, option, this.post, this);
   }
 
   handleRating(event, rating) {
@@ -176,7 +173,7 @@ export default class Post extends BaseComponent.Pure {
               : this.renderPreviewAsTitle()}
             {this.contextOptions && (
               <div className="post__context-btn">
-                <ContextButton options={this.contextOptions} handler={this.handleContextActions} />
+                <ContextButton options={this.contextOptions} onSelect={this.handleContextActions} />
               </div>
             )}
             {isSaved && (

@@ -43,8 +43,8 @@ export default class TabDataset extends BasePage {
     const { selection } = this.state;
     return (
       <React.Fragment>
-        <DynamicTimeSeries endPoint={ApiEndpoints.records} />
-        <EditableLineChart />
+        <DynamicTimeSeries group="test" endPoint={ApiEndpoints.records} />
+        <EditableLineChart group="test" />
         <Calendar selection={selection} onChange={this.handleCalendarChange} months={2} />
         <div className="text-center mt-4 mb-3">
           <MDBBtn onClick={this.handleGenerateRecords} className="mr-3">

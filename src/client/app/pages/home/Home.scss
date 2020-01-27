@@ -1,9 +1,13 @@
 
+
+$color: $color-turquoise-light;
+$color-hover: $color-purple-light;
+
 .home {
   position: relative;
 
   &__intranet {
-    background: #aaeacf;
+    background: $color;
     color: #fff;
     padding: 4px 9px;
     border-radius: 4px;
@@ -18,7 +22,7 @@
     
     &:hover {
       color: #fff !important;
-      background: #aaacea;
+      background: $color-hover;
       filter: brightness(1.1) saturate(1.1);
     }
 

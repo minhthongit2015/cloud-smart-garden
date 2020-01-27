@@ -3,7 +3,7 @@
 .next-level {
   &__info {
     display: inline-block;
-    background: $color-light-red;
+    background: $color-red-light;
     color: #fff;
     padding: 8px 20px;
     border-radius: 4px;
@@ -23,8 +23,8 @@
 
   &__column {
     min-height: 300px;
-    border-left: 1px dashed $color-light-red;
-    border-right: 1px dashed $color-light-red;
+    border-left: 1px dashed $color-red-light;
+    border-right: 1px dashed $color-red-light;
     margin-top: 2rem;
     position: relative;
 
@@ -44,7 +44,7 @@
       text-align: center;
       font-size: 1.2rem;
       font-weight: bolder;
-      background: $color-light-red;
+      background: $color-red-light;
       color: #fff;
       padding: .25rem;
     }

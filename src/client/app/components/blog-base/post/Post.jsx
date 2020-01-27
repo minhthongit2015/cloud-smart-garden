@@ -32,7 +32,6 @@ export default class Post extends PostBase {
   }
 
   handleContextActions(event, option) {
-    event.preventDefault();
     super.handleContextActions(event, option);
     const { post } = this.props;
 
