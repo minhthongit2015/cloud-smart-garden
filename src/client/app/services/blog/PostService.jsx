@@ -1,11 +1,11 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
 import PageDialogHelper from '../../helpers/dialogs/PageDialogHelper';
-import LoginDialogHelper from '../../helpers/dialogs/LoginDialogHelper';
 import t from '../../languages';
-import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
 import ApiEndpoints from '../../utils/ApiEndpoints';
-import CategoryService from './CategoryService';
+// eslint-disable-next-line import/no-cycle
+import AnyDialogHelper from '../../helpers/dialogs/any-dialog/AnyDialogHelper';
+
 
 export default class extends PageDialogHelper {
   static get defaultEndpoint() {
@@ -40,9 +40,9 @@ export default class extends PageDialogHelper {
     return superrequest.agentDelete(`${endpoint || this.defaultSavePostEndpoint}/${post._id}`);
   }
 
-  static async iWillDoThis(post, endpoint) {
+  static async iWillDoThis(/* post, endpoint */) {
     // if (!UserService.isLoggedIn) {
-    //   return LoginDialogHelper.show(t('components.loginDialog.loginToSaveIDo'));
+    //   return AnyDialogHelper.openLogin(t('components.loginDialog.loginToSaveIDo'));
     // }
     // if (post.iWillDoThis && this.props.handleActions) {
     //   this.props.handleActions(event, {
@@ -64,40 +64,11 @@ export default class extends PageDialogHelper {
     });
   }
 
-  static async requestChange(option) {
+  static async requestChange(/* option */) {
     if (UserService.isLoggedIn) {
-      return MessageDialogHelper.showUpComingFeature(option.value);
+      // return AnyDialogHelper.openMessage(option.value);
     }
-    return LoginDialogHelper.show(t('components.loginDialog.loginToRequestChange'));
-  }
-
-  static extractPostOrder(url) {
-    const urlz = new URL(url || window.location.href);
-    return urlz.searchParams.get('hashtag');
-  }
-
-  static buildPostUrl(post, opts = { keepQuery: false, relative: false }) {
-    if (!post || !post.categories || !post.categories[0]) return '#';
-    const optsz = Object.assign({ keepQuery: false, relative: false }, opts);
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('hashtag', post.baseOrder);
-    let search = urlParams.toString();
-    search = search ? `?${search}` : '';
-    const {
-      protocol, host, hash
-    } = window.location;
-    const pathname = this.getPathnameByCategory(post.categories[0]);
-    const hostPart = optsz.relative ? '' : `${protocol}//${host}`;
-    return optsz.keepQuery
-      ? `${hostPart}${pathname}${search}${hash}`
-      : `${hostPart}${pathname}?hashtag=${post.baseOrder}`;
-  }
-
-  static getPathnameByCategory(category) {
-    const categoryId = typeof category === 'string' ? category : category._id;
-    const foundCategory = CategoryService.findByCategoryId(categoryId);
-    if (!foundCategory) return '#';
-    return foundCategory.path;
+    return AnyDialogHelper.openLogin(t('components.loginDialog.loginToRequestChange'));
   }
 
   static refreshCache() {

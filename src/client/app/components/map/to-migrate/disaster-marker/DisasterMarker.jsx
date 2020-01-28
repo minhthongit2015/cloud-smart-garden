@@ -5,9 +5,9 @@ import './DisasterMarker.scss';
 
 import { ForestFireSrc as DisasterIconSrc } from '../../../../../assets/icons';
 import PlaceActions from '../../../map-tools/place-actions/PlaceActions';
-import PostService from '../../../../services/blog/PostService';
 import Video from '../../../utils/video/Video';
 import ZoomTool from '../../../map-tools/zoom-tool/ZoomTool';
+import PostHelper from '../../../../helpers/PostHelper';
 
 
 export default class DisasterMarker extends MarkerWithPopup {
@@ -45,7 +45,7 @@ export default class DisasterMarker extends MarkerWithPopup {
                   {/* <button type="button" className="btn btn-sm btn-default px-3">
                     <i className="fab fa-font-awesome-flag" /> Chia sẻ
                   </button> */}
-                  <a href={PostService.buildPostUrl(post)}>
+                  <a href={PostHelper.buildPostUrl(post)}>
                     <button
                       type="button"
                       className="btn btn-sm btn-default px-3"

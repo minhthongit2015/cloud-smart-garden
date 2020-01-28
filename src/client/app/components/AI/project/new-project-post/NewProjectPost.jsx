@@ -6,10 +6,10 @@ import makeAnimated from 'react-select/animated';
 import CategoryService from '../../../../services/blog/CategoryService';
 import DropUploader from '../../../utils/drop-uploader/DropUploader';
 import Composer from '../../../utils/composer/Composer';
-import MessageDialogHelper from '../../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../../assets/icons';
 import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
+import AnyDialogHelper from '../../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 const animatedComponents = makeAnimated();
 
@@ -84,7 +84,7 @@ export default class extends NewBlogPost {
   }
 
   handleMissingPermission() {
-    MessageDialogHelper.show(
+    AnyDialogHelper.openMessage(
       'Tham Gia Viết Bài',
       <div>
         Để tham gia cùng viết bài, bạn có thể liên hệ qua Facebook page <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Climate Strike Vietnam</a>. Hoặc đăng bài ở chuyên mục <IconCommunity text={t('pages.earthPicture.nav.communityShare')} />.

@@ -1,4 +1,3 @@
-import moment from 'moment';
 import superrequest from '../../utils/superrequest';
 import GlobalState from '../../utils/GlobalState';
 import ApiEndpoints from '../../utils/ApiEndpoints';
@@ -88,5 +87,9 @@ export default class {
 
   static findByCategoryId(categoryId) {
     return this.categories.find(category => category._id.toString() === categoryId);
+  }
+
+  static findByCategoryType(categoryType) {
+    return this.categories.find(category => category.type === categoryType);
   }
 }

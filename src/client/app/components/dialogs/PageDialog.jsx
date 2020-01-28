@@ -1,89 +1,67 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import {
   MDBModal, MDBModalBody
 } from 'mdbreact';
-import BasePage from '../../pages/_base/BasePage';
+import BaseDialog from './BaseDialog';
+import HistoryHelper from '../../helpers/HistoryHelper';
 
 
-export default class extends BasePage {
-  get isOpen() { return this.state.isShowLoginModal; }
-
+export default class extends BaseDialog {
   constructor(props) {
     super(props);
-    this.open = this.open.bind(this);
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isShowLoginModal: false
+      ...this.state,
+      content: props.content,
+      url: props.url,
+      title: props.title
     };
   }
 
-  pushHistory({ state, title, url }) {
-    window.history.pushState(state, title, url);
-    this.historyBack = true;
-    this.historyPrevTitle = document.title;
-    document.title = title;
+  open(...args) {
+    const { url, data: state, title } = this.state;
+    if (this.isOpen) {
+      HistoryHelper.replace(url, state, title);
+    } else {
+      HistoryHelper.push(url, state, title);
+    }
+    super.open(...args);
   }
 
-  replaceHistory({ state, title, url }) {
-    window.history.replaceState(state, title, url);
-    this.historyPrevTitle = document.title;
-    document.title = title;
-  }
-
-  setContent(content) {
+  show(state, url, title) {
     this.setState({
-      content
-    });
+      url, data: state, title
+    }, this.open);
   }
 
-  open() {
-    if (this.isOpen) return;
-    this.toggle();
+  setContent(content, url, title) {
+    this.setState({ content, url, title }, this.open);
   }
 
-  close(noBack) {
-    if (!this.isOpen) return;
-    this.toggle(noBack);
+  handleClose() {
+    super.handleClose();
+    HistoryHelper.back(true);
   }
 
-  toggle(noBack) {
-    if (this.state.disabled) return;
-    this.setState({
-      isShowLoginModal: !this.isOpen
-    }, () => {
-      if (!this.isOpen) {
-        if (noBack) {
-          this.historyBack = false;
-        }
-        if (this.historyBack) {
-          this.historyBack = false;
-          window.history.back();
-        } else {
-          const { location } = window;
-          const parentUrl = `${location.origin}${location.pathname}`;
-          window.history.pushState(undefined, '', parentUrl);
-        }
-        if (this.historyPrevTitle) {
-          document.title = this.historyPrevTitle;
-          this.historyPrevTitle = null;
-        }
-      }
-    });
+  renderBody() {
+    const { content } = this.state;
+    return (
+      <MDBModalBody>
+        {content}
+      </MDBModalBody>
+    );
   }
 
   render() {
-    const { isShowLoginModal, content } = this.state;
     return (
       <MDBModal
-        isOpen={isShowLoginModal}
+        isOpen={this.isOpen}
         toggle={this.toggle}
         style={{ position: 'relative' }}
         size="xl"
-        id="page-dialog-instance"
+        id={this.id}
       >
-        <MDBModalBody>
-          {content}
-        </MDBModalBody>
+        {this.renderBody()}
       </MDBModal>
     );
   }

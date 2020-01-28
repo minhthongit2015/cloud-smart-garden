@@ -1,13 +1,12 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import BasePage from './BasePage';
 
 import SidebarLayout from '../../layouts/sidebar-layout/SidebarLayout';
 import RouteConstants from '../../utils/RouteConstants';
 import GuideMessage from '../../components/utils/messages/GuideMessage';
 
 
-export default class extends BasePage {
+export default class extends React.PureComponent {
   constructor(propsz) {
     super(propsz);
     this.brand = {

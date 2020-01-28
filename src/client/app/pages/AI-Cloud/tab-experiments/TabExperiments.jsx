@@ -1,13 +1,19 @@
 import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
-import BasePage from '../../_base/BasePage';
-import ExperimentPostsModule from '../../../components/AI/experiment/experiment-posts-module/ExperimentPostsModule';
+import ExperimentPostsModule from './experiments-page/ExperimentPostsModule';
+import SubPageGroup from '../../_base/SubPageGroup';
+import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
 
 
-class TabExperiments extends BasePage {
+class TabExperiments extends SubPageGroup {
   constructor(props) {
     super(props, t('pages.aiCloud.title.experiments'));
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    AnyDialogChecker.runAllChecks();
   }
 
   render() {

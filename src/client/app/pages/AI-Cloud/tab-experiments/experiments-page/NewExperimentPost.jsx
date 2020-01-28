@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
-import DropUploader from '../../../utils/drop-uploader/DropUploader';
-import Composer from '../../../utils/composer/Composer';
-import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
+import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
+import Composer from '../../../../components/utils/composer/Composer';
+import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import CategoryService from '../../../../services/blog/CategoryService';
 import t from '../../../../languages';
 

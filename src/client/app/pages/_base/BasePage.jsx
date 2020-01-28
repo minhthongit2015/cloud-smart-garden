@@ -1,13 +1,14 @@
 import SiteConfig from '../../config/site';
 import { loadImage } from '../../utils';
 import BaseComponent from '../../components/BaseComponent';
+import HistoryHelper from '../../helpers/HistoryHelper';
 
 export default class extends BaseComponent {
   constructor(props, title, noBaseTitle) {
     super(props);
     this.title = title;
     this.noBaseTitle = noBaseTitle;
-    window.historyz = props.history || window.historyz;
+    HistoryHelper.storeReactHistory(props);
     this.setBackground('');
   }
 
@@ -18,6 +19,7 @@ export default class extends BaseComponent {
         ? `${this.title}${this.noBaseTitle ? '' : ` | ${SiteConfig.WEBSITE_TITLE}`}`
         : `${SiteConfig.WEBSITE_TITLE}`;
     }
+    HistoryHelper.replace();
     if (this.isSetBackgroundWhenLoaded) {
       this.setBackground(this.background);
       this.isSetBackgroundWhenLoaded = false;

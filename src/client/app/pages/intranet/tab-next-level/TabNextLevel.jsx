@@ -12,6 +12,7 @@ import './TabNextLevel.scss';
 import MemberBadge from '../../../../assets/badges/MemberBadge';
 import UserService from '../../../services/user/UserService';
 import RouteConstants from '../../../utils/RouteConstants';
+import HistoryHelper from '../../../helpers/HistoryHelper';
 
 
 export default class extends AdminPage {
@@ -64,8 +65,7 @@ export default class extends AdminPage {
 
   render() {
     if (!UserService.isMember) {
-      window.historyz.replace(RouteConstants.homeLink);
-      return null;
+      return HistoryHelper.replaceRoute(RouteConstants.homeLink);
     }
     const { nextLevel: { cols = [] } } = this.state;
     const columnProps = {

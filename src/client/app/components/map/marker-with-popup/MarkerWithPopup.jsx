@@ -3,12 +3,13 @@ import React from 'react';
 import { MarkerProps, InfoWindowProps } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import BaseMarker from '../base-marker/BaseMarker';
-import PostService from '../../../services/blog/PostService';
 import BaseComponent from '../../BaseComponent';
 import BaseCircle from '../circle/BaseCircle';
 import BaseInfoWindow from '../base-info-window/BaseInfoWindow';
 import './DefaultStyle.scss';
 import './MarkerWithPopup.scss';
+import HistoryHelper from '../../../helpers/HistoryHelper';
+import PostHelper from '../../../helpers/PostHelper';
 
 
 export default class MarkerWithPopup extends BaseComponent.Pure {
@@ -149,8 +150,8 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
     event.preventDefault();
 
     const { place: { post } = {} } = this.props;
-    const url = PostService.buildPostUrl(post, { relative: true });
-    window.historyz.push(url);
+    const url = PostHelper.buildPostUrl(post, { relative: true });
+    HistoryHelper.pushRoute(url);
   }
 
   renderContent() {

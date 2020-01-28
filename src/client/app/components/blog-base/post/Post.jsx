@@ -4,13 +4,12 @@ import './Post.scss';
 import superrequest from '../../../utils/superrequest';
 import PostService from '../../../services/blog/PostService';
 import UserService from '../../../services/user/UserService';
-import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import GlobalState from '../../../utils/GlobalState';
 import t from '../../../languages';
-import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
 import PostBase from './PostBase';
 import ContextOptions from '../ContextOptions';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 export default class Post extends PostBase {
   get postEndpoint() {
@@ -27,7 +26,7 @@ export default class Post extends PostBase {
 
   handlePostClick() {
     const { post } = this.props;
-    PostDetailsDialogHelper.openPostDetailsDialog(post);
+    AnyDialogHelper.openPost(post);
     super.handlePostClick();
   }
 
@@ -60,7 +59,7 @@ export default class Post extends PostBase {
     super.handleRating(event, rating);
     const { post } = this.props;
     if (!UserService.isLoggedIn) {
-      LoginDialogHelper.show(t('components.loginDialog.loginToRating'));
+      AnyDialogHelper.openLogin(t('components.loginDialog.loginToRating'));
       return;
     }
 
@@ -90,7 +89,7 @@ export default class Post extends PostBase {
 
   handleSavingPost(event) {
     if (!UserService.isLoggedIn) {
-      return LoginDialogHelper.show(t('components.loginDialog.loginToSavePost'));
+      return AnyDialogHelper.openLogin(t('components.loginDialog.loginToSavePost'));
     }
 
     const { post } = this.props;
@@ -115,7 +114,7 @@ export default class Post extends PostBase {
         GlobalState.restoreFromSavedState(post, savedState, this);
       } else {
         this.dispatchEvent(event, { value: 'unsaved' }, post, this);
-        // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, false);
+        // AnyDialogHelper.openMessage(ContextOptions.save.value, false);
       }
     });
   }
@@ -139,7 +138,7 @@ export default class Post extends PostBase {
           GlobalState.restoreFromSavedState(post, savedState, this);
           UserService.updateUserSocialPoint(-2);
         } else {
-          // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, true);
+          // AnyDialogHelper.openMessage(ContextOptions.save.value, true);
         }
       });
     }
@@ -151,7 +150,7 @@ export default class Post extends PostBase {
         GlobalState.restoreFromSavedState(post, savedState, this);
         UserService.updateUserSocialPoint(2);
       } else {
-        // MessageDialogHelper.showSuccessMessage(ContextOptions.save.value, false);
+        // AnyDialogHelper.openMessage(ContextOptions.save.value, false);
       }
     });
   }

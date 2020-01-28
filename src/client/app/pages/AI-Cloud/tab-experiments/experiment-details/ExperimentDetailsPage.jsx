@@ -10,7 +10,7 @@ import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/se
 import AlgorithmConstants from './AlgorithmConstants';
 import ExperimentService from '../../../../services/AI/ExperimentService';
 import TrainingProgressChart from '../../../../components/charts/TrainingProgressChart';
-import ExperimentDetails from './ExperimentDetails';
+import ExperimentBaseInfo from './ExperimentBaseInfo';
 
 
 export default class extends SubPageGroup {
@@ -131,7 +131,7 @@ export default class extends SubPageGroup {
         <Section>
           <SectionHeader>Thông tin chế độ chăm sóc</SectionHeader>
           <SectionBody>
-            <ExperimentDetails experiment={experiment} />
+            <ExperimentBaseInfo experiment={experiment} />
           </SectionBody>
         </Section>
         <Section>

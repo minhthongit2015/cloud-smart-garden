@@ -23,18 +23,8 @@ import KeyTracker from './utils/KeyTracker';
 import RouteConstants from './utils/RouteConstants';
 
 import AuthService from './services/user/Auth';
-import LoginDialogHelper from './helpers/dialogs/LoginDialogHelper';
-import MessageDialogHelper from './helpers/dialogs/MessageDialogHelper';
 
-import PageDialog from './components/dialogs/PageDialog';
-import LoginDialog from './components/dialogs/LoginDialog';
-import MessageDialog from './components/dialogs/MessageDialog';
-import GuideDialog from './components/dialogs/GuideDialog';
-
-import SavedPostsDialogHelper from './helpers/dialogs/SavedPostsDialogHelper';
-import IDoPostsDialogHelper from './helpers/dialogs/IDoPostsDialogHelper';
-import GuideDialogHelper from './helpers/dialogs/GuideDialogHelper';
-import PostDetailsDialogHelper from './helpers/dialogs/PostDetailsDialogHelper';
+import AnyDialogHelper from './helpers/dialogs/any-dialog/AnyDialogHelper';
 
 import EditPlaceDialogHelper from './helpers/dialogs/EditPlaceDialogHelper';
 import ExpertDialog from './components/map-tools/edit-dialog/ExpertDialog';
@@ -44,6 +34,8 @@ import DisasterDialog from './components/map-tools/edit-dialog/DisasterDialog';
 import ExtinctionDialog from './components/map-tools/edit-dialog/ExtinctionDialog';
 
 import DummyUserNetwork from './pages/user-network/DummyUserNetwork';
+import HistoryHelper from './helpers/HistoryHelper';
+import AnyDialogChecker from './helpers/dialogs/any-dialog/AnyDialogChecker';
 
 const HomePage = React.lazy(() => import('./pages/home/Home'));
 const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'));
@@ -61,11 +53,12 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    if (window.appLoaded) {
+    if (window.appLoaded === true) {
+      window.appLoaded = 1;
       console.h1('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
       window.hasNewUpdate = true;
-      return;
     }
+    if (window.appLoaded) return;
     console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
       .then((image) => {
         console.h1('Welcome To The Tomorrowland!');
@@ -73,17 +66,19 @@ class App extends Component {
       });
     window.appLoaded = true;
 
+    HistoryHelper.init(props);
+    KeyTracker();
+
     GlobalState.init();
     GlobalState.loadState();
     superws.init();
     AuthService.init();
 
+    AnyDialogHelper.init();
+    AnyDialogChecker.init();
     EditPlaceDialogHelper.storeDialog([
       ExpertDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog
     ]);
-
-    KeyTracker();
-    window.historyz = props.history || window.historyz;
   }
 
   render() {
@@ -112,14 +107,8 @@ class App extends Component {
       <ErrorBoundary>
         <SimplestLayout routes={routes} />
 
-        {/* {PageDialogHelper.render(PageDialog)} */}
-        {PostDetailsDialogHelper.render(PageDialog)}
-        {SavedPostsDialogHelper.render(PageDialog)}
-        {IDoPostsDialogHelper.render(PageDialog)}
-
-        {LoginDialogHelper.render(LoginDialog)}
-        {MessageDialogHelper.render(MessageDialog)}
-        {GuideDialogHelper.render(GuideDialog)}
+        {AnyDialogHelper.render()}
+        {/* {SuperDialogHelper.render(SuperDialog)} */}
 
         {EditPlaceDialogHelper.render()}
       </ErrorBoundary>

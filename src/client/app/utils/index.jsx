@@ -100,6 +100,38 @@ console.h1 = (text) => {
   console.log(`%c${text}`, h1Style);
 };
 
+console.highlight = (text) => {
+  const h1Style = `
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'icielz-bambola', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    padding: 5px 8px;
+    margin: 5px auto;
+    text-align: center;
+    color: #fdca58;
+    border: 3px solid gold;
+    border-left: none;
+    border-right: none;
+    border-image: linear-gradient(144deg, #ffeaa8 0%, #FFFFAC 4%, #ffe18d 12.5%, #f7d27d 31.25%, #fdca58 50%, #ffd77b 54%, #ffd06b 65%, #FDB931 80%, #fbe371 90%) 1;
+  `;
+  console.log(`%c${text}`, h1Style);
+};
+
+console.badge = (text) => {
+  const h1Style = `
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'icielz-bambola', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    padding: 5px 8px;
+    margin: 5px auto;
+    text-align: center;
+    color: #fff;
+    border-radius: 4px;
+    background: linear-gradient(144deg, #ffeaa8 0%, #FFFFAC 4%, #ffe18d 12.5%, #f7d27d 31.25%, #fdca58 50%, #ffd77b 54%, #ffd06b 65%, #FDB931 80%, #fbe371 90%);
+  `;
+  console.log(`%c${text}`, h1Style);
+};
+
 export default {
   groupBy,
   loadImage

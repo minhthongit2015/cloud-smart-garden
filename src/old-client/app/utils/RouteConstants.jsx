@@ -9,7 +9,7 @@ const aiProjectsLink = `${aiCloudLink}/projects`;
 const aiExperimentsPath = `${aiCloudPath}/experiments`;
 const aiExperimentsLink = `${aiCloudPath}/experiments`;
 const aiTrainedModelsPath = `${aiCloudPath}/models`;
-const aiModelsLink = `${aiCloudPath}/models`;
+const aiTrainedModelsLink = `${aiCloudPath}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
 const aiDatasetsLink = `${aiCloudPath}/datasets`;
 
@@ -34,7 +34,7 @@ export default {
   aiExperimentsPath,
   aiExperimentsLink,
   aiTrainedModelsPath,
-  aiModelsLink,
+  aiTrainedModelsLink,
   aiDatasetsPath,
   aiDatasetsLink
 };

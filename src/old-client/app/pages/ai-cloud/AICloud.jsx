@@ -37,7 +37,7 @@ export default class extends BasePage {
       },
       {
         name: 'Trained Models',
-        link: RouteConstants.aiModelsLink,
+        link: RouteConstants.aiTrainedModelsLink,
         path: RouteConstants.aiTrainedModelsPath,
         component: TabTrainedModels
       },

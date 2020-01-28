@@ -8,9 +8,9 @@ import PlaceActions from '../../../map-tools/place-actions/PlaceActions';
 import TimeAgo from '../../../utils/time-ago/TimeAgo';
 import MapService from '../../../../services/map/MapService';
 import UserService from '../../../../services/user/UserService';
-import LoginDialogHelper from '../../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../../languages';
 import ZoomTool from '../../../map-tools/zoom-tool/ZoomTool';
+import AnyDialogHelper from '../../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class StrikeMarker extends MarkerWithPopup {
@@ -45,7 +45,7 @@ export default class StrikeMarker extends MarkerWithPopup {
 
   handleJoin() {
     if (!UserService.isLoggedIn) {
-      LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
+      AnyDialogHelper.openLogin(t('components.loginDialog.loginToRiseYourVoice'));
       return;
     }
     const { entity: place = {} } = this.props;
@@ -68,7 +68,7 @@ export default class StrikeMarker extends MarkerWithPopup {
 
   handleLeave() {
     if (!UserService.isLoggedIn) {
-      LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
+      AnyDialogHelper.openLogin(t('components.loginDialog.loginToRiseYourVoice'));
       return;
     }
     const { entity: place = {}, mainMap } = this.props;

@@ -13,14 +13,13 @@ import './NewPost.scss';
 import LeafLoading from '../../utils/loadings/LeafLoading';
 import ButtonBar from '../../dialogs/ButtonBar';
 import UserService from '../../../services/user/UserService';
-import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
-import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconThanks } from '../../../../assets/icons';
 import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
 import BaseComponent from '../../BaseComponent';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 const scrollToTop = () => {
@@ -248,7 +247,7 @@ export default class extends BaseComponent {
       this.reset();
     }
     if (!UserService.user) {
-      LoginDialogHelper.show(t('components.loginDialog.loginToPost'));
+      AnyDialogHelper.openLogin(t('components.loginDialog.loginToPost'));
     } else if (!this.props.hasPermission) {
       this.handleMissingPermission();
     } else {
@@ -257,7 +256,7 @@ export default class extends BaseComponent {
   }
 
   handleMissingPermission() {
-    MessageDialogHelper.show(
+    AnyDialogHelper.openMessage(
       'Tham Gia Viết Bài',
       <div>
         Để tham gia cùng viết bài, bạn có thể liên hệ qua admin của <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Beyond Garden</a>.
@@ -288,7 +287,8 @@ export default class extends BaseComponent {
   }
 
   renderCard() {
-    const { _id, disabled, expanded } = this.state;
+    const { _id, disabled, expanded: expandedz } = this.state;
+    const expanded = expandedz && this.props.hasPermission;
 
     return (
       <MDBCard className={classnames('new-form overlapable flex-fill', { disabled, expanded })}>

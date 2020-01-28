@@ -8,27 +8,25 @@ import UserService from '../../services/user/UserService';
 import AuthService from '../../services/user/Auth';
 import LeafLoading from '../utils/loadings/LeafLoading';
 import './LoginDialog.scss';
+import BaseDialog from './BaseDialog';
 
-export default class extends React.Component {
-  get isOpen() { return this.state.isShowLoginModal; }
-
+export default class extends BaseDialog {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.open = this.open.bind(this);
-    this.toggle = this.toggle.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSigninWithFacebook = this.handleSigninWithFacebook.bind(this);
 
     this.state = {
-      isShowLoginModal: false,
-      message: '',
+      ...this.state,
+      message: props.data,
       email: '',
-      password: '',
-      cursorPos: {},
-      disabled: false
+      password: ''
     };
+  }
+
+  show(message) {
+    this.setState({ message }, this.open);
   }
 
   handleInputChange(event) {
@@ -50,16 +48,6 @@ export default class extends React.Component {
     return alert('Invalid email or password');
   }
 
-  handleClick = (e) => {
-    e.stopPropagation();
-    const cursorPos = {
-      top: e.clientY,
-      left: e.clientX,
-      time: Date.now()
-    };
-    this.setState({ cursorPos });
-  };
-
   handleSigninWithFacebook() {
     this.setState({
       disabled: true
@@ -76,44 +64,18 @@ export default class extends React.Component {
     });
   }
 
-  open() {
-    if (this.isOpen) return;
-    this.toggle();
-  }
-
-  close() {
-    if (!this.isOpen) return;
-    this.toggle();
-  }
-
-  toggle() {
-    if (this.state.disabled) {
-      return;
-    }
-    this.setState({
-      isShowLoginModal: !this.isOpen
-    });
-  }
-
-  show(message) {
-    this.setState({
-      isShowLoginModal: true,
-      message
-    });
-  }
-
   render() {
     const {
-      isShowLoginModal, email, password, disabled, message
+      email, password, message
     } = this.state;
 
     return (
       <MDBModal
-        isOpen={isShowLoginModal}
+        isOpen={this.isOpen}
         toggle={this.toggle}
         className="login-modal"
         style={{ position: 'relative' }}
-        disabled={disabled}
+        disabled={this.disabled}
       >
         <div
           className="modal-header peach-gradient justify-content-center mb-3 p-4 waves-effect"
@@ -180,7 +142,7 @@ export default class extends React.Component {
             </div>
           </form>
         </MDBModalBody>
-        <LeafLoading overlaping={disabled} text="đang đăng nhập..." />
+        <LeafLoading overlaping={this.disabled} text="đang đăng nhập..." />
       </MDBModal>
     );
   }

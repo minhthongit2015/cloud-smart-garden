@@ -56,6 +56,11 @@ class PureComponent extends React.PureComponent {
     return Events;
   }
 
+  constructor(props) {
+    super(props);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
+  }
+
   stopEvent(event) {
     if (event) { event.stopPropagation(); event.preventDefault(); }
   }
@@ -129,6 +134,11 @@ class BaseComponent extends React.Component {
 
   get Events() {
     return Events;
+  }
+
+  constructor(props) {
+    super(props);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
   }
 
   stopEvent(event) {

@@ -10,7 +10,6 @@ import classnames from 'classnames';
 import './Post.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import ContextButton from '../../utils/context-button/ContextButton';
-import PostService from '../../../services/blog/PostService';
 import UserService from '../../../services/user/UserService';
 import ShareButton from '../../facebook/ShareButton';
 import Rating from '../../utils/rating/Rating';
@@ -18,6 +17,7 @@ import { IconBookmark, IconRaisedFist, IconThanks } from '../../../../assets/ico
 import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
 import BaseComponent from '../../BaseComponent';
+import PostHelper from '../../../helpers/PostHelper';
 
 
 export default class Post extends BaseComponent.Pure {
@@ -99,7 +99,7 @@ export default class Post extends BaseComponent.Pure {
   renderSocials() {
     return (
       <div className="d-flex post__sharing-facebook">
-        <ShareButton url={PostService.buildPostUrl(this.post)} className="" />
+        <ShareButton url={PostHelper.buildPostUrl(this.post)} className="" />
       </div>
     );
   }

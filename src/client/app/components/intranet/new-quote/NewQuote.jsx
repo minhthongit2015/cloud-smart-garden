@@ -7,11 +7,11 @@ import {
 import './NewQuote.scss';
 import DropUploader from '../../utils/drop-uploader/DropUploader';
 import CategoryService from '../../../services/blog/CategoryService';
-import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
 import NewPost from '../../blog-base/new-post/NewPost';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class extends NewPost {
@@ -65,7 +65,7 @@ export default class extends NewPost {
   }
 
   handleMissingPermission() {
-    MessageDialogHelper.show(
+    AnyDialogHelper.openMessage(
       'Tham Gia Viết Bài',
       <div>
         Để tham gia cùng viết bài, bạn có thể liên hệ qua Facebook page <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Climate Strike Vietnam</a>. Hoặc đăng bài ở chuyên mục <IconCommunity text={t('pages.earthPicture.nav.communityShare')} />.

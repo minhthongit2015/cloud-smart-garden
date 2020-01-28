@@ -89,11 +89,11 @@ export default class HomePage extends BasePage {
   getRandomQuote(name) {
     const now = new Date();
     if (now.getHours() >= 1 && now.getHours() <= 11) {
-      return `Chào buổi sáng... ${name}! Chúc một ngày mới vui vẻ!`;
+      return `Chào buổi sáng... ${name}! Chúc một ngày mới vui vẻ! /(^_^)>`;
     } if (now.getHours() >= 13 && now.getHours() <= 17) {
-      return `Chào buổi chiều... ${name}`;
+      return `Chào buổi chiều... ${name}!`;
     } if (now.getHours() >= 18 && now.getHours() <= 23) {
-      return `Chào buổi tối... ${name}`;
+      return `Chào buổi tối... ${name}!`;
     }
     return '';
   }
@@ -117,7 +117,7 @@ export default class HomePage extends BasePage {
             }
           </div>
           {fbProfile && (
-            <div className="text-center text-light-red mt-2 mt-xs-3 mt-sm-5 px-3 px-md-5">
+            <div className="text-center text-green mt-2 mt-xs-3 mt-sm-5 px-3 px-md-5">
               {this.getRandomQuote(fbProfile.short_name)}
             </div>
           )}

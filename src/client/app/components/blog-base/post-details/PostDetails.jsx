@@ -5,14 +5,17 @@ import './PostDetails.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import Video from '../../utils/video/Video';
 import ShareButton from '../../facebook/ShareButton';
+// eslint-disable-next-line import/no-cycle
 import PostService from '../../../services/blog/PostService';
 import FbService from '../../../services/user/FbService';
 import GlobalState from '../../../utils/GlobalState';
 import UserService from '../../../services/user/UserService';
-import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../languages';
 import Rating from '../../utils/rating/Rating';
 import NewsTracker from '../../../services/blog/NewsTracker';
+import PostHelper from '../../../helpers/PostHelper';
+// eslint-disable-next-line import/no-cycle
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class PostDetails extends React.PureComponent {
@@ -32,14 +35,14 @@ export default class PostDetails extends React.PureComponent {
   }
 
   markAsRead() {
-    const { post } = this.props;
+    const { data: post } = this.props;
     NewsTracker.markAsRead(post);
   }
 
   handleRating(event, rating) {
-    const { post } = this.props;
+    const { data: post } = this.props;
     if (!UserService.isLoggedIn) {
-      LoginDialogHelper.show(t('components.loginDialog.loginToRating'));
+      AnyDialogHelper.openLogin(t('components.loginDialog.loginToRating'));
       return;
     }
 
@@ -68,7 +71,7 @@ export default class PostDetails extends React.PureComponent {
   }
 
   render() {
-    const { post = {} } = this.props;
+    const { data: post = {} } = this.props;
     const {
       _id, preview, video, title, summary, content, categories, createdAt,
       totalRating, totalVotes, rating
@@ -102,7 +105,7 @@ export default class PostDetails extends React.PureComponent {
             <sup key="1" className="post-details__time text-sm mr-2"><TimeAgo time={createdAt} /></sup>
             <div className="post-details__action-buttons d-flex flex-wrap justify-content-between mt-2">
               <Rating {...ratingInfo} onRating={this.handleRating} id={_id} />
-              <ShareButton url={PostService.buildPostUrl(post)} />
+              <ShareButton url={PostHelper.buildPostUrl(post)} />
             </div>
             {!preview && (
               <React.Fragment>

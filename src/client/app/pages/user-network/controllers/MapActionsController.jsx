@@ -1,10 +1,10 @@
 import BaseComponent from '../../../components/BaseComponent';
 import BaseMapController from './BaseMapController';
 import UserService from '../../../services/user/UserService';
-import LoginDialogHelper from '../../../helpers/dialogs/LoginDialogHelper';
 import t from '../../../languages';
 import MapService from '../../../services/map/MapService';
 import MapUtils from '../../../utils/MapUtils';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class extends BaseMapController {
@@ -38,7 +38,7 @@ export default class extends BaseMapController {
       return null;
     }
     if (!UserService.isLoggedIn) {
-      return LoginDialogHelper.show(t('components.loginDialog.loginToRiseYourVoice'));
+      return AnyDialogHelper.openLogin(t('components.loginDialog.loginToRiseYourVoice'));
     }
     const newMarker = {
       ...newPlace,

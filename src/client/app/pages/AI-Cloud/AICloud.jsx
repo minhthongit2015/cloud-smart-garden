@@ -6,7 +6,6 @@ import TabDatasets from './tab-datasets/TabDatasets';
 import TabTrainedModels from './tab-trained-models/TabTrainedModels';
 import MainPageGroup from '../_base/MainPageGroup';
 import t from '../../languages';
-import ExperimentPage from './tab-experiments/experiment-page/ExperimentPage';
 
 
 export default class extends MainPageGroup {
@@ -26,12 +25,6 @@ export default class extends MainPageGroup {
         component: TabProjects
       },
       {
-        name: t('Experiment Details'),
-        link: RouteConstants.aiExperimentILink,
-        path: RouteConstants.aiExperimentIPath,
-        component: ExperimentPage
-      },
-      {
         name: t('pages.aiCloud.nav.experiments'),
         link: RouteConstants.aiExperimentsLink,
         path: RouteConstants.aiExperimentsPath,
@@ -39,7 +32,7 @@ export default class extends MainPageGroup {
       },
       {
         name: t('pages.aiCloud.nav.trainedModels'),
-        link: RouteConstants.aiModelsLink,
+        link: RouteConstants.aiTrainedModelsLink,
         path: RouteConstants.aiTrainedModelsPath,
         component: TabTrainedModels
       },

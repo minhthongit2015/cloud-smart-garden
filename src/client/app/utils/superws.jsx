@@ -18,7 +18,8 @@ export default class SuperWebsocket {
       transports: ['websocket']
     });
     this.socket.on('connect', () => {
-      console.log('connected');
+      // console.highlight(' >>>  Fast Connection is Established!  🚀');
+      console.badge(' >>>  Fast Connection is Established!  🚀');
     });
   }
 
