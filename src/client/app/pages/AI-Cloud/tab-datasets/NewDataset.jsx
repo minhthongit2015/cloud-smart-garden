@@ -26,7 +26,7 @@ export default class extends NewBlogPost {
   }
 
   get defaultCategories() {
-    return [CategoryService.categoriesMap.Garden.type];
+    return [CategoryService.categoriesMap.Dataset.type];
   }
 
   get formData() {

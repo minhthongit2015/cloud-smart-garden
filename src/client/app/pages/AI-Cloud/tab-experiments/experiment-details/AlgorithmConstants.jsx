@@ -1,19 +1,19 @@
 
 
 export default {
-  algorithm: [
+  algorithms: [
     { value: 'neural-network', label: 'Neural Network' },
     { value: 'linear-regression', label: 'Linear Regression' },
     { value: 'polynomial-regression', label: 'Polynomial Regression' }
   ],
-  optimizer: [
+  optimizers: [
     { value: 'adam', label: 'Adam' },
     { value: 'sgd', label: 'SGD' }
   ],
-  loss: [
+  losses: [
     { value: 'sparseCategoricalCrossentropy', label: 'Sparse Categorical Crossentropy' }
   ],
-  activation: [
+  activations: [
     { value: 'relu', label: 'Relu' },
     { value: 'softmax', label: 'Softmax' }
   ]

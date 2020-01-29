@@ -55,9 +55,12 @@ export default class extends BaseComponent.Pure {
   }
 
   componentDidMount() {
-    super.componentDidMount();
     this.page = 0;
     this.fetchAllPosts();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.fetchTimeout);
   }
 
   refresh() {
@@ -102,11 +105,9 @@ export default class extends BaseComponent.Pure {
       .then((res) => {
         if (!res || !res.ok) {
           // If it has some error, then try to fetch again after 2s
-          if (this._ismounted) {
-            setTimeout(() => {
-              this.fetchPosts();
-            }, 2000);
-          }
+          this.fetchTimeout = setTimeout(() => {
+            this.fetchPosts();
+          }, 2000);
           return;
         }
         this.resolvePosts(res, this.page, offset, limit);

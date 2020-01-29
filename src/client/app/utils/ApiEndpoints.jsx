@@ -49,6 +49,13 @@ function sort(endpoint, ...keys) {
   return params(endpoint, { sort: keys.join(' ') });
 }
 
+/**
+ * Newest first
+ */
+function sortCreated(endpoint, ...keys) {
+  return sort(endpoint, '-createdAt', ...keys);
+}
+
 class Builder {
   constructor(endpoint) {
     this.endpoint(endpoint);
@@ -93,6 +100,10 @@ class Builder {
 
   sort(...keys) {
     return this.endpoint(sort(this._endpoint, ...keys));
+  }
+
+  sortCreated(...keys) {
+    return this.endpoint(sortCreated(this._endpoint, ...keys));
   }
 }
 
@@ -161,6 +172,7 @@ export default {
   offset,
   __t,
   sort,
+  sortCreated,
   builder,
 
   APIv1,

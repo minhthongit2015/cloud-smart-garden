@@ -13,7 +13,6 @@ export default class ShufflePostList extends PostList {
   }
 
   componentDidMount() {
-    super.componentDidMount();
     this.shuffle = new Shuffle(this.containerRef.current, '.post-wrapper', {
       sizer: this.sizerElementRef.current,
       speed: 0,
@@ -35,7 +34,6 @@ export default class ShufflePostList extends PostList {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount();
     this.shuffle.destroy();
     this.shuffle = null;
   }

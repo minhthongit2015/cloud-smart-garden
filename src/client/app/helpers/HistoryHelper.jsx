@@ -46,7 +46,10 @@ export default class HistoryHelper {
 
   static push(url = window.location.href, state, title = document.title) {
     if (url === window.location.href) {
-      this.setTitle(title);
+      if (title !== document.title) {
+        window.history.pushState(state, title, url);
+        this.setTitle(title);
+      }
       return;
     }
     window.history.pushState(state, title, url);
@@ -55,7 +58,10 @@ export default class HistoryHelper {
 
   static replace(url = window.location.href, state, title = document.title) {
     if (url === window.location.href) {
-      this.setTitle(title);
+      if (title !== document.title) {
+        window.history.replaceState(state, title, url);
+        this.setTitle(title);
+      }
       return;
     }
     window.history.replaceState(state, title, url);

@@ -10,6 +10,10 @@ export default React.memo((props) => {
       style={{ enableBackground: 'new 0 0 474.8 474.801' }}
       {...restProps}
     >
+      <linearGradient id="SVG_DreamWhiteGradient" gradientUnits="userSpaceOnUse" x1="0" y1="258" x2="512" y2="258" gradientTransform="matrix(1 0 0 -1 0 514)">
+        <stop offset="0" stopColor="#80D8FF" />
+        <stop offset="1" stopColor="#EA80FC" />
+      </linearGradient>
       <path
         fill="url(#SVG_DreamWhiteGradient)"
         style={{ transition: 'd .3s ease-in-out' }}

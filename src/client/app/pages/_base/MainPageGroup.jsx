@@ -4,9 +4,10 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import SidebarLayout from '../../layouts/sidebar-layout/SidebarLayout';
 import RouteConstants from '../../utils/RouteConstants';
 import GuideMessage from '../../components/utils/messages/GuideMessage';
+import BasePage from './BasePage';
 
 
-export default class extends React.PureComponent {
+export default class extends BasePage {
   constructor(propsz) {
     super(propsz);
     this.brand = {

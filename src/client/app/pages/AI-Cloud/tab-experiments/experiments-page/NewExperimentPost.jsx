@@ -33,6 +33,10 @@ export default class extends NewBlogPost {
     return ['categories', ...super.excludeKeys];
   }
 
+  get defaultCategories() {
+    return [CategoryService.categoriesMap.Experiment.type];
+  }
+
   get formData() {
     const formData = super.formData;
     formData.categories = [CategoryService.categoriesMap.Experiment];

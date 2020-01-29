@@ -10,3 +10,17 @@
 .text-orange {
   color: $color-orange !important;
 }
+
+
+
+.text-pre-wrap {
+  white-space: pre-wrap;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-middle {
+  vertical-align: middle;
+}

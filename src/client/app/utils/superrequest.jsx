@@ -1,7 +1,10 @@
 
 import superagent from 'superagent';
+import superagentRx from 'superagent-rx';
 import superws from './superws';
 import Config from '../config';
+
+superagentRx(superagent);
 
 export default class {
   static resolveAgentResponse(agent) {
@@ -70,6 +73,12 @@ export default class {
       superagent.get(this.mapUrl(url)).withCredentials()
         .set('AccessToken', this.accessToken)
     );
+  }
+
+  static async subscribeGet(url) {
+    return superagent.get(this.mapUrl(url)).withCredentials()
+      .set('AccessToken', this.accessToken)
+      .observe();
   }
 
   static async post(url, body) {

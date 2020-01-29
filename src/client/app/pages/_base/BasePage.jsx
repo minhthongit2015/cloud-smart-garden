@@ -13,7 +13,6 @@ export default class extends BaseComponent {
   }
 
   componentDidMount() {
-    super.componentDidMount();
     if (this.title != null) {
       document.title = this.title
         ? `${this.title}${this.noBaseTitle ? '' : ` | ${SiteConfig.WEBSITE_TITLE}`}`

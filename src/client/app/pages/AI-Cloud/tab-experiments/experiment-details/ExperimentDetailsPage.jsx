@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Button } from 'mdbreact';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
+// import Select from 'react-select';
+// import makeAnimated from 'react-select/animated';
 import superrequest from '../../../../utils/superrequest';
 import ApiEndpoints from '../../../../utils/ApiEndpoints';
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
@@ -10,6 +10,10 @@ import ExperimentService from '../../../../services/AI/ExperimentService';
 import TrainingProgressChart from '../../../../components/charts/TrainingProgressChart';
 import ExperimentBaseInfo from './ExperimentBaseInfo';
 import BaseComponent from '../../../../components/BaseComponent';
+import AlgorithmsSelect from './AlgorithmsSelect';
+import DatasetsSelect from './DatasetsSelect';
+import SelectedAlgorithms from './SelectedAlgorithms';
+import ExperimentTargets from './ExperimentTargets';
 
 
 export default class extends BaseComponent {
@@ -17,36 +21,32 @@ export default class extends BaseComponent {
     super(props);
     // this.datasetChartRef = React.createRef();
     this.trainingProgressChartRef = React.createRef();
-
-    this.onSaveDataset = this.onSaveDataset.bind(this);
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
 
     this.state = {
-      dataset: null,
-      dataLimit: 144,
-      algorithm: AlgorithmConstants.algorithm[0],
-      optimizer: AlgorithmConstants.optimizer[0],
-      loss: AlgorithmConstants.loss[0],
-      activation: AlgorithmConstants.activation[0],
-      experiment: props.data
+      experiment: props.data,
+      algorithm: AlgorithmConstants.algorithms[0],
+      optimizers: AlgorithmConstants.optimizers.slice(0, 1),
+      losses: AlgorithmConstants.losses.slice(0, 1),
+      activations: AlgorithmConstants.activations.slice(0, 1),
+      datasets: [],
+      targets: {}
     };
   }
 
   componentDidMount() {
-    super.componentDidMount();
     // this.fetchExperiment();
     // this.subscribeDatasetChannel();
   }
 
   fetchExperiment() {
     const { match: { params: { experimentId } = {} } = {} } = this.props;
-    superrequest.agentGet(ApiEndpoints.postOrder(experimentId)).then((res) => {
-      if (res && res.ok) {
+    superrequest.agentGet(ApiEndpoints.postOrder(experimentId))
+      .then((res) => {
         this.setState({
           experiment: res.data[0]
         });
-      }
-    });
+      });
   }
 
   async subscribeDatasetChannel() {
@@ -62,13 +62,10 @@ export default class extends BaseComponent {
   }
 
   handleBuildExperiment(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    this.stopEvent(event);
     this.buildExperiment();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   buildExperiment() {
     ExperimentService.subscribeTrainingProgress((progress) => {
       console.log(progress);
@@ -98,16 +95,15 @@ export default class extends BaseComponent {
     });
   }
 
-  onSaveDataset(dataset) {
-    console.log(this.state.dataset);
-    ExperimentService.updateDataset(dataset);
-  }
-
   render() {
     const {
       experiment,
-      algorithm, optimizer, loss, activation, dataLimit, dataset
+      algorithm, optimizers, losses, activations,
+      datasets, targets
     } = this.state || {};
+    const selectedAlgorithms = {
+      algorithm, optimizers, losses, activations
+    };
 
     return (
       <React.Fragment>
@@ -120,111 +116,37 @@ export default class extends BaseComponent {
         <Section>
           <SectionHeader>Design Experiment</SectionHeader>
           <SectionBody>
-            <Row>
-              <Col size="6">
-                <form onSubmit={this.handleBuildExperiment}>
-                  <div className="mt-0">
-                    <label htmlFor="algorithm">Algorithm</label>
-                    <Select
-                      id="algorithm"
-                      name="algorithm"
-                      onChange={option => this.handleInputChange('algorithm', option)}
-                      options={AlgorithmConstants.algorithm}
-                      value={algorithm}
-                      components={makeAnimated()}
-                    />
-                  </div>
-
-                  <div className="mt-2">
-                    <label htmlFor="optimizer">Optimizer</label>
-                    <Select
-                      id="optimizer"
-                      name="optimizer"
-                      onChange={option => this.handleInputChange('optimizer', option)}
-                      options={AlgorithmConstants.optimizer}
-                      value={optimizer}
-                      isMulti
-                      closeMenuOnSelect
-                      components={makeAnimated()}
-                    />
-                  </div>
-
-                  <div className="mt-2">
-                    <label htmlFor="loss">Loss</label>
-                    <Select
-                      id="loss"
-                      name="loss"
-                      onChange={option => this.handleInputChange('loss', option)}
-                      options={AlgorithmConstants.loss}
-                      value={loss}
-                      isMulti
-                      closeMenuOnSelect
-                      components={makeAnimated()}
-                    />
-                  </div>
-
-                  <div className="mt-2">
-                    <label htmlFor="activation">Activation</label>
-                    <Select
-                      id="activation"
-                      name="activation"
-                      onChange={option => this.handleInputChange('activation', option)}
-                      options={AlgorithmConstants.activation}
-                      value={activation}
-                      isMulti
-                      closeMenuOnSelect
-                      components={makeAnimated()}
-                    />
-                  </div>
-
-                  <div className="mt-3 text-right">
-                    <Button type="submit">Test this Experiment</Button>
-                  </div>
-                </form>
-              </Col>
-
-              <Col size="6">
-                <TrainingProgressChart
-                  ref={this.trainingProgressChartRef}
-                />
-              </Col>
-            </Row>
-          </SectionBody>
-        </Section>
-
-        <Section>
-          <SectionHeader>Dữ liệu huấn luyện</SectionHeader>
-          <SectionBody>
-            <form>
+            <form onSubmit={this.handleBuildExperiment}>
               <Row>
-                <Col>
-                  <label htmlFor="data-limit">Kích thước</label>
-                  <input
-                    id="data-limit"
-                    name="data-limit"
+                <Col size="6">
+                  <AlgorithmsSelect
+                    {...selectedAlgorithms}
                     onChange={this.handleInputChange}
-                    type="number"
-                    min="0"
-                    value={dataLimit}
-                    placeholder="Kích thước"
-                    className="form-control"
+                  />
+                  <DatasetsSelect
+                    datasets={datasets}
+                    onChange={this.handleInputChange}
                   />
                 </Col>
-                <Col>
-                  <label htmlFor="data-limit">Dữ liệu từ</label>
-                  <input id="data-begin" type="date" placeholder="Điểm bắt đầu" className="form-control" />
+                <Col size="6">
+                  <SelectedAlgorithms {...selectedAlgorithms} />
                 </Col>
-                <Col>
-                  <label htmlFor="data-zzz">zzz</label>
-                  <input id="data-zzz" type="text" placeholder="" className="form-control" />
+                <Col className="my-3">
+                  <ExperimentTargets
+                    targets={targets}
+                    onChange={this.handleInputChange}
+                  />
+                </Col>
+                <Col size="12">
+                  <div className="mt-3 text-center">
+                    <Button type="submit">Test this Experiment</Button>
+                  </div>
+                  <TrainingProgressChart
+                    ref={this.trainingProgressChartRef}
+                  />
                 </Col>
               </Row>
             </form>
-            {/* <DatasetComponent
-            ref={this.datasetChartRef}
-            dataset={dataset}
-            onSave={this.onSaveDataset}
-          /> */}
           </SectionBody>
         </Section>
       </React.Fragment>

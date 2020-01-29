@@ -75,14 +75,11 @@ class PureComponent extends React.PureComponent {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  componentDidMount() {
-    this._ismounted = true;
-  }
-
-  componentWillUnmount() {
-    this._ismounted = false;
+    this.InputValue = new Proxy(this, {
+      get(target, prop/* , receiver */) {
+        return target.props[prop] || (target.state && target.state[prop]);
+      }
+    });
   }
 
   bind(...methods) {
@@ -123,6 +120,24 @@ class PureComponent extends React.PureComponent {
     }
   }
 
+  buildEvent(event, value, name) {
+    if (!(event instanceof Event)) {
+      event = { ...event };
+    }
+    if (!event.currentTarget) {
+      event.currentTarget = {};
+    }
+    event.currentTarget.name = name !== undefined
+      ? name
+      : (event.currentTarget.name || this.props.name);
+    event.currentTarget.value = value !== undefined ? value : event.currentTarget.value;
+    return event;
+  }
+
+  buildAndDispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, value, name, ...args) {
+    this.dispatchEvent(this.buildEvent(event, value, name), ...args);
+  }
+
   handleNothing() {
     //
   }
@@ -132,6 +147,7 @@ class PureComponent extends React.PureComponent {
     // => create an dummy event
     if (typeof event === 'string') {
       event = {
+        ...Events.change,
         currentTarget: {
           name: event,
           value: options
@@ -141,6 +157,7 @@ class PureComponent extends React.PureComponent {
 
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
+    this.dispatchEvent(event);
   }
 }
 
@@ -172,14 +189,11 @@ class BaseComponent extends React.Component {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  componentDidMount() {
-    this._ismounted = true;
-  }
-
-  componentWillUnmount() {
-    this._ismounted = false;
+    this.InputValue = new Proxy(this, {
+      get(target, prop/* , receiver */) {
+        return target.props[prop] || (target.state && target.state[prop]);
+      }
+    });
   }
 
   bind(...methods) {
@@ -220,6 +234,24 @@ class BaseComponent extends React.Component {
     }
   }
 
+  buildEvent(event, value, name) {
+    if (!(event instanceof Event)) {
+      event = { ...event };
+    }
+    if (!event.currentTarget) {
+      event.currentTarget = {};
+    }
+    event.currentTarget.name = name !== undefined
+      ? name
+      : (event.currentTarget.name || this.props.name);
+    event.currentTarget.value = value !== undefined ? value : event.currentTarget.value;
+    return event;
+  }
+
+  buildAndDispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, value, name, ...args) {
+    this.dispatchEvent(this.buildEvent(event, value, name), ...args);
+  }
+
   handleNothing() {
     //
   }
@@ -229,6 +261,7 @@ class BaseComponent extends React.Component {
     // => create an dummy event
     if (typeof event === 'string') {
       event = {
+        ...Events.change,
         currentTarget: {
           name: event,
           value: options
@@ -238,6 +271,7 @@ class BaseComponent extends React.Component {
 
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
+    this.dispatchEvent(event);
   }
 }
 

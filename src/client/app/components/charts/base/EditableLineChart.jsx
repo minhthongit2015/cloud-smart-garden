@@ -105,7 +105,6 @@ export default class EditableLineChart extends BaseComponent {
   }
 
   componentDidMount() {
-    super.componentDidMount();
     this.setData(this.props.dataset);
   }
 

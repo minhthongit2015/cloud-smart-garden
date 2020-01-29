@@ -6,9 +6,10 @@ const categoriesMap = {
   AI: { name: 'AI', path: RouteConstants.aiCloudLink },
   Project: { name: 'Project', parent: 'AI', path: RouteConstants.aiProjectsLink },
   Experiment: { name: 'Experiment', parent: 'AI', path: RouteConstants.aiExperimentsLink },
+  Dataset: { name: 'Dataset', parent: 'AI', path: RouteConstants.aiDatasetsLink },
 
   Garden: { name: 'Garden', path: RouteConstants.myGardenLink },
-  Station: { name: 'Station', path: RouteConstants.myGardenLink },
+  Station: { name: 'Station', path: RouteConstants.stationsLink },
 
   // Các trang về trao đổi nguyện vọng với người dùng
   NextFeatures: { name: 'Bạn muốn điều gì?', path: RouteConstants.nextFeaturesLink },
