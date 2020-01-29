@@ -56,13 +56,33 @@ class PureComponent extends React.PureComponent {
     return Events;
   }
 
+  get idPrefix() {
+    return 'component';
+  }
+
+  get unique() {
+    return Random.hex();
+  }
+
+  get id() {
+    if (!this._id) {
+      this._id = `${this.idPrefix}-${this.unique || Random.hex()}`;
+    }
+    return this._id;
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  stopEvent(event) {
-    if (event) { event.stopPropagation(); event.preventDefault(); }
+  componentDidMount() {
+    this._ismounted = true;
+  }
+
+  componentWillUnmount() {
+    this._ismounted = false;
   }
 
   bind(...methods) {
@@ -91,31 +111,8 @@ class PureComponent extends React.PureComponent {
     return null;
   }
 
-  handleNothing() {
-    //
-  }
-
-  get idPrefix() {
-    return 'component';
-  }
-
-  get unique() {
-    return Random.hex();
-  }
-
-  get id() {
-    if (!this._id) {
-      this._id = `${this.idPrefix}-${this.unique || Random.hex()}`;
-    }
-    return this._id;
-  }
-
-  componentDidMount() {
-    this._ismounted = true;
-  }
-
-  componentWillUnmount() {
-    this._ismounted = false;
+  stopEvent(event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
   dispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, ...args) {
@@ -124,6 +121,26 @@ class PureComponent extends React.PureComponent {
     if (isFunction(this.props[eventName])) {
       this.props[eventName](event, ...args);
     }
+  }
+
+  handleNothing() {
+    //
+  }
+
+  handleInputChange(event, options) {
+    // Select from 'react-select'
+    // => create an dummy event
+    if (typeof event === 'string') {
+      event = {
+        currentTarget: {
+          name: event,
+          value: options
+        }
+      };
+    }
+
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
   }
 }
 
@@ -136,13 +153,33 @@ class BaseComponent extends React.Component {
     return Events;
   }
 
+  get idPrefix() {
+    return 'component';
+  }
+
+  get unique() {
+    return Random.hex();
+  }
+
+  get id() {
+    if (!this._id) {
+      this._id = `${this.idPrefix}-${this.unique || Random.hex()}`;
+    }
+    return this._id;
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  stopEvent(event) {
-    if (event) { event.stopPropagation(); event.preventDefault(); }
+  componentDidMount() {
+    this._ismounted = true;
+  }
+
+  componentWillUnmount() {
+    this._ismounted = false;
   }
 
   bind(...methods) {
@@ -171,31 +208,8 @@ class BaseComponent extends React.Component {
     return null;
   }
 
-  handleNothing() {
-    //
-  }
-
-  get idPrefix() {
-    return 'component';
-  }
-
-  get unique() {
-    return Random.hex();
-  }
-
-  get id() {
-    if (!this._id) {
-      this._id = `${this.idPrefix}-${this.unique || Random.hex()}`;
-    }
-    return this._id;
-  }
-
-  componentDidMount() {
-    this._ismounted = true;
-  }
-
-  componentWillUnmount() {
-    this._ismounted = false;
+  stopEvent(event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
   dispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, ...args) {
@@ -204,6 +218,26 @@ class BaseComponent extends React.Component {
     if (isFunction(this.props[eventName])) {
       this.props[eventName](event, ...args);
     }
+  }
+
+  handleNothing() {
+    //
+  }
+
+  handleInputChange(event, options) {
+    // Select from 'react-select'
+    // => create an dummy event
+    if (typeof event === 'string') {
+      event = {
+        currentTarget: {
+          name: event,
+          value: options
+        }
+      };
+    }
+
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
   }
 }
 

@@ -1,10 +1,8 @@
 import React from 'react';
-import PostService from '../../services/blog/PostService';
-import SavedPostsDialogHelper from '../../helpers/dialogs/SavedPostsDialogHelper';
-import PostDetailsDialogHelper from '../../helpers/dialogs/PostDetailsDialogHelper';
 import { Section, SectionHeader, SectionBody } from '../../layouts/base/section';
 import SubPageGroup from './SubPageGroup';
 import BlogPostsModule from '../../components/blog/blog-posts-module/BlogPostsModule';
+import AnyDialogChecker from '../../helpers/dialogs/any-dialog/AnyDialogChecker';
 
 
 export default class extends SubPageGroup {
@@ -32,8 +30,7 @@ export default class extends SubPageGroup {
 
   componentDidMount() {
     super.componentDidMount();
-    SavedPostsDialogHelper.checkToOpen();
-    PostDetailsDialogHelper.checkToOpen();
+    AnyDialogChecker.runAllChecks();
   }
 
   renderBody() {

@@ -25,6 +25,7 @@ import RouteConstants from './utils/RouteConstants';
 import AuthService from './services/user/Auth';
 
 import AnyDialogHelper from './helpers/dialogs/any-dialog/AnyDialogHelper';
+import DialogsMap from './helpers/dialogs/any-dialog/DialogsMap';
 
 import EditPlaceDialogHelper from './helpers/dialogs/EditPlaceDialogHelper';
 import ExpertDialog from './components/map-tools/edit-dialog/ExpertDialog';
@@ -74,7 +75,7 @@ class App extends Component {
     superws.init();
     AuthService.init();
 
-    AnyDialogHelper.init();
+    AnyDialogHelper.init(DialogsMap);
     AnyDialogChecker.init();
     EditPlaceDialogHelper.storeDialog([
       ExpertDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog

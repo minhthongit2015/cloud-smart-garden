@@ -2,25 +2,23 @@ import React from 'react';
 import { Row, Col, Button } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import SubPageGroup from '../../../_base/SubPageGroup';
 import superrequest from '../../../../utils/superrequest';
 import ApiEndpoints from '../../../../utils/ApiEndpoints';
-import t from '../../../../languages';
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
 import AlgorithmConstants from './AlgorithmConstants';
 import ExperimentService from '../../../../services/AI/ExperimentService';
 import TrainingProgressChart from '../../../../components/charts/TrainingProgressChart';
 import ExperimentBaseInfo from './ExperimentBaseInfo';
+import BaseComponent from '../../../../components/BaseComponent';
 
 
-export default class extends SubPageGroup {
+export default class extends BaseComponent {
   constructor(props) {
-    super(props, t('pages.aiCloud.title.experiments'));
+    super(props);
     // this.datasetChartRef = React.createRef();
     this.trainingProgressChartRef = React.createRef();
 
     this.onSaveDataset = this.onSaveDataset.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
 
     this.state = {
@@ -29,14 +27,15 @@ export default class extends SubPageGroup {
       algorithm: AlgorithmConstants.algorithm[0],
       optimizer: AlgorithmConstants.optimizer[0],
       loss: AlgorithmConstants.loss[0],
-      activation: AlgorithmConstants.activation[0]
+      activation: AlgorithmConstants.activation[0],
+      experiment: props.data
     };
   }
 
   componentDidMount() {
     super.componentDidMount();
-    this.fetchExperiment();
-    this.subscribeDatasetChannel();
+    // this.fetchExperiment();
+    // this.subscribeDatasetChannel();
   }
 
   fetchExperiment() {
@@ -59,22 +58,6 @@ export default class extends SubPageGroup {
     // this.datasetChartRef.current.setData(res.data);
     this.setState({
       dataset: res.data
-    });
-  }
-
-  handleInputChange(event, options) {
-    if (typeof event === 'string') {
-      event = {
-        target: {
-          name: event,
-          value: options
-        }
-      };
-    }
-    const { name } = event.target;
-    const { value } = event.target;
-    this.setState({
-      [name]: value
     });
   }
 
@@ -120,7 +103,7 @@ export default class extends SubPageGroup {
     ExperimentService.updateDataset(dataset);
   }
 
-  renderBody() {
+  render() {
     const {
       experiment,
       algorithm, optimizer, loss, activation, dataLimit, dataset

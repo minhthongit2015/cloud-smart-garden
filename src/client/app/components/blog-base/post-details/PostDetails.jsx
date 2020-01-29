@@ -5,7 +5,6 @@ import './PostDetails.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import Video from '../../utils/video/Video';
 import ShareButton from '../../facebook/ShareButton';
-// eslint-disable-next-line import/no-cycle
 import PostService from '../../../services/blog/PostService';
 import FbService from '../../../services/user/FbService';
 import GlobalState from '../../../utils/GlobalState';
@@ -14,7 +13,6 @@ import t from '../../../languages';
 import Rating from '../../utils/rating/Rating';
 import NewsTracker from '../../../services/blog/NewsTracker';
 import PostHelper from '../../../helpers/PostHelper';
-// eslint-disable-next-line import/no-cycle
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 

@@ -2,8 +2,7 @@ import React from 'react';
 import t from '../../../languages';
 import SubPageGroup from '../../_base/SubPageGroup';
 import GardenModule from './GardenModule';
-import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
-import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
+import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
 
 
 export default class extends SubPageGroup {
@@ -14,8 +13,7 @@ export default class extends SubPageGroup {
 
   componentDidMount() {
     super.componentDidMount();
-    SavedPostsDialogHelper.checkToOpen();
-    PostDetailsDialogHelper.checkToOpen();
+    AnyDialogChecker.runAllChecks();
   }
 
   // eslint-disable-next-line class-methods-use-this

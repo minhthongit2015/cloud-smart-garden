@@ -25,6 +25,10 @@ function whereIn(endpoint, key, inArray) {
   return where(endpoint, { [key]: { $in: inArray } });
 }
 
+function whereBaseOrder(endpoint, baseOrder) {
+  return where(endpoint, { baseOrder });
+}
+
 function limit(endpoint, limitLength) {
   return params(endpoint, { limit: limitLength });
 }
@@ -69,6 +73,10 @@ class Builder {
 
   whereIn(key, inArray) {
     return this.endpoint(whereIn(this._endpoint, key, inArray));
+  }
+
+  whereBaseOrder(baseOrder) {
+    return this.endpoint(whereBaseOrder(this._endpoint, baseOrder));
   }
 
   limit(limitLength) {
@@ -148,6 +156,7 @@ export default {
   params,
   where,
   whereIn,
+  whereBaseOrder,
   limit,
   offset,
   __t,

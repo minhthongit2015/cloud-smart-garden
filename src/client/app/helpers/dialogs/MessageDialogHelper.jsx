@@ -1,9 +1,10 @@
 import React from 'react';
-import DialogHelper from './DialogHelper';
+import AnyDialogHelper from './any-dialog/AnyDialogHelper';
 
-export default class extends DialogHelper {
+
+export default class {
   static show(title, message) {
-    super.show(title, () => <div>{message}</div>);
+    AnyDialogHelper.openMessage(title, () => <div>{message}</div>);
   }
 
   static showUpComingFeature(feature) {

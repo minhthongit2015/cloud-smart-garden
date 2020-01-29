@@ -1,5 +1,6 @@
 import Post from '../../../../components/blog-base/post/Post';
 import getContextOptions from './ExperimentPostContextOptions';
+import AnyDialogHelper from '../../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 export default class extends Post {
   get postType() {
@@ -11,8 +12,7 @@ export default class extends Post {
   }
 
   handlePostClick(event) {
-    // open popup
-    super.handlePostClick(event);
+    AnyDialogHelper.openExperiment(this.post);
     this.dispatchEvent(event);
   }
 

@@ -8,7 +8,6 @@ export default class AnyDialogChecker {
     this.checkers = [
       this.checkAndOpenPost.bind(this)
     ];
-
     HistoryHelper.addPopListener((event) => {
       this.runAllChecks(event && event.state);
     });
@@ -31,11 +30,21 @@ export default class AnyDialogChecker {
   static openPost(hashtag) {
     return PostService.fetchPost(hashtag)
       .then((res) => {
-        AnyDialogHelper.openPost(res.data[0]);
+        this.openPostByType(res.data[0]);
       });
   }
 
   static closePost() {
     AnyDialogHelper.close(AnyDialogHelper.Types.post);
+    AnyDialogHelper.close(AnyDialogHelper.Types.experiment);
+  }
+
+  static openPostByType(post) {
+    switch (post.__t) {
+    case 'Experiment':
+      return AnyDialogHelper.openExperiment(post);
+    default:
+      return AnyDialogHelper.openPost(post);
+    }
   }
 }

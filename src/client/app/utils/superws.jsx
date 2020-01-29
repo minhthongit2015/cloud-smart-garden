@@ -21,6 +21,9 @@ export default class SuperWebsocket {
       // console.highlight(' >>>  Fast Connection is Established!  🚀');
       console.badge(' >>>  Fast Connection is Established!  🚀');
     });
+    this.socket.on('disconnect', () => {
+      console.warn('Warning: Fast Connection is interrupted!');
+    });
   }
 
   static async emit(...args) {
@@ -43,22 +46,22 @@ export default class SuperWebsocket {
   }
 
   static async get(eventPath, headers) {
-    return this.ws(path.join('GET', eventPath), undefined, headers);
+    return this.ws(path.join('GET', eventPath.toString()), undefined, headers);
   }
 
   static async post(eventPath, body, headers) {
-    return this.ws(path.join('POST', eventPath), body, headers);
+    return this.ws(path.join('POST', eventPath.toString()), body, headers);
   }
 
   static async put(eventPath, body, headers) {
-    return this.ws(path.join('PUT', eventPath), body, headers);
+    return this.ws(path.join('PUT', eventPath.toString()), body, headers);
   }
 
   static async patch(eventPath, body, headers) {
-    return this.ws(path.join('PATCH', eventPath), body, headers);
+    return this.ws(path.join('PATCH', eventPath.toString()), body, headers);
   }
 
   static async delete(eventPath, headers) {
-    return this.ws(path.join('DELETE', eventPath), undefined, headers);
+    return this.ws(path.join('DELETE', eventPath.toString()), undefined, headers);
   }
 }

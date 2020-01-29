@@ -3,8 +3,8 @@ import UserService from '../user/UserService';
 import PageDialogHelper from '../../helpers/dialogs/PageDialogHelper';
 import t from '../../languages';
 import ApiEndpoints from '../../utils/ApiEndpoints';
-// eslint-disable-next-line import/no-cycle
 import AnyDialogHelper from '../../helpers/dialogs/any-dialog/AnyDialogHelper';
+import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
 
 
 export default class extends PageDialogHelper {
@@ -22,7 +22,9 @@ export default class extends PageDialogHelper {
 
   static async fetchPost(postOrder, endpoint) {
     if (!postOrder) return null;
-    return superrequest.get(`${endpoint || this.defaultEndpoint}?limit=1&where={"baseOrder":${postOrder}}`);
+    return superrequest.get(
+      ApiEndpoints.builder(endpoint || this.defaultEndpoint).limit(1).whereBaseOrder(postOrder)
+    );
   }
 
   static async deletePost(post, endpoint) {
@@ -64,9 +66,9 @@ export default class extends PageDialogHelper {
     });
   }
 
-  static async requestChange(/* option */) {
+  static async requestChange(option) {
     if (UserService.isLoggedIn) {
-      // return AnyDialogHelper.openMessage(option.value);
+      return MessageDialogHelper.showUpComingFeature(option.value);
     }
     return AnyDialogHelper.openLogin(t('components.loginDialog.loginToRequestChange'));
   }

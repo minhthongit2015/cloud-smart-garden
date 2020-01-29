@@ -1,27 +1,8 @@
 import React from 'react';
-// eslint-disable-next-line import/no-cycle
-import PostDetails from '../../../components/blog-base/post-details/PostDetails';
-import PageDialog from '../../../components/dialogs/PageDialog';
-import LoginDialog from '../../../components/dialogs/LoginDialog';
-import MessageDialog from '../../../components/dialogs/MessageDialog';
-import GuideDialog from '../../../components/dialogs/GuideDialog';
 import AnyDialogRenderArea from './AnyDialogRenderArea';
 import PostHelper from '../../PostHelper';
+import DialogTypes from './DialogTypes';
 
-
-const DialogTypes = {
-  post: 'post',
-  login: 'login',
-  message: 'message',
-  guide: 'guide'
-};
-
-const DialogsMap = {
-  [DialogTypes.post]: { content: PostDetails, dialog: PageDialog },
-  [DialogTypes.login]: LoginDialog,
-  [DialogTypes.message]: MessageDialog,
-  [DialogTypes.guide]: GuideDialog
-};
 
 export default class AnyDialogHelper {
   static get Types() {
@@ -30,13 +11,14 @@ export default class AnyDialogHelper {
 
   static renderAreaRef = React.createRef();
 
-  static init() {
+  static init(DialogsMap) {
     this.dialogs = {};
     this.dialogRefs = {};
+    this.DialogsMap = DialogsMap;
   }
 
   static getDialogByType(dialogType, ...args) {
-    const Dialog = DialogsMap[dialogType];
+    const Dialog = this.DialogsMap[dialogType];
     return Dialog.dialog
       ? (
         <Dialog.dialog
@@ -69,7 +51,7 @@ export default class AnyDialogHelper {
     if (!this.dialogs[dialogType]) {
       this.dialogs[dialogType] = this.getDialogByType(dialogType, ...args);
     } else {
-      const { content: Content } = DialogsMap[dialogType];
+      const { content: Content } = this.DialogsMap[dialogType];
       if (Content) {
         this.dialogRefs[dialogType].setContent(<Content data={args[0]} />, args[1], args[2]);
       } else {
@@ -97,15 +79,21 @@ export default class AnyDialogHelper {
   }
 
   // For more flexible
-  static openPost(post) {
-    this.open(DialogTypes.post, post, PostHelper.buildPostUrl(post), post.title);
-  }
-
   static openLogin(message) {
     this.open(this.Types.login, message);
   }
 
   static openMessage(title, message) {
     this.open(this.Types.message, title, message);
+  }
+
+  static openPost(post) {
+    this.open(this.Types.post, post, PostHelper.buildPostUrl(post), post.title);
+  }
+
+  static openExperiment(experiment) {
+    this.open(
+      this.Types.experiment, experiment, PostHelper.buildPostUrl(experiment), experiment.title
+    );
   }
 }

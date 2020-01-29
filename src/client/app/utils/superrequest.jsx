@@ -25,6 +25,7 @@ export default class {
   }
 
   static mapUrl(url) {
+    url = url.toString();
     if (url.startsWith('/')) {
       return `${Config.httpEndpoint}${url}`;
     }

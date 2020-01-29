@@ -9,8 +9,7 @@ import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import StationModule from './StationModule';
-import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
-import PostDetailsDialogHelper from '../../../helpers/dialogs/PostDetailsDialogHelper';
+import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
 
 
 export default class extends SubPageGroup {
@@ -41,8 +40,7 @@ export default class extends SubPageGroup {
     superrequest.on('accept', (msg) => {
       console.log(msg);
     });
-    SavedPostsDialogHelper.checkToOpen();
-    PostDetailsDialogHelper.checkToOpen();
+    AnyDialogChecker.runAllChecks();
   }
 
   componentWillUnmount() {

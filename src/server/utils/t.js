@@ -1,2 +1,2 @@
 
-module.exports = require('../../client/app/languages');
+module.exports = require('../../client/app/languages/t');

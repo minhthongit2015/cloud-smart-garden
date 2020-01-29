@@ -58,12 +58,12 @@ function getImage(url, { height, width, scale = 1 } = {}) {
         height: 0;
         line-height: 0;
         color: transparent;
-        padding-top: ${ratio * 100}%;
+        padding-top: calc(${ratio * 100}% - 1px);
         background: url(${url});
         background-size: ${imgWidth}px ${imgHeight}px;
         background-repeat: no-repeat;
         background-position: center;
-        background-size: contain;
+        background-size: cover;
         border-radius: 4px;
         border: 1px solid lightblue;
       `;

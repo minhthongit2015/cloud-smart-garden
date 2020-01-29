@@ -20,6 +20,7 @@ import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
 import BaseComponent from '../../BaseComponent';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
+import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 
 
 const scrollToTop = () => {
@@ -256,7 +257,7 @@ export default class extends BaseComponent {
   }
 
   handleMissingPermission() {
-    AnyDialogHelper.openMessage(
+    MessageDialogHelper.show(
       'Tham Gia Viết Bài',
       <div>
         Để tham gia cùng viết bài, bạn có thể liên hệ qua admin của <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Beyond Garden</a>.
