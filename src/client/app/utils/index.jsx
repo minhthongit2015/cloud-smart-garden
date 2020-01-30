@@ -1,12 +1,15 @@
 /* eslint-disable no-plusplus */
-import _ from 'lodash';
+import { get } from '../../../server/utils';
 
 export {
   isNotSet, isNone, isEmpty, isBlank,
   isFunction, isString, isZeroVariable, zeroVariable,
   parseStringToNumber,
-  camelize, sentenceCase
+  camelize, sentenceCase,
+  toEventName, dispatchEvent, buildEvent,
+  get
 } from '../../../server/utils';
+
 
 export function groupBy(array, property = '_id') {
   if (!array || !property) return null;
@@ -17,7 +20,7 @@ export function groupBy(array, property = '_id') {
     return array;
   }
   array.forEach((item) => {
-    const keyValue = _.get(item, property);
+    const keyValue = get(item, property);
     if (!keyValue) {
       unRecognizedItems.push(item);
       return;
@@ -90,6 +93,23 @@ console.h1 = (text) => {
     font-size: 2rem;
     font-weight: bold;
     font-family: 'icielz-bambola', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    color: #ffd06b;
+    padding: 30px;
+    margin: 50px auto;
+    text-align: center;
+    border: 3px solid gold;
+    border-image: linear-gradient(144deg, #ffeaa8 0%, #FFFFAC 4%, #ffe18d 12.5%, #f7d27d 31.25%, #fdca58 50%, #ffd77b 54%, #ffd06b 65%, #FDB931 80%, #fbe371 90%) 1;
+    border-radius: 4px;
+    overflow: hidden;
+  `;
+  console.log(`%c${text}`, h1Style);
+};
+
+console.h2 = (text) => {
+  const h1Style = `
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'icielz-bambola', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
     color: #3287dc;
     padding: 30px;
     margin: 50px auto;
@@ -130,6 +150,14 @@ console.badge = (text) => {
     background: linear-gradient(144deg, #ffeaa8 0%, #FFFFAC 4%, #ffe18d 12.5%, #f7d27d 31.25%, #fdca58 50%, #ffd77b 54%, #ffd06b 65%, #FDB931 80%, #fbe371 90%);
   `;
   console.log(`%c${text}`, h1Style);
+};
+
+console.test = (func, iteration = 10 ** 6) => {
+  console.time();
+  for (let index = 0; index < iteration; index++) {
+    func();
+  }
+  console.timeEnd();
 };
 
 export default {

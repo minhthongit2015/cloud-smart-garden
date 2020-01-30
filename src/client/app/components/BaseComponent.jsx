@@ -1,7 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { camelize, isFunction } from '../utils';
+import { dispatchEvent, buildEvent } from '../utils';
+import { EventInterface } from '../utils/Interfaces';
 import Random from '../utils/Random';
+
 
 const Events = {
   change: { typez: 'change' },
@@ -28,13 +30,6 @@ const EventTypesMap = {
   mouseleave: 'mouseLeave',
   mousemove: 'mouseMove'
 };
-
-function translateEventType(event) {
-  if (!event || !event.type) {
-    return;
-  }
-  event.typez = EventTypesMap[event.type];
-}
 
 // eslint-disable-next-line no-unused-vars
 const BaseComponentMixer = SuperClass => class extends SuperClass {
@@ -112,30 +107,12 @@ class PureComponent extends React.PureComponent {
     if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
-  dispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, ...args) {
-    translateEventType(event);
-    const eventName = camelize(`on ${event.typez || event.type}`);
-    if (isFunction(this.props[eventName])) {
-      this.props[eventName](event, ...args);
-    }
+  dispatchEvent(event = { ...EventInterface }, ...args) {
+    dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
-  buildEvent(event, value, name) {
-    if (!(event instanceof Event)) {
-      event = { ...event };
-    }
-    if (!event.currentTarget) {
-      event.currentTarget = {};
-    }
-    event.currentTarget.name = name !== undefined
-      ? name
-      : (event.currentTarget.name || this.props.name);
-    event.currentTarget.value = value !== undefined ? value : event.currentTarget.value;
-    return event;
-  }
-
-  buildAndDispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, value, name, ...args) {
-    this.dispatchEvent(this.buildEvent(event, value, name), ...args);
+  buildAndDispatchEvent(event = { ...EventInterface }, value, name, ...args) {
+    this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
 
   handleNothing() {
@@ -226,30 +203,12 @@ class BaseComponent extends React.Component {
     if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
-  dispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, ...args) {
-    translateEventType(event);
-    const eventName = camelize(`on ${event.typez || event.type}`);
-    if (isFunction(this.props[eventName])) {
-      this.props[eventName](event, ...args);
-    }
+  dispatchEvent(event = { ...EventInterface }, ...args) {
+    dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
-  buildEvent(event, value, name) {
-    if (!(event instanceof Event)) {
-      event = { ...event };
-    }
-    if (!event.currentTarget) {
-      event.currentTarget = {};
-    }
-    event.currentTarget.name = name !== undefined
-      ? name
-      : (event.currentTarget.name || this.props.name);
-    event.currentTarget.value = value !== undefined ? value : event.currentTarget.value;
-    return event;
-  }
-
-  buildAndDispatchEvent(event = { typez: 'overrideEvent', type: 'originalEvent' }, value, name, ...args) {
-    this.dispatchEvent(this.buildEvent(event, value, name), ...args);
+  buildAndDispatchEvent(event = { ...EventInterface }, value, name, ...args) {
+    this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
 
   handleNothing() {

@@ -17,6 +17,12 @@ router.post('/', Logger.catch(async (req, res) => {
   return res.send(APIResponse.setData(dataset));
 }));
 
+router.post('/:datasetId/regenerate', Logger.catch(async (req, res) => {
+  const { datasetId } = req.params;
+  const records = await DatasetService.regenerateRecords(datasetId);
+  return res.send(APIResponse.setData(records));
+}));
+
 // router.put('/:datasetId', (req, res) => {
 //   Logger.catch(async () => {
 //     const { datasetId } = req.params;

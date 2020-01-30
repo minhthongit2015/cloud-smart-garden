@@ -19,10 +19,10 @@ export default class SuperWebsocket {
     });
     this.socket.on('connect', () => {
       // console.highlight(' >>>  Fast Connection is Established!  🚀');
-      console.badge(' >>>  Fast Connection is Established!  🚀');
+      console.badge(' >>>  Ultra Connection is Established!  🚀');
     });
     this.socket.on('disconnect', () => {
-      console.warn('Warning: Fast Connection is interrupted!');
+      console.warn('Warning: Ultra Connection is interrupted!');
     });
   }
 

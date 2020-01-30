@@ -6,6 +6,7 @@ const NeralNetwork = require('./NeuralNetwork');
 // const Trainer = require('./Trainer');
 const SyncService = require('../../../services/sync');
 
+
 module.exports = class {
   static async build(opts = { ...ApiHelper.listParams }) {
     // Prepare dataset

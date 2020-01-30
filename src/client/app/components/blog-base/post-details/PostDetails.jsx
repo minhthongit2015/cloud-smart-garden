@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Row, Col } from 'mdbreact';
@@ -68,6 +69,10 @@ export default class PostDetails extends React.PureComponent {
     });
   }
 
+  renderBelowPreview() {
+    return null;
+  }
+
   render() {
     const { data: post = {} } = this.props;
     const {
@@ -83,21 +88,24 @@ export default class PostDetails extends React.PureComponent {
     return (
       <div className="post-details container">
         <Row>
-          {(preview || video) && (
-            <Col size="12" md="8" className="mb-3">
-              <div className="post-details__categories mb-2 border-left pl-2">
-                <span className="post-details__categories__label">Chuyên mục: </span>
-                {categories.map(category => (
-                  <b key={category.type} className={`post-details__categories__category pr-2 ${category.type}`}>{category.name}</b>
-                ))}
-              </div>
-              {video ? (
-                <Video title={title} src={video} preview={preview} />
-              ) : (
-                <img alt={title} src={preview} className="w-100" />
-              )}
-            </Col>
-          )}
+          <Col size="12" md="8" className="mb-3">
+            {(preview || video) && (
+              <React.Fragment>
+                <div className="post-details__categories mb-2 border-left pl-2">
+                  <span className="post-details__categories__label">Chuyên mục: </span>
+                  {categories.map(category => (
+                    <b key={category.type} className={`post-details__categories__category pr-2 ${category.type}`}>{category.name}</b>
+                  ))}
+                </div>
+                {video ? (
+                  <Video title={title} src={video} preview={preview} />
+                ) : (
+                  <img alt={title} src={preview} className="w-100" />
+                )}
+              </React.Fragment>
+            )}
+            {this.renderBelowPreview()}
+          </Col>
           <Col size="12" md={preview ? '4' : '12'}>
             <div className="post-details__title">{title}</div>
             <sup key="1" className="post-details__time text-sm mr-2"><TimeAgo time={createdAt} /></sup>

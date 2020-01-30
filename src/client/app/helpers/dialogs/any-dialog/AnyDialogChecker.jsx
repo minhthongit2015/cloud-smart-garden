@@ -28,23 +28,17 @@ export default class AnyDialogChecker {
   }
 
   static openPost(hashtag) {
+    if (window.history.state) {
+      AnyDialogHelper.openPost(window.history.state);
+    }
     return PostService.fetchPost(hashtag)
       .then((res) => {
-        this.openPostByType(res.data[0]);
+        AnyDialogHelper.openPost(res.data[0]);
       });
   }
 
   static closePost() {
     AnyDialogHelper.close(AnyDialogHelper.Types.post);
     AnyDialogHelper.close(AnyDialogHelper.Types.experiment);
-  }
-
-  static openPostByType(post) {
-    switch (post.__t) {
-    case 'Experiment':
-      return AnyDialogHelper.openExperiment(post);
-    default:
-      return AnyDialogHelper.openPost(post);
-    }
   }
 }

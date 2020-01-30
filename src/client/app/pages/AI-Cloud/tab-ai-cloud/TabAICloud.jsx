@@ -1,9 +1,9 @@
 import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
-import BasePage from '../../_base/BasePage';
+import SubPageGroup from '../../_base/SubPageGroup';
 
-class TabAICloud extends BasePage {
+class TabAICloud extends SubPageGroup {
   constructor(props) {
     super(props, t('pages.aiCloud.title.aiCloud'));
   }

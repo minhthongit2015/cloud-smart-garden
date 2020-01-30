@@ -1,4 +1,6 @@
 /* eslint-disable no-plusplus */
+const _ = require('lodash');
+const { EventInterface } = require('./Interfaces');
 
 const Logger = console;
 
@@ -140,6 +142,60 @@ function sentenceCase(str) {
     .replace(/(?:^[^a-z]*)([a-z])/gi, (...args) => args[1].toLocaleUpperCase());
 }
 
+function toEventName(event = { ...EventInterface }) {
+  return camelize(`on ${event.typez || event.type}`);
+}
+
+function dispatchEvent(event = { ...EventInterface }, { listeners, eventTypesMap }, ...args) {
+  if (eventTypesMap && event && event.type) {
+    event.typez = eventTypesMap[event.type] || event.typez;
+  }
+  const listener = listeners[toEventName(event)];
+  if (isFunction(listener)) {
+    listener(event, ...args);
+  }
+}
+
+function buildEvent(event = { ...EventInterface }, value, name) {
+  if (!(event instanceof Event)) {
+    event = { ...event };
+  }
+  if (!event.currentTarget) {
+    event.currentTarget = {};
+  }
+  event.currentTarget.name = name !== undefined
+    ? name
+    : (event.currentTarget.name || this.props.name);
+  event.currentTarget.value = value !== undefined
+    ? value
+    : event.currentTarget.value;
+  return event;
+}
+
+function get(object, prop) {
+  return _.get(object, prop);
+}
+
+/**
+ * Do not use! (not completed yet)
+ */
+function flattenObject(object, matcher) {
+  const paths = [];
+  function _walk(obj, parentPath = '') {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (matcher && matcher(value)) {
+        paths.push(`${parentPath}.${key}`);
+      }
+      if (typeof value !== 'object' || Array.isArray(value)) {
+        return null;
+      }
+      return _walk(value, key);
+    });
+  }
+  _walk(object);
+  return paths;
+}
+
 module.exports = {
   isNotSet,
   isNone,
@@ -151,5 +207,10 @@ module.exports = {
   isZeroVariable,
   zeroVariable,
   camelize,
-  sentenceCase
+  sentenceCase,
+  toEventName,
+  dispatchEvent,
+  buildEvent,
+  get,
+  flattenObject
 };

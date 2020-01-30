@@ -4,5 +4,6 @@ export default {
   message: 'message',
   guide: 'guide',
   post: 'post',
-  experiment: 'experiment'
+  experiment: 'experiment',
+  dataset: 'dataset'
 };

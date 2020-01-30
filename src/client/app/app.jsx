@@ -62,8 +62,10 @@ class App extends Component {
     if (window.appLoaded) return;
     console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
       .then((image) => {
-        console.h1('Welcome To The Tomorrowland!');
+        console.group('🚀 Alpha Team wiz 💓');
+        console.h1('👩‍🔬 Welcome To The Tomorrowland! 🪐');
         console.logImage(image);
+        console.groupEnd('🚀 Alpha Team wiz 💓');
       });
     window.appLoaded = true;
 

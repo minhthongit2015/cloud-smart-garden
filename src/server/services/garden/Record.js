@@ -2,6 +2,8 @@ const moment = require('moment');
 const ApiHelper = require('../../utils/ApiHelper');
 const { Record } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
+const random = require('../../utils/random');
+
 
 const DAY_FORMAT = 'YYYY/MM/DD';
 const TIME_ZONE = 'Asia/Ho_Chi_Minh';
@@ -16,15 +18,16 @@ module.exports = class extends CRUDService {
   }
 
   static generateRawRecord(time, stationId) {
+    const light = random.int(0, 1);
     return {
       station: ApiHelper.getId(stationId),
       state: {
-        temperature: 26,
-        humidity: 80,
-        light: 5000,
-        led: false,
-        fan: false,
-        nutri: 2000
+        temperature: random.float(24, 26),
+        humidity: random.float(70, 100),
+        light,
+        led: light < 1,
+        fan: random.bool(),
+        nutri: random.int(500, 2000)
       },
       createdAt: time
     };
@@ -75,7 +78,8 @@ module.exports = class extends CRUDService {
           $gte: beginDay.toDate(),
           $lte: endDay.toDate()
         }
-      }
+      },
+      sort: 'createdAt'
     };
     if (idOnly) {
       options.fields = ['_id'];

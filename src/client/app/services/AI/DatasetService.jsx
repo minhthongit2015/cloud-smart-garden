@@ -15,4 +15,8 @@ export default class DatasetService {
   static updateDataset(dataset) {
     superrequest.put(ApiEndpoints.datasetI(1), dataset);
   }
+
+  static regenerateRecords(datasetId) {
+    return superrequest.post(ApiEndpoints.regenerateDatasetIRecords(datasetId));
+  }
 }

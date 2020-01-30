@@ -2,9 +2,9 @@
 const tf = require('@tensorflow/tfjs-node');
 
 module.exports = class Neural {
-  static getSequentialModel({
+  static createSequentialModel({
     numFeature,
-    numOutput,
+    numOutputs,
     layers = [32, 24, 12]
   }) {
     if (!layers || layers.length < 2) return null;
@@ -12,15 +12,15 @@ module.exports = class Neural {
       layers: [
         tf.layers.dense({ inputShape: [numFeature], units: layers[0], activation: 'relu' }),
         ...layers.slice(1).map(size => tf.layers.dense({ units: size, activation: 'softmax' })),
-        tf.layers.dense({ units: numOutput, activation: 'softmax' })
+        tf.layers.dense({ units: numOutputs, activation: 'softmax' })
       ]
     });
     return model;
   }
 
-  static getModel({
+  static createModel({
     numFeatures,
-    numOutput,
+    numOutputs,
     layers = [32, 24, 12]
   }) {
     const inputLayer = tf.input({ shape: [numFeatures], activation: 'relu' });
@@ -29,7 +29,7 @@ module.exports = class Neural {
         const nextDense = tf.layers.dense({ units, activation: 'relu' }).apply(prevLayer);
         return nextDense;
       }, inputLayer);
-    const outputLayer = tf.layers.dense({ units: numOutput, activation: 'softmax' }).apply(lastMiddleLayer);
+    const outputLayer = tf.layers.dense({ units: numOutputs, activation: 'softmax' }).apply(lastMiddleLayer);
     return tf.model({ inputs: inputLayer, outputs: outputLayer });
   }
 };

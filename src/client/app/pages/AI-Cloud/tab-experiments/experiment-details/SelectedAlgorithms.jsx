@@ -7,22 +7,25 @@ export default class extends BaseComponent.Pure {
     const {
       algorithm, optimizers = [], losses = [], activations = []
     } = this.props;
+
     const algorithms = [];
-    optimizers.forEach((optimizer) => {
-      losses.forEach((loss) => {
-        activations.forEach((activation) => {
-          algorithms.push({
-            optimizer,
-            loss,
-            activation
+    if (algorithm && optimizers && losses && activations) {
+      optimizers.forEach((optimizer) => {
+        losses.forEach((loss) => {
+          activations.forEach((activation) => {
+            algorithms.push({
+              optimizer,
+              loss,
+              activation
+            });
           });
         });
       });
-    });
+    }
 
     return (
       <div>
-        <div>Algorithm: {algorithm.label}</div>
+        {algorithm && <div>Algorithm: {algorithm.label}</div>}
         <hr />
         <div>
           {algorithms.map(({ optimizer, loss, activation }) => (

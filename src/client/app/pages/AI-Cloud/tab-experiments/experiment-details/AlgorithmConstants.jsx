@@ -11,7 +11,8 @@ export default {
     { value: 'sgd', label: 'SGD' }
   ],
   losses: [
-    { value: 'sparseCategoricalCrossentropy', label: 'Sparse Categorical Crossentropy' }
+    { value: 'categoricalCrossentropy', label: 'Categorical Crossentropy' }
+    // { value: 'sparseCategoricalCrossentropy', label: 'Sparse Categorical Crossentropy' }
   ],
   activations: [
     { value: 'relu', label: 'Relu' },

@@ -13,7 +13,8 @@ import BaseComponent from '../../../../components/BaseComponent';
 import AlgorithmsSelect from './AlgorithmsSelect';
 import DatasetsSelect from './DatasetsSelect';
 import SelectedAlgorithms from './SelectedAlgorithms';
-import ExperimentTargets from './ExperimentTargets';
+import ExperimentTargetsSelect from './ExperimentTargetsSelect';
+import { ExperimentTargets } from '../../../../utils/Constants';
 
 
 export default class extends BaseComponent {
@@ -30,7 +31,7 @@ export default class extends BaseComponent {
       losses: AlgorithmConstants.losses.slice(0, 1),
       activations: AlgorithmConstants.activations.slice(0, 1),
       datasets: [],
-      targets: {}
+      targets: [ExperimentTargets.nutrient]
     };
   }
 
@@ -47,18 +48,6 @@ export default class extends BaseComponent {
           experiment: res.data[0]
         });
       });
-  }
-
-  async subscribeDatasetChannel() {
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const res = await ExperimentService.fetchDataset({ limit: this.state.dataLimit });
-    if (!res.ok) {
-      return;
-    }
-    // this.datasetChartRef.current.setData(res.data);
-    this.setState({
-      dataset: res.data
-    });
   }
 
   handleBuildExperiment(event) {
@@ -80,19 +69,25 @@ export default class extends BaseComponent {
     ]);
 
     const {
+      experiment: { _id: experimentId },
       algorithm: { value: algorithm },
-      optimizer: { value: optimizer },
-      loss: { value: loss },
-      activation: { value: activation },
-      dataLimit
+      optimizers: [{ value: optimizer }],
+      losses: [{ value: loss }],
+      activations: [{ value: activation }],
+      datasets: [{ value: dataset }],
+      targets
     } = this.state;
-    ExperimentService.buildExperiment({
-      algorithm,
-      optimizer,
-      loss,
-      activation,
-      limit: dataLimit
-    });
+    ExperimentService.buildExperiment(
+      experimentId,
+      {
+        algorithm,
+        optimizer,
+        loss,
+        activation,
+        dataset,
+        targets: Object.values(targets)
+      }
+    );
   }
 
   render() {
@@ -118,7 +113,15 @@ export default class extends BaseComponent {
           <SectionBody>
             <form onSubmit={this.handleBuildExperiment}>
               <Row>
-                <Col size="6">
+                <Col className="">
+                  <ExperimentTargetsSelect
+                    targets={targets}
+                    onChange={this.handleInputChange}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size="6" className="mt-3">
                   <AlgorithmsSelect
                     {...selectedAlgorithms}
                     onChange={this.handleInputChange}
@@ -130,12 +133,6 @@ export default class extends BaseComponent {
                 </Col>
                 <Col size="6">
                   <SelectedAlgorithms {...selectedAlgorithms} />
-                </Col>
-                <Col className="my-3">
-                  <ExperimentTargets
-                    targets={targets}
-                    onChange={this.handleInputChange}
-                  />
                 </Col>
                 <Col size="12">
                   <div className="mt-3 text-center">

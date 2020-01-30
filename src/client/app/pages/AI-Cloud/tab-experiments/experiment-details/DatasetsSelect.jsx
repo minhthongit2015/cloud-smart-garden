@@ -10,8 +10,9 @@ export default class extends BaseComponent.Pure {
     super(props);
     const { name = 'datasets' } = this.props;
     this.handleDatasetSelect = this.handleInputChange.bind(this, name);
+    const { datasets } = this.InputValue;
     this.state = {
-      datasets: [],
+      datasets,
       datasetOptions: []
     };
   }
@@ -19,7 +20,13 @@ export default class extends BaseComponent.Pure {
   componentDidMount() {
     DatasetService.fetchDatasets()
       .then((res) => {
-        this.setState({ datasetOptions: this.resolveDatasets(res.data) });
+        const datasets = this.resolveDatasets(res.data);
+        this.setState({
+          datasetOptions: datasets,
+          datasets: datasets.slice(0, 1)
+        }, () => {
+          this.handleDatasetSelect(this.state.datasets);
+        });
       });
   }
 
@@ -44,6 +51,7 @@ export default class extends BaseComponent.Pure {
           onChange={this.handleDatasetSelect}
           options={datasetOptions}
           value={datasets}
+          isMulti
           components={makeAnimated()}
         />
       </div>

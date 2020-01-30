@@ -2,44 +2,31 @@ import React from 'react';
 import { Col, Row } from 'mdbreact';
 import BaseComponent from '../../../../components/BaseComponent';
 import Checkbox from '../../../../components/utils/checkbox/Checkbox';
+import { ExperimentTargets } from '../../../../utils/Constants';
 
-
-const Targets = {
-  nutrient: {
-    name: 'Tối ưu Dinh dưỡng',
-    description: 'Tự động điều chỉnh dinh dưỡng.'
-  },
-  light: {
-    name: 'Tối ưu Ánh sáng',
-    description: 'Tự động bổ sung ánh sáng nhân tạo nếu cần thiết.'
-  },
-  temperature: {
-    name: 'Tối ưu Nhiệt độ',
-    description: 'Tự động phun sương hoặc bật quạt làm mát nếu nhiệt độ tăng cao.'
-  },
-  humidity: {
-    name: 'Tối ưu Độ ẩm',
-    description: 'Tự động phun sương và bật quạt thông gió để để điều chỉnh lại độ ẩm trong vườn.'
-  }
-};
 
 export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
     this.bind(this.handleTargetChange, this.dispatchTargetChangeEvent);
+    const { targets } = this.InputValue;
     this.state = {
-      targets: {}
+      targets
     };
   }
 
   handleTargetChange(event) {
     const { currentTarget: { id, checked } } = event;
     this.setState((prevState) => {
-      const newTargets = { ...prevState.targets };
+      const newTargets = [...prevState.targets];
+      const selectedTarget = ExperimentTargets[id];
       if (checked) {
-        newTargets[id] = Targets[id];
+        newTargets.push(selectedTarget);
       } else {
-        delete newTargets[id];
+        const index = newTargets.findIndex(target => target.id === selectedTarget.id);
+        if (index >= 0) {
+          newTargets.splice(index, 1);
+        }
       }
       return {
         targets: newTargets
@@ -48,7 +35,8 @@ export default class extends BaseComponent.Pure {
   }
 
   dispatchTargetChangeEvent() {
-    this.buildAndDispatchEvent(this.Events.change, this.state.targets, 'targets');
+    const { name: inputName = 'targets' } = this.props;
+    this.buildAndDispatchEvent(this.Events.change, this.state.targets, inputName);
   }
 
   render() {
@@ -57,17 +45,17 @@ export default class extends BaseComponent.Pure {
 
     return (
       <Row>
-        {Object.entries(Targets).map(([key, { name, description }]) => (
-          <Col key={key}>
+        {Object.values(ExperimentTargets).map(({ id, name, description }) => (
+          <Col key={id}>
             <div className="text-center">
               <Checkbox
-                id={key}
+                id={id}
                 name={inputName}
-                checked={!!targets[key]}
+                checked={!!targets.find(target => target.id === id)}
                 onChange={this.handleTargetChange}
               />
             </div>
-            <label htmlFor={key} className="d-block cursor-pointer hover-light-red">
+            <label htmlFor={id} className="d-block cursor-pointer hover-light-red">
               <h5 className="text-center">{name}</h5>
               <div>{description}</div>
             </label>

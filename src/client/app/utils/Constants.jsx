@@ -4,5 +4,6 @@ export {
   PostStatus,
   MemberBadge,
   MarkerTypes,
-  ContactTypes
+  ContactTypes,
+  ExperimentTargets
 } from '../../../server/utils/Constants';

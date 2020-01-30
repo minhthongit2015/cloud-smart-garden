@@ -94,13 +94,14 @@ module.exports = class CRUDService {
     if (isNotSet(id)) {
       return this.list(opts);
     }
-    return this.get(id);
+    return this.get(id, opts);
   }
 
-  static async get(id) {
+  static async get(id, opts = { ...ApiHelper.listParams }) {
+    const getOptions = ApiHelper.parseListParams(opts);
     id = ApiHelper.getId(id);
     let query = this.getModel().findById(id);
-    query = this.populate.reduce(
+    query = ([...this.populate, (getOptions.populate || [])]).reduce(
       (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
       query
     );

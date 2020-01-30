@@ -2,16 +2,17 @@ import React from 'react';
 import { MDBBtn } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
-import BasePage from '../../_base/BasePage';
 import DatasetModule from './DatasetModule';
 import DynamicTimeSeries from '../../../components/charts/base/DynamicTimeSeriesApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import Calendar from '../../../components/utils/calendar/Calendar';
 import superrequest from '../../../utils/superrequest';
 import EditableLineChart from '../../../components/charts/base/EditableLineChart';
+import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
+import SubPageGroup from '../../_base/SubPageGroup';
 
 
-export default class TabDataset extends BasePage {
+export default class TabDataset extends SubPageGroup {
   constructor(props) {
     super(props, t('pages.aiCloud.title.datasets'));
     this.postModuleRef = React.createRef();
@@ -19,6 +20,11 @@ export default class TabDataset extends BasePage {
     this.state = {
       selection: null
     };
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    AnyDialogChecker.runAllChecks();
   }
 
   handleCalendarChange(event, selection) {

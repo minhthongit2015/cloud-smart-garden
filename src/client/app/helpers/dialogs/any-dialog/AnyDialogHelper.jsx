@@ -79,21 +79,21 @@ export default class AnyDialogHelper {
   }
 
   // For more flexible
+  static openPost(post) {
+    const TypeMap = {
+      Post: this.Types.post,
+      Experiment: this.Types.experiment,
+      Dataset: this.Types.dataset
+    };
+    const postType = TypeMap[post.__t] || TypeMap.Post;
+    AnyDialogHelper.open(postType, post, PostHelper.buildPostUrl(post), post.title);
+  }
+
   static openLogin(message) {
     this.open(this.Types.login, message);
   }
 
   static openMessage(title, message) {
     this.open(this.Types.message, title, message);
-  }
-
-  static openPost(post) {
-    this.open(this.Types.post, post, PostHelper.buildPostUrl(post), post.title);
-  }
-
-  static openExperiment(experiment) {
-    this.open(
-      this.Types.experiment, experiment, PostHelper.buildPostUrl(experiment), experiment.title
-    );
   }
 }

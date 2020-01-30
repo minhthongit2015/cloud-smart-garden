@@ -21,6 +21,15 @@ const listParams = {
 };
 
 function parseListParams(opts = { ...listParams }) {
+  if (typeof opts.where === 'object') {
+    opts.where = { ...opts.where };
+  }
+  if (typeof opts.fields === 'object') {
+    opts.fields = [...opts.fields];
+  }
+  if (typeof opts.populate === 'object') {
+    opts.populate = [...opts.populate];
+  }
   if (opts.offset != null) {
     opts.offset = parseInt(opts.offset, 10) || 0;
   }
