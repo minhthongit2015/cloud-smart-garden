@@ -27,7 +27,7 @@ export default class AnyDialogHelper {
           data={args[0]}
           url={args[1]}
           title={args[2]}
-          content={<Dialog.content data={args[0]} />}
+          content={<Dialog.content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />}
           open
         />
       )
@@ -53,7 +53,7 @@ export default class AnyDialogHelper {
     } else {
       const { content: Content } = this.DialogsMap[dialogType];
       if (Content) {
-        this.dialogRefs[dialogType].setContent(<Content data={args[0]} />, args[1], args[2]);
+        this.dialogRefs[dialogType].setContent(<Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]);
       } else {
         this.dialogRefs[dialogType].show(...args);
       }

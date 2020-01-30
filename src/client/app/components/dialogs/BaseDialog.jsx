@@ -5,12 +5,19 @@ import {
   MDBWaves,
   MDBModalHeader
 } from 'mdbreact';
+import classNames from 'classnames';
 import LeafLoading from '../utils/loadings/LeafLoading';
 import Toggleable from '../utils/toggleable/Toggleable';
+import './BaseDialog.scss';
+
 
 export default class extends Toggleable {
   get disabled() {
     return this.state && this.state.disabled;
+  }
+
+  get locked() {
+    return this.state && this.state.locked;
   }
 
   constructor(props) {
@@ -20,25 +27,16 @@ export default class extends Toggleable {
       ...this.state,
       cursorPos: {},
       disabled: false,
+      locked: false,
       renderContent: null,
       title: '❝Climate Strike Vietnam❞',
       data: props.data
     };
   }
 
-  componentDidMount() {
-    if (this.props.open) {
-      this.open();
-    }
-  }
-
   toggle() {
-    if (this.disabled) return;
+    if (this.disabled || this.locked) return;
     super.toggle();
-  }
-
-  setData(data) {
-    this.setState({ data });
   }
 
   show(title, renderContent) {
@@ -46,6 +44,32 @@ export default class extends Toggleable {
       renderContent,
       title
     }, this.open);
+  }
+
+  disable() {
+    this.setState({ disabled: true });
+  }
+
+  enable() {
+    this.setState({ disabled: false });
+  }
+
+  lock() {
+    this.setState({ locked: true });
+  }
+
+  unlock() {
+    this.setState({ locked: false });
+  }
+
+  setData(data) {
+    this.setState({ data });
+  }
+
+  componentDidMount() {
+    if (this.props.open) {
+      this.open();
+    }
   }
 
   handleClick(event) {
@@ -130,7 +154,9 @@ export default class extends Toggleable {
       <MDBModal
         isOpen={this.isOpen}
         toggle={this.toggle}
-        className=""
+        className={classNames({
+          locked: this.locked
+        })}
         style={{ position: 'relative' }}
         disabled={this.disabled}
       >

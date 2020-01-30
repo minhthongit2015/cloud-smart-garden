@@ -15,6 +15,7 @@ import DatasetsSelect from './DatasetsSelect';
 import SelectedAlgorithms from './SelectedAlgorithms';
 import ExperimentTargetsSelect from './ExperimentTargetsSelect';
 import { ExperimentTargets } from '../../../../utils/Constants';
+import TrainOptionsSelect from './TrainOptionsSelect';
 
 
 export default class extends BaseComponent {
@@ -30,6 +31,11 @@ export default class extends BaseComponent {
       optimizers: AlgorithmConstants.optimizers.slice(0, 1),
       losses: AlgorithmConstants.losses.slice(0, 1),
       activations: AlgorithmConstants.activations.slice(0, 1),
+      layers: localStorage.layers || '20,40',
+
+      batchSize: localStorage.batchSize || 36,
+      epochs: localStorage.epochs || 15,
+
       datasets: [],
       targets: [ExperimentTargets.nutrient]
     };
@@ -56,15 +62,13 @@ export default class extends BaseComponent {
   }
 
   buildExperiment() {
+    this.props.getDialog().lock();
     ExperimentService.subscribeTrainingProgress((progress) => {
-      console.log(progress);
-      this.trainingProgressChartRef.current.chartRef.chart.appendData([
-        {
-          data: [progress.accuracy]
-        }
+      this.trainingProgressChartRef.current.appendData([
+        { data: [progress.accuracy] }
       ]);
     });
-    this.trainingProgressChartRef.current.chartRef.chart.updateSeries([
+    this.trainingProgressChartRef.current.updateSeries([
       { name: 'Accuracy', data: [] }
     ]);
 
@@ -75,6 +79,9 @@ export default class extends BaseComponent {
       losses: [{ value: loss }],
       activations: [{ value: activation }],
       datasets: [{ value: dataset }],
+      batchSize,
+      epochs,
+      layers,
       targets
     } = this.state;
     ExperimentService.buildExperiment(
@@ -84,6 +91,9 @@ export default class extends BaseComponent {
         optimizer,
         loss,
         activation,
+        batchSize,
+        epochs,
+        layers,
         dataset,
         targets: Object.values(targets)
       }
@@ -93,11 +103,12 @@ export default class extends BaseComponent {
   render() {
     const {
       experiment,
-      algorithm, optimizers, losses, activations,
+      algorithm, optimizers, losses, activations, layers,
+      batchSize, epochs,
       datasets, targets
     } = this.state || {};
     const selectedAlgorithms = {
-      algorithm, optimizers, losses, activations
+      algorithm, optimizers, losses, activations, layers
     };
 
     return (
@@ -122,19 +133,30 @@ export default class extends BaseComponent {
               </Row>
               <Row>
                 <Col size="6" className="mt-3">
-                  <AlgorithmsSelect
-                    {...selectedAlgorithms}
-                    onChange={this.handleInputChange}
-                  />
-                  <DatasetsSelect
-                    datasets={datasets}
-                    onChange={this.handleInputChange}
-                  />
+                  <Row>
+                    <Col>
+                      <AlgorithmsSelect
+                        {...selectedAlgorithms}
+                        onChange={this.handleInputChange}
+                      />
+                    </Col>
+                    <Col>
+                      <DatasetsSelect
+                        datasets={datasets}
+                        onChange={this.handleInputChange}
+                      />
+                      <TrainOptionsSelect
+                        batchSize={batchSize}
+                        epochs={epochs}
+                        onChange={this.handleInputChange}
+                      />
+                    </Col>
+                  </Row>
                 </Col>
-                <Col size="6">
+                <Col size="6" className="mt-3">
                   <SelectedAlgorithms {...selectedAlgorithms} />
                 </Col>
-                <Col size="12">
+                <Col size="12" className="mt-3">
                   <div className="mt-3 text-center">
                     <Button type="submit">Test this Experiment</Button>
                   </div>

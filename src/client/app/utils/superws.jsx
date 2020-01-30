@@ -11,6 +11,13 @@ export default class SuperWebsocket {
     return this._on;
   }
 
+  static get off() {
+    if (!this._off) {
+      this._off = this.socket.off.bind(this.socket);
+    }
+    return this._off;
+  }
+
   static get connected() { return this.socket.connected; }
 
   static init() {

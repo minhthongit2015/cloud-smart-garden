@@ -17,15 +17,23 @@ module.exports = class extends CRUDService {
     return mTime.add(10, 'minutes');
   }
 
+  static next5Minutes(mTime) {
+    return mTime.add(5, 'minutes');
+  }
+
+  static nextTime(mTime) {
+    return mTime.add(5, 'minutes');
+  }
+
   static generateRawRecord(time, stationId) {
-    const light = random.int(0, 1);
+    const light = random.int(0, 100);
     return {
       station: ApiHelper.getId(stationId),
       state: {
         temperature: random.float(24, 26),
         humidity: random.float(70, 100),
         light,
-        led: light < 1,
+        led: light < 10,
         fan: random.bool(),
         nutri: random.int(500, 2000)
       },
@@ -33,7 +41,7 @@ module.exports = class extends CRUDService {
     };
   }
 
-  static async generateRecordByDate(date, stationId, next = this.next10Minutes) {
+  static async generateRecordByDate(date, stationId, next = this.nextTime) {
     const beginDay = moment(date, DAY_FORMAT, TIME_ZONE).startOf('date');
     const endDay = moment(date, DAY_FORMAT, TIME_ZONE).endOf('date');
     const currentDayOfYear = beginDay.get('dayOfYear');
@@ -59,7 +67,7 @@ module.exports = class extends CRUDService {
     );
   }
 
-  static async generateRecordByDates(dates, stationId, next = this.next10Minutes) {
+  static async generateRecordByDates(dates, stationId, next = this.nextTime) {
     if (!dates || dates.length < 0) {
       return [];
     }

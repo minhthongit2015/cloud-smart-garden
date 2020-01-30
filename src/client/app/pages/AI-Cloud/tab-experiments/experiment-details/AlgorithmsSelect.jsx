@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { MDBInput } from 'mdbreact';
 import BaseComponent from '../../../../components/BaseComponent';
 import AlgorithmConstants from './AlgorithmConstants';
 
@@ -18,18 +19,34 @@ export default class extends BaseComponent.Pure {
     this.handleOptimizerSelect = this.handleInputChange.bind(this, optimizerName);
     this.handleLossSelect = this.handleInputChange.bind(this, lossName);
     this.handleActivationSelect = this.handleInputChange.bind(this, activationName);
+    this.handleLayersChange = this.handleLayersChange.bind(this);
+  }
+
+  handleLayersChange(event, ...args) {
+    const { currentTarget: { value } } = event;
+    localStorage.layers = value;
+    this.handleInputChange(event, ...args);
   }
 
   render() {
     const {
-      algorithm, optimizers, losses, activations
+      algorithm, optimizers, losses, activations, layers
     } = this.InputValue;
     const {
       algorithmName = 'algorithm',
       optimizerName = 'optimizers',
       lossName = 'losses',
-      activationName = 'activations'
+      activationName = 'activations',
+      layersName = 'layers'
     } = this.props;
+
+    const middleLayers = (layers || '')
+      .replace(/[^0-9,]/g, '').split(',').map(layer => +layer).filter(layer => layer) || [];
+    let totalMiddleNodes = 0;
+    middleLayers.reduce((prevLayer, currentLayer) => {
+      totalMiddleNodes += prevLayer * currentLayer;
+      return currentLayer;
+    }, 0);
 
     return (
       <React.Fragment>
@@ -84,6 +101,16 @@ export default class extends BaseComponent.Pure {
             isMulti
             closeMenuOnSelect
             components={makeAnimated()}
+          />
+        </div>
+
+        <div className="mt-2">
+          <MDBInput
+            id={layersName}
+            name={layersName}
+            label={`Layers (${totalMiddleNodes})`}
+            onChange={this.handleLayersChange}
+            value={layers}
           />
         </div>
       </React.Fragment>

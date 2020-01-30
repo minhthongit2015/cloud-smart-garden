@@ -1,7 +1,8 @@
 const tf = require('@tensorflow/tfjs-node');
 const { dispatchEvent } = require('../../../utils');
-const { ListenersInterface, TrainingSetInterface } = require('../AIInterfaces');
+const { ListenersInterface, TrainingSetInterface, TrainOptionsInterfaces } = require('../AIInterfaces');
 const { TrainEvents } = require('../AIEvents');
+const random = require('../../../utils/random');
 
 
 module.exports = class {
@@ -12,6 +13,7 @@ module.exports = class {
   static async train(
     model,
     trainingSet = { ...TrainingSetInterface },
+    trainOptions = { ...TrainOptionsInterfaces },
     listeners = { ...ListenersInterface }
   ) {
     const numRecords = trainingSet.xs.length;
@@ -28,12 +30,14 @@ module.exports = class {
 
     const xs = tf.data.generator(featuresGenerator);
     const ys = tf.data.generator(labelsGenerator);
-    const dataset = tf.data.zip({ xs, ys }).shuffle(100).batch(36);
+    const dataset = tf.data.zip({ xs, ys })
+      .shuffle(random.int(1, 99999))
+      .batch(+trainOptions.batchSize || 36);
 
     // Train
     dispatchEvent(TrainEvents.start, { listeners });
     const info = await model.fitDataset(dataset, {
-      epochs: 10,
+      epochs: +trainOptions.epochs || 15,
       callbacks: {
         onBatchEnd: (batch, logs) => {
           console.log(`Batch: ${batch}, accuracy: ${logs.acc}`);

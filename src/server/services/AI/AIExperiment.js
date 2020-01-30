@@ -6,17 +6,18 @@ const Trainer = require('./ai-core/Trainer');
 const TrainingSet = require('./ai-core/TrainingSet');
 const DataUtils = require('./ai-core/DataUtils');
 const SyncService = require('../../services/sync');
-const { BuildOptionsInterface } = require('./AIInterfaces');
+const { RequestBuildInterface } = require('./AIInterfaces');
 const NeralNetwork = require('./ai-core/NeuralNetwork');
 
 
 module.exports = class {
-  static async buildAndTrain(experimentId, opts = { ...BuildOptionsInterface }) {
+  static async buildAndTrain(experimentId, opts = { ...RequestBuildInterface }) {
     const dataset = await DatasetService.getWithRecords(opts.dataset);
     return this.buildAndTrainNutrient(opts, dataset);
   }
 
-  static async buildAndTrainNutrient(opts = { ...BuildOptionsInterface }, dataset) {
+  static async buildAndTrainNutrient(opts = { ...RequestBuildInterface }, dataset) {
+    // Get training set
     const trainingSet = TrainingSet.fromDataset(dataset, {
       features: [
         ['state.light', DataUtils.toNumber.id]
@@ -28,10 +29,16 @@ module.exports = class {
         ['state.led', DataUtils.toInverse.id, DataUtils.toNumber.id]
       ]
     });
-    opts.layers = [10, 5];
+
+    // Build Model
+    opts.layers = opts.layers
+      ? (opts.layers || '').replace(/[^0-9,]/g, '').split(',').map(layer => +layer).filter(layer => layer)
+      : [20, 40];
     opts.metrics = ['accuracy'];
     const model = ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
-    const trainResult = await Trainer.train(model, trainingSet, {
+
+    // Train
+    await Trainer.train(model, trainingSet, opts, {
       onBatchEnd: (event, { batch, accuracy }) => {
         SyncService.emit('training', {
           batch,

@@ -19,23 +19,31 @@ exports.TrainingSetInterface = {
   ys: null
 };
 
-exports.BuildOptionsInterface = {
+exports.RequestBuildInterface = {
   algorithm: '',
 
   optimizer: '',
   loss: '',
   activation: '',
   metrics: null,
-  layers: null,
+  layers: '',
+
+  epochs: 0,
+  batchSize: 0,
 
   dataset: '',
   targets: ''
 };
 
-exports.ModelOptionsInterface = {
+exports.BuildOptionsInterface = {
   optimizer: '',
   loss: '',
   activation: '',
   metrics: null,
   layers: null
+};
+
+exports.TrainOptionsInterfaces = {
+  epochs: 0,
+  batchSize: 0
 };

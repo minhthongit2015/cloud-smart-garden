@@ -1,29 +1,30 @@
-const { TrainingSetInterface, ModelOptionsInterface } = require('../AIInterfaces');
+const { TrainingSetInterface, BuildOptionsInterface } = require('../AIInterfaces');
 const NeralNetwork = require('./NeuralNetwork');
 
 
 module.exports = class {
   static buildForTrainingSet(type,
     trainingSet = { ...TrainingSetInterface },
-    modelOpts = { ...ModelOptionsInterface }) {
-    return this.buildNeuralForTrainingSet(trainingSet, modelOpts);
+    buildOpts = { ...BuildOptionsInterface }) {
+    return this.buildNeuralForTrainingSet(trainingSet, buildOpts);
   }
 
   static buildNeuralForTrainingSet(
     trainingSet = { ...TrainingSetInterface },
-    modelOpts = { ...ModelOptionsInterface }
+    buildOpts = { ...BuildOptionsInterface }
   ) {
     const numFeatures = trainingSet.features.length;
     const numOutputs = trainingSet.labels.length;
     const model = NeralNetwork.createModel({
       numFeatures,
       numOutputs,
-      layers: modelOpts.layers
+      activation: buildOpts.activation,
+      layers: buildOpts.layers
     });
     model.compile({
-      optimizer: modelOpts.optimizer,
-      loss: modelOpts.loss,
-      metrics: modelOpts.metrics || ['accuracy']
+      optimizer: buildOpts.optimizer,
+      loss: buildOpts.loss,
+      metrics: buildOpts.metrics || ['accuracy']
     });
     return model;
   }

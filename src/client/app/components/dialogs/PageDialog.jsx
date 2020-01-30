@@ -3,6 +3,7 @@ import React from 'react';
 import {
   MDBModal, MDBModalBody
 } from 'mdbreact';
+import classNames from 'classnames';
 import BaseDialog from './BaseDialog';
 import HistoryHelper from '../../helpers/HistoryHelper';
 
@@ -55,11 +56,15 @@ export default class extends BaseDialog {
   render() {
     return (
       <MDBModal
+        id={this.id}
         isOpen={this.isOpen}
         toggle={this.toggle}
+        className={classNames({
+          locked: this.locked
+        })}
         style={{ position: 'relative' }}
+        disabled={this.disabled}
         size="xl"
-        id={this.id}
       >
         {this.renderBody()}
       </MDBModal>

@@ -21,12 +21,13 @@ module.exports = class Neural {
   static createModel({
     numFeatures,
     numOutputs,
+    activation,
     layers = [32, 24, 12]
   }) {
-    const inputLayer = tf.input({ shape: [numFeatures], activation: 'relu' });
+    const inputLayer = tf.input({ shape: [numFeatures], activation });
     const lastMiddleLayer = layers
       .reduce((prevLayer, units) => {
-        const nextDense = tf.layers.dense({ units, activation: 'relu' }).apply(prevLayer);
+        const nextDense = tf.layers.dense({ units, activation }).apply(prevLayer);
         return nextDense;
       }, inputLayer);
     const outputLayer = tf.layers.dense({ units: numOutputs, activation: 'softmax' }).apply(lastMiddleLayer);

@@ -52,6 +52,14 @@ export default class TrainingProgressChart extends Component {
     this.setData(this.props.dataset);
   }
 
+  appendData(data) {
+    this.chartRef.chart.appendData(data);
+  }
+
+  updateSeries(series) {
+    this.chartRef.chart.updateSeries(series);
+  }
+
   setData(dataset) {
     const { columns } = this.props;
     if (this.chartRef.chart && columns && dataset) {
@@ -86,6 +94,7 @@ export default class TrainingProgressChart extends Component {
           ref={(ref) => { this.chartRef = ref; }}
           options={options}
           series={series}
+          height="300px"
           type="area"
         />
       </div>
