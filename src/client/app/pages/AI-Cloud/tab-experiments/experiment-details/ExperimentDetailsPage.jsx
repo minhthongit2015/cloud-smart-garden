@@ -28,6 +28,10 @@ export default class extends BaseComponent {
     this.handleStopTraining = this.handleStopTraining.bind(this);
     this.handleCleanChart = this.handleCleanChart.bind(this);
 
+    let { saveModel, highResolution } = this.CachedValues.saveModel;
+    saveModel = saveModel != null ? saveModel : true;
+    highResolution = highResolution != null ? highResolution : true;
+
     this.state = {
       experiment: props.data,
       algorithm: AlgorithmConstants.algorithms[0],
@@ -39,8 +43,8 @@ export default class extends BaseComponent {
       batchSize: this.CachedValues.batchSize || 36,
       epochs: this.CachedValues.epochs || 40,
 
-      highResolution: this.CachedValues.highResolution,
-      saveModel: this.CachedValues.saveModel,
+      highResolution,
+      saveModel,
 
       datasets: [],
       targets: [ExperimentTargets.light]
