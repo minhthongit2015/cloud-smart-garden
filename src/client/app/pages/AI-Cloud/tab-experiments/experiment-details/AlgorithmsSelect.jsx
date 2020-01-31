@@ -109,8 +109,9 @@ export default class extends BaseComponent.Pure {
             id={layersName}
             name={layersName}
             label={`Layers (${totalMiddleNodes} nodes)`}
-            onChange={this.handleLayersChange}
             value={layers}
+            onChange={this.handleInputChange}
+            data-cached
           />
         </div>
       </React.Fragment>

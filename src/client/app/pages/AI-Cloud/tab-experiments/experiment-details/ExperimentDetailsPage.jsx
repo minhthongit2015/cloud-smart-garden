@@ -16,6 +16,7 @@ import SelectedAlgorithms from './SelectedAlgorithms';
 import ExperimentTargetsSelect from './ExperimentTargetsSelect';
 import { ExperimentTargets } from '../../../../utils/Constants';
 import TrainOptionsSelect from './TrainOptionsSelect';
+import Checkbox from '../../../../components/utils/checkbox/Checkbox';
 
 
 export default class extends BaseComponent {
@@ -24,6 +25,8 @@ export default class extends BaseComponent {
     // this.datasetChartRef = React.createRef();
     this.trainingProgressChartRef = React.createRef();
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
+    this.handleStopTraining = this.handleStopTraining.bind(this);
+    this.handleCleanChart = this.handleCleanChart.bind(this);
 
     this.state = {
       experiment: props.data,
@@ -31,10 +34,13 @@ export default class extends BaseComponent {
       optimizers: AlgorithmConstants.optimizers.slice(0, 1),
       losses: AlgorithmConstants.losses.slice(0, 1),
       activations: AlgorithmConstants.activations.slice(0, 1),
-      layers: localStorage.layers || '5,10,15,5',
+      layers: this.CachedValues.layers || '5,10,15,5',
 
-      batchSize: localStorage.batchSize || 36,
-      epochs: localStorage.epochs || 40,
+      batchSize: this.CachedValues.batchSize || 36,
+      epochs: this.CachedValues.epochs || 40,
+
+      highResolution: this.CachedValues.highResolution,
+      saveModel: this.CachedValues.saveModel,
 
       datasets: [],
       targets: [ExperimentTargets.light]
@@ -67,22 +73,25 @@ export default class extends BaseComponent {
       this.trainingProgressChartRef.current.appendData([
         { data: [progress.accuracy] }
       ]);
+    }, () => {
+      this.trainingProgressChartRef.current.updateSeries([
+        { name: 'Accuracy', data: [] }
+      ]);
     });
-    this.trainingProgressChartRef.current.updateSeries([
-      { name: 'Accuracy', data: [] }
-    ]);
 
     const {
       experiment: { _id: experimentId },
+      targets,
       algorithm: { value: algorithm },
       optimizers: [{ value: optimizer }],
       losses: [{ value: loss }],
       activations: [{ value: activation }],
+      layers,
       datasets: [{ value: datasetId }],
       batchSize,
       epochs,
-      layers,
-      targets
+      highResolution,
+      saveModel
     } = this.state;
 
     const mappedLayers = (layers || '').replace(/[^0-9,]/g, '')
@@ -91,24 +100,37 @@ export default class extends BaseComponent {
     ExperimentService.buildExperiment(
       experimentId,
       {
+        targets: Object.values(targets),
         algorithm,
         optimizer,
         loss,
         activation,
-        batchSize,
-        epochs,
         layers: mappedLayers,
         datasetId,
-        targets: Object.values(targets)
+        batchSize,
+        epochs,
+        highResolution,
+        saveModel
       }
     );
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleStopTraining() {
+    ExperimentService.stopTraining();
+  }
+
+  handleCleanChart() {
+    this.trainingProgressChartRef.current.updateSeries([
+      { name: 'Độ chính xác', data: [] }
+    ]);
   }
 
   render() {
     const {
       experiment,
       algorithm, optimizers, losses, activations, layers,
-      batchSize, epochs,
+      batchSize, epochs, highResolution, saveModel,
       datasets, targets
     } = this.state || {};
     const selectedAlgorithms = {
@@ -167,6 +189,32 @@ export default class extends BaseComponent {
                   <TrainingProgressChart
                     ref={this.trainingProgressChartRef}
                   />
+                  <div className="mt-3 text-center">
+                    <Checkbox
+                      className="mx-3"
+                      name="highResolution"
+                      checked={highResolution}
+                      onChange={this.handleInputChange}
+                      data-cached
+                    >High Resolution
+                    </Checkbox>
+                    <Checkbox
+                      className="mx-3"
+                      name="saveModel"
+                      checked={saveModel}
+                      onChange={this.handleInputChange}
+                      data-cached
+                    >Save Model
+                    </Checkbox>
+                  </div>
+                  <div className="mt-3 text-center">
+                    <Button color="none" className="my-2 mx-3" onClick={this.handleStopTraining}>
+                      <i className="fas fa-ban" /> Stop Training
+                    </Button>
+                    <Button color="none" className="my-2 mx-3" onClick={this.handleCleanChart}>
+                      <i className="fas fa-broom" /> Clean Chart
+                    </Button>
+                  </div>
                 </Col>
               </Row>
             </form>

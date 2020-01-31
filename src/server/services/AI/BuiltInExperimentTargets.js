@@ -1,6 +1,6 @@
-const { ExperimentTargets } = require('./AIConstants');
-const { ExperimentTarget } = require('./AITypes');
-const DataUtils = require('../ai-core/DataUtils');
+const { ExperimentTargets } = require('./utils/AIConstants');
+const { ExperimentTarget } = require('./utils/AITypes');
+const DataUtils = require('./ai-core/DataUtils');
 
 
 module.exports = [

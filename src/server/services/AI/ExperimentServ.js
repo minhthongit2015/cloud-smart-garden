@@ -7,8 +7,8 @@ const {
 } = require('./ai-core');
 const DatasetService = require('./DatasetServ');
 const SyncService = require('../sync');
-const { BuildExperimentRequest } = require('./utils/AITypes');
-const BuiltInExperimentTargets = require('./utils/BuiltInExperimentTargets');
+const { BuildExperimentRequest, ExperimentTarget } = require('./utils/AITypes');
+const BuiltInExperimentTargets = require('./BuiltInExperimentTargets');
 
 
 module.exports = class extends PostService {
@@ -18,35 +18,85 @@ module.exports = class extends PostService {
 
   static async buildAndTrain(experimentId, opts = new BuildExperimentRequest()) {
     const dataset = await DatasetService.getWithRecords(opts.datasetId);
-    const models = await Promise.all(
-      opts.targets.map(target => this.buildExperimentByTarget(target, dataset, opts))
+    const trainedModels = await Promise.all(
+      opts.targets.map(async (target) => {
+        let savedModel = null;
+        if (opts.saveModel) {
+          savedModel = await this.load(experimentId, target);
+        }
+        return this.buildAndTrainForTarget(target, dataset, savedModel, opts);
+      })
     );
-    return models;
+    if (trainedModels && opts.saveModel) {
+      await Promise.all(
+        trainedModels.map(
+          (trainedModel, index) => this.save(trainedModel, experimentId, opts.targets[index])
+        )
+      );
+    }
+    return trainedModels;
   }
 
-  static async buildExperimentByTarget(target, dataset, opts = new BuildExperimentRequest()) {
-    const experimentTarget = BuiltInExperimentTargets.find(targetI => targetI.key === target.key);
+  static findExperimentTarget(target) {
+    return BuiltInExperimentTargets.find(targetI => targetI.key === target.key);
+  }
+
+  static async buildAndTrainForTarget(
+    target, dataset, savedModel, opts = new BuildExperimentRequest()
+  ) {
+    const experimentTarget = this.findExperimentTarget(target);
     if (!experimentTarget) return null;
-    const trainingSet = TrainingSet.fromDataset(dataset, {
-      features: experimentTarget.features,
-      labels: experimentTarget.labels
-    });
+
+    const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
+
     opts.metrics = ['accuracy']; // Force to use accuracy for now
-    const model = ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
-    await Trainer.train(model, trainingSet, opts, {
-      onBatchEnd: (event, { batch, accuracy }) => {
-        SyncService.emit('training', { batch, accuracy });
-      }
-    });
+    const model = ModelBuilder.compileModel(savedModel, opts)
+      || ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
+
+    await this.trainModel(model, trainingSet, opts);
+
     return model;
   }
 
-  static async save(experimentId, model) {
-    return ModelService.save(model, `file://./assets/${experimentId}/models`);
+  static buildTrainingSetForTarget(dataset, experimentTarget = new ExperimentTarget()) {
+    return TrainingSet.fromDataset(dataset, {
+      features: experimentTarget.features,
+      labels: experimentTarget.labels
+    });
   }
 
-  static async load(experimentId) {
-    return ModelService.load(`file://./assets/${experimentId}/models`);
+  static async trainModel(model, trainingSet, opts = new BuildExperimentRequest()) {
+    return Trainer.train(model, trainingSet, opts, {
+      onBatchEnd: (event, { batch, accuracy }) => {
+        if (!opts.highResolution) return;
+        SyncService.emit('training', { batch, accuracy });
+      },
+      onEpochEnd: (event, { batch, accuracy }) => {
+        if (opts.highResolution) return;
+        SyncService.emit('training', { batch, accuracy });
+      },
+      onStart: () => {
+        SyncService.emit('startTraining');
+      }
+    });
+  }
+
+  static async stopTraining() {
+    if (!global.model) return;
+    global.model.stopTraining = true;
+    await new Promise((resolve) => {
+      global.onTrainEnd = resolve;
+    });
+    delete global.model;
+  }
+
+  static async save(model, experimentId, target) {
+    if (!model) return null;
+    return ModelService.save(model, `${experimentId}-${target.key}`);
+  }
+
+  static async load(experimentId, target) {
+    return ModelService.load(`${experimentId}-${target.key}`);
   }
 
   static async test() {

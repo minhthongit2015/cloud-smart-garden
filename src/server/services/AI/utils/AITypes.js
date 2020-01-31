@@ -18,6 +18,9 @@ exports.BuildExperimentRequest = class {
   // Train
   epochs = 0;
   batchSize = 0;
+
+  highResolution = false;
+  saveModel = false;
 };
 
 exports.ExperimentTarget = class {

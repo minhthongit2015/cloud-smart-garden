@@ -64,3 +64,5 @@ typings/
 /tokens
 /.env.dev.ini
 /.env.prod.ini
+
+/src/server/assets/models

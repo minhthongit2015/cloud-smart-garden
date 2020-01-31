@@ -21,10 +21,17 @@ module.exports = class {
       activation: buildOpts.activation,
       layers: buildOpts.layers
     });
+    return this.compileModel(model, buildOpts);
+  }
+
+  static compileModel(
+    model,
+    compileOpts = { ...BuildOptionsInterface }
+  ) {
     model.compile({
-      optimizer: buildOpts.optimizer,
-      loss: buildOpts.loss,
-      metrics: buildOpts.metrics || ['accuracy']
+      optimizer: compileOpts.optimizer,
+      loss: compileOpts.loss,
+      metrics: compileOpts.metrics || ['accuracy']
     });
     return model;
   }

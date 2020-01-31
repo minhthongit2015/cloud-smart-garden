@@ -75,6 +75,15 @@ class PureComponent extends React.PureComponent {
         return target.props[prop] || (target.state && target.state[prop]);
       }
     });
+    this.CachedValues = new Proxy(localStorage, {
+      get(target, prop/* , receiver */) {
+        try {
+          return prop in target ? JSON.parse(target[prop]) : undefined;
+        } catch {
+          return target[prop];
+        }
+      }
+    });
   }
 
   bind(...methods) {
@@ -122,6 +131,9 @@ class PureComponent extends React.PureComponent {
   handleInputChange(event, options) {
     // Select from 'react-select'
     // => create an dummy event
+    if (!event) {
+      return this.dispatchEvent(Events.change);
+    }
     if (typeof event === 'string') {
       event = {
         ...Events.change,
@@ -131,10 +143,17 @@ class PureComponent extends React.PureComponent {
         }
       };
     }
-
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-    this.dispatchEvent(event);
+    const {
+      name, value, checked, dataset: { cached } = {}
+    } = event.currentTarget || {};
+    const valueToUpdate = event.currentTarget.type === 'checkbox'
+      ? checked
+      : value;
+    if (cached === 'true') {
+      localStorage[name] = JSON.stringify(valueToUpdate);
+    }
+    this.setState({ [name]: valueToUpdate });
+    return this.dispatchEvent(event);
   }
 }
 
@@ -171,6 +190,15 @@ class BaseComponent extends React.Component {
         return target.props[prop] || (target.state && target.state[prop]);
       }
     });
+    this.CachedValues = new Proxy(localStorage, {
+      get(target, prop/* , receiver */) {
+        try {
+          return prop in target ? JSON.parse(target[prop]) : undefined;
+        } catch {
+          return target[prop];
+        }
+      }
+    });
   }
 
   bind(...methods) {
@@ -218,6 +246,9 @@ class BaseComponent extends React.Component {
   handleInputChange(event, options) {
     // Select from 'react-select'
     // => create an dummy event
+    if (!event) {
+      return this.dispatchEvent(Events.change);
+    }
     if (typeof event === 'string') {
       event = {
         ...Events.change,
@@ -227,10 +258,17 @@ class BaseComponent extends React.Component {
         }
       };
     }
-
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-    this.dispatchEvent(event);
+    const {
+      name, value, checked, dataset: { cached } = {}
+    } = event.currentTarget || {};
+    const valueToUpdate = event.currentTarget.type === 'checkbox'
+      ? checked
+      : value;
+    if (cached === 'true') {
+      localStorage[name] = JSON.stringify(valueToUpdate);
+    }
+    this.setState({ [name]: valueToUpdate });
+    return this.dispatchEvent(event);
   }
 }
 

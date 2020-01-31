@@ -34,22 +34,42 @@ module.exports = class {
     const xs = tf.data.generator(featuresGenerator);
     const ys = tf.data.generator(labelsGenerator);
     const dataset = tf.data.zip({ xs, ys })
-      .shuffle(random.int(1, 99999))
+      .shuffle(144, random.int(1, 99999), true)
       .batch(+trainOptions.batchSize || 36);
 
     // Train
+    function handleBatchEnd(batch, logs) {
+      console.log(`Batch: ${batch}, accuracy: ${logs.acc}`);
+      dispatchEvent(TrainEvents.batchEnd, { listeners }, { batch, accuracy: logs.acc });
+    }
+    function handleEpochEnd(epoch, logs) {
+      console.log(`Epoch: ${epoch}, accuracy: ${logs.acc}`);
+      dispatchEvent(TrainEvents.epochEnd, { listeners }, { epoch, accuracy: logs.acc });
+    }
+
+    if (global.model) {
+      global.model.stopTraining = true;
+      await new Promise((resolve) => {
+        global.onTrainEnd = resolve;
+      });
+    }
+    global.model = model;
+    global.onTrainEnd = () => {};
+
     dispatchEvent(TrainEvents.start, { listeners });
     const info = await model.fitDataset(dataset, {
       epochs: +trainOptions.epochs || 15,
       callbacks: {
-        onBatchEnd: (batch, logs) => {
-          console.log(`Batch: ${batch}, accuracy: ${logs.acc}`);
-          dispatchEvent(TrainEvents.batchEnd, { listeners }, { batch, accuracy: logs.acc });
-        }
+        onBatchEnd: handleBatchEnd,
+        onEpochEnd: handleEpochEnd
       }
     });
     console.log('Final accuracy', info.history.acc);
     dispatchEvent(TrainEvents.end, { listeners }, info.history.acc);
+
+    global.onTrainEnd();
+    delete global.model;
+
     return info;
   }
 };

@@ -11,10 +11,10 @@
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/server/server.js",
       "args": [
-        "--exclude",
-        "${workspaceFolder}/src/client",
-        "-w",
-        "${workspaceFolder}/src/server"
+        "--ignore", "${workspaceFolder}/src/client",
+        "--ignore", "${workspaceFolder}/src/server/assets",
+        "--watch", "${workspaceFolder}/src/server",
+        "--delay", "1.5"
       ],
       "restart": true,
       "console": "integratedTerminal",

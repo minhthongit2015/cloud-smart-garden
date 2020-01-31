@@ -4,17 +4,6 @@ import BaseComponent from '../../../../components/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {
-  constructor(props) {
-    super(props);
-    this.customHandleInputChange = this.customHandleInputChange.bind(this);
-  }
-
-  customHandleInputChange(event, ...args) {
-    const { currentTarget: { name, value } } = event;
-    localStorage[name] = value;
-    this.handleInputChange(event, ...args);
-  }
-
   render() {
     const {
       batchSize, epochs
@@ -31,11 +20,12 @@ export default class extends BaseComponent.Pure {
             id={batchSizeName}
             name={batchSizeName}
             label="Batch Size"
-            onChange={this.customHandleInputChange}
+            onChange={this.handleInputChange}
             value={batchSize}
             type="number"
             min="0"
             step="1"
+            data-cached
           />
         </div>
         <div className="mt-2">
@@ -43,11 +33,12 @@ export default class extends BaseComponent.Pure {
             id={opochsName}
             name={opochsName}
             label="Epochs"
-            onChange={this.customHandleInputChange}
+            onChange={this.handleInputChange}
             value={epochs}
             type="number"
             min="0"
             step="1"
+            data-cached
           />
         </div>
       </React.Fragment>

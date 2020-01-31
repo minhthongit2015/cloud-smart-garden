@@ -1,12 +1,33 @@
 const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
 
 
 module.exports = class ModelService {
-  static async save(model, path = 'file://./assets/models') {
-    return model.save(path);
+  static get modelFolder() {
+    return './src/server/assets/models';
   }
 
-  static async load(path = 'file://./assets/models') {
-    return tf.loadModel(path);
+  static ensureModelsFolder() {
+    if (!fs.existsSync(this.modelFolder)) {
+      fs.mkdirSync(this.modelFolder);
+    }
+  }
+
+  static getModelPath(fileName, toFile = false) {
+    return `file://${this.modelFolder}/${fileName.replace(/\.\.[/\\]/g, '')}${toFile ? '/model.json' : ''}`;
+  }
+
+  static async save(model, fileName = 'my-model') {
+    this.ensureModelsFolder();
+    return model.save(this.getModelPath(fileName));
+  }
+
+  static async load(fileName = 'my-model') {
+    try {
+      const model = await tf.loadLayersModel(this.getModelPath(fileName, true));
+      return model;
+    } catch (error) {
+      return null;
+    }
   }
 };

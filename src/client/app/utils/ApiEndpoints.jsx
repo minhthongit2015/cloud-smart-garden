@@ -159,6 +159,7 @@ const projects = `${AI}/projects`;
 const experiments = `${AI}/experiments`;
 const experimentI = _id => `${experiments}/${_id}`;
 const buildExperimentI = _id => `${experimentI(_id)}/build`;
+const stopTraining = `${experiments}/stop-training`;
 const datasets = `${AI}/datasets`;
 const datasetI = _id => `${datasets}/${_id}`;
 const regenerateDatasetIRecords = _id => `${datasetI(_id)}/regenerate`;
@@ -223,6 +224,7 @@ export default {
   experiments,
   experimentI,
   buildExperimentI,
+  stopTraining,
   datasets,
   datasetI,
   regenerateDatasetIRecords

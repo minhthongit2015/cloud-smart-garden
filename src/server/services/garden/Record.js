@@ -26,14 +26,16 @@ module.exports = class extends CRUDService {
   }
 
   static generateRawRecord(time, stationId) {
-    const light = random.int(0, 100);
+    const light = random.int(0, 15000);
+    const hour = moment(time).get('hour');
+    const led = hour >= 5 && hour < 17 && light < 2000;
     return {
       station: ApiHelper.getId(stationId),
       state: {
         temperature: random.float(24, 26),
         humidity: random.float(70, 100),
         light,
-        led: light < 10,
+        led,
         fan: random.bool(),
         nutri: random.int(500, 2000)
       },
