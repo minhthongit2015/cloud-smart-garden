@@ -50,10 +50,15 @@ module.exports = class extends PostService {
     const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
 
     opts.metrics = ['accuracy']; // Force to use accuracy for now
-    const model = ModelBuilder.compileModel(savedModel, opts)
+    let model = ModelBuilder.compileModel(savedModel, opts)
       || ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
 
-    await this.trainModel(model, trainingSet, opts);
+    try {
+      await this.trainModel(model, trainingSet, opts);
+    } catch {
+      model = ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
+      await this.trainModel(model, trainingSet, opts);
+    }
 
     return model;
   }

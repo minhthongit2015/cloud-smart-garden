@@ -19,13 +19,6 @@ export default class extends BaseComponent.Pure {
     this.handleOptimizerSelect = this.handleInputChange.bind(this, optimizerName);
     this.handleLossSelect = this.handleInputChange.bind(this, lossName);
     this.handleActivationSelect = this.handleInputChange.bind(this, activationName);
-    this.handleLayersChange = this.handleLayersChange.bind(this);
-  }
-
-  handleLayersChange(event, ...args) {
-    const { currentTarget: { value } } = event;
-    localStorage.layers = value;
-    this.handleInputChange(event, ...args);
   }
 
   render() {

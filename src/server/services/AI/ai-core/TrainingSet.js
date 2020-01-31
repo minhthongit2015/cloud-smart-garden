@@ -1,5 +1,5 @@
 // const tf = require('@tensorflow/tfjs-node');
-const { get, isFunction } = require('../../../utils');
+const { get } = require('../../../utils');
 const DataUtils = require('./DataUtils');
 const { DatasetInterface, TrainingSet } = require('../utils/AITypes');
 
@@ -38,14 +38,21 @@ module.exports = class {
     return trainingSet;
   }
 
-  static mapThroughtAllNodes(record, valuePath, dataset) {
-    if (typeof valuePath === 'string') {
-      return get(record, valuePath);
+  static mapThroughtAllNodes(record, inputPath, dataset) {
+    if (typeof inputPath === 'string') {
+      return get(record, inputPath);
     }
-    return valuePath.slice(1).reduce((value, node) => {
-      if (isFunction(node)) return node(value);
-      if (typeof node !== 'string') return value;
-      return DataUtils[node].execution(dataset, value);
-    }, get(record, valuePath[0]));
+    return inputPath.slice(1).reduce((inputValue, node) => {
+      if (typeof node === 'function') {
+        return node(inputValue, record, dataset);
+      }
+      if (typeof node === 'object' && node.execution) {
+        return DataUtils.runUtil(node, inputValue, record, dataset);
+      }
+      if (typeof node === 'string' && DataUtils[node]) {
+        return DataUtils.runUtil(DataUtils[node], inputValue, record, dataset);
+      }
+      return inputValue;
+    }, get(record, inputPath[0]));
   }
 };

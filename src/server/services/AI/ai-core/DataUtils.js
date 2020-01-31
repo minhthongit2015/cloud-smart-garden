@@ -1,65 +1,71 @@
 const moment = require('moment');
-const { get } = require('../../../utils');
+const { get, autoKey } = require('../../../utils');
 
 
-function getValueByType(value, Type) {
-  value = new Type(value);
+function valueOf(value, Type) {
+  if (Type) {
+    value = new Type(value);
+  }
   return value.valueOf();
 }
 
 const DataUtils = {
+  runUtil: (utilNode, inputValue, record, dataset) => {
+    const params = utilNode.params
+      ? utilNode.params.map(param => this.getParamValue(param, inputValue, record, dataset))
+      : [];
+    return valueOf(utilNode.execution(
+      valueOf(inputValue, utilNode.inputType),
+      record, dataset,
+      ...params
+    ), utilNode.type);
+  },
+  getParamValue: (param, inputValue, record, dataset) => {
+    const context = { inputValue, record, dataset };
+    return param.from
+      ? valueOf(get(context, param.from), param.type)
+      : valueOf(inputValue, param.type);
+  },
+
   fromStart: {
-    id: '',
-    type: Date,
+    key: '',
+    inputType: Date,
+    type: Number,
     name: 'Từ lúc bắt đầu trồng',
     description: 'Chuyển đổi thời gian dạng timestamp sang số giây kể từ lúc bắt đầu trồng.',
     params: [
-      { type: Date, from: 'records[0].createdAt' },
-      { type: Date }
+      { type: Date, from: 'dataset.records[0].createdAt' }
     ],
-    execution(dataset, time) {
-      return moment.unix(getValueByType(time, this.params[1].type))
-        .diff(
-          moment.unix(getValueByType(get(dataset, this.params[0].from), this.params[0].type)),
-          'seconds'
-        );
+    execution(inputValue, record, dataset, createdAt) {
+      return moment.unix(inputValue)
+        .diff(moment.unix(createdAt), 'seconds');
     }
   },
   minuteOfDay: {
-    id: '',
-    type: 'time',
+    key: '',
+    type: Number,
     name: 'Thời gian trong ngày',
-    description: 'Chuyển đổi sang số phút từ lúc bắt đầu ngày.',
-    params: [
-      { type: Date }
-    ],
-    execution: (dataset, time) => moment(time).startOf('day')
-  },
-  roundMinute: {
-    id: '',
-    type: 'time',
-    name: 'Từ lúc bắt đầu trồng',
-    description: 'Chuyển đổi thời gian dạng timestamp sang số mili giây kể từ lúc bắt đầu trồng',
-    execution: (dataset, time) => {}
+    description: 'Chuyển đổi sang số phút từ lúc bắt đầu ngày',
+    execution: (inputValue) => {
+      const time = moment(inputValue);
+      return time.get('hour') * 60 + time.get('minute');
+    }
   },
   toNumber: {
-    id: '',
-    type: 'time',
-    name: 'Từ lúc bắt đầu trồng',
-    description: 'Chuyển đổi thời gian dạng timestamp sang số mili giây kể từ lúc bắt đầu trồng',
-    execution: (dataset, value) => +value
+    key: '',
+    type: Number,
+    name: 'Ép sang kiểu số',
+    description: 'Ép giá trị đầu vào sang kiểu số',
+    execution: inputValue => +inputValue
   },
   toInverse: {
-    id: '',
-    type: 'time',
-    name: 'Từ lúc bắt đầu trồng',
-    description: 'Chuyển đổi thời gian dạng timestamp sang số mili giây kể từ lúc bắt đầu trồng',
-    execution: (dataset, value) => !value
+    key: '',
+    type: Boolean,
+    name: 'Nghịch đảo',
+    description: 'Đảo ngược giá trị đầu vào',
+    execution: inputValue => !inputValue
   }
 };
-
-Object.entries(DataUtils).forEach(([key, value]) => {
-  value.id = key;
-});
+autoKey(DataUtils);
 
 module.exports = DataUtils;

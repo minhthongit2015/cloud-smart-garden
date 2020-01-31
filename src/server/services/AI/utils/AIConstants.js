@@ -1,4 +1,5 @@
 const { autoKey } = require('../../../utils');
+const DataUtils = require('../ai-core/DataUtils');
 
 
 exports.Algorithms = {
@@ -15,8 +16,8 @@ exports.Optimizers = {
 autoKey(this.Optimizers);
 
 exports.Losses = {
-  categoricalCrossentropy: { key: '', name: 'Categorical Crossentropy' },
-  sparseCategoricalCrossentropy: { key: '', name: 'Sparse Categorical Crossentropy' }
+  categoricalCrossEntropy: { key: '', name: 'Categorical Cross-Entropy' },
+  sparseCategoricalCrossEntropy: { key: '', name: 'Sparse Categorical Cross-Eentropy' }
 };
 autoKey(this.Losses);
 
@@ -36,7 +37,15 @@ exports.ExperimentTargets = {
   light: {
     key: '',
     name: 'Tối ưu Ánh sáng',
-    description: 'Tự động bổ sung ánh sáng nhân tạo nếu cần thiết.'
+    description: 'Tự động bổ sung ánh sáng nhân tạo nếu cần thiết.',
+    features: [
+      ['state.light', DataUtils.toNumber],
+      ['createdAt', DataUtils.minuteOfDay]
+    ],
+    labels: [
+      ['state.led', DataUtils.toNumber],
+      ['state.led', DataUtils.toInverse, DataUtils.toNumber]
+    ]
   },
   temperature: {
     key: '',

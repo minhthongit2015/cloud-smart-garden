@@ -46,9 +46,8 @@ export default class extends BaseComponent {
     };
   }
 
-  componentDidMount() {
-    // this.fetchExperiment();
-    // this.subscribeDatasetChannel();
+  componentWillUnmount() {
+    ExperimentService.stopTraining();
   }
 
   fetchExperiment() {

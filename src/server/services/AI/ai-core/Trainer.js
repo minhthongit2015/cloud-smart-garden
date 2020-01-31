@@ -57,18 +57,23 @@ module.exports = class {
     global.onTrainEnd = () => {};
 
     dispatchEvent(TrainEvents.start, { listeners });
-    const info = await model.fitDataset(dataset, {
-      epochs: +trainOptions.epochs || 15,
-      callbacks: {
-        onBatchEnd: handleBatchEnd,
-        onEpochEnd: handleEpochEnd
-      }
-    });
+    let info;
+    try {
+      info = await model.fitDataset(dataset, {
+        epochs: +trainOptions.epochs || 15,
+        callbacks: {
+          onBatchEnd: handleBatchEnd,
+          onEpochEnd: handleEpochEnd
+        }
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      global.onTrainEnd();
+      delete global.model;
+    }
     console.log('Final accuracy', info.history.acc);
     dispatchEvent(TrainEvents.end, { listeners }, info.history.acc);
-
-    global.onTrainEnd();
-    delete global.model;
 
     return info;
   }
