@@ -22,15 +22,10 @@ import Checkbox from '../../../../components/utils/checkbox/Checkbox';
 export default class extends BaseComponent {
   constructor(props) {
     super(props);
-    // this.datasetChartRef = React.createRef();
     this.trainingProgressChartRef = React.createRef();
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
     this.handleStopTraining = this.handleStopTraining.bind(this);
     this.handleCleanChart = this.handleCleanChart.bind(this);
-
-    let { saveModel, highResolution } = this.CachedValues.saveModel;
-    saveModel = saveModel != null ? saveModel : true;
-    highResolution = highResolution != null ? highResolution : true;
 
     this.state = {
       experiment: props.data,
@@ -43,8 +38,8 @@ export default class extends BaseComponent {
       batchSize: this.CachedValues.batchSize || 36,
       epochs: this.CachedValues.epochs || 40,
 
-      highResolution,
-      saveModel,
+      highResolution: this.CachedValues.defaultTrue.highResolution,
+      saveModel: this.CachedValues.defaultTrue.saveModel,
 
       datasets: [],
       targets: [ExperimentTargets.light]

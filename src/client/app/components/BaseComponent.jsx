@@ -75,15 +75,25 @@ class PureComponent extends React.PureComponent {
         return target.props[prop] || (target.state && target.state[prop]);
       }
     });
-    this.CachedValues = new Proxy(localStorage, {
+    this.defaultTrue = new Proxy(this, {
       get(target, prop/* , receiver */) {
-        try {
-          return prop in target ? JSON.parse(target[prop]) : undefined;
-        } catch {
-          return target[prop];
-        }
+        return target.constructor.getCachedValue(prop, true);
       }
     });
+    this.CachedValues = new Proxy(this, {
+      get(target, prop/* , receiver */) {
+        if (prop === 'defaultTrue') return target.defaultTrue;
+        return target.constructor.getCachedValue(prop);
+      }
+    });
+  }
+
+  static getCachedValue(prop, defaultValue) {
+    try {
+      return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
+    } catch {
+      return localStorage[prop];
+    }
   }
 
   bind(...methods) {
@@ -190,15 +200,25 @@ class BaseComponent extends React.Component {
         return target.props[prop] || (target.state && target.state[prop]);
       }
     });
-    this.CachedValues = new Proxy(localStorage, {
+    this.defaultTrue = new Proxy(this, {
       get(target, prop/* , receiver */) {
-        try {
-          return prop in target ? JSON.parse(target[prop]) : undefined;
-        } catch {
-          return target[prop];
-        }
+        return target.constructor.getCachedValue(prop, true);
       }
     });
+    this.CachedValues = new Proxy(this, {
+      get(target, prop/* , receiver */) {
+        if (prop === 'defaultTrue') return target.defaultTrue;
+        return target.constructor.getCachedValue(prop);
+      }
+    });
+  }
+
+  static getCachedValue(prop, defaultValue) {
+    try {
+      return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
+    } catch {
+      return localStorage[prop];
+    }
   }
 
   bind(...methods) {
