@@ -5,12 +5,12 @@ import BaseComponent from '../../BaseComponent';
 
 export default class EditableLineChart extends BaseComponent {
   get selectedPoints() {
-    return this.chartRef.chart.w.globals.selectedDataPoints;
+    return this.chartRef.current && this.chartRef.current.chart.w.globals.selectedDataPoints;
   }
 
   constructor(props) {
     super(props);
-    this.chartRef = null;
+    this.chartRef = React.createRef();
     this.bind(this.handlePointSelection, this.handleSelection, this.handleClick);
     this.state = {
       series: [],
@@ -110,7 +110,7 @@ export default class EditableLineChart extends BaseComponent {
 
   setData(dataset) {
     const { columns } = this.props;
-    if (this.chartRef.chart && columns && dataset) {
+    if (this.chartRef.current.chart && columns && dataset) {
       this.setState((prevState) => {
         prevState.options.xaxis.categories = dataset.labels;
         this.updateOptions(prevState.options);
@@ -142,8 +142,8 @@ export default class EditableLineChart extends BaseComponent {
   }
 
   updateOptions(options) {
-    if (this.chartRef.chart) {
-      this.chartRef.chart.updateOptions(options);
+    if (this.chartRef.current.chart) {
+      this.chartRef.current.chart.updateOptions(options);
     }
   }
 
@@ -161,12 +161,12 @@ export default class EditableLineChart extends BaseComponent {
     const { columns } = this.props;
     const { dataset } = this.state;
     const columnIndex = dataset.columns.indexOf(columns[0]);
-    const currentSerie = this.chartRef.chart.w.config.series[0];
+    const currentSerie = this.chartRef.current.chart.w.config.series[0];
     selectedPoints.forEach((pointIndex) => {
       dataset.rows[pointIndex][columnIndex] = state;
       currentSerie.data[pointIndex] = +state;
     });
-    this.chartRef.chart.updateSeries([currentSerie]);
+    this.chartRef.current.chart.updateSeries([currentSerie]);
   }
 
   handleSelection(chart, { xaxis }) {
@@ -209,7 +209,7 @@ export default class EditableLineChart extends BaseComponent {
   }
 
   toggleDataPointSelection(seriesIndex, pointIndex) {
-    this.chartRef.chart.toggleDataPointSelection(seriesIndex, pointIndex);
+    this.chartRef.current.chart.toggleDataPointSelection(seriesIndex, pointIndex);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -221,7 +221,7 @@ export default class EditableLineChart extends BaseComponent {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleClick(event, chartContext, config) {
+  handleClick(/* event, chartContext, config */) {
     // console.log(event, chartContext, config);
     return false;
   }
@@ -231,7 +231,7 @@ export default class EditableLineChart extends BaseComponent {
     return (
       <div id={this.id} className="apex chart-wrapper shadow mt-3 mb-2 pt-3 px-2">
         <ApexChart
-          ref={(ref) => { this.chartRef = ref; }}
+          ref={this.chartRef}
           options={options}
           series={series}
           type="area"

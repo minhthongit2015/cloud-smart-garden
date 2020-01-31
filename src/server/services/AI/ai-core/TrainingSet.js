@@ -1,7 +1,7 @@
 // const tf = require('@tensorflow/tfjs-node');
 const { get, isFunction } = require('../../../utils');
 const DataUtils = require('./DataUtils');
-const { DatasetInterface, TrainingSetInterface } = require('../utils/AITypes');
+const { DatasetInterface, TrainingSet } = require('../utils/AITypes');
 
 
 const MapDatasetOptionsInterface = {
@@ -19,7 +19,7 @@ module.exports = class {
       return null;
     }
     const { features, labels } = opts;
-    const trainingSet = { ...TrainingSetInterface };
+    const trainingSet = new TrainingSet();
     trainingSet.features = features;
     trainingSet.labels = labels;
     trainingSet.xs = [];
