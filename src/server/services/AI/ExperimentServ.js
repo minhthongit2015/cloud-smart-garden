@@ -1,49 +1,41 @@
 const tf = require('@tensorflow/tfjs-node');
-const ModelService = require('./Model');
-const ModelBuilder = require('./ai-core/ModelBuilder');
-const DatasetService = require('./management/Dataset');
-const Trainer = require('./ai-core/Trainer');
-const TrainingSet = require('./ai-core/TrainingSet');
-const DataUtils = require('./ai-core/DataUtils');
-const SyncService = require('../../services/sync');
-const { RequestBuildInterface } = require('./AIInterfaces');
-const NeralNetwork = require('./ai-core/NeuralNetwork');
+const PostService = require('../blog/Post');
+const { Experiment } = require('../../models/mongo');
+const ModelService = require('./ModelServ');
+const {
+  ModelBuilder, TrainingSet, Trainer, NeralNetwork
+} = require('./ai-core');
+const DatasetService = require('./DatasetServ');
+const SyncService = require('../sync');
+const { BuildExperimentRequest } = require('./utils/AITypes');
+const BuiltInExperimentTargets = require('./utils/BuiltInExperimentTargets');
 
 
-module.exports = class {
-  static async buildAndTrain(experimentId, opts = { ...RequestBuildInterface }) {
-    const dataset = await DatasetService.getWithRecords(opts.dataset);
-    return this.buildAndTrainNutrient(opts, dataset);
+module.exports = class extends PostService {
+  static getModel() {
+    return Experiment;
   }
 
-  static async buildAndTrainNutrient(opts = { ...RequestBuildInterface }, dataset) {
-    // Get training set
+  static async buildAndTrain(experimentId, opts = new BuildExperimentRequest()) {
+    const dataset = await DatasetService.getWithRecords(opts.datasetId);
+    const models = await Promise.all(
+      opts.targets.map(target => this.buildExperimentByTarget(target, dataset, opts))
+    );
+    return models;
+  }
+
+  static async buildExperimentByTarget(target, dataset, opts = new BuildExperimentRequest()) {
+    const experimentTarget = BuiltInExperimentTargets.find(targetI => targetI.key === target.key);
+    if (!experimentTarget) return null;
     const trainingSet = TrainingSet.fromDataset(dataset, {
-      features: [
-        ['state.light', DataUtils.toNumber.id]
-        // ['createdAt', DataUtils.fromStart.id]
-      ],
-      // labels: ['state.nutri']
-      labels: [
-        ['state.led', DataUtils.toNumber.id],
-        ['state.led', DataUtils.toInverse.id, DataUtils.toNumber.id]
-      ]
+      features: experimentTarget.features,
+      labels: experimentTarget.labels
     });
-
-    // Build Model
-    opts.layers = opts.layers
-      ? (opts.layers || '').replace(/[^0-9,]/g, '').split(',').map(layer => +layer).filter(layer => layer)
-      : [20, 40];
-    opts.metrics = ['accuracy'];
+    opts.metrics = ['accuracy']; // Force to use accuracy for now
     const model = ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
-
-    // Train
     await Trainer.train(model, trainingSet, opts, {
       onBatchEnd: (event, { batch, accuracy }) => {
-        SyncService.emit('training', {
-          batch,
-          accuracy
-        });
+        SyncService.emit('training', { batch, accuracy });
       }
     });
     return model;

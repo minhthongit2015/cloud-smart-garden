@@ -108,7 +108,7 @@ export default class extends BaseComponent.Pure {
           <MDBInput
             id={layersName}
             name={layersName}
-            label={`Layers (${totalMiddleNodes})`}
+            label={`Layers (${totalMiddleNodes} nodes)`}
             onChange={this.handleLayersChange}
             value={layers}
           />

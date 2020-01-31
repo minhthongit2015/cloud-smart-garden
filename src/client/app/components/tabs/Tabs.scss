@@ -2,7 +2,7 @@
 $color-inactive: #c9c9c9;
 $color: $color-orange-light;
 $color-hover: $color-orange;
-$color-shadow: transparentize(lighten($color: $color-red-light, $amount: 3), 0.6);
+$color-shadow: transparentize(lighten($color: $color-red-light, $amount: 3), 0.7);
 
 .tabs {
   padding: .75em;
@@ -36,19 +36,19 @@ $color-shadow: transparentize(lighten($color: $color-red-light, $amount: 3), 0.6
 
     .nav-link {
       border-color: transparent;
-      box-shadow: 0px -1px 0px -2px transparentize($color: $color-shadow, $amount: 0);
+      box-shadow: 0px 0px 0px 0px transparentize($color: $color-shadow, $amount: 1);
       color: $color-inactive;
       border: none;
 
       &:hover {
-        box-shadow: -2px -3px 3px -2px transparentize($color: $color-shadow, $amount: 0.4);
+        box-shadow: -1px -2px 6px -2px transparentize($color: $color-shadow, $amount: .05);
         color: $color-hover;
       }
     }
 
     .nav-link.active {
       z-index: 1;
-      box-shadow: -3px -2px 8px $color-shadow;
+      box-shadow: -3px -2px 9px $color-shadow;
       border-radius: 4px 4px 0 0;
       background: #fff;
       border-bottom: none;
@@ -57,7 +57,7 @@ $color-shadow: transparentize(lighten($color: $color-red-light, $amount: 3), 0.6
   }
 
   .tab-content {
-    box-shadow: -3px -2px 8px $color-shadow;
+    box-shadow: -3px -2px 9px $color-shadow;
     border-radius: 4px;
   }
 }

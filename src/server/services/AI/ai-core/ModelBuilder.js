@@ -1,4 +1,4 @@
-const { TrainingSetInterface, BuildOptionsInterface } = require('../AIInterfaces');
+const { TrainingSetInterface, BuildOptionsInterface } = require('../utils/AITypes');
 const NeralNetwork = require('./NeuralNetwork');
 
 
@@ -15,7 +15,7 @@ module.exports = class {
   ) {
     const numFeatures = trainingSet.features.length;
     const numOutputs = trainingSet.labels.length;
-    const model = NeralNetwork.createModel({
+    const model = NeralNetwork.buildModel({
       numFeatures,
       numOutputs,
       activation: buildOpts.activation,

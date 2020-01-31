@@ -1,8 +1,8 @@
 // const moment = require('moment');
-const ApiHelper = require('../../../utils/ApiHelper');
-const { Dataset } = require('../../../models/mongo');
-const PostService = require('../../blog/Post');
-const RecordService = require('../../garden/Record');
+const ApiHelper = require('../../utils/ApiHelper');
+const { Dataset } = require('../../models/mongo');
+const PostService = require('../blog/Post');
+const RecordService = require('../garden/Record');
 
 
 module.exports = class extends PostService {

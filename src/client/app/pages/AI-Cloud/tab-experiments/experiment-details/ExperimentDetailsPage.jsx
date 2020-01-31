@@ -31,13 +31,13 @@ export default class extends BaseComponent {
       optimizers: AlgorithmConstants.optimizers.slice(0, 1),
       losses: AlgorithmConstants.losses.slice(0, 1),
       activations: AlgorithmConstants.activations.slice(0, 1),
-      layers: localStorage.layers || '20,40',
+      layers: localStorage.layers || '5,10,15,5',
 
       batchSize: localStorage.batchSize || 36,
-      epochs: localStorage.epochs || 15,
+      epochs: localStorage.epochs || 40,
 
       datasets: [],
-      targets: [ExperimentTargets.nutrient]
+      targets: [ExperimentTargets.light]
     };
   }
 
@@ -78,12 +78,16 @@ export default class extends BaseComponent {
       optimizers: [{ value: optimizer }],
       losses: [{ value: loss }],
       activations: [{ value: activation }],
-      datasets: [{ value: dataset }],
+      datasets: [{ value: datasetId }],
       batchSize,
       epochs,
       layers,
       targets
     } = this.state;
+
+    const mappedLayers = (layers || '').replace(/[^0-9,]/g, '')
+      .split(',').map(layer => +layer).filter(layer => layer);
+
     ExperimentService.buildExperiment(
       experimentId,
       {
@@ -93,8 +97,8 @@ export default class extends BaseComponent {
         activation,
         batchSize,
         epochs,
-        layers,
-        dataset,
+        layers: mappedLayers,
+        datasetId,
         targets: Object.values(targets)
       }
     );

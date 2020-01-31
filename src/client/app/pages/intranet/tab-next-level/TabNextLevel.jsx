@@ -20,7 +20,9 @@ export default class extends AdminPage {
     super(props, t('pages.intranet.title.nextLevel'));
     this.bind(this.handleAddColumn, this.handleAddItem);
     this.state = {
-      nextLevel: {}
+      nextLevel: {
+        cols: []
+      }
     };
     UserService.useUserState(this);
   }
@@ -44,8 +46,8 @@ export default class extends AdminPage {
       nextLevel: {
         ...prevState.nextLevel,
         cols: [
-          ...(prevState.nextLevel.cols || []),
-          { title: 'Cột Mới', items: [] }
+          { title: `Lĩnh vực ${prevState.nextLevel.cols.length + 1}`, items: [] },
+          ...(prevState.nextLevel.cols || [])
         ]
       }
     }));
@@ -87,6 +89,14 @@ export default class extends AdminPage {
               </div>
             </div>
           </div>
+          <Row className="mt-5">
+            <Col {...{
+              lg: 4, md: 6, sm: 6, xs: 12, className: 'text-center'
+            }}
+            >
+              <MDBBtn onClick={this.handleAddColumn}>+ Thêm Cột Mới</MDBBtn>
+            </Col>
+          </Row>
           <Row className="next-level">
             {cols && cols.map(({ title, items }, index) => (
               <Col {...columnProps} key={index}>
@@ -102,9 +112,6 @@ export default class extends AdminPage {
                 <ItemList items={items} />
               </Col>
             ))}
-            <Col {...columnProps}>
-              <MDBBtn onClick={this.handleAddColumn}>+ Thêm Cột Mới</MDBBtn>
-            </Col>
           </Row>
         </SectionBody>
       </Section>

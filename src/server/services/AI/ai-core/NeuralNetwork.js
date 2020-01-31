@@ -18,7 +18,7 @@ module.exports = class Neural {
     return model;
   }
 
-  static createModel({
+  static buildModel({
     numFeatures,
     numOutputs,
     activation,

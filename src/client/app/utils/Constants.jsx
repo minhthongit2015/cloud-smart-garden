@@ -5,5 +5,11 @@ export {
   MemberBadge,
   MarkerTypes,
   ContactTypes,
-  ExperimentTargets
+
+  // AI
+  ExperimentTargets,
+  Algorithms,
+  Optimizers,
+  Losses,
+  Activations
 } from '../../../server/utils/Constants';

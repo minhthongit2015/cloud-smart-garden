@@ -177,6 +177,18 @@ function get(object, prop) {
 }
 
 /**
+ * @param {'key'} toKeyProp
+ */
+function autoKey(object, toKeyProp = 'key') {
+  if (!object || typeof object !== 'object') return null;
+  Object.entries(object).forEach(([key, prop]) => {
+    prop[toKeyProp] = key;
+  });
+  return object;
+}
+
+
+/**
  * Do not use! (not completed yet)
  */
 function flattenObject(object, matcher) {
@@ -212,5 +224,6 @@ module.exports = {
   dispatchEvent,
   buildEvent,
   get,
+  autoKey,
   flattenObject
 };

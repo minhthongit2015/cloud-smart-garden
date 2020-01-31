@@ -23,7 +23,7 @@ export default class extends BaseComponent.Pure {
       if (checked) {
         newTargets.push(selectedTarget);
       } else {
-        const index = newTargets.findIndex(target => target.id === selectedTarget.id);
+        const index = newTargets.findIndex(target => target.key === selectedTarget.key);
         if (index >= 0) {
           newTargets.splice(index, 1);
         }
@@ -45,17 +45,17 @@ export default class extends BaseComponent.Pure {
 
     return (
       <Row>
-        {Object.values(ExperimentTargets).map(({ id, name, description }) => (
-          <Col key={id}>
+        {Object.values(ExperimentTargets).map(({ key, name, description }) => (
+          <Col key={key}>
             <div className="text-center">
               <Checkbox
-                id={id}
+                id={key}
                 name={inputName}
-                checked={!!targets.find(target => target.id === id)}
+                checked={!!targets.find(target => target.key === key)}
                 onChange={this.handleTargetChange}
               />
             </div>
-            <label htmlFor={id} className="d-block cursor-pointer hover-light-red">
+            <label htmlFor={key} className="d-block cursor-pointer hover-light-red">
               <h5 className="text-center">{name}</h5>
               <div>{description}</div>
             </label>

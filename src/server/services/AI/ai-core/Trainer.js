@@ -1,7 +1,10 @@
 const tf = require('@tensorflow/tfjs-node');
 const { dispatchEvent } = require('../../../utils');
-const { ListenersInterface, TrainingSetInterface, TrainOptionsInterfaces } = require('../AIInterfaces');
-const { TrainEvents } = require('../AIEvents');
+const {
+  ListenersInterface,
+  TrainingSetInterface, TrainOptionsInterfaces
+} = require('../utils/AITypes');
+const { TrainEvents } = require('../utils/AIEvents');
 const random = require('../../../utils/random');
 
 

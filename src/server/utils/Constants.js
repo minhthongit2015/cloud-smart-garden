@@ -48,28 +48,7 @@ const ContactTypes = {
 };
 
 // AI
-const ExperimentTargets = {
-  nutrient: {
-    id: 'nutrient',
-    name: 'Tối ưu Dinh dưỡng',
-    description: 'Tự động điều chỉnh dinh dưỡng.'
-  },
-  light: {
-    id: 'light',
-    name: 'Tối ưu Ánh sáng',
-    description: 'Tự động bổ sung ánh sáng nhân tạo nếu cần thiết.'
-  },
-  temperature: {
-    id: 'temperature',
-    name: 'Tối ưu Nhiệt độ',
-    description: 'Tự động phun sương hoặc bật quạt làm mát nếu nhiệt độ tăng cao.'
-  },
-  humidity: {
-    id: 'humidity',
-    name: 'Tối ưu Độ ẩm',
-    description: 'Tự động phun sương và bật quạt thông gió để để điều chỉnh lại độ ẩm trong vườn.'
-  }
-};
+const AIConstants = require('../services/AI/utils/AIConstants');
 
 module.exports = {
   UserRole,
@@ -79,5 +58,5 @@ module.exports = {
   ContactTypes,
 
   // AI
-  ExperimentTargets
+  ...AIConstants
 };

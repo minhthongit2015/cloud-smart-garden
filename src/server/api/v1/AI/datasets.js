@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models/APIResponse');
-const DatasetService = require('../../../services/AI/management/Dataset');
+const DatasetService = require('../../../services/AI/DatasetServ');
 const StationService = require('../../../services/garden/Station');
 
 
