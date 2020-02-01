@@ -37,7 +37,7 @@ module.exports = class extends PostService {
       return null;
     }
     const records = await Promise.all(dataset.records.map((record) => {
-      Object.assign(record, RecordService.generateRawRecord());
+      Object.assign(record, RecordService.generateRawRecord(record.createdAt, record.station));
       delete record.createdAt;
       delete record.station;
       return RecordService.createOrUpdate(record);

@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Row, Col, Button } from 'mdbreact';
 // import Select from 'react-select';
@@ -26,6 +27,8 @@ export default class extends BaseComponent {
     this.handleBuildExperiment = this.handleBuildExperiment.bind(this);
     this.handleStopTraining = this.handleStopTraining.bind(this);
     this.handleCleanChart = this.handleCleanChart.bind(this);
+    this.handleConnectChart = this.handleConnectChart.bind(this);
+    this.handleDisconnectChart = this.handleDisconnectChart.bind(this);
 
     this.state = {
       experiment: props.data,
@@ -33,7 +36,7 @@ export default class extends BaseComponent {
       optimizers: AlgorithmConstants.optimizers.slice(0, 1),
       losses: AlgorithmConstants.losses.slice(0, 1),
       activations: AlgorithmConstants.activations.slice(0, 1),
-      layers: this.CachedValues.layers || '5,10,15,5',
+      layers: this.CachedValues.layers || '10,8,9,10,8,7,10,9,9,9',
 
       batchSize: this.CachedValues.batchSize || 36,
       epochs: this.CachedValues.epochs || 40,
@@ -42,7 +45,7 @@ export default class extends BaseComponent {
       saveModel: this.CachedValues.defaultTrue.saveModel,
 
       datasets: [],
-      targets: [ExperimentTargets.light]
+      targets: [ExperimentTargets.nutrient]
     };
   }
 
@@ -67,15 +70,7 @@ export default class extends BaseComponent {
 
   buildExperiment() {
     this.props.getDialog().lock();
-    ExperimentService.subscribeTrainingProgress((progress) => {
-      this.trainingProgressChartRef.current.appendData([
-        { data: [progress.accuracy] }
-      ]);
-    }, () => {
-      this.trainingProgressChartRef.current.updateSeries([
-        { name: 'Accuracy', data: [] }
-      ]);
-    });
+    this.handleConnectChart();
 
     const {
       experiment: { _id: experimentId },
@@ -116,6 +111,22 @@ export default class extends BaseComponent {
   // eslint-disable-next-line class-methods-use-this
   handleStopTraining() {
     ExperimentService.stopTraining();
+  }
+
+  handleConnectChart() {
+    ExperimentService.subscribeTrainingProgress((progress) => {
+      this.trainingProgressChartRef.current.appendData([
+        { data: [progress.accuracy] }
+      ]);
+    }, () => {
+      this.trainingProgressChartRef.current.updateSeries([
+        { name: 'Accuracy', data: [] }
+      ]);
+    });
+  }
+
+  handleDisconnectChart() {
+    ExperimentService.unsubscribeTrainingProgress();
   }
 
   handleCleanChart() {
@@ -206,11 +217,17 @@ export default class extends BaseComponent {
                     </Checkbox>
                   </div>
                   <div className="mt-3 text-center">
-                    <Button color="none" className="my-2 mx-3" onClick={this.handleStopTraining}>
+                    <Button color="none" className="my-2 mx-3 hover-light-red" onClick={this.handleStopTraining}>
                       <i className="fas fa-ban" /> Stop Training
                     </Button>
                     <Button color="none" className="my-2 mx-3" onClick={this.handleCleanChart}>
                       <i className="fas fa-broom" /> Clean Chart
+                    </Button>
+                    <Button color="none" className="my-2 mx-3 hover-light-red" onClick={this.handleDisconnectChart}>
+                      <i className="fas fa-phone-slash" /> Disconnect Chart
+                    </Button>
+                    <Button color="none" className="my-2 mx-3" onClick={this.handleConnectChart}>
+                      <i className="fas fa-plug" /> Connect Chart
                     </Button>
                   </div>
                 </Col>

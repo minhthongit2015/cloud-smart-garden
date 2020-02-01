@@ -30,7 +30,7 @@ export default class TrainingProgressChart extends Component {
         },
         yaxis: {
           tickAmount: 4,
-          max: 1,
+          max: 1.0,
           min: 0,
           tooltip: {
             enabled: false

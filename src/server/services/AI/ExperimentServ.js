@@ -3,7 +3,7 @@ const PostService = require('../blog/Post');
 const { Experiment } = require('../../models/mongo');
 const ModelService = require('./ModelServ');
 const {
-  ModelBuilder, TrainingSet, Trainer, NeralNetwork
+  ModelBuilder, TrainingSet, Trainer, NeuralNetwork
 } = require('./ai-core');
 const DatasetService = require('./DatasetServ');
 const SyncService = require('../sync');
@@ -50,7 +50,7 @@ module.exports = class extends PostService {
     const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
 
     opts.metrics = ['accuracy']; // Force to use accuracy for now
-    let model = ModelBuilder.compileModel(savedModel, opts)
+    let model = (savedModel && ModelBuilder.compileModel(savedModel, opts))
       || ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
 
     try {
@@ -97,37 +97,51 @@ module.exports = class extends PostService {
 
   static async save(model, experimentId, target) {
     if (!model) return null;
-    return ModelService.save(model, `${experimentId}-${target.key}`);
+    const targetKey = target && target.key ? `${target.key}` : '';
+    return ModelService.save(model, `${experimentId}-${targetKey}`);
   }
 
   static async load(experimentId, target) {
-    return ModelService.load(`${experimentId}-${target.key}`);
+    const targetKey = target && target.key ? `${target.key}` : '';
+    return ModelService.load(`${experimentId}-${targetKey}`);
   }
 
-  static async test() {
-    const numRecords = 432;
-    const numFeatures = 1;
-    const numOutputs = 2;
-    const model = NeralNetwork.createModel({
-      numFeatures,
-      numOutputs,
-      layers: [2]
+  static async test(opts = {}) {
+    const trainingSet = [
+      { x: [0.1], y: [0.1] },
+      { x: [0.9], y: [0.9] },
+      { x: [0.5], y: [0.5] }
+    ];
+    trainingSet.forEach((row) => {
+      row.x = row.x.map(v => v * 1);
+      row.y = row.y.map(v => v * 1);
     });
-    model.compile({
-      optimizer: 'adam',
-      loss: 'categoricalCrossentropy',
-      metrics: ['accuracy']
-    });
+
+    const numRecords = trainingSet.length;
+    const numFeatures = trainingSet[0].x.length;
+    const numOutputs = trainingSet[0].y.length;
+    let model = await this.getTestModel(numFeatures, numOutputs, false, opts);
+
+    if (opts.x) {
+      const x = opts.x.split(',').map(v => +v);
+      const prediction = model.predict(tf.tensor1d(x));
+      console.log(`prediction: ${prediction.dataSync()}`);
+      const loss = model.lossFunctions[0](+opts.x.split(',')[0], prediction);
+      console.log(`loss: ${loss.dataSync()}`);
+      return prediction;
+    }
 
     // Train
     function* dataGen() {
       for (let i = 0; i < numRecords; i++) {
-        yield tf.randomNormal([1, numFeatures]);
+        yield tf.tensor2d(trainingSet[i].x, [1, numFeatures]);
+        // yield tf.randomNormal([1, numFeatures]);
       }
     }
     function* labelsGen() {
       for (let i = 0; i < numRecords; i++) {
-        yield tf.randomUniform([1, numOutputs]);
+        yield tf.tensor2d(trainingSet[i].y, [1, numOutputs]);
+        // yield tf.randomUniform([1, numOutputs]);
       }
     }
 
@@ -139,12 +153,46 @@ module.exports = class extends PostService {
       console.log('Accuracy', logs.acc);
     }
 
-    const info = await model.fitDataset(dataset, {
-      epochs: 5,
-      callbacks: { onBatchEnd }
-    });
+    const weightBefore = model.layers[1].getWeights()[0].dataSync();
+    const biasBefore = model.layers[1].getWeights()[1].dataSync();
+    const epochs = +opts.epochs || 100;
+    let info;
+    try {
+      info = await model.fitDataset(dataset, {
+        epochs,
+        callbacks: { onBatchEnd }
+      });
+    } catch {
+      model = await this.getTestModel(numFeatures, numOutputs, true, opts);
+      info = await model.fitDataset(dataset, {
+        epochs,
+        callbacks: { onBatchEnd }
+      });
+    }
     console.log('Final accuracy', info.history.acc);
+    console.log(weightBefore);
+    console.log(biasBefore);
+    console.log(model.layers[1].getWeights()[0].dataSync());
+    console.log(model.layers[1].getWeights()[1].dataSync());
 
+    await this.save(model, 'test');
+    return JSON.parse(JSON.parse(JSON.stringify(model)));
+  }
+
+  static async getTestModel(numFeatures, numOutputs, createNew = false, opts) {
+    const savedModel = (!opts.new && !createNew) && await this.load('test');
+    const model = savedModel || NeuralNetwork.buildModel({
+      numFeatures,
+      numOutputs,
+      activation: 'linear',
+      layers: []
+    });
+    model.compile({
+      optimizer: 'adam',
+      loss: 'meanSquaredError',
+      metrics: ['accuracy']
+    });
+    // model.optimizer.setLearningRate(+opts.rate || 0.1);
     return model;
   }
 };

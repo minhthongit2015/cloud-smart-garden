@@ -1,4 +1,8 @@
 
 .my-checkbox {
   cursor: pointer;
+  &__label {
+    display: inline-flex;
+    align-items: center;
+  }
 }

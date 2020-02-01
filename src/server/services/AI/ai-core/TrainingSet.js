@@ -1,6 +1,6 @@
 // const tf = require('@tensorflow/tfjs-node');
 const { get } = require('../../../utils');
-const DataUtils = require('./DataUtils');
+const DataUtils = require('../utils/DataUtils');
 const { DatasetInterface, TrainingSet } = require('../utils/AITypes');
 
 

@@ -11,11 +11,15 @@ export default {
     { value: 'sgd', label: 'SGD' }
   ],
   losses: [
+    { value: 'meanSquaredError', label: 'Mean Squared Error' },
+    { value: 'absoluteDifference', label: 'Absolute Difference' },
     { value: 'categoricalCrossentropy', label: 'Categorical Crossentropy' }
     // { value: 'sparseCategoricalCrossentropy', label: 'Sparse Categorical Crossentropy' }
   ],
   activations: [
+    { value: 'linear', label: 'Linear' },
     { value: 'relu', label: 'Relu' },
-    { value: 'softmax', label: 'Softmax' }
+    { value: 'softmax', label: 'Softmax' },
+    { value: 'sigmoid', label: 'Sigmoid' }
   ]
 };

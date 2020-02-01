@@ -34,7 +34,7 @@ module.exports = class {
     const xs = tf.data.generator(featuresGenerator);
     const ys = tf.data.generator(labelsGenerator);
     const dataset = tf.data.zip({ xs, ys })
-      .shuffle(144, random.int(1, 99999), true)
+      .shuffle(+trainOptions.batchSize, random.int(1, 999999), true)
       .batch(+trainOptions.batchSize || 36);
 
     // Train

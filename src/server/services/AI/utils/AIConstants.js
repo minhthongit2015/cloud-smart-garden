@@ -1,5 +1,5 @@
 const { autoKey } = require('../../../utils');
-const DataUtils = require('../ai-core/DataUtils');
+const DataUtils = require('./DataUtils');
 
 
 exports.Algorithms = {
@@ -17,7 +17,8 @@ autoKey(this.Optimizers);
 
 exports.Losses = {
   categoricalCrossEntropy: { key: '', name: 'Categorical Cross-Entropy' },
-  sparseCategoricalCrossEntropy: { key: '', name: 'Sparse Categorical Cross-Eentropy' }
+  sparseCategoricalCrossEntropy: { key: '', name: 'Sparse Categorical Cross-Eentropy' },
+  meanSquaredError: { key: '', name: 'Mean Squared Error' }
 };
 autoKey(this.Losses);
 
@@ -32,7 +33,13 @@ exports.ExperimentTargets = {
   nutrient: {
     key: '',
     name: 'Tối ưu Dinh dưỡng',
-    description: 'Tự động điều chỉnh dinh dưỡng.'
+    description: 'Tự động điều chỉnh dinh dưỡng.',
+    features: [
+      ['createdAt', DataUtils.fromStart]
+    ],
+    labels: [
+      ['state.nutri', DataUtils.toNumber]
+    ]
   },
   light: {
     key: '',

@@ -30,7 +30,7 @@ module.exports = class Neural {
         const nextDense = tf.layers.dense({ units, activation }).apply(prevLayer);
         return nextDense;
       }, inputLayer);
-    const outputLayer = tf.layers.dense({ units: numOutputs, activation: 'softmax' }).apply(lastMiddleLayer);
+    const outputLayer = tf.layers.dense({ units: numOutputs, activation }).apply(lastMiddleLayer);
     return tf.model({ inputs: inputLayer, outputs: outputLayer });
   }
 };

@@ -5,7 +5,7 @@ const ExperimentService = require('../../../services/AI/ExperimentServ');
 
 
 router.get('/test', Logger.catch(async (req, res) => {
-  const trainedModel = await ExperimentService.test();
+  const trainedModel = await ExperimentService.test(req.query);
   // await ExperimentService.save(experimentId, trainedModel);
   return res.send(APIResponse.setData(trainedModel));
 }));

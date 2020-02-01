@@ -14,6 +14,11 @@ export default class ExperimentService {
     superrequest.ws.on('startTraining', onStart);
   }
 
+  static unsubscribeTrainingProgress() {
+    superrequest.ws.off('training');
+    superrequest.ws.off('startTraining');
+  }
+
   static stopTraining() {
     superrequest.ws.off('training');
     superrequest.ws.off('startTraining');

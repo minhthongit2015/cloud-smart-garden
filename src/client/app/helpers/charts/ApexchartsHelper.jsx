@@ -8,7 +8,7 @@ export default class extends ChartHelper {
     };
   }
 
-  static recordsToLine(records, keys = ['temperature', 'humidity', 'light']) {
+  static recordsToLine(records, keys = ['temperature', 'humidity', 'light', 'nutri']) {
     return keys.map(key => this.splitToLine(records, key));
   }
 
