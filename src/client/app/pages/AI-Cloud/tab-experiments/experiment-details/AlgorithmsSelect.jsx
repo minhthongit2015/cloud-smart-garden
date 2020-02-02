@@ -24,7 +24,7 @@ export default class extends BaseComponent.Pure {
   render() {
     const {
       algorithm, optimizers, losses, activations, layers
-    } = this.InputValue;
+    } = this.InputValues;
     const {
       algorithmName = 'algorithm',
       optimizerName = 'optimizers',

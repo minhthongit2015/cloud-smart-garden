@@ -18,6 +18,7 @@ module.exports = class ModelService {
   }
 
   static async save(model, fileName = 'my-model') {
+    if (!model) return null;
     this.ensureModelsFolder();
     return model.save(this.getModelPath(fileName));
   }

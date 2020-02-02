@@ -18,6 +18,7 @@ import ExperimentTargetsSelect from './ExperimentTargetsSelect';
 import { ExperimentTargets } from '../../../../utils/Constants';
 import TrainOptionsSelect from './TrainOptionsSelect';
 import Checkbox from '../../../../components/utils/checkbox/Checkbox';
+import LogicConfig from './LogicConfig';
 
 
 export default class extends BaseComponent {
@@ -164,6 +165,11 @@ export default class extends BaseComponent {
                     targets={targets}
                     onChange={this.handleInputChange}
                   />
+                </Col>
+              </Row>
+              <Row>
+                <Col size="6" className="mt-3">
+                  <LogicConfig />
                 </Col>
               </Row>
               <Row>

@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import StylePropType from 'react-style-proptype';
 import BaseComponent from '../../BaseComponent';
 import './ItemList.scss';
 import { groupBy } from '../../../utils';
@@ -8,16 +11,24 @@ import TimeAgo from '../time-ago/TimeAgo';
 
 
 export default class ItemList extends BaseComponent {
-  get groupKey() {
-    return this.props.groupKey || 'post._id';
-  }
-
   get items() {
     return this.props.items || [];
   }
 
-  get row() {
-    return this.props.row || false;
+  get isRow() {
+    return this.props.isRow || false;
+  }
+
+  get itemKey() {
+    return this.props.itemKey || '_id';
+  }
+
+  get groupKey() {
+    return this.props.groupKey || 'post._id';
+  }
+
+  get baseClass() {
+    return this.props.baseClass || 'item-list';
   }
 
   getItemLabel(item) {
@@ -33,35 +44,50 @@ export default class ItemList extends BaseComponent {
       || this.renderItemContent(item);
   }
 
-  findItemById(id) {
-    return this.items.find(item => item._id === id);
+  findItemByKey(itemKey) {
+    return this.items.find(item => item[this.itemKey] === itemKey);
   }
 
   constructor(props) {
     super(props);
-    this.bind(this.handleClickItem);
-    this.state = {
-      isOpen: true
-    };
+    this.bind(this.handleItemClick);
   }
 
-  handleClickItem(event) {
-    const { currentTarget: { id } } = event;
-    const item = this.findItemById(id);
+  handleItemClick(event) {
+    const { currentTarget: { id: itemKey } } = event;
+    const item = this.findItemByKey(itemKey);
     this.dispatchEvent(this.Events.select, item);
   }
 
-  renderItemGroup(items) {
-    const { length } = items;
-    return this.renderItem(items[0], null, (
-      <div className="item-list__item__group">
-        {items.map((item, index) => (
+  renderItems() {
+    const { items, groupKey } = this;
+    let groupedItems;
+    if (items) {
+      groupedItems = groupBy(items, groupKey);
+    }
+    if (!groupedItems) {
+      return null;
+    }
+    return (
+      Object.values(groupedItems).map(groupedItem => (
+        (groupedItem.length == null || groupedItem.length === 1)
+          ? this.renderItem(groupedItem[0] || groupedItem)
+          : this.renderItemGroup(groupedItem)
+      ))
+    );
+  }
+
+  renderItemGroup(itemsInGroup) {
+    const { length } = itemsInGroup;
+    return this.renderItem(itemsInGroup[0], null, (
+      <div className={`${this.baseClass}__item__group`}>
+        {itemsInGroup.map((item, index) => (
           <div
             key={item._id}
-            className="item-list__item__group__index"
+            className={`${this.baseClass}__item__group__index`}
             tabIndex="-1"
             id={item._id}
-            onClick={this.handleClickItem}
+            onClick={this.handleItemClick}
             title={TimeAgo.fromNowDetailLn(item.createdAt)}
           >{length - index}
           </div>
@@ -76,12 +102,12 @@ export default class ItemList extends BaseComponent {
     return (
       <div
         key={_id}
-        className="item-list__item d-flex"
+        className={`${this.baseClass}__item d-flex`}
         tabIndex="-1"
       >
         {beforeContent}
         {this.renderBeforeItem(item)}
-        {icon && <div className="item-list__item__icon mr-2">{icon}</div>}
+        {icon && <div className={`${this.baseClass}____item__icon mr-2`}>{icon}</div>}
         <div>
           {this.getItemContent(item)}
         </div>
@@ -104,10 +130,10 @@ export default class ItemList extends BaseComponent {
     return (
       <React.Fragment>
         <div
-          className="item-list__item__link"
+          className={`${this.baseClass}__item__link`}
           tabIndex="-1"
           id={_id}
-          onClick={this.handleClickItem}
+          onClick={this.handleItemClick}
         >
           {this.getItemLabel(item)}
         </div>
@@ -117,28 +143,63 @@ export default class ItemList extends BaseComponent {
   }
 
   render() {
-    const { items } = this;
-    const { className } = this.props;
-    let groupedItems;
-    if (items) {
-      groupedItems = groupBy(items, this.groupKey);
-    }
-    if (!groupedItems) {
-      return null;
-    }
+    const {
+      className, noStyle = false, style, addable
+    } = this.props;
+    const { baseClass } = this;
+
     return (
-      <div className={classnames(
-        'item-list d-flex flex-fill',
-        className,
-        this.row ? 'horizontal flex-wrap' : 'vertical flex-column'
-      )}
+      <div
+        className={classNames(
+          { [baseClass]: !noStyle },
+          'd-flex flex-fill',
+          className,
+          this.isRow ? 'horizontal flex-wrap' : 'vertical flex-column'
+        )}
+        style={style}
       >
-        {Object.values(groupedItems).map(groupedItem => (
-          (groupedItem.length == null || groupedItem.length === 1)
-            ? this.renderItem(groupedItem[0] || groupedItem)
-            : this.renderItemGroup(groupedItem)
-        ))}
+        {this.renderItems()}
+        {addable && (
+          <div>{this.props.children}</div>
+        )}
       </div>
     );
   }
 }
+
+ItemList.propTypes = {
+  items: PropTypes.array.isRequired,
+
+  isRow: PropTypes.bool,
+  itemKey: PropTypes.string,
+  groupKey: PropTypes.string,
+  baseClass: PropTypes.string,
+  className: PropTypes.string,
+  style: StylePropType,
+  noStyle: PropTypes.bool,
+
+  labelProvider: PropTypes.func,
+  iconProvider: PropTypes.func,
+  itemContentProvider: PropTypes.func,
+
+  addable: PropTypes.bool,
+  // eslint-disable-next-line react/no-unused-prop-types
+  onSelect: PropTypes.func
+};
+
+ItemList.defaultProps = {
+  isRow: false,
+  itemKey: '',
+  groupKey: '',
+  baseClass: '',
+  className: '',
+  style: null,
+  noStyle: false,
+
+  labelProvider: null,
+  iconProvider: null,
+  itemContentProvider: null,
+
+  addable: false,
+  onSelect: null
+};

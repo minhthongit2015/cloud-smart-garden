@@ -7,7 +7,7 @@ export default class extends BaseComponent.Pure {
   render() {
     const {
       batchSize, epochs
-    } = this.InputValue;
+    } = this.InputValues;
     const {
       opochsName = 'epochs',
       batchSizeName = 'batchSize'

@@ -1,4 +1,10 @@
 [ignore]
+.*/node_modules/.*
+.*/test/.*
+.*/scripts/.*
+.*/examples/.*
+.*/benchmarks/.*
+.*/BaseCompoment.jsx
 
 [include]
 

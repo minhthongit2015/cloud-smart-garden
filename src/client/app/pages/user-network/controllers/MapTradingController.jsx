@@ -1,12 +1,11 @@
-import BaseComponent from '../../../components/BaseComponent';
 import BaseMapController from './BaseMapController';
+import { bindMethods } from '../../../utils';
 
 
 export default class extends BaseMapController {
   static init(userNetwork) {
     super.init(userNetwork);
-    BaseComponent.bindMethods(this,
-      this.handleSelectToBuy);
+    bindMethods(this, this.handleSelectToBuy);
   }
 
   static handleSelectToBuy(event, item, marker) {

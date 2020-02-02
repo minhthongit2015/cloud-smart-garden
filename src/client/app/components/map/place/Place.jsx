@@ -9,9 +9,7 @@ import './Place.scss';
 import { FarmSrc as FarmIconSrc } from '../../../../assets/icons';
 import { FarmImgSrc } from '../../../../assets/images';
 
-/**
- * @augments {Component<Props, State>}
- */
+
 export default class Place extends MarkerWithPopup {
   get place() {
     return this.props.place;

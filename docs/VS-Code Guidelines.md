@@ -30,11 +30,13 @@
    
    > Khôi phục phím tắt mặc định bằng cách xóa nội dung file `keybinding.json` (Mở file đó bằng `Ctrl + Shift + P` > `Open Keyboard Shortcuts (JSON)`)
 2. Tiện ích
-   - ESLint
-   - vscode-icons
-   - Auto Close Tag
-   - Auto Rename Tag
-   - Arduino
+   - `ESLint`
+   - `Reactjs code snippets`
+   - `React PropTypes Intellisense` + `Flow language support`
+   - `vscode-icons`
+   - `Auto Close Tag`
+   - `Auto Rename Tag`
+   - `Arduino`
 4. Cài phím tắt
    - [`Ctrl + L` + `Ctrl + L`] để xóa `terminal` (`Click chuột phải` > đặt `when` thành `"terminalFocus"`)
 5. Cài đặt khác

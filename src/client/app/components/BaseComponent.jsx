@@ -1,6 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { dispatchEvent, buildEvent } from '../utils';
+import {
+  dispatchEvent, buildEvent, bindMethods, getCachedValue
+} from '../utils';
 import { EventInterface } from '../utils/Interfaces';
 import Random from '../utils/Random';
 
@@ -20,7 +22,7 @@ const Events = {
   fetch: { typez: 'fetch' },
   fetched: { typez: 'fetched' },
   fetchError: { typez: 'fetch error' },
-  select: { typez: 'select' },
+  select: new EventInterface({ typez: 'select' }),
   submit: { typez: 'submit' },
   submited: { typez: 'submited' }
 };
@@ -66,71 +68,59 @@ class PureComponent extends React.PureComponent {
     return this._id;
   }
 
+  get InputValues() {
+    if (!this._InputValues) {
+      this._InputValues = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          return target.props[prop] || (target.state && target.state[prop]);
+        }
+      });
+    }
+    return this._InputValues;
+  }
+
+  get defaultTrue() {
+    if (!this._defaultTrue) {
+      this._defaultTrue = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          return getCachedValue(prop, true);
+        }
+      });
+    }
+    return this._defaultTrue;
+  }
+
+  get CachedValues() {
+    if (!this._CachedValues) {
+      this._CachedValues = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          if (prop === 'defaultTrue') return target.defaultTrue;
+          return getCachedValue(prop);
+        }
+      });
+    }
+    return this._CachedValues;
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.InputValue = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        return target.props[prop] || (target.state && target.state[prop]);
-      }
-    });
-    this.defaultTrue = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        return target.constructor.getCachedValue(prop, true);
-      }
-    });
-    this.CachedValues = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        if (prop === 'defaultTrue') return target.defaultTrue;
-        return target.constructor.getCachedValue(prop);
-      }
-    });
-  }
-
-  static getCachedValue(prop, defaultValue) {
-    try {
-      return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
-    } catch {
-      return localStorage[prop];
-    }
   }
 
   bind(...methods) {
-    this.constructor.bindMethods(this, ...methods);
-  }
-
-  static bindMethods(_this, ...methods) {
-    methods.forEach((method) => {
-      _this[this.findMethodName(_this, method)] = method.bind(_this);
-    });
-  }
-
-  static findMethodName(_this, method) {
-    let object = _this;
-    do {
-      const methodNames = Object.getOwnPropertyNames(object);
-      if (!methodNames) break;
-
-      const foundMethodIndex = methodNames.findIndex(methodName => _this[methodName] === method);
-      if (foundMethodIndex >= 0) {
-        return methodNames[foundMethodIndex];
-      }
-
-      object = Object.getPrototypeOf(object);
-    } while (object);
-    return null;
+    bindMethods(this, ...methods);
   }
 
   stopEvent(event) {
     if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
-  dispatchEvent(event = { ...EventInterface }, ...args) {
+  dispatchEvent(event = new EventInterface(), ...args) {
     dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
-  buildAndDispatchEvent(event = { ...EventInterface }, value, name, ...args) {
+  buildAndDispatchEvent(event = new EventInterface(), value, name, ...args) {
     this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
 
@@ -167,7 +157,7 @@ class PureComponent extends React.PureComponent {
   }
 }
 
-class BaseComponent extends React.Component {
+export default class BaseComponent extends React.Component {
   static get Pure() {
     return PureComponent;
   }
@@ -191,71 +181,59 @@ class BaseComponent extends React.Component {
     return this._id;
   }
 
+  get InputValues() {
+    if (!this._InputValues) {
+      this._InputValues = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          return target.props[prop] || (target.state && target.state[prop]);
+        }
+      });
+    }
+    return this._InputValues;
+  }
+
+  get defaultTrue() {
+    if (!this._defaultTrue) {
+      this._defaultTrue = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          return getCachedValue(prop, true);
+        }
+      });
+    }
+    return this._defaultTrue;
+  }
+
+  get CachedValues() {
+    if (!this._CachedValues) {
+      this._CachedValues = new Proxy(this, {
+        get(target, prop/* , receiver */) {
+          if (prop === 'defaultTrue') return target.defaultTrue;
+          return getCachedValue(prop);
+        }
+      });
+    }
+    return this._CachedValues;
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.InputValue = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        return target.props[prop] || (target.state && target.state[prop]);
-      }
-    });
-    this.defaultTrue = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        return target.constructor.getCachedValue(prop, true);
-      }
-    });
-    this.CachedValues = new Proxy(this, {
-      get(target, prop/* , receiver */) {
-        if (prop === 'defaultTrue') return target.defaultTrue;
-        return target.constructor.getCachedValue(prop);
-      }
-    });
-  }
-
-  static getCachedValue(prop, defaultValue) {
-    try {
-      return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
-    } catch {
-      return localStorage[prop];
-    }
   }
 
   bind(...methods) {
-    this.constructor.bindMethods(this, ...methods);
-  }
-
-  static bindMethods(_this, ...methods) {
-    methods.forEach((method) => {
-      _this[this.findMethodName(_this, method)] = method.bind(_this);
-    });
-  }
-
-  static findMethodName(_this, method) {
-    let object = _this;
-    do {
-      const methodNames = Object.getOwnPropertyNames(object);
-      if (!methodNames) break;
-
-      const foundMethodIndex = methodNames.findIndex(methodName => _this[methodName] === method);
-      if (foundMethodIndex >= 0) {
-        return methodNames[foundMethodIndex];
-      }
-
-      object = Object.getPrototypeOf(object);
-    } while (object);
-    return null;
+    bindMethods(this, ...methods);
   }
 
   stopEvent(event) {
     if (event) { event.stopPropagation(); event.preventDefault(); }
   }
 
-  dispatchEvent(event = { ...EventInterface }, ...args) {
+  dispatchEvent(event = new EventInterface(), ...args) {
     dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
-  buildAndDispatchEvent(event = { ...EventInterface }, value, name, ...args) {
+  buildAndDispatchEvent(event = new EventInterface(), value, name, ...args) {
     this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
 
@@ -291,6 +269,3 @@ class BaseComponent extends React.Component {
     return this.dispatchEvent(event);
   }
 }
-
-
-export default BaseComponent;

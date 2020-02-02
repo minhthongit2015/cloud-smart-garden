@@ -10,7 +10,7 @@ export default class extends BaseComponent.Pure {
     super(props);
     const { name = 'datasets' } = this.props;
     this.handleDatasetSelect = this.handleInputChange.bind(this, name);
-    const { datasets } = this.InputValue;
+    const { datasets } = this.InputValues;
     this.state = {
       datasets,
       datasetOptions: []
@@ -41,7 +41,7 @@ export default class extends BaseComponent.Pure {
 
   render() {
     const { name = 'datasets' } = this.props;
-    const { datasetOptions, datasets } = this.InputValue;
+    const { datasetOptions, datasets } = this.InputValues;
     return (
       <div className="mt-2">
         <label htmlFor={name}>Dataset</label>

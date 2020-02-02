@@ -96,14 +96,16 @@ module.exports = class extends PostService {
   }
 
   static async save(model, experimentId, target) {
-    if (!model) return null;
-    const targetKey = target && target.key ? `${target.key}` : '';
-    return ModelService.save(model, `${experimentId}-${targetKey}`);
+    return ModelService.save(model, this._getModelPath(experimentId, target));
   }
 
   static async load(experimentId, target) {
-    const targetKey = target && target.key ? `${target.key}` : '';
-    return ModelService.load(`${experimentId}-${targetKey}`);
+    return ModelService.load(this._getModelPath(experimentId, target));
+  }
+
+  static _getModelPath(experimentId, target) {
+    const targetKey = target && target.key ? `${target.key}` : (target || '');
+    return `${experimentId}-${targetKey}`;
   }
 
   static async test(opts = {}) {

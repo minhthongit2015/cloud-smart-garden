@@ -22,7 +22,7 @@ export default class extends ItemList {
           className="item-list__item__link"
           tabIndex="-1"
           id={_id}
-          onClick={this.handleClickItem}
+          onClick={this.handleItemClick}
         >
           {this.getItemLabel(item)}
         </div>

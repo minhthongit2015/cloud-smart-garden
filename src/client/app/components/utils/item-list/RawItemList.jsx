@@ -22,7 +22,7 @@ export default class extends ItemList {
             className="item-list__item__link"
             tabIndex="-1"
             id={item._id}
-            onClick={this.handleClickItem}
+            onClick={this.handleItemClick}
           >
             <div className="item-list__item__preview">
               <img src={item.picture} alt={name} />

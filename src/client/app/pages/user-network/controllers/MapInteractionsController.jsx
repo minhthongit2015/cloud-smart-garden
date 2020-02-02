@@ -1,12 +1,12 @@
-import BaseComponent from '../../../components/BaseComponent';
 import MapService from '../../../services/map/MapService';
 import BaseMapController from './BaseMapController';
+import { bindMethods } from '../../../utils';
 
 
 export default class extends BaseMapController {
   static init(userNetwork) {
     super.init(userNetwork);
-    BaseComponent.bindMethods(this,
+    bindMethods(this,
       this.handleMapClick, this.handleRightClick, this.handleZoomChange, this.handleHotkeys,
       this.handleOpenMarker, this.handleCloseMarker,
       this.handleOpenPanel, this.handleClosePanel, this.handleClickPanel);

@@ -9,7 +9,7 @@ export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
     this.bind(this.handleTargetChange, this.dispatchTargetChangeEvent);
-    const { targets } = this.InputValue;
+    const { targets } = this.InputValues;
     this.state = {
       targets
     };
@@ -41,7 +41,7 @@ export default class extends BaseComponent.Pure {
 
   render() {
     const { name: inputName = 'targets' } = this.props;
-    const { targets } = this.InputValue;
+    const { targets } = this.InputValues;
 
     return (
       <Row>

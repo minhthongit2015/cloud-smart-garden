@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable no-plusplus */
 const _ = require('lodash');
 const { EventInterface } = require('./Interfaces');
@@ -142,11 +143,11 @@ function sentenceCase(str) {
     .replace(/(?:^[^a-z]*)([a-z])/gi, (...args) => args[1].toLocaleUpperCase());
 }
 
-function toEventName(event = { ...EventInterface }) {
+function toEventName(event = new EventInterface()) {
   return camelize(`on ${event.typez || event.type}`);
 }
 
-function dispatchEvent(event = { ...EventInterface }, { listeners, eventTypesMap }, ...args) {
+function dispatchEvent(event = new EventInterface(), { listeners, eventTypesMap }, ...args) {
   if (eventTypesMap && event && event.type) {
     event.typez = eventTypesMap[event.type] || event.typez;
   }
@@ -156,7 +157,7 @@ function dispatchEvent(event = { ...EventInterface }, { listeners, eventTypesMap
   }
 }
 
-function buildEvent(event = { ...EventInterface }, value, name) {
+function buildEvent(event = new EventInterface(), value, name) {
   if (!(event instanceof Event)) {
     event = { ...event };
   }

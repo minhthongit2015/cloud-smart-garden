@@ -1,16 +1,16 @@
-import BaseComponent from '../../../components/BaseComponent';
 import BaseMapController from './BaseMapController';
 import UserService from '../../../services/user/UserService';
 import t from '../../../languages';
 import MapService from '../../../services/map/MapService';
 import MapUtils from '../../../utils/MapUtils';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
+import { bindMethods } from '../../../utils';
 
 
 export default class extends BaseMapController {
   static init(userNetwork) {
     super.init(userNetwork);
-    BaseComponent.bindMethods(this,
+    bindMethods(this,
       this.handleMoveMarker, this.handleContextActions,
       this.handleLeftToolbarAction, this.handleRightToolbarAction);
   }

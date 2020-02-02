@@ -11,6 +11,40 @@ export {
 } from '../../../server/utils';
 
 
+export function findMethodName(target, method) {
+  let object = target;
+  do {
+    const methodNames = Object.getOwnPropertyNames(object);
+    if (!methodNames) break;
+
+    const foundMethodIndex = methodNames.findIndex(methodName => target[methodName] === method);
+    if (foundMethodIndex >= 0) {
+      return methodNames[foundMethodIndex];
+    }
+
+    object = Object.getPrototypeOf(object);
+  } while (object);
+  return null;
+}
+
+export function bindMethods(target, ...methods) {
+  methods.forEach((method) => {
+    if (!method) {
+      console.error('Undefined method!');
+      return;
+    }
+    target[findMethodName(target, method)] = method.bind(target);
+  });
+}
+
+export function getCachedValue(prop, defaultValue) {
+  try {
+    return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
+  } catch {
+    return localStorage[prop];
+  }
+}
+
 export function groupBy(array, property = '_id') {
   if (!array || !property) return null;
   if (!array.length) return {};
@@ -161,6 +195,8 @@ console.test = (func, iteration = 10 ** 6) => {
 };
 
 export default {
+  findMethodName,
+  bindMethods,
   groupBy,
   loadImage
 };
