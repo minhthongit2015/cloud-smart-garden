@@ -1,51 +1,52 @@
 import React from 'react';
 import './FixedRatioImage.scss';
+import './FrameStyles.scss';
+import { MDBWaves } from 'mdbreact';
 
 
-export default (props) => {
-  const {
-    wrapperClass = '', className = '', icon, ratio = 1, src, backgroundType, style = {}, ...restProps
-  } = props;
+export default ({
+  wrapperClass = '', className = '', backgroundType = 'cover', style = {},
+  frame = 'none' || 'rounded' || 'slash' || 'circle', interactive = false,
+  ratio = 1, icon: Icon, src, ...restProps
+}) => {
+  const [cursorPos, setCursorPos] = React.useState({});
+  function handleClick(event) {
+    event.stopPropagation();
+    setCursorPos({
+      top: event.clientY,
+      left: event.clientX,
+      time: Date.now()
+    });
+  }
   return (
-    <div className={`fixed-ration-image-wrapper m-auto ${wrapperClass}`}>
-      {icon ? (
+    <div
+      className={`fixed-ratio-image__wrapper m-auto ${wrapperClass || ''} frame-${frame || ''}`}
+      onClick={handleClick}
+    >
+      {Icon ? (
         <div
           {...restProps}
-          className={`fixed-ration-image ${className || ''}`}
+          className={`fixed-ratio-image ${className || ''}`}
           style={{
-            width: '100%',
-            height: '0',
-            paddingTop: `${(ratio && ratio * 100) || 100}%`,
-            position: 'relative'
+            paddingTop: `${(ratio && ratio * 100) || 100}%`
           }}
         >
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-          >
-            <props.icon style={{ maxWith: '100%', maxHeight: '100%', flex: 1 }} />
+          <div className="fixed-ratio-image__icon-wrapper">
+            <Icon style={{ maxWith: '100%', maxHeight: '100%', flex: 1 }} />
           </div>
         </div>
       ) : (
         <div
           {...restProps}
-          className={`fixed-ration-image ${className}`}
+          className={`fixed-ratio-image ${className}`}
           style={{
-            ...(style),
-            width: '100%',
-            height: '0',
+            ...style,
             paddingTop: `${(ratio && ratio * 100) || 100}%`,
             background: `url("${src}") center center/${backgroundType || 'cover'} no-repeat`
           }}
         />
       )}
+      <MDBWaves cursorPos={cursorPos} />
     </div>
   );
 };

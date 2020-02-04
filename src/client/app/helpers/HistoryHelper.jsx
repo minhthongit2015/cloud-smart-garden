@@ -45,6 +45,14 @@ export default class HistoryHelper {
   }
 
   static push(url = window.location.href, state, title = document.title) {
+    if (!window.handled
+      && performance.navigation.type === performance.navigation.TYPE_RELOAD
+      && url !== this.pureUrl) {
+      window.handled = true;
+      this.replace(url, state, title);
+      return;
+    }
+
     if (url === window.location.href) {
       if (title !== document.title) {
         window.history.pushState(state, title, url);

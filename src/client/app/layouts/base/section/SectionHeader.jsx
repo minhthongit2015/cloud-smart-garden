@@ -1,11 +1,19 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import classNames from 'classnames';
 import './SectionHeader.scss';
 
-export default class SectionHeader extends Component {
+export default class SectionHeader extends PureComponent {
   render() {
-    const { className, ...restProps } = this.props;
+    const { className, centered, ...restProps } = this.props;
     return (
-      <div className={`base-section__header ${className || ''}`} {...restProps} />
+      <div
+        className={classNames(
+          'base-section__header',
+          className,
+          { 'text-center': centered }
+        )}
+        {...restProps}
+      />
     );
   }
 }

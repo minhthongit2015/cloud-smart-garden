@@ -20,7 +20,7 @@ exports.BuildExperimentRequest = class {
   batchSize = 0;
 
   highResolution = false;
-  saveModel = false;
+  continuous = false;
 };
 
 exports.ExperimentTarget = class {

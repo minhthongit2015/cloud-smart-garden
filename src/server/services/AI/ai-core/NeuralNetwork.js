@@ -5,7 +5,7 @@ module.exports = class Neural {
   static createSequentialModel({
     numFeature,
     numOutputs,
-    layers = [32, 24, 12]
+    layers = []
   }) {
     if (!layers || layers.length < 2) return null;
     const model = tf.sequential({
@@ -22,7 +22,7 @@ module.exports = class Neural {
     numFeatures,
     numOutputs,
     activation,
-    layers = [32, 24, 12]
+    layers = []
   }) {
     const inputLayer = tf.input({ shape: [numFeatures], activation });
     const lastMiddleLayer = layers

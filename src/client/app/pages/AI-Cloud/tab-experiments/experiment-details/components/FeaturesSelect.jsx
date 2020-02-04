@@ -1,10 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import BaseComponent from '../../../../components/BaseComponent';
-import Random from '../../../../utils/Random';
-import Place from '../../../../components/map/place/Place';
-import ItemList from '../../../../components/utils/item-list/ItemList';
-import RawItemList from '../../../../components/utils/item-list/RawItemList';
+import BaseComponent from '../../../../../components/BaseComponent';
+import Random from '../../../../../utils/Random';
+import ItemList from '../../../../../components/utils/item-list/ItemList';
 
 
 export default class extends BaseComponent.Pure {

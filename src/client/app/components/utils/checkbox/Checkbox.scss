@@ -1,6 +1,10 @@
 
 .my-checkbox {
   cursor: pointer;
+  margin-bottom: 0;
+  line-height: .9rem;
+  vertical-align: middle;
+  
   &__label {
     display: inline-flex;
     align-items: center;

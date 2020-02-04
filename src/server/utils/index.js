@@ -178,16 +178,51 @@ function get(object, prop) {
 }
 
 /**
- * @param {'key'} toKeyProp
+ * @param {'key'} toValueKey
  */
-function autoKey(object, toKeyProp = 'key') {
+function autoKey(object, valueKey = 'key') {
   if (!object || typeof object !== 'object') return null;
   Object.entries(object).forEach(([key, prop]) => {
-    prop[toKeyProp] = key;
+    prop[valueKey] = key;
   });
   return object;
 }
 
+function sameKey(object1, object2, valueKey = 'key', targetValueKey = 'key') {
+  if (!object1 || typeof object1 !== 'object'
+    || !object2 || typeof object2 !== 'object') return null;
+  return object1[valueKey] === object2[targetValueKey];
+}
+
+function findByKey(object, inMapOrArray, valueKey = 'key', targetValueKey = 'key') {
+  const targetKey = targetValueKey == null ? valueKey : targetValueKey;
+  return Array.isArray(inMapOrArray)
+    ? inMapOrArray.find(item => sameKey(item, object, targetKey, valueKey))
+    : (inMapOrArray[object[valueKey]]
+      || Object.values(inMapOrArray).find(item => sameKey(item, object, targetKey, valueKey)));
+}
+
+
+function toOptions(objects = [], valueKey = 'key', labelKey = 'name', toValueKey = 'value', toLabelKey = 'label') {
+  if (!objects) return objects;
+  const objectArray = Array.isArray(objects)
+    ? objects
+    : Object.values(objects);
+  return objectArray.map(
+    object => (
+      toValueKey in object && toLabelKey in object
+        ? object
+        : {
+          [toValueKey]: object.value || object[valueKey],
+          [toLabelKey]: object.label || object[labelKey]
+        }
+    )
+  );
+}
+
+function fromOptions(objects = [], valueKey = 'value', labelKey = 'label') {
+  return toOptions(objects, valueKey, labelKey, 'key', 'name');
+}
 
 /**
  * Do not use! (not completed yet)
@@ -226,5 +261,9 @@ module.exports = {
   buildEvent,
   get,
   autoKey,
+  findByKey,
+  sameKey,
+  toOptions,
+  fromOptions,
   flattenObject
 };

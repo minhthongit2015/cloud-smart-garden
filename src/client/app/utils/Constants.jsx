@@ -8,8 +8,10 @@ export {
 
   // AI
   ExperimentTargets,
+  ExperimentTargetTypes,
   Algorithms,
   Optimizers,
   Losses,
-  Activations
+  Activations,
+  DataUtils
 } from '../../../server/utils/Constants';

@@ -1,11 +1,14 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import BaseComponent from '../../../../components/BaseComponent';
-import DatasetService from '../../../../services/AI/DatasetService';
+import BaseComponent from '../../../../../components/BaseComponent';
+import DatasetService from '../../../../../services/AI/DatasetService';
+import { toOptions } from '../../../../../utils';
 
 
-export default class extends BaseComponent.Pure {
+export default class DatasetSelect extends BaseComponent {
   constructor(props) {
     super(props);
     const { name = 'datasets' } = this.props;
@@ -20,7 +23,7 @@ export default class extends BaseComponent.Pure {
   componentDidMount() {
     DatasetService.fetchDatasets()
       .then((res) => {
-        const datasets = this.resolveDatasets(res.data);
+        const datasets = toOptions(res.data, '_id', 'title');
         this.setState({
           datasetOptions: datasets,
           datasets: datasets.slice(0, 1)
@@ -30,21 +33,11 @@ export default class extends BaseComponent.Pure {
       });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  resolveDatasets(datasets) {
-    datasets.forEach((dataset) => {
-      dataset.value = dataset._id;
-      dataset.label = dataset.title;
-    });
-    return datasets;
-  }
-
   render() {
-    const { name = 'datasets' } = this.props;
+    const { name = 'datasets', className } = this.props;
     const { datasetOptions, datasets } = this.InputValues;
     return (
-      <div className="mt-2">
-        <label htmlFor={name}>Dataset</label>
+      <div className={className || ''}>
         <Select
           id={name}
           name={name}
@@ -58,3 +51,19 @@ export default class extends BaseComponent.Pure {
     );
   }
 }
+
+DatasetSelect.propTypes = {
+  name: PropTypes.string,
+  className: PropTypes.string,
+  datasets: PropTypes.array,
+  options: PropTypes.array,
+  onChange: PropTypes.func
+};
+
+DatasetSelect.defaultProps = {
+  name: 'datasets',
+  className: '',
+  datasets: null,
+  options: null,
+  onChange: null
+};

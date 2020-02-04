@@ -6,3 +6,19 @@
 .link.hover-light-red:hover {
   background-image: linear-gradient(90deg, $color-red-light 0, $color-red-light);
 }
+
+.hover-red:hover {
+  color: $color-red !important;
+}
+.hover-green:hover {
+  color: $color-green !important;
+}
+.hover-orange:hover {
+  color: $color-orange !important;
+}
+.hover-blue:hover {
+  color: $color-blue !important;
+}
+.hover-purple:hover {
+  color: $color-purple !important;
+}

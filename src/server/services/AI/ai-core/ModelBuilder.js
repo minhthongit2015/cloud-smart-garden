@@ -1,5 +1,6 @@
 const { TrainingSetInterface, BuildOptionsInterface } = require('../utils/AITypes');
 const NeralNetwork = require('./NeuralNetwork');
+const AlgorithmMapper = require('../utils/AlgorithmMapper');
 
 
 module.exports = class {
@@ -18,7 +19,7 @@ module.exports = class {
     const model = NeralNetwork.buildModel({
       numFeatures,
       numOutputs,
-      activation: buildOpts.activation,
+      activation: AlgorithmMapper(buildOpts.activation),
       layers: buildOpts.layers
     });
     return this.compileModel(model, buildOpts);
@@ -29,8 +30,8 @@ module.exports = class {
     compileOpts = { ...BuildOptionsInterface }
   ) {
     model.compile({
-      optimizer: compileOpts.optimizer,
-      loss: compileOpts.loss,
+      optimizer: AlgorithmMapper(compileOpts.optimizer),
+      loss: AlgorithmMapper(compileOpts.loss),
       metrics: compileOpts.metrics || ['accuracy']
     });
     return model;

@@ -1,21 +1,24 @@
 /* eslint-disable no-tabs */
 import React from 'react';
 import './IconCheckbox.scss';
+import Random from '../../../app/utils/Random';
+
 
 export default React.memo((props) => {
   const { checked, ...restProps } = props;
+  const backgroundId = Random.hex();
   return (
     <svg
       viewBox="0 0 474.8 474.801"
       style={{ enableBackground: 'new 0 0 474.8 474.801' }}
       {...restProps}
     >
-      <linearGradient id="SVG_DreamWhiteGradient" gradientUnits="userSpaceOnUse" x1="0" y1="258" x2="512" y2="258" gradientTransform="matrix(1 0 0 -1 0 514)">
+      <linearGradient id={backgroundId} gradientUnits="userSpaceOnUse" x1="0" y1="258" x2="512" y2="258" gradientTransform="matrix(1 0 0 -1 0 514)">
         <stop offset="0" stopColor="#80D8FF" />
         <stop offset="1" stopColor="#EA80FC" />
       </linearGradient>
       <path
-        fill="url(#SVG_DreamWhiteGradient)"
+        fill={`url(#${backgroundId})`}
         style={{ transition: 'd .3s ease-in-out' }}
         className={`icon-checkbox__box ${checked ? 'checked' : ''}`}
         d="M396.8,93.5c-2.1-5.6-5.5-10.5-5.5-10.5s-8.7-14-12.3-17.4l-26.1,22.1c11.1,12,12.6,28.4,12.6,30.9v237.6
@@ -27,7 +30,7 @@ export default React.memo((props) => {
       />
       {checked && (
         <path
-          fill="url(#SVG_DreamWhiteGradient)"
+          fill={`url(#${backgroundId})`}
           d="M467.95,93.216l-31.409-31.409c-4.568-4.567-9.996-6.851-16.279-6.851c-6.275,0-11.707,2.284-16.271,6.851
     L219.265,246.532l-75.084-75.089c-4.569-4.57-9.995-6.851-16.274-6.851c-6.28,0-11.704,2.281-16.274,6.851l-31.405,31.405
     c-4.568,4.568-6.854,9.994-6.854,16.277c0,6.28,2.286,11.704,6.854,16.274l122.767,122.767c4.569,4.571,9.995,6.851,16.274,6.851

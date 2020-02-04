@@ -8,6 +8,7 @@ import BaseComponent from '../../BaseComponent';
 import './ItemList.scss';
 import { groupBy } from '../../../utils';
 import TimeAgo from '../time-ago/TimeAgo';
+import Random from '../../../utils/Random';
 
 
 export default class ItemList extends BaseComponent {
@@ -101,7 +102,7 @@ export default class ItemList extends BaseComponent {
     const icon = this.getItemIcon(item);
     return (
       <div
-        key={_id}
+        key={_id || Random.hex()}
         className={`${this.baseClass}__item d-flex`}
         tabIndex="-1"
       >
@@ -132,7 +133,7 @@ export default class ItemList extends BaseComponent {
         <div
           className={`${this.baseClass}__item__link`}
           tabIndex="-1"
-          id={_id}
+          id={_id || Random.hex()}
           onClick={this.handleItemClick}
         >
           {this.getItemLabel(item)}

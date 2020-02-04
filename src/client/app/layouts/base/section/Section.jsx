@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Section.scss';
 
-export default React.memo(({
+const Section = React.memo(({
   className, title, beautyFont, children, ...restProps
 }) => (
   <section
@@ -14,3 +15,26 @@ export default React.memo(({
     {children}
   </section>
 ));
+
+Section.propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.string,
+  beautyFont: PropTypes.bool
+};
+
+Section.defaultProps = {
+  className: '',
+  title: '',
+  beautyFont: false
+};
+
+export default ({
+  className, title, beautyFont, ...restProps
+}) => (
+  <Section
+    className={className}
+    title={title}
+    beautyFont={beautyFont}
+    {...restProps}
+  />
+);

@@ -39,12 +39,12 @@ module.exports = class {
 
     // Train
     function handleBatchEnd(batch, logs) {
-      console.log(`Batch: ${batch}, accuracy: ${logs.acc}`);
-      dispatchEvent(TrainEvents.batchEnd, { listeners }, { batch, accuracy: logs.acc });
+      logs.batch = batch;
+      dispatchEvent(TrainEvents.batchEnd, { listeners }, logs);
     }
     function handleEpochEnd(epoch, logs) {
-      console.log(`Epoch: ${epoch}, accuracy: ${logs.acc}`);
-      dispatchEvent(TrainEvents.epochEnd, { listeners }, { epoch, accuracy: logs.acc });
+      logs.epoch = epoch;
+      dispatchEvent(TrainEvents.epochEnd, { listeners }, logs);
     }
 
     if (global.model) {
@@ -56,7 +56,7 @@ module.exports = class {
     global.model = model;
     global.onTrainEnd = () => {};
 
-    dispatchEvent(TrainEvents.start, { listeners });
+    dispatchEvent(TrainEvents.trainBegin, { listeners });
     let info;
     try {
       info = await model.fitDataset(dataset, {
@@ -73,7 +73,8 @@ module.exports = class {
       delete global.model;
     }
     console.log('Final accuracy', info.history.acc);
-    dispatchEvent(TrainEvents.end, { listeners }, info.history.acc);
+    console.log('Final loss', info.history.loss);
+    dispatchEvent(TrainEvents.trainEnd, { listeners }, info.history);
 
     return info;
   }

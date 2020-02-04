@@ -14,13 +14,16 @@
 
 
 .text-pre-wrap {
-  white-space: pre-wrap;
+  white-space: pre-wrap !important;
 }
 
 .text-nowrap {
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 
 .text-middle {
-  vertical-align: middle;
+  vertical-align: middle !important;
+}
+.text-normal {
+  text-transform: unset !important;
 }

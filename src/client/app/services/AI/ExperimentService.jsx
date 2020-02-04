@@ -7,21 +7,21 @@ export default class ExperimentService {
     superrequest.post(ApiEndpoints.buildExperimentI(experimentId), buildOptions);
   }
 
-  static subscribeTrainingProgress(callback, onStart) {
-    superrequest.ws.off('training');
-    superrequest.ws.on('training', callback);
-    superrequest.ws.off('startTraining');
-    superrequest.ws.on('startTraining', onStart);
+  static subscribeTrainingProgress(onProgress, onBegin, onEnd) {
+    this.unsubscribeTrainingProgress();
+    superrequest.ws.on('trainProgress', onProgress);
+    superrequest.ws.on('trainBegin', onBegin);
+    superrequest.ws.on('trainEnd', onEnd);
   }
 
   static unsubscribeTrainingProgress() {
-    superrequest.ws.off('training');
-    superrequest.ws.off('startTraining');
+    superrequest.ws.off('trainProgress');
+    superrequest.ws.off('trainBegin');
+    superrequest.ws.off('trainEnd');
   }
 
   static stopTraining() {
-    superrequest.ws.off('training');
-    superrequest.ws.off('startTraining');
+    this.unsubscribeTrainingProgress();
     superrequest.post(ApiEndpoints.stopTraining);
   }
 }

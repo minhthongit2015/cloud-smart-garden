@@ -8,6 +8,7 @@ const {
 const DatasetService = require('./DatasetServ');
 const SyncService = require('../sync');
 const { BuildExperimentRequest, ExperimentTarget } = require('./utils/AITypes');
+const { findByKey } = require('../../utils');
 const BuiltInExperimentTargets = require('./BuiltInExperimentTargets');
 
 
@@ -21,13 +22,13 @@ module.exports = class extends PostService {
     const trainedModels = await Promise.all(
       opts.targets.map(async (target) => {
         let savedModel = null;
-        if (opts.saveModel) {
+        if (opts.continuous) {
           savedModel = await this.load(experimentId, target);
         }
         return this.buildAndTrainForTarget(target, dataset, savedModel, opts);
       })
     );
-    if (trainedModels && opts.saveModel) {
+    if (trainedModels) {
       await Promise.all(
         trainedModels.map(
           (trainedModel, index) => this.save(trainedModel, experimentId, opts.targets[index])
@@ -37,14 +38,10 @@ module.exports = class extends PostService {
     return trainedModels;
   }
 
-  static findExperimentTarget(target) {
-    return BuiltInExperimentTargets.find(targetI => targetI.key === target.key);
-  }
-
   static async buildAndTrainForTarget(
     target, dataset, savedModel, opts = new BuildExperimentRequest()
   ) {
-    const experimentTarget = this.findExperimentTarget(target);
+    const experimentTarget = findByKey(target, BuiltInExperimentTargets);
     if (!experimentTarget) return null;
 
     const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
@@ -72,16 +69,17 @@ module.exports = class extends PostService {
 
   static async trainModel(model, trainingSet, opts = new BuildExperimentRequest()) {
     return Trainer.train(model, trainingSet, opts, {
-      onBatchEnd: (event, { batch, accuracy }) => {
-        if (!opts.highResolution) return;
-        SyncService.emit('training', { batch, accuracy });
+      onBatchEnd: (event, info) => {
+        SyncService.emit('trainProgress', info);
       },
-      onEpochEnd: (event, { batch, accuracy }) => {
-        if (opts.highResolution) return;
-        SyncService.emit('training', { batch, accuracy });
+      onEpochEnd: (event, info) => {
+        SyncService.emit('trainProgress', info);
       },
-      onStart: () => {
-        SyncService.emit('startTraining');
+      onTrainBegin: (event, info) => {
+        SyncService.emit('trainBegin', info);
+      },
+      onTrainEnd: (event, info) => {
+        SyncService.emit('trainEnd', info);
       }
     });
   }

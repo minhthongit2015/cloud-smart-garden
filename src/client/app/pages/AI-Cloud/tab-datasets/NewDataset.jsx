@@ -31,7 +31,9 @@ export default class extends NewBlogPost {
 
   get formData() {
     const { days } = this.state;
-    return { ...super.formData, days };
+    const newDataset = { ...super.formData, days };
+    delete newDataset.records;
+    return newDataset;
   }
 
   get action() {

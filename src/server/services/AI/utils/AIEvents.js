@@ -1,8 +1,11 @@
 
 
 exports.TrainEvents = {
-  start: { typez: 'Start' },
+  trainBegin: { typez: 'Train Begin' },
+  trainEnd: { typez: 'Train End' },
+  batchBegin: { typez: 'Batch Begin' },
   batchEnd: { typez: 'Batch End' },
+  epochBegin: { typez: 'Epoch Begin' },
   epochEnd: { typez: 'Epoch End' },
-  end: { typez: 'End' }
+  yield: { typez: 'Yield' }
 };

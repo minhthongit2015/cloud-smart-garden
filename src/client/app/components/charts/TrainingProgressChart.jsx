@@ -12,7 +12,7 @@ export default class TrainingProgressChart extends Component {
       options: {
         chart: {
           id: this.id,
-          height: 300
+          height: 150
         },
         dataLabels: {
           enabled: false
@@ -86,15 +86,44 @@ export default class TrainingProgressChart extends Component {
     }
   }
 
+  updateOptions(isAccuracy) {
+    this.setState((prevState) => {
+      const { options } = prevState;
+      if (isAccuracy) {
+        Object.assign(options.yaxis, {
+          tickAmount: 4,
+          max: 1.0,
+          min: 0
+        });
+      } else {
+        Object.assign(
+          Array.isArray(options.yaxis) ? options.yaxis[0] : options.yaxis,
+          {
+            tickAmount: undefined,
+            max: undefined,
+            min: undefined
+          }
+        );
+      }
+      if (this.chartRef.chart) {
+        this.chartRef.chart.updateOptions(options);
+      }
+      return {
+        options
+      };
+    });
+  }
+
   render() {
     const { options, series } = this.state;
+
     return (
-      <div id="dataset-chart" className="apex chart-wrapper shadow mt-3 mb-2 pt-3 pr-2">
+      <div id="dataset-chart" className="apex chart-wrapper shadow pt-3 pr-2">
         <ApexChart
           ref={(ref) => { this.chartRef = ref; }}
           options={options}
           series={series}
-          height="300px"
+          height="150px"
           type="area"
         />
       </div>

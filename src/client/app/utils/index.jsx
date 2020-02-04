@@ -7,9 +7,23 @@ export {
   parseStringToNumber,
   camelize, sentenceCase,
   toEventName, dispatchEvent, buildEvent,
-  get
+  get, autoKey, findByKey, sameKey, toOptions, fromOptions, flattenObject
 } from '../../../server/utils';
 
+
+export function layersAsArray(layers) {
+  return Array.isArray(layers)
+    ? layers
+    : (layers || '').replace(/[^0-9,]/g, '')
+      .split(',').map(layer => +layer).filter(layer => layer);
+}
+
+export function layersAsString(layers) {
+  // eslint-disable-next-line no-nested-ternary
+  return typeof layers === 'string'
+    ? layers
+    : (Array.isArray(layers) ? layers.join(',') : '');
+}
 
 export function findMethodName(target, method) {
   let object = target;
@@ -50,7 +64,7 @@ export function groupBy(array, property = '_id') {
   if (!array.length) return {};
   const map = {};
   const unRecognizedItems = [];
-  if (!(property in array[0])) {
+  if (array[0][property] === undefined) {
     return array;
   }
   array.forEach((item) => {
@@ -195,6 +209,8 @@ console.test = (func, iteration = 10 ** 6) => {
 };
 
 export default {
+  layersAsArray,
+  layersAsString,
   findMethodName,
   bindMethods,
   groupBy,

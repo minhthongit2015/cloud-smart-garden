@@ -49,6 +49,7 @@ const ContactTypes = {
 
 // AI
 const AIConstants = require('../services/AI/utils/AIConstants');
+const DataUtils = require('../services/AI/utils/DataUtils');
 
 module.exports = {
   UserRole,
@@ -58,5 +59,6 @@ module.exports = {
   ContactTypes,
 
   // AI
-  ...AIConstants
+  ...AIConstants,
+  DataUtils
 };

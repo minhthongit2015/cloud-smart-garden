@@ -1,0 +1,26 @@
+
+.experiment-targets {
+  &.focusing &__target {
+    & > div:first-child {
+      transition: all .3s ease-in-out;
+    }
+
+    &:not(.focus) > div:first-child {
+      opacity: .6;
+      &:hover {
+        opacity: .9;
+      }
+    }
+
+    &:not(.focus) > div:nth-child(2) {
+      opacity: .6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &.focus > div:first-child {
+      filter: saturate(1.5);
+    }
+  }
+}

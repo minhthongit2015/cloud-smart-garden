@@ -22,9 +22,10 @@ const Events = {
   fetch: { typez: 'fetch' },
   fetched: { typez: 'fetched' },
   fetchError: { typez: 'fetch error' },
-  select: new EventInterface({ typez: 'select' }),
+  select: { typez: 'select' },
   submit: { typez: 'submit' },
-  submited: { typez: 'submited' }
+  submited: { typez: 'submited' },
+  progress: { typez: 'progress' }
 };
 
 const EventTypesMap = {
@@ -68,6 +69,9 @@ class PureComponent extends React.PureComponent {
     return this._id;
   }
 
+  /**
+   * this.props.value || this.state.value
+   */
   get InputValues() {
     if (!this._InputValues) {
       this._InputValues = new Proxy(this, {
@@ -79,27 +83,19 @@ class PureComponent extends React.PureComponent {
     return this._InputValues;
   }
 
-  get defaultTrue() {
-    if (!this._defaultTrue) {
-      this._defaultTrue = new Proxy(this, {
-        get(target, prop/* , receiver */) {
-          return getCachedValue(prop, true);
-        }
-      });
-    }
-    return this._defaultTrue;
-  }
-
   get CachedValues() {
     if (!this._CachedValues) {
       this._CachedValues = new Proxy(this, {
         get(target, prop/* , receiver */) {
-          if (prop === 'defaultTrue') return target.defaultTrue;
           return getCachedValue(prop);
         }
       });
     }
     return this._CachedValues;
+  }
+
+  getCachedValue(key, defaultValue) {
+    return getCachedValue(key, defaultValue);
   }
 
   constructor(props) {
@@ -181,6 +177,9 @@ export default class BaseComponent extends React.Component {
     return this._id;
   }
 
+  /**
+   * this.props.value || this.state.value
+   */
   get InputValues() {
     if (!this._InputValues) {
       this._InputValues = new Proxy(this, {
@@ -192,27 +191,19 @@ export default class BaseComponent extends React.Component {
     return this._InputValues;
   }
 
-  get defaultTrue() {
-    if (!this._defaultTrue) {
-      this._defaultTrue = new Proxy(this, {
-        get(target, prop/* , receiver */) {
-          return getCachedValue(prop, true);
-        }
-      });
-    }
-    return this._defaultTrue;
-  }
-
   get CachedValues() {
     if (!this._CachedValues) {
       this._CachedValues = new Proxy(this, {
         get(target, prop/* , receiver */) {
-          if (prop === 'defaultTrue') return target.defaultTrue;
           return getCachedValue(prop);
         }
       });
     }
     return this._CachedValues;
+  }
+
+  getCachedValue(key, defaultValue) {
+    return getCachedValue(key, defaultValue);
   }
 
   constructor(props) {
