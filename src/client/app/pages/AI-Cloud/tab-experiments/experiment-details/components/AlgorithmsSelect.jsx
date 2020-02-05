@@ -23,26 +23,26 @@ export default class extends BaseComponent {
   }
 
   handleSelectChange(name, value) {
-    const { target } = this.props;
-    target[name] = fromOptions(value);
+    const { editingTarget } = this.props;
+    editingTarget[name] = fromOptions(value);
     this.forceUpdate();
-    this.dispatchEvent(this.Events.change, target);
+    this.dispatchEvent(this.Events.change, editingTarget);
   }
 
   handleInputChange(event) {
     const { currentTarget: { name, value } } = event;
-    const { target } = this.props;
-    target[name] = value;
+    const { editingTarget } = this.props;
+    editingTarget[name] = value;
     this.forceUpdate();
-    this.dispatchEvent(this.Events.change, target);
+    this.dispatchEvent(this.Events.change, editingTarget);
   }
 
   render() {
-    const { target } = this.props;
+    const { editingTarget } = this.props;
     const {
       // algorithm,
       optimizers, losses, activations, layers
-    } = target || {};
+    } = editingTarget || {};
     const {
       // algorithmName = 'algorithm',
       optimizerName = 'optimizers',
@@ -51,7 +51,7 @@ export default class extends BaseComponent {
       layersName = 'layers'
     } = this.props;
 
-    const targetType = (target && target.type) || {};
+    const targetType = (editingTarget && editingTarget.type) || {};
     // const algorithmOpts = toOptions(targetType.algorithms);
     const optimizerOpts = toOptions(targetType.optimizers);
     const lossOpts = toOptions(targetType.losses);

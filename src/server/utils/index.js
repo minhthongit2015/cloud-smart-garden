@@ -151,6 +151,7 @@ function dispatchEvent(event = new EventInterface(), { listeners, eventTypesMap 
   if (eventTypesMap && event && event.type) {
     event.typez = eventTypesMap[event.type] || event.typez;
   }
+  event.type = event.type || event.typez;
   const listener = listeners[toEventName(event)];
   if (isFunction(listener)) {
     listener(event, ...args);

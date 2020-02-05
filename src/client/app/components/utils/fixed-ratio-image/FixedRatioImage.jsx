@@ -11,7 +11,6 @@ export default ({
 }) => {
   const [cursorPos, setCursorPos] = React.useState({});
   function handleClick(event) {
-    event.stopPropagation();
     setCursorPos({
       top: event.clientY,
       left: event.clientX,

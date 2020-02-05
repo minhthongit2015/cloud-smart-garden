@@ -25,10 +25,11 @@ export default class extends BaseComponent {
       this.handleAlgorithmsChange
     );
 
+    const targets = this.getCachedValue('targets', { ...ExperimentTargets });
     this.state = {
       experiment: props.data,
-      targets: { ...ExperimentTargets },
-      editingTarget: ExperimentTargets.light,
+      targets,
+      editingTarget: targets.light,
       datasets: [],
       isOpenEditingTarget: null
     };
@@ -41,13 +42,15 @@ export default class extends BaseComponent {
   }
 
   handleTargetChange(event) {
-    this.setState({
-      isOpenEditingTarget: true
-    });
+    this.setState(prevState => ({
+      isOpenEditingTarget: prevState.isOpenEditingTarget || event.typez === this.Events.change.typez
+    }));
     this.handleInputChange(event);
   }
 
   handleAlgorithmsChange() {
+    const { targets } = this.state;
+    this.cacheValue('targets', targets);
     this.forceUpdate();
   }
 
@@ -99,8 +102,10 @@ export default class extends BaseComponent {
         <Section title="Huấn luyện chăm sóc tự động" beautyFont>
           <SectionBody className="mt-4">
             <ExperimentTargetsComp
+              targets={targets}
               editingTarget={editingTarget}
               onChange={this.handleTargetChange}
+              onSelect={this.handleTargetChange}
             />
           </SectionBody>
         </Section>
@@ -151,7 +156,7 @@ export default class extends BaseComponent {
                 <Col size="5">
                   {showEditingTarget && (
                     <AlgorithmsSelect
-                      target={editingTarget}
+                      editingTarget={editingTarget}
                       onChange={this.handleAlgorithmsChange}
                     />
                   )}

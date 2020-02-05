@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import {
-  dispatchEvent, buildEvent, bindMethods, getCachedValue
+  dispatchEvent, buildEvent, bindMethods, getCachedValue, cacheValue
 } from '../utils';
 import { EventInterface } from '../utils/Interfaces';
 import Random from '../utils/Random';
@@ -206,6 +206,10 @@ export default class BaseComponent extends React.Component {
     return getCachedValue(key, defaultValue);
   }
 
+  cacheValue(name, value) {
+    return cacheValue(name, value);
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
@@ -254,7 +258,7 @@ export default class BaseComponent extends React.Component {
       ? checked
       : value;
     if (cached === 'true') {
-      localStorage[name] = JSON.stringify(valueToUpdate);
+      cacheValue(name, valueToUpdate);
     }
     this.setState({ [name]: valueToUpdate });
     return this.dispatchEvent(event);

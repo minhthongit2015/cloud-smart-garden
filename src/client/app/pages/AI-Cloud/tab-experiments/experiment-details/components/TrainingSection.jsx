@@ -12,8 +12,12 @@ import { layersAsArray } from '../../../../../utils';
 
 class TrainingSection extends BaseComponent.Pure {
   get isAccuracy() {
-    const { editingTarget } = this.props;
-    return editingTarget.labels.length === 2;
+    const { editingTarget: { labels } = {} } = this.props;
+    return !labels || labels.length === 2;
+  }
+
+  get chart() {
+    return this.trainingProgressChartRef.current;
   }
 
   constructor(props) {
@@ -29,8 +33,10 @@ class TrainingSection extends BaseComponent.Pure {
       trainingCount: 0,
       batchSize: this.CachedValues.batchSize || 36,
       epochs: this.CachedValues.epochs || 40,
+      continuous: this.getCachedValue('continuous', true),
       highResolution: this.getCachedValue('highResolution', true),
-      continuous: this.getCachedValue('continuous', true)
+      enableChartLimit: this.getCachedValue('enableChartLimit', true),
+      chartLimit: this.CachedValues.chartLimit || 100
     };
   }
 
@@ -41,7 +47,7 @@ class TrainingSection extends BaseComponent.Pure {
   async handleStartTraining(event) {
     this.stopEvent(event);
     this.handleConnectChart();
-    this.prepareChart();
+    this.updateChartOptions();
 
     const {
       experiment: { _id: experimentId },
@@ -102,11 +108,7 @@ class TrainingSection extends BaseComponent.Pure {
     ExperimentService.subscribeTrainingProgress((progress) => {
       this.handleProgressChange(progress);
     }, () => {
-      this.trainingProgressChartRef.current.updateSeries([
-        this.isAccuracy
-          ? { name: 'Độ chính xác', data: [] }
-          : { name: 'Độ sai lệch', data: [] }
-      ]);
+      this.updateChartOptions();
       this.setState({
         isTraining: true
       });
@@ -117,9 +119,9 @@ class TrainingSection extends BaseComponent.Pure {
     });
   }
 
-  prepareChart() {
-    this.trainingProgressChartRef.current.updateOptions(this.isAccuracy);
-    this.trainingProgressChartRef.current.updateSeries([
+  updateChartOptions() {
+    this.chart.updateOptions(this.isAccuracy);
+    this.chart.updateSeries([
       this.isAccuracy
         ? { name: 'Độ chính xác', data: [] }
         : { name: 'Độ sai lệch', data: [] }
@@ -132,9 +134,9 @@ class TrainingSection extends BaseComponent.Pure {
       || (!highResolution && progress.epoch == null)) {
       return;
     }
-    this.trainingProgressChartRef.current.appendData([
-      { data: [this.isAccuracy ? progress.acc : progress.loss] }
-    ]);
+    this.chart.appendData(
+      this.isAccuracy ? progress.acc : progress.loss
+    );
     this.dispatchEvent(this.Events.progress, progress);
   }
 
@@ -143,18 +145,17 @@ class TrainingSection extends BaseComponent.Pure {
   }
 
   handleCleanChart() {
-    this.trainingProgressChartRef.current.updateSeries([
+    this.chart.updateSeries([
       { name: 'Độ chính xác', data: [] }
     ]);
   }
 
   render() {
-    const { targets, editingTarget } = this.props;
     const {
       isTraining, trainingCount,
-      batchSize, epochs, highResolution, continuous
+      batchSize, epochs, continuous,
+      highResolution, enableChartLimit, chartLimit
     } = this.state;
-    const isAccuracy = editingTarget.labels.length === 2;
 
     return (
       <React.Fragment>
@@ -187,14 +188,35 @@ class TrainingSection extends BaseComponent.Pure {
         </div> */}
 
         <div className="mb-2 d-flex justify-content-between align-items-end">
-          <Checkbox
-            className="mx-3"
-            name="highResolution"
-            checked={highResolution}
-            onChange={this.handleInputChange}
-            data-cached
-          >High Resolution
-          </Checkbox>
+          <div>
+            <Checkbox
+              className="mr-3"
+              name="highResolution"
+              checked={highResolution}
+              onChange={this.handleInputChange}
+              data-cached
+            >High Resolution
+            </Checkbox>
+            <span>
+              <Checkbox
+                className="mr-1"
+                name="enableChartLimit"
+                checked={enableChartLimit}
+                onChange={this.handleInputChange}
+                data-cached
+              >Limit:
+              </Checkbox>
+              <input
+                style={{ width: '70px' }}
+                className="px-1"
+                name="chartLimit"
+                type="number"
+                value={chartLimit}
+                onChange={this.handleInputChange}
+                data-cached
+              />
+            </span>
+          </div>
           <MDBBtn
             className="px-2 py-1 hover-light-red grey-text text-normal"
             color="none"
@@ -210,7 +232,9 @@ class TrainingSection extends BaseComponent.Pure {
             onCleanChart={this.handleCleanChart}
             onDisconnectChart={this.handleDisconnectChart}
             onConnectChart={this.handleConnectChart}
-            isAccuracy={isAccuracy}
+            isAccuracy={this.isAccuracy}
+            enableLimit={enableChartLimit}
+            limit={chartLimit}
           />
         </div>
       </React.Fragment>

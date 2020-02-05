@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Row, MDBBtn } from 'mdbreact';
 import classNames from 'classnames';
 import BaseComponent from '../../../../../components/BaseComponent';
-import { ExperimentTargets } from '../../../../../utils/Constants';
 import { findByKey, sameKey } from '../../../../../utils';
 import FixedRatioImage from '../../../../../components/utils/fixed-ratio-image/FixedRatioImage';
 import './ExperimentTargets.scss';
@@ -15,26 +14,33 @@ const imgs = {
   humidity: 'https://ak2.picdn.net/shutterstock/videos/1020448882/thumb/10.jpg?ip=x480'
 };
 
-const Targets = Object.values(ExperimentTargets);
 
 export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
-    this.bind(this.handleTargetFocus);
+    this.bind(this.handleTargetFocus, this.handleTargetSetup);
   }
 
   handleTargetFocus(event) {
+    const { targets } = this.props;
     const { currentTarget: { dataset: { key } } } = event;
-    const target = findByKey({ key }, Targets);
+    const target = targets[key];
+    this.buildAndDispatchEvent(this.Events.select, target, 'editingTarget', target);
+  }
+
+  handleTargetSetup(event) {
+    const { targets } = this.props;
+    const { currentTarget: { dataset: { key } } } = event;
+    const target = targets[key];
     this.buildAndDispatchEvent(this.Events.change, target, 'editingTarget', target);
   }
 
   render() {
-    const { editingTarget } = this.props;
+    const { targets, editingTarget } = this.props;
 
     return (
       <Row className={`experiment-targets ${editingTarget ? 'focusing' : ''}`}>
-        {Targets.map(({ key, name, description }) => (
+        {Object.values(targets).map(({ key, name, description }) => (
           <Col
             key={key}
             className={classNames(
@@ -45,13 +51,13 @@ export default class extends BaseComponent.Pure {
           >
             <div>
               <h5 className="text-center text-green my-2">{name}</h5>
-              <div>
+              <div className="cursor-pointer" data-key={key} onClick={this.handleTargetFocus}>
                 <FixedRatioImage src={imgs[key]} ratio={2 / 3} frame="rounded" />
               </div>
               <div className="p-3">{description}</div>
             </div>
             <div className="text-center">
-              <MDBBtn className="px-2 py-1" data-key={key} onClick={this.handleTargetFocus}>
+              <MDBBtn className="px-2 py-1" data-key={key} onClick={this.handleTargetSetup}>
                 <i className="fas fa-magic" /> <i className="fas fa-palette" /> Tùy chỉnh
               </MDBBtn>
             </div>

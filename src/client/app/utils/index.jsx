@@ -51,11 +51,16 @@ export function bindMethods(target, ...methods) {
   });
 }
 
-export function getCachedValue(prop, defaultValue) {
+export function cacheValue(name, value) {
+  localStorage[name] = JSON.stringify(value);
+  return value;
+}
+
+export function getCachedValue(name, defaultValue) {
   try {
-    return prop in localStorage ? JSON.parse(localStorage[prop]) : defaultValue;
+    return name in localStorage ? JSON.parse(localStorage[name]) : defaultValue;
   } catch {
-    return localStorage[prop];
+    return localStorage[name];
   }
 }
 
@@ -211,6 +216,8 @@ console.test = (func, iteration = 10 ** 6) => {
 export default {
   layersAsArray,
   layersAsString,
+  cacheValue,
+  getCachedValue,
   findMethodName,
   bindMethods,
   groupBy,

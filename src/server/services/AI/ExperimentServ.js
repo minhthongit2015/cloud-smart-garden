@@ -47,6 +47,7 @@ module.exports = class extends PostService {
     const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
 
     opts.metrics = ['accuracy']; // Force to use accuracy for now
+    savedModel = ModelBuilder.verifyModel(savedModel, trainingSet, opts);
     let model = (savedModel && ModelBuilder.compileModel(savedModel, opts))
       || ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
 

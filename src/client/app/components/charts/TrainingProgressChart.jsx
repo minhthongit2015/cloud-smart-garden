@@ -4,10 +4,18 @@ import ApexChart from 'react-apexcharts';
 import Random from '../../utils/Random';
 
 export default class TrainingProgressChart extends Component {
+  get chart() {
+    return this.chartRef.current && this.chartRef.current.chart;
+  }
+
   constructor(props) {
     super(props);
     this.id = `training-progress-chart__${props.id || Random.hex()}`;
 
+    this.series = [
+      { name: 'Accuracy', data: [] }
+    ];
+    this.chartRef = React.createRef();
     this.state = {
       options: {
         chart: {
@@ -40,33 +48,38 @@ export default class TrainingProgressChart extends Component {
           }
         }
       },
-      series: [
-        { name: 'Accuracy', data: [] }
-      ]
+      series: this.series
     };
-
-    this.chartRef = null;
   }
 
   componentDidMount() {
     this.setData(this.props.dataset);
   }
 
-  appendData(data) {
-    this.chartRef.chart.appendData(data);
+  appendData(newData) {
+    const { enableLimit, limit } = this.props;
+    const [{ data }] = this.series;
+    if (enableLimit && data.length < +limit) {
+      this.chart.appendData([{ data: [newData] }]);
+    } else {
+      data.push(newData);
+      data.shift();
+      this.updateSeries(this.series);
+    }
   }
 
   updateSeries(series) {
-    this.chartRef.chart.updateSeries(series);
+    this.series = series;
+    this.chart.updateSeries(series);
   }
 
   setData(dataset) {
     const { columns } = this.props;
-    if (this.chartRef.chart && columns && dataset) {
+    if (this.chart && columns && dataset) {
       this.setState((prevState) => {
         prevState.options.xaxis.categories = dataset.labels;
-        if (this.chartRef.chart) {
-          this.chartRef.chart.updateOptions(prevState.options);
+        if (this.chart) {
+          this.chart.updateOptions(prevState.options);
         }
         return {
           options: prevState.options,
@@ -89,24 +102,22 @@ export default class TrainingProgressChart extends Component {
   updateOptions(isAccuracy) {
     this.setState((prevState) => {
       const { options } = prevState;
+      const yaxis = Array.isArray(options.yaxis) ? options.yaxis[0] : options.yaxis;
       if (isAccuracy) {
-        Object.assign(options.yaxis, {
+        Object.assign(yaxis, {
           tickAmount: 4,
           max: 1.0,
           min: 0
         });
       } else {
-        Object.assign(
-          Array.isArray(options.yaxis) ? options.yaxis[0] : options.yaxis,
-          {
-            tickAmount: undefined,
-            max: undefined,
-            min: undefined
-          }
-        );
+        Object.assign(yaxis, {
+          tickAmount: undefined,
+          max: undefined,
+          min: undefined
+        });
       }
-      if (this.chartRef.chart) {
-        this.chartRef.chart.updateOptions(options);
+      if (this.chart) {
+        this.chart.updateOptions(options);
       }
       return {
         options
@@ -120,7 +131,7 @@ export default class TrainingProgressChart extends Component {
     return (
       <div id="dataset-chart" className="apex chart-wrapper shadow pt-3 pr-2">
         <ApexChart
-          ref={(ref) => { this.chartRef = ref; }}
+          ref={this.chartRef}
           options={options}
           series={series}
           height="150px"

@@ -25,7 +25,9 @@ export default class extends BaseComponent {
   }
 
   render() {
-    const { className, chartRef, isAccuracy } = this.props;
+    const {
+      className, chartRef, isAccuracy, enableLimit, limit
+    } = this.props;
 
     return (
       <div className={`text-center ${className || ''}`}>
@@ -33,17 +35,19 @@ export default class extends BaseComponent {
           <TrainingProgressChart
             ref={chartRef}
             isAccuracy={isAccuracy}
+            enableLimit={enableLimit}
+            limit={limit}
           />
         </div>
         <div className="text-center">
-          <Button color="none" className="my-2 mx-3" onClick={this.handleCleanChart}>
-            <i className="fas fa-broom" /> Clean Chart
-          </Button>
-          <Button color="none" className="my-2 mx-3 hover-light-red" onClick={this.handleDisconnectChart}>
+          <Button color="none" className="my-2 mx-3 py-1 px-2 hover-light-red" onClick={this.handleDisconnectChart}>
             <i className="fas fa-phone-slash" /> Disconnect Chart
           </Button>
-          <Button color="none" className="my-2 mx-3" onClick={this.handleConnectChart}>
+          <Button color="none" className="my-2 mx-3 py-1 px-2 hover-blue" onClick={this.handleConnectChart}>
             <i className="fas fa-plug" /> Connect Chart
+          </Button>
+          <Button color="none" className="my-2 mx-3 py-1 px-2 hover-green" onClick={this.handleCleanChart}>
+            <i className="fas fa-broom" /> Clean Chart
           </Button>
         </div>
       </div>
