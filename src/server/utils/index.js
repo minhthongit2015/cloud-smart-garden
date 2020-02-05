@@ -179,30 +179,46 @@ function get(object, prop) {
 }
 
 /**
- * @param {'key'} toValueKey
+ * @param {'key'} keyProp
  */
-function autoKey(object, valueKey = 'key') {
+function autoKey(object, keyProp = 'key') {
   if (!object || typeof object !== 'object') return null;
   Object.entries(object).forEach(([key, prop]) => {
-    prop[valueKey] = key;
+    prop[keyProp] = key;
   });
   return object;
 }
 
-function sameKey(object1, object2, valueKey = 'key', targetValueKey = 'key') {
-  if (!object1 || typeof object1 !== 'object'
-    || !object2 || typeof object2 !== 'object') return null;
-  return object1[valueKey] === object2[targetValueKey];
+function sameKey(object1, object2, sourceKey = 'key', destinationKey = 'key') {
+  if (!object1 || !object2) return null;
+  const object1Key = typeof object1 === 'string' ? object1 : object1[sourceKey];
+  const object2Key = typeof object2 === 'string' ? object2 : object2[destinationKey];
+  return object1Key === object2Key;
 }
 
-function findByKey(object, inMapOrArray, valueKey = 'key', targetValueKey = 'key') {
-  const targetKey = targetValueKey == null ? valueKey : targetValueKey;
+function findByKey(objectOrKey, inMapOrArray, sourceKey = 'key', destinationKey = 'key') {
+  const targetKey = destinationKey == null ? sourceKey : destinationKey;
+  const objectKey = typeof objectOrKey === 'string' ? objectOrKey : objectOrKey[sourceKey];
   return Array.isArray(inMapOrArray)
-    ? inMapOrArray.find(item => sameKey(item, object, targetKey, valueKey))
-    : (inMapOrArray[object[valueKey]]
-      || Object.values(inMapOrArray).find(item => sameKey(item, object, targetKey, valueKey)));
+    ? inMapOrArray.find(item => sameKey(item, objectKey, targetKey, sourceKey))
+    : (inMapOrArray[objectKey]
+      || Object.values(inMapOrArray).find(item => sameKey(item, objectKey, targetKey, sourceKey)));
 }
 
+function findIndexByKey(objectOrKey, inMapOrArray, sourceKey = 'key', destinationKey = 'key') {
+  const targetKey = destinationKey == null ? sourceKey : destinationKey;
+  const objectKey = typeof objectOrKey === 'string' ? objectOrKey : objectOrKey[sourceKey];
+  return Array.isArray(inMapOrArray)
+    ? inMapOrArray.findIndex(item => sameKey(item, objectKey, targetKey, sourceKey))
+    : (inMapOrArray[objectKey]
+      || Object.values(inMapOrArray)
+        .findIndex(item => sameKey(item, objectKey, targetKey, sourceKey)));
+}
+
+function hasKey(objectOrKey, inMapOrArray, sourceKey = 'key', destinationKey = 'key') {
+  const foundItem = findByKey(objectOrKey, inMapOrArray, sourceKey, destinationKey);
+  return !!foundItem;
+}
 
 function toOptions(objects = [], valueKey = 'key', labelKey = 'name', toValueKey = 'value', toLabelKey = 'label') {
   if (!objects) return objects;
@@ -223,6 +239,28 @@ function toOptions(objects = [], valueKey = 'key', labelKey = 'name', toValueKey
 
 function fromOptions(objects = [], valueKey = 'value', labelKey = 'label') {
   return toOptions(objects, valueKey, labelKey, 'key', 'name');
+}
+
+function toggleByKey(selectedItems, items, itemOrItemKey, sourceKey = 'key', destinationKey = 'key') {
+  const newArray = [...selectedItems];
+  const foundIndex = findIndexByKey(itemOrItemKey, selectedItems, sourceKey, destinationKey);
+  if (foundIndex < 0) {
+    const newItem = findByKey(itemOrItemKey, items, sourceKey, destinationKey);
+    newArray.push(newItem);
+  } else {
+    newArray.splice(foundIndex, 1);
+  }
+  return newArray;
+}
+
+function updateArray(oldArray, newArray, oldArrayKey = 'key', newArrayKey = 'key') {
+  if (!oldArray || !Array.isArray(oldArray)
+    || !newArray || !Array.isArray(newArray)) {
+    return oldArray;
+  }
+  const array = oldArray.filter(element => hasKey(element, newArray, oldArrayKey, newArrayKey));
+  array.push(...newArray.filter(element => !hasKey(element, oldArray, newArrayKey, oldArrayKey)));
+  return array;
 }
 
 /**
@@ -262,9 +300,13 @@ module.exports = {
   buildEvent,
   get,
   autoKey,
-  findByKey,
   sameKey,
+  findByKey,
+  findIndexByKey,
+  hasKey,
   toOptions,
   fromOptions,
+  toggleByKey,
+  updateArray,
   flattenObject
 };

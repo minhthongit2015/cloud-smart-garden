@@ -130,6 +130,7 @@ class TrainingSection extends BaseComponent.Pure {
 
   handleProgressChange(progress) {
     const { highResolution } = this.state;
+    this.chart.setEpochAndBatch(progress);
     if ((highResolution && progress.epoch != null)
       || (!highResolution && progress.epoch == null)) {
       return;

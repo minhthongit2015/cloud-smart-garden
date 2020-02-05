@@ -21,7 +21,6 @@ export default class ExperimentService {
   }
 
   static stopTraining() {
-    this.unsubscribeTrainingProgress();
     superrequest.post(ApiEndpoints.stopTraining);
   }
 }

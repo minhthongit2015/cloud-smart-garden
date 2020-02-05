@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ApexChart from 'react-apexcharts';
-// import './EnvApexChart.scss';
+import './TrainingProgressChart.scss';
 import Random from '../../utils/Random';
 
 export default class TrainingProgressChart extends Component {
@@ -48,7 +48,9 @@ export default class TrainingProgressChart extends Component {
           }
         }
       },
-      series: this.series
+      series: this.series,
+      epoch: 0,
+      batch: 0
     };
   }
 
@@ -71,6 +73,13 @@ export default class TrainingProgressChart extends Component {
   updateSeries(series) {
     this.series = series;
     this.chart.updateSeries(series);
+  }
+
+  setEpochAndBatch({ epoch, batch }) {
+    this.setState(prevState => ({
+      epoch: epoch != null ? epoch + 1 : prevState.epoch,
+      batch: batch != null ? batch + 1 : prevState.batch
+    }));
   }
 
   setData(dataset) {
@@ -126,10 +135,12 @@ export default class TrainingProgressChart extends Component {
   }
 
   render() {
-    const { options, series } = this.state;
+    const {
+      options, series, epoch, batch
+    } = this.state;
 
     return (
-      <div id="dataset-chart" className="apex chart-wrapper shadow pt-3 pr-2">
+      <div id="dataset-chart" className="trainging-progress apex chart-wrapper shadow pt-3 pr-2">
         <ApexChart
           ref={this.chartRef}
           options={options}
@@ -137,6 +148,9 @@ export default class TrainingProgressChart extends Component {
           height="150px"
           type="area"
         />
+        <div className="trainging-progress__meta">
+          Epoch: {epoch || 0} / Batch: {batch || 0}
+        </div>
       </div>
     );
   }

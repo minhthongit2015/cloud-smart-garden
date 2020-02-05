@@ -1,0 +1,13 @@
+
+
+.trainging-progress {
+  position: relative;
+  
+  &__meta {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: .7rem;
+    padding: 4px 8px;
+  }
+}

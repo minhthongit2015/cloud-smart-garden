@@ -16,7 +16,7 @@ export default class extends BaseComponent.Pure {
     }, 0);
 
     const label = totalMiddleNodes > 0
-      ? `Layers (${totalMiddleNodes} nodes)`
+      ? `${middleLayers.length} Layer${middleLayers.length > 1 ? 's' : ''} (${totalMiddleNodes} nodes)`
       : 'Layers';
 
     return (

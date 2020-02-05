@@ -42,6 +42,7 @@ module.exports = class {
     trainingSet = { ...TrainingSetInterface },
     buildOpts = { ...BuildOptionsInterface }
   ) {
+    if (!model) return null;
     const numFeatures = trainingSet.features.length;
     const numOutputs = trainingSet.labels.length;
     const activation = AlgorithmMapper(buildOpts.activation);

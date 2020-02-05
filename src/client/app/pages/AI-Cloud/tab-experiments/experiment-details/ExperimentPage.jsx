@@ -5,6 +5,7 @@ import {
 } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
 import { ExperimentTargets } from '../../../../utils/Constants';
+import { generateTests, updateArray } from '../../../../utils';
 import ExperimentBaseInfo from './components/ExperimentBaseInfo';
 import BaseComponent from '../../../../components/BaseComponent';
 import AlgorithmsSelect from './components/AlgorithmsSelect';
@@ -35,21 +36,32 @@ export default class extends BaseComponent {
     };
   }
 
-  toggleEditingTarget() {
-    this.setState({
-      isOpenEditingTarget: false
-    });
-  }
-
   handleTargetChange(event) {
+    const { currentTarget: { value: editingTarget } } = event;
+    if (!editingTarget.tests) {
+      editingTarget.tests = generateTests(editingTarget);
+    }
     this.setState(prevState => ({
       isOpenEditingTarget: prevState.isOpenEditingTarget || event.typez === this.Events.change.typez
     }));
     this.handleInputChange(event);
   }
 
+  toggleEditingTarget() {
+    this.setState({
+      isOpenEditingTarget: false
+    });
+  }
+
   handleAlgorithmsChange() {
-    const { targets } = this.state;
+    const { targets, editingTarget } = this.state;
+    if (!editingTarget.tests) {
+      editingTarget.tests = generateTests(editingTarget);
+    } else {
+      const newTests = generateTests(editingTarget);
+      const oldTests = editingTarget.tests;
+      editingTarget.tests = updateArray(oldTests, newTests);
+    }
     this.cacheValue('targets', targets);
     this.forceUpdate();
   }
@@ -126,7 +138,7 @@ export default class extends BaseComponent {
             <SectionHeader>{this.getGuidingMessageByTarget(editingTarget)}</SectionHeader>
             <SectionBody>
               <Row>
-                <Col size="3">
+                <Col sm="12" md="3">
                   <div className="font-italic border-bottom mb-2">Dữ liệu thu thập được</div>
                   {showEditingTarget && (
                     <DatasetsSelect
@@ -135,11 +147,11 @@ export default class extends BaseComponent {
                     />
                   )}
                 </Col>
-                <Col size="6" className="arrow-right">
+                <Col sm="8" md="6" className="arrow-right">
                   <div className="font-italic border-bottom mb-2">Yếu tố tác động</div>
                   <FeaturesSelect />
                 </Col>
-                <Col size="3" className="">
+                <Col sm="4" md="3" className="">
                   <div className="font-italic border-bottom mb-2">Yếu tố mục tiêu</div>
                   <OutputsSelect />
                 </Col>
@@ -149,11 +161,11 @@ export default class extends BaseComponent {
 
           <Section>
             <SectionHeader>
-              Thiết kế thuật toán... <small>nhưng không cần tính toán /=)</small>
+              Thiết kế huấn luyện
             </SectionHeader>
             <SectionBody>
               <Row className="mt-3">
-                <Col size="5">
+                <Col sm="12" md="5">
                   {showEditingTarget && (
                     <AlgorithmsSelect
                       editingTarget={editingTarget}
@@ -161,15 +173,18 @@ export default class extends BaseComponent {
                     />
                   )}
                 </Col>
-                <Col size="7">
-                  <AlgorithmTests target={editingTarget} />
+                <Col sm="12" md="7">
+                  <AlgorithmTests
+                    editingTarget={editingTarget}
+                    onChange={this.handleAlgorithmsChange}
+                  />
                 </Col>
               </Row>
             </SectionBody>
           </Section>
         </MDBCollapse>
 
-        <Section title="Bắt Đầu Huấn Luyện" beautyFont>
+        <Section title={editingTarget ? editingTarget.name : 'Bắt Đầu Huấn Luyện'} beautyFont>
           <TrainingSection
             experiment={experiment}
             editingTarget={editingTarget}

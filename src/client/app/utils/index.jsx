@@ -7,23 +7,11 @@ export {
   parseStringToNumber,
   camelize, sentenceCase,
   toEventName, dispatchEvent, buildEvent,
-  get, autoKey, findByKey, sameKey, toOptions, fromOptions, flattenObject
+  get, autoKey, sameKey, findByKey, findIndexByKey,
+  hasKey, toOptions, fromOptions, toggleByKey, updateArray,
+  flattenObject
 } from '../../../server/utils';
 
-
-export function layersAsArray(layers) {
-  return Array.isArray(layers)
-    ? layers
-    : (layers || '').replace(/[^0-9,]/g, '')
-      .split(',').map(layer => +layer).filter(layer => layer);
-}
-
-export function layersAsString(layers) {
-  // eslint-disable-next-line no-nested-ternary
-  return typeof layers === 'string'
-    ? layers
-    : (Array.isArray(layers) ? layers.join(',') : '');
-}
 
 export function findMethodName(target, method) {
   let object = target;
@@ -212,6 +200,52 @@ console.test = (func, iteration = 10 ** 6) => {
   }
   console.timeEnd();
 };
+
+
+// AI Utils
+
+export function layersAsArray(layers) {
+  return Array.isArray(layers)
+    ? layers
+    : (layers || '').replace(/[^0-9,]/g, '')
+      .split(',').map(layer => +layer).filter(layer => layer);
+}
+
+export function layersAsString(layers) {
+  // eslint-disable-next-line no-nested-ternary
+  return typeof layers === 'string'
+    ? layers
+    : (Array.isArray(layers) ? layers.join(',') : '');
+}
+
+export function buildTestKey(optimizer, loss, activation) {
+  return `${optimizer.key}-${loss.key}-${activation.key}`;
+}
+
+export function generateTests(target) {
+  const {
+    algorithms, optimizers = [], losses = [], activations = []
+  } = target || {};
+
+  const tests = [];
+  if (algorithms && optimizers && losses && activations) {
+    optimizers.forEach((optimizer) => {
+      losses.forEach((loss) => {
+        activations.forEach((activation) => {
+          tests.push({
+            key: buildTestKey(optimizer, loss, activation),
+            optimizer,
+            loss,
+            activation,
+            active: true
+          });
+        });
+      });
+    });
+  }
+
+  return tests;
+}
 
 export default {
   layersAsArray,
