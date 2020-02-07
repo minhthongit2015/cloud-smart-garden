@@ -11,6 +11,7 @@ export default class extends BaseChart {
   constructor(props) {
     super(props);
 
+    this.isClassification = false;
     this.series = [
       { name: 'Prediction', data: [] }
     ];
@@ -44,7 +45,8 @@ export default class extends BaseChart {
         }
       },
       series: this.series,
-      miss: 0
+      miss: 0,
+      meanAbsErr: 0
     };
   }
 
@@ -57,15 +59,28 @@ export default class extends BaseChart {
       { name: 'Dự đoán', data: predictions }
     ]);
 
-    let miss = 0;
-    labels.forEach((y, i) => {
-      if (y !== predictions[i]) {
-        miss++;
-      }
-    });
-    this.setState({
-      miss
-    });
+
+    this.isClassification = trainingSet.labels.length > 1;
+
+    if (this.isClassification) {
+      let miss = 0;
+      labels.forEach((y, i) => {
+        if (y !== predictions[i]) {
+          miss++;
+        }
+      });
+      this.setState({
+        miss
+      }, () => this.forceUpdate());
+    } else {
+      let totalError = 0;
+      labels.forEach((y, i) => {
+        totalError += Math.abs(y - predictions[i]);
+      });
+      this.setState({
+        meanAbsErr: totalError / this.total
+      }, () => this.forceUpdate());
+    }
   }
 
   updateSeries(series) {
@@ -99,6 +114,15 @@ export default class extends BaseChart {
     });
   }
 
+  clean() {
+    this.series = [
+      { name: 'Giá trị đúng', data: [] },
+      { name: 'Dự đoán', data: [] }
+    ];
+    this.updateSeries(this.series);
+    this.forceUpdate();
+  }
+
   renderChart() {
     const { options, series } = this.state;
     return (
@@ -113,14 +137,32 @@ export default class extends BaseChart {
   }
 
   renderCustomArea() {
+    if (this.isClassification) {
+      return this.renderClassificationStatistic();
+    }
+    return this.renderRegressionStatistic();
+  }
+
+  renderClassificationStatistic() {
     const { miss = 0 } = this.state;
     const { total } = this;
     const match = total - miss;
     return (
-      total && (
+      !!total && (
         <React.Fragment>
           <div>Đúng: {match || 0} / {miss || 0} Sai</div>
           <div>Độ chính xác: {(match / total).toFixed(2)}%</div>
+        </React.Fragment>
+      )
+    );
+  }
+
+  renderRegressionStatistic() {
+    const { meanAbsErr = 0 } = this.state;
+    return (
+      !!meanAbsErr && (
+        <React.Fragment>
+          <div>Sai số: ±{meanAbsErr.toFixed(3)}</div>
         </React.Fragment>
       )
     );

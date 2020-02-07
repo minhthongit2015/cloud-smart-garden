@@ -1,17 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ApexChart from 'react-apexcharts';
-import Random from '../../utils/Random';
+import BaseChart from '../charts-new/base-chart/BaseChart';
 
 
-export default class TrainingProgressChart extends Component {
-  get chart() {
-    return this.chartRef.current && this.chartRef.current.chart;
-  }
-
+export default class TrainingProgressChart extends BaseChart {
   constructor(props) {
     super(props);
-    this.id = `training-progress-chart__${props.id || Random.hex()}`;
-
     this.series = [
       { name: 'Accuracy', data: [] }
     ];
@@ -50,12 +44,10 @@ export default class TrainingProgressChart extends Component {
       },
       series: this.series,
       epoch: 0,
-      batch: 0
+      batch: 0,
+      accuracy: 0,
+      loss: 0
     };
-  }
-
-  componentDidMount() {
-    this.setData(this.props.dataset);
   }
 
   appendData(newData) {
@@ -75,10 +67,14 @@ export default class TrainingProgressChart extends Component {
     this.chart.updateSeries(series);
   }
 
-  setEpochAndBatch({ epoch, batch }) {
+  setEpochAndBatch({
+    epoch, batch, acc: accuracy, loss
+  }) {
     this.setState(prevState => ({
       epoch: epoch != null ? epoch + 1 : prevState.epoch,
-      batch: batch != null ? batch + 1 : prevState.batch
+      batch: batch != null ? batch + 1 : prevState.batch,
+      accuracy: accuracy != null ? accuracy : prevState.accuracy,
+      loss: loss != null ? loss : prevState.loss
     }));
   }
 
@@ -134,22 +130,31 @@ export default class TrainingProgressChart extends Component {
     });
   }
 
-  render() {
-    const {
-      options, series, epoch, batch
-    } = this.state;
-
+  renderChart() {
+    const { options, series } = this.state;
     return (
-      <div id="dataset-chart" className="trainging-progress apex chart-wrapper shadow pt-3 pr-2">
-        <ApexChart
-          ref={this.chartRef}
-          options={options}
-          series={series}
-          height="150px"
-          type="area"
-        />
-        <div className="trainging-progress__meta">
-          Epoch: {epoch || 0} / Batch: {batch || 0}
+      <ApexChart
+        ref={this.chartRef}
+        id={this.id}
+        options={options}
+        series={series}
+        height="150px"
+        type="area"
+      />
+    );
+  }
+
+  renderCustomArea() {
+    const {
+      epoch, batch, accuracy, loss
+    } = this.state;
+    return (
+      <div className="trainging-progress__meta">
+        <div>Epoch: {epoch || 0} / Batch: {batch || 0}</div>
+        <div>
+          {accuracy ? `Accuracy: ${accuracy.toFixed(3)}` : ''}
+          {accuracy && loss ? ' / ' : ''}
+          {loss ? `Loss: ${loss.toFixed(3)}` : ''}
         </div>
       </div>
     );

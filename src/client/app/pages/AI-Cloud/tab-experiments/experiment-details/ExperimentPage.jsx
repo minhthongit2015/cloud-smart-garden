@@ -25,7 +25,8 @@ export default class extends BaseComponent {
     this.bind(
       this.handleTargetChange, this.toggleEditingTarget,
       this.handleAlgorithmsChange,
-      this.handleTrainEnd
+      this.handleTrainEnd,
+      this.togglePredictSection
     );
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
@@ -36,7 +37,8 @@ export default class extends BaseComponent {
       targets,
       editingTarget,
       datasets: editingTarget.datasets,
-      isOpenEditingTarget: null
+      isOpenEditingTarget: false,
+      isOpenPredictSection: true
     };
   }
 
@@ -56,6 +58,12 @@ export default class extends BaseComponent {
     this.setState({
       isOpenEditingTarget: false
     });
+  }
+
+  togglePredictSection() {
+    this.setState(prevState => ({
+      isOpenPredictSection: !prevState.isOpenPredictSection
+    }));
   }
 
   handleAlgorithmsChange() {
@@ -86,7 +94,8 @@ export default class extends BaseComponent {
   render() {
     const {
       experiment, targets,
-      editingTarget, isOpenEditingTarget
+      editingTarget, isOpenEditingTarget,
+      isOpenPredictSection
     } = this.state || {};
     const showEditingTarget = editingTarget != null && isOpenEditingTarget;
 
@@ -181,11 +190,20 @@ export default class extends BaseComponent {
         </Section>
 
         <Section title="Thử nghiệm model đã qua huấn luyện" beautyFont className="mb-4">
-          <PredictSection
-            ref={this.predictSectionRef}
-            experiment={experiment}
-            editingTarget={editingTarget}
-          />
+          <div className="text-right">
+            <MDBBtn
+              className="px-2 py-1"
+              onClick={this.togglePredictSection}
+            ><i className="fas fa-minus-square" /> {isOpenPredictSection ? 'Thu gọn' : 'Mở rộng'}
+            </MDBBtn>
+          </div>
+          <MDBCollapse isOpen={isOpenPredictSection}>
+            <PredictSection
+              ref={this.predictSectionRef}
+              experiment={experiment}
+              editingTarget={editingTarget}
+            />
+          </MDBCollapse>
         </Section>
       </React.Fragment>
     );

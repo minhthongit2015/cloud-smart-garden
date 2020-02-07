@@ -9,9 +9,21 @@ class BaseChart extends BaseComponent.Pure {
     return this.chartRef.current && this.chartRef.current.chart;
   }
 
+  get limit() {
+    return this.props.limit;
+  }
+
   constructor(props) {
     super(props);
     this.chartRef = React.createRef();
+  }
+
+  clean() {
+    //
+  }
+
+  appendData() {
+    //
   }
 
   renderChart() {
