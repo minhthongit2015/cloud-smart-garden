@@ -27,28 +27,70 @@ module.exports = class extends CRUDService {
 
   static generateRawRecord(time, stationId) {
     const light = random.int(0, 15000);
+    const temperature = random.float(24, 30);
+    const humidity = random.float(70, 100);
+
     const mtime = moment(time);
-    const hour = mtime.get('hour');
-    const led = hour >= 5 && hour < 17 && light < 2000;
+    const hours = mtime.get('hours');
+    const minutes = mtime.get('minutes');
+    const seconds = mtime.get('seconds');
+
     const start = moment(new Date('2020/1/27'));
-    const totalMinutes = 60 * 24 * 3;
-    const minutesFromStart = mtime.diff(start, 'minutes');
-    const startPPM = 0;
-    const targetPPM = 3000;
-    const rangePPM = targetPPM - startPPM;
+    const nutri = this.calcNutrient(mtime, start);
+
+    const led = this.calcLed(light, mtime, hours, minutes, seconds);
+    const fan = this.calcFan(temperature, mtime, hours, minutes, seconds);
 
     return {
       station: ApiHelper.getId(stationId),
       state: {
-        temperature: random.float(24, 26),
-        humidity: random.float(70, 100),
+        temperature,
+        humidity,
         light,
         led,
-        fan: random.bool(),
-        nutri: startPPM + minutesFromStart / totalMinutes * rangePPM
+        fan,
+        nutri
       },
       createdAt: time
     };
+  }
+
+  static calcLed(light, mtime, hours, minutes, seconds) {
+    return hours >= 5 && hours < 17 && light < 2000;
+  }
+
+  static calcFan(temperature, mtime, hours, minutes, seconds) {
+    const TIME_FORMAT = 'HH:mm';
+    const onTimes = [
+      ['6:00', '6:30'],
+      ['10:00', '11:00'],
+      ['17:00', '17:30']
+    ];
+    return temperature > 35
+      || onTimes.some(
+        (time) => {
+          const start = moment(time[0], TIME_FORMAT);
+          const stop = moment(time[1], TIME_FORMAT);
+
+          const begin = moment(mtime);
+          begin.set('hours', start.get('hours'));
+          begin.set('minutes', start.get('minutes'));
+          const end = moment(mtime);
+          end.set('hours', stop.get('hours'));
+          end.set('minutes', stop.get('minutes'));
+
+          return mtime.isBetween(begin, end);
+        }
+      );
+  }
+
+  static calcNutrient(mtime, start, daysRange = 3) {
+    const totalMinutes = 60 * 24 * daysRange;
+    const minutesFromStart = mtime.diff(start, 'minutes');
+    const startPPM = 0;
+    const targetPPM = 3000;
+    const rangePPM = targetPPM - startPPM;
+    return startPPM + minutesFromStart / totalMinutes * rangePPM;
   }
 
   static async generateRecordByDate(date, stationId, next = this.nextTime) {

@@ -8,8 +8,7 @@ const {
 const DatasetService = require('./DatasetServ');
 const SyncService = require('../sync');
 const { BuildExperimentRequest, ExperimentTarget } = require('./utils/AITypes');
-const { findByKey } = require('../../utils');
-const BuiltInExperimentTargets = require('./BuiltInExperimentTargets');
+const { get } = require('../../utils');
 
 
 module.exports = class extends PostService {
@@ -41,10 +40,8 @@ module.exports = class extends PostService {
   static async buildAndTrainForTarget(
     target, dataset, savedModel, opts = new BuildExperimentRequest()
   ) {
-    const experimentTarget = findByKey(target, BuiltInExperimentTargets);
-    if (!experimentTarget) return null;
-
-    const trainingSet = this.buildTrainingSetForTarget(dataset, experimentTarget);
+    if (!target || !dataset) return null;
+    const trainingSet = this.buildTrainingSetForTarget(dataset, target);
 
     opts.metrics = ['accuracy']; // Force to use accuracy for now
     savedModel = ModelBuilder.verifyModel(savedModel, trainingSet, opts);
@@ -105,6 +102,34 @@ module.exports = class extends PostService {
   static _getModelPath(experimentId, target) {
     const targetKey = target && target.key ? `${target.key}` : (target || '');
     return `${experimentId}-${targetKey}`;
+  }
+
+  static async compare(experimentId, opts = new BuildExperimentRequest()) {
+    const dataset = await DatasetService.getWithRecords(opts.datasetId);
+    const trainingSets = await Promise.all(
+      opts.targets.map(async (target) => {
+        const savedModel = await this.load(experimentId, target);
+        return this.compareForTarget(target, dataset, savedModel);
+      })
+    );
+    return trainingSets;
+  }
+
+  static async compareForTarget(target, dataset, savedModel) {
+    if (!target || !dataset || !savedModel) return null;
+    const trainingSet = this.buildTrainingSetForTarget(dataset, target);
+    tf.tidy(() => {
+      trainingSet.predict = savedModel.predict(
+        tf.tensor2d(trainingSet.xs, [trainingSet.xs.length, trainingSet.features.length])
+      ).arraySync();
+    });
+
+    const labelSample = get(dataset.records[0], target.labels[0][0]);
+    if (typeof labelSample === 'boolean') {
+      trainingSet.predict = trainingSet.predict.map(row => (row[0] > row[1] ? 1 : 0));
+    }
+
+    return trainingSet;
   }
 
   static async test(opts = {}) {

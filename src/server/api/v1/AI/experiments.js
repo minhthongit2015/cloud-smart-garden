@@ -22,4 +22,10 @@ router.post('/:experimentId/build', Logger.catch(async (req, res) => {
   return res.send(APIResponse.setData(mappedModels));
 }));
 
+router.post('/:experimentId/compare', Logger.catch(async (req, res) => {
+  const { experimentId } = req.params;
+  const trainingSets = await ExperimentService.compare(experimentId, req.body);
+  return res.send(APIResponse.setData(trainingSets));
+}));
+
 module.exports = router;

@@ -49,6 +49,7 @@ const ContactTypes = {
 
 // AI
 const AIConstants = require('../services/AI/utils/AIConstants');
+const AITargets = require('../services/AI/utils/AITargets');
 const DataUtils = require('../services/AI/utils/DataUtils');
 
 module.exports = {
@@ -60,5 +61,6 @@ module.exports = {
 
   // AI
   ...AIConstants,
+  ...AITargets,
   DataUtils
 };

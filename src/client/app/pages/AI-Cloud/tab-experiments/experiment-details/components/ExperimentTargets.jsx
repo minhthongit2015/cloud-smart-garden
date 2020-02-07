@@ -42,7 +42,8 @@ export default class extends BaseComponent.Pure {
       <Row className={`experiment-targets ${editingTarget ? 'focusing' : ''}`}>
         {Object.values(targets).map(({ key, name, description }) => (
           <Col
-            sm="12"
+            size="6"
+            sm="6"
             md="6"
             lg="3"
             key={key}

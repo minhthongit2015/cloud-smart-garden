@@ -4,7 +4,11 @@ import ApiEndpoints from '../../utils/ApiEndpoints';
 
 export default class ExperimentService {
   static buildExperiment(experimentId, buildOptions) {
-    superrequest.post(ApiEndpoints.buildExperimentI(experimentId), buildOptions);
+    return superrequest.post(ApiEndpoints.buildExperimentI(experimentId), buildOptions);
+  }
+
+  static compare(experimentId, compareOptions) {
+    return superrequest.post(ApiEndpoints.compareExperimentI(experimentId), compareOptions);
   }
 
   static subscribeTrainingProgress(onProgress, onBegin, onEnd) {
@@ -21,6 +25,6 @@ export default class ExperimentService {
   }
 
   static stopTraining() {
-    superrequest.post(ApiEndpoints.stopTraining);
+    return superrequest.post(ApiEndpoints.stopTraining);
   }
 }

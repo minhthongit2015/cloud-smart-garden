@@ -25,7 +25,9 @@ const Events = {
   select: { typez: 'select' },
   submit: { typez: 'submit' },
   submited: { typez: 'submited' },
-  progress: { typez: 'progress' }
+  progress: { typez: 'progress' },
+  begin: { typez: 'begin' },
+  end: { typez: 'end' }
 };
 
 const EventTypesMap = {
@@ -98,10 +100,15 @@ class PureComponent extends React.PureComponent {
     return getCachedValue(key, defaultValue);
   }
 
+  cacheValue(name, value) {
+    cacheValue(name, value);
+  }
+
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
   bind(...methods) {
@@ -116,6 +123,10 @@ class PureComponent extends React.PureComponent {
     dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
+  buildEvent(event = new EventInterface(), value, name) {
+    return buildEvent(event, value, name);
+  }
+
   buildAndDispatchEvent(event = new EventInterface(), value, name, ...args) {
     this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
@@ -124,27 +135,29 @@ class PureComponent extends React.PureComponent {
     //
   }
 
-  handleInputChange(event, options) {
-    // Select from 'react-select'
-    // => create an dummy event
-    if (!event) {
+  handleSelectChange(options, { name }) {
+    this.handleInputChange(name, options);
+  }
+
+  handleInputChange(eventOrName, value) {
+    if (!eventOrName) {
       return this.dispatchEvent(Events.change);
     }
-    if (typeof event === 'string') {
-      event = {
+    const event = typeof eventOrName === 'string'
+      ? {
         ...Events.change,
         currentTarget: {
-          name: event,
-          value: options
+          name: eventOrName,
+          value
         }
-      };
-    }
+      }
+      : eventOrName;
     const {
-      name, value, checked, dataset: { cached } = {}
+      name, value: inputValue, checked, dataset: { cached } = {}
     } = event.currentTarget || {};
     const valueToUpdate = event.currentTarget.type === 'checkbox'
       ? checked
-      : value;
+      : inputValue;
     if (cached === 'true') {
       localStorage[name] = JSON.stringify(valueToUpdate);
     }
@@ -207,13 +220,14 @@ export default class BaseComponent extends React.Component {
   }
 
   cacheValue(name, value) {
-    return cacheValue(name, value);
+    cacheValue(name, value);
   }
 
   constructor(props) {
     super(props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
   bind(...methods) {
@@ -228,6 +242,10 @@ export default class BaseComponent extends React.Component {
     dispatchEvent(event, { eventTypesMap: EventTypesMap, listeners: this.props }, ...args);
   }
 
+  buildEvent(event = new EventInterface(), value, name) {
+    return buildEvent(event, value, name);
+  }
+
   buildAndDispatchEvent(event = new EventInterface(), value, name, ...args) {
     this.dispatchEvent(buildEvent(event, value, name), ...args);
   }
@@ -236,29 +254,31 @@ export default class BaseComponent extends React.Component {
     //
   }
 
-  handleInputChange(event, options) {
-    // Select from 'react-select'
-    // => create an dummy event
-    if (!event) {
+  handleSelectChange(options, { name }) {
+    this.handleInputChange(name, options);
+  }
+
+  handleInputChange(eventOrName, value) {
+    if (!eventOrName) {
       return this.dispatchEvent(Events.change);
     }
-    if (typeof event === 'string') {
-      event = {
+    const event = typeof eventOrName === 'string'
+      ? {
         ...Events.change,
         currentTarget: {
-          name: event,
-          value: options
+          name: eventOrName,
+          value
         }
-      };
-    }
+      }
+      : eventOrName;
     const {
-      name, value, checked, dataset: { cached } = {}
+      name, value: inputValue, checked, dataset: { cached } = {}
     } = event.currentTarget || {};
     const valueToUpdate = event.currentTarget.type === 'checkbox'
       ? checked
-      : value;
+      : inputValue;
     if (cached === 'true') {
-      cacheValue(name, valueToUpdate);
+      localStorage[name] = JSON.stringify(valueToUpdate);
     }
     this.setState({ [name]: valueToUpdate });
     return this.dispatchEvent(event);

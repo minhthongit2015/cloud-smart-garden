@@ -159,6 +159,7 @@ const projects = `${AI}/projects`;
 const experiments = `${AI}/experiments`;
 const experimentI = _id => `${experiments}/${_id}`;
 const buildExperimentI = _id => `${experimentI(_id)}/build`;
+const compareExperimentI = _id => `${experimentI(_id)}/compare`;
 const stopTraining = `${experiments}/stop-training`;
 const datasets = `${AI}/datasets`;
 const datasetI = _id => `${datasets}/${_id}`;
@@ -224,6 +225,7 @@ export default {
   experiments,
   experimentI,
   buildExperimentI,
+  compareExperimentI,
   stopTraining,
   datasets,
   datasetI,

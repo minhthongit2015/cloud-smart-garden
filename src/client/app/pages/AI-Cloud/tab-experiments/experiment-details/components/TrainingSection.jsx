@@ -51,24 +51,25 @@ class TrainingSection extends BaseComponent.Pure {
 
     const {
       experiment: { _id: experimentId },
-      editingTarget,
-      datasets
+      editingTarget
     } = this.props;
-    let datasetId;
-    if (datasets[0]) {
-      datasetId = datasets[0].value;
-    } else {
-      const res = await DatasetService.fetchDatasets();
-      datasetId = res.data[0]._id;
-    }
 
     const {
       algorithms: [{ key: algorithm }],
       optimizers: [{ key: optimizer }],
       losses: [{ key: loss }],
       activations: [{ key: activation }],
-      layers
+      layers,
+      datasets
     } = editingTarget;
+
+    let datasetId;
+    if (datasets && datasets[0]) {
+      datasetId = datasets[0].key;
+    } else {
+      const res = await DatasetService.fetchDatasets();
+      datasetId = res.data[0]._id;
+    }
 
     const {
       batchSize,
@@ -112,10 +113,12 @@ class TrainingSection extends BaseComponent.Pure {
       this.setState({
         isTraining: true
       });
+      this.dispatchEvent(this.Events.begin);
     }, () => {
       this.setState({
         isTraining: false
       });
+      this.dispatchEvent(this.Events.end);
     });
   }
 

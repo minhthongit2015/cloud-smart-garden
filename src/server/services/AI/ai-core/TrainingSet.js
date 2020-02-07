@@ -46,8 +46,9 @@ module.exports = class {
       if (typeof node === 'function') {
         return node(inputValue, record, dataset);
       }
-      if (typeof node === 'object' && node.execution) {
-        return DataUtils.runUtil(node, inputValue, record, dataset);
+      if (typeof node === 'object' && node.key) {
+        const utilNode = DataUtils[node.key];
+        return DataUtils.runUtil(utilNode, inputValue, record, dataset);
       }
       if (typeof node === 'string' && DataUtils[node]) {
         return DataUtils.runUtil(DataUtils[node], inputValue, record, dataset);

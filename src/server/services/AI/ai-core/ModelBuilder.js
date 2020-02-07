@@ -1,18 +1,18 @@
-const { TrainingSetInterface, BuildOptionsInterface } = require('../utils/AITypes');
+const { TrainingSet, BuildModelOptions } = require('../utils/AITypes');
 const NeralNetwork = require('./NeuralNetwork');
 const AlgorithmMapper = require('../utils/AlgorithmMapper');
 
 
 module.exports = class {
   static buildForTrainingSet(type,
-    trainingSet = { ...TrainingSetInterface },
-    buildOpts = { ...BuildOptionsInterface }) {
+    trainingSet = new TrainingSet(),
+    buildOpts = { ...BuildModelOptions }) {
     return this.buildNeuralForTrainingSet(trainingSet, buildOpts);
   }
 
   static buildNeuralForTrainingSet(
-    trainingSet = { ...TrainingSetInterface },
-    buildOpts = { ...BuildOptionsInterface }
+    trainingSet = new TrainingSet(),
+    buildOpts = new BuildModelOptions()
   ) {
     const numFeatures = trainingSet.features.length;
     const numOutputs = trainingSet.labels.length;
@@ -20,14 +20,15 @@ module.exports = class {
       numFeatures,
       numOutputs,
       activation: AlgorithmMapper(buildOpts.activation),
-      layers: buildOpts.layers
+      layers: buildOpts.layers,
+      isClassification: buildOpts.algorithm === 'neuralNetwork'
     });
     return this.compileModel(model, buildOpts);
   }
 
   static compileModel(
     model,
-    compileOpts = { ...BuildOptionsInterface }
+    compileOpts = new BuildModelOptions()
   ) {
     model.compile({
       optimizer: AlgorithmMapper(compileOpts.optimizer),
@@ -39,8 +40,8 @@ module.exports = class {
 
   static verifyModel(
     model,
-    trainingSet = { ...TrainingSetInterface },
-    buildOpts = { ...BuildOptionsInterface }
+    trainingSet = new TrainingSet(),
+    buildOpts = new BuildModelOptions()
   ) {
     if (!model) return null;
     const numFeatures = trainingSet.features.length;

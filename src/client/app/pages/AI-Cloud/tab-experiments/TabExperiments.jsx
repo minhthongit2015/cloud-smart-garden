@@ -19,7 +19,7 @@ class TabExperiments extends SubPageGroup {
   render() {
     return (
       <React.Fragment>
-        <Section>
+        {/* <Section>
           <SectionHeader>{'> To do:'}</SectionHeader>
           <SectionBody>
             <ul>
@@ -30,7 +30,7 @@ class TabExperiments extends SubPageGroup {
               <li>Cho phép Ctrl + Z</li>
             </ul>
           </SectionBody>
-        </Section>
+        </Section> */}
         <Section>
           <SectionHeader>Chế độ chăm sóc bạn đang nghiên cứu</SectionHeader>
           <SectionBody>

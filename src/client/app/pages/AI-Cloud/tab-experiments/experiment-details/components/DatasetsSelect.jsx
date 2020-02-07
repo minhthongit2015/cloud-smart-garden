@@ -5,17 +5,13 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import BaseComponent from '../../../../../components/BaseComponent';
 import DatasetService from '../../../../../services/AI/DatasetService';
-import { toOptions } from '../../../../../utils';
+import { toOptions, fromOptions } from '../../../../../utils';
 
 
 export default class DatasetSelect extends BaseComponent {
   constructor(props) {
     super(props);
-    const { name = 'datasets' } = this.props;
-    this.handleDatasetSelect = this.handleInputChange.bind(this, name);
-    const { datasets } = this.InputValues;
     this.state = {
-      datasets,
       datasetOptions: []
     };
   }
@@ -25,25 +21,34 @@ export default class DatasetSelect extends BaseComponent {
       .then((res) => {
         const datasets = toOptions(res.data, '_id', 'title');
         this.setState({
-          datasetOptions: datasets,
-          datasets: datasets.slice(0, 1)
+          datasetOptions: datasets
         }, () => {
-          this.handleDatasetSelect(this.state.datasets);
+          const { editingTarget } = this.props;
+          editingTarget.datasets = editingTarget.datasets || fromOptions(datasets.slice(0, 1));
+          this.dispatchEvent(this.Events.change, editingTarget);
         });
       });
   }
 
+  handleSelectChange(value, { name }) {
+    const { editingTarget } = this.props;
+    editingTarget[name] = fromOptions(value);
+    this.forceUpdate();
+    this.dispatchEvent(this.Events.change, editingTarget);
+  }
+
   render() {
-    const { name = 'datasets', className } = this.props;
-    const { datasetOptions, datasets } = this.InputValues;
+    const { name = 'datasets', className, editingTarget } = this.props;
+    const { datasetOptions } = this.state;
+
     return (
       <div className={className || ''}>
         <Select
           id={name}
           name={name}
-          onChange={this.handleDatasetSelect}
+          onChange={this.handleSelectChange}
           options={datasetOptions}
-          value={datasets}
+          value={editingTarget && toOptions(editingTarget.datasets)}
           isMulti
           components={makeAnimated()}
         />

@@ -8,21 +8,7 @@ import { toOptions, fromOptions } from '../../../../../utils';
 
 
 export default class extends BaseComponent {
-  constructor(props) {
-    super(props);
-    const {
-      algorithmName = 'algorithm',
-      optimizerName = 'optimizers',
-      lossName = 'losses',
-      activationName = 'activations'
-    } = this.props;
-    this.handleAlgorithmSelect = this.handleSelectChange.bind(this, algorithmName);
-    this.handleOptimizerSelect = this.handleSelectChange.bind(this, optimizerName);
-    this.handleLossSelect = this.handleSelectChange.bind(this, lossName);
-    this.handleActivationSelect = this.handleSelectChange.bind(this, activationName);
-  }
-
-  handleSelectChange(name, value) {
+  handleSelectChange(value, { name }) {
     const { editingTarget } = this.props;
     editingTarget[name] = fromOptions(value);
     this.forceUpdate();
@@ -77,7 +63,7 @@ export default class extends BaseComponent {
             <Select
               id={optimizerName}
               name={optimizerName}
-              onChange={this.handleOptimizerSelect}
+              onChange={this.handleSelectChange}
               options={optimizerOpts}
               value={toOptions(optimizers)}
               isMulti
@@ -91,7 +77,7 @@ export default class extends BaseComponent {
             <Select
               id={lossName}
               name={lossName}
-              onChange={this.handleLossSelect}
+              onChange={this.handleSelectChange}
               options={lossOpts}
               value={toOptions(losses)}
               isMulti
@@ -105,7 +91,7 @@ export default class extends BaseComponent {
             <Select
               id={activationName}
               name={activationName}
-              onChange={this.handleActivationSelect}
+              onChange={this.handleSelectChange}
               options={activationOpts}
               value={toOptions(activations)}
               isMulti

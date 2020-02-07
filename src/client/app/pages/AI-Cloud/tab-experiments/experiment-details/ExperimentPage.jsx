@@ -5,7 +5,7 @@ import {
 } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
 import { ExperimentTargets } from '../../../../utils/Constants';
-import { generateTests, updateArray } from '../../../../utils';
+import { generateTests, updateArray, findByKey } from '../../../../utils';
 import ExperimentBaseInfo from './components/ExperimentBaseInfo';
 import BaseComponent from '../../../../components/BaseComponent';
 import AlgorithmsSelect from './components/AlgorithmsSelect';
@@ -21,17 +21,21 @@ import PredictSection from './components/PredictSection';
 export default class extends BaseComponent {
   constructor(props) {
     super(props);
+    this.predictSectionRef = React.createRef();
     this.bind(
       this.handleTargetChange, this.toggleEditingTarget,
-      this.handleAlgorithmsChange
+      this.handleAlgorithmsChange,
+      this.handleTrainEnd
     );
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
+    const editingTargetKey = this.getCachedValue('editingTargetKey', 'light');
+    const editingTarget = findByKey(editingTargetKey, targets);
     this.state = {
       experiment: props.data,
       targets,
-      editingTarget: targets.light,
-      datasets: [],
+      editingTarget,
+      datasets: editingTarget.datasets,
       isOpenEditingTarget: null
     };
   }
@@ -44,6 +48,7 @@ export default class extends BaseComponent {
     this.setState(prevState => ({
       isOpenEditingTarget: prevState.isOpenEditingTarget || event.typez === this.Events.change.typez
     }));
+    this.cacheValue('editingTargetKey', editingTarget.key);
     this.handleInputChange(event);
   }
 
@@ -66,6 +71,10 @@ export default class extends BaseComponent {
     this.forceUpdate();
   }
 
+  handleTrainEnd() {
+    this.predictSectionRef.current.compare();
+  }
+
   getGuidingMessageByTarget(/* target */) {
     // const targetProp = target.labels[0];
     // if (targetProp) {
@@ -74,32 +83,10 @@ export default class extends BaseComponent {
     return 'Khi nào cần bật đèn quang hợp?';
   }
 
-  generateTestFromTarget(target) {
-    const {
-      algorithms, optimizers = [], losses = [], activations = []
-    } = target || {};
-    const tests = [];
-    if (algorithms && optimizers && losses && activations) {
-      optimizers.forEach((optimizer) => {
-        losses.forEach((loss) => {
-          activations.forEach((activation) => {
-            tests.push({
-              optimizer,
-              loss,
-              activation
-            });
-          });
-        });
-      });
-    }
-    return tests;
-  }
-
   render() {
     const {
       experiment, targets,
-      editingTarget, isOpenEditingTarget,
-      datasets
+      editingTarget, isOpenEditingTarget
     } = this.state || {};
     const showEditingTarget = editingTarget != null && isOpenEditingTarget;
 
@@ -142,8 +129,8 @@ export default class extends BaseComponent {
                   <div className="font-italic border-bottom mb-2">Dữ liệu thu thập được</div>
                   {showEditingTarget && (
                     <DatasetsSelect
-                      datasets={datasets}
-                      onChange={this.handleInputChange}
+                      editingTarget={editingTarget}
+                      onChange={this.handleAlgorithmsChange}
                     />
                   )}
                 </Col>
@@ -189,12 +176,14 @@ export default class extends BaseComponent {
             experiment={experiment}
             editingTarget={editingTarget}
             targets={targets}
-            datasets={datasets}
+            onEnd={this.handleTrainEnd}
           />
         </Section>
 
         <Section title="Thử nghiệm model đã qua huấn luyện" beautyFont className="mb-4">
           <PredictSection
+            ref={this.predictSectionRef}
+            experiment={experiment}
             editingTarget={editingTarget}
           />
         </Section>

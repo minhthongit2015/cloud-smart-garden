@@ -61,7 +61,7 @@ export default class TabDataset extends SubPageGroup {
           </MDBBtn>
         </div>
         <DatasetModule ref={this.postModuleRef} />
-        <Section>
+        {/* <Section>
           <SectionHeader>Note</SectionHeader>
           <SectionBody>
             <section>Lựa chọn + Quan sát dataset</section>
@@ -70,7 +70,7 @@ export default class TabDataset extends SubPageGroup {
             <section>Thử nghiệm lại trên các Experiment</section>
             <div>Cho phép Ctrl + Z</div>
           </SectionBody>
-        </Section>
+        </Section> */}
       </React.Fragment>
     );
   }

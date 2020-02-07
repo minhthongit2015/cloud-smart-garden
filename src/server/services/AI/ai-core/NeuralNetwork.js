@@ -22,15 +22,19 @@ module.exports = class Neural {
     numFeatures,
     numOutputs,
     activation,
-    layers = []
+    layers = [],
+    isClassification
   }) {
+    const lastActivation = isClassification ? 'softmax' : activation;
     const inputLayer = tf.input({ shape: [numFeatures], activation });
     const lastMiddleLayer = layers
       .reduce((prevLayer, units) => {
         const nextDense = tf.layers.dense({ units, activation }).apply(prevLayer);
         return nextDense;
       }, inputLayer);
-    const outputLayer = tf.layers.dense({ units: numOutputs, activation }).apply(lastMiddleLayer);
+    const outputLayer = tf.layers.dense({
+      units: numOutputs, activation: lastActivation
+    }).apply(lastMiddleLayer);
     return tf.model({ inputs: inputLayer, outputs: outputLayer });
   }
 };
