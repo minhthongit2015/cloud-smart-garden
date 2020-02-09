@@ -150,8 +150,8 @@ export default class extends BaseChart {
     return (
       !!total && (
         <React.Fragment>
-          <div>Đúng: {match || 0} / {miss || 0} Sai</div>
-          <div>Độ chính xác: {(match / total).toFixed(2)}%</div>
+          <div>Đúng: {match || 0}/{total || 0} / Sai: {miss || 0}/{total || 0}</div>
+          <div>Độ chính xác: {(match / total * 100).toFixed(3)}%</div>
         </React.Fragment>
       )
     );

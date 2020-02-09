@@ -62,11 +62,11 @@ module.exports = class extends CRUDService {
   static calcFan(temperature, mtime, hours, minutes, seconds) {
     const TIME_FORMAT = 'HH:mm';
     const onTimes = [
-      ['6:00', '6:30'],
-      ['10:00', '11:00'],
-      ['17:00', '17:30']
+      ['6:00', '8:00'],
+      ['10:00', '12:00'],
+      ['17:00', '19:00']
     ];
-    return temperature > 35
+    return temperature > 29
       || onTimes.some(
         (time) => {
           const start = moment(time[0], TIME_FORMAT);

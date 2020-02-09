@@ -44,8 +44,8 @@ export default class HistoryHelper {
     window.historyz = props.history || window.historyz;
   }
 
-  static push(url = window.location.href, state, title = document.title) {
-    if (!window.handled
+  static push(url = window.location.href, state, title = document.title, force = false) {
+    if (!force && !window.handled
       && performance.navigation.type === performance.navigation.TYPE_RELOAD
       && url !== this.pureUrl) {
       window.handled = true;

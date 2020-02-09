@@ -1,7 +1,7 @@
 
 $color-inactive: #727272;
 $color: $color-blue;
-$color-hover: $color-turquoise;
+$color-hover: $color-turquoise-dark;
 
 .zoom-tool {
   display: flex;
@@ -19,7 +19,7 @@ $color-hover: $color-turquoise;
       color: $color;
     }
     
-    &:active {
+    &.active, &:active {
       color: $color-hover;
     }
   }

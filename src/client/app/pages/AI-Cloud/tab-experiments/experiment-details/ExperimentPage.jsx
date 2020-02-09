@@ -42,6 +42,10 @@ export default class extends BaseComponent {
     };
   }
 
+  componentDidMount() {
+    this.predictSectionRef.current.compare();
+  }
+
   handleTargetChange(event) {
     const { currentTarget: { value: editingTarget } } = event;
     if (!editingTarget.tests) {
@@ -51,7 +55,9 @@ export default class extends BaseComponent {
       isOpenEditingTarget: prevState.isOpenEditingTarget || event.typez === this.Events.change.typez
     }));
     this.cacheValue('editingTargetKey', editingTarget.key);
-    this.handleInputChange(event);
+    this.handleInputChange(event).then(() => {
+      this.predictSectionRef.current.compare();
+    });
   }
 
   toggleEditingTarget() {
@@ -204,6 +210,15 @@ export default class extends BaseComponent {
               editingTarget={editingTarget}
             />
           </MDBCollapse>
+        </Section>
+
+        <Section title="Lưu Model đã qua huấn luyện" beautyFont className="mb-4">
+          <div className="text-center">
+            <MDBBtn
+              className="px-3 py-2"
+            >Lưu Model
+            </MDBBtn>
+          </div>
         </Section>
       </React.Fragment>
     );

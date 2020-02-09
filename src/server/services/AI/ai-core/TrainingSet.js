@@ -25,12 +25,12 @@ module.exports = class {
     trainingSet.xs = [];
     trainingSet.ys = [];
     dataset.records.forEach(
-      (record) => {
+      (record, index) => {
         trainingSet.xs.push(
-          features.map(featurePath => this.mapThroughtAllNodes(record, featurePath, dataset))
+          features.map(featurePath => this.mapThroughtAllNodes(record, index, featurePath, dataset))
         );
         trainingSet.ys.push(
-          labels.map(labelPath => this.mapThroughtAllNodes(record, labelPath, dataset))
+          labels.map(labelPath => this.mapThroughtAllNodes(record, index, labelPath, dataset))
         );
       }
     );
@@ -38,20 +38,20 @@ module.exports = class {
     return trainingSet;
   }
 
-  static mapThroughtAllNodes(record, inputPath, dataset) {
+  static mapThroughtAllNodes(record, index, inputPath, dataset) {
     if (typeof inputPath === 'string') {
       return get(record, inputPath);
     }
     return inputPath.slice(1).reduce((inputValue, node) => {
       if (typeof node === 'function') {
-        return node(inputValue, record, dataset);
+        return node(inputValue, record, index, dataset);
       }
       if (typeof node === 'object' && node.key) {
         const utilNode = DataUtils[node.key];
-        return DataUtils.runUtil(utilNode, inputValue, record, dataset);
+        return DataUtils.runUtil(utilNode, inputValue, record, index, dataset);
       }
       if (typeof node === 'string' && DataUtils[node]) {
-        return DataUtils.runUtil(DataUtils[node], inputValue, record, dataset);
+        return DataUtils.runUtil(DataUtils[node], inputValue, record, index, dataset);
       }
       return inputValue;
     }, get(record, inputPath[0]));

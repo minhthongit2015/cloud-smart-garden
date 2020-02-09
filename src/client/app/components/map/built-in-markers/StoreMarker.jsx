@@ -50,7 +50,7 @@ export default class StoreMarker extends PageMarker {
             {description}
           </Section>
         )}
-        <Section title="mua lần trước" beautyFont>
+        <Section title="mua gần đây" beautyFont>
           <GoodsList items={recentlyBuy} onSelect={this.handleSelectItem} />
         </Section>
         <Section title="danh mục sản phẩm" beautyFont>

@@ -4,7 +4,7 @@ import ItemList from './ItemList';
 
 
 export default class extends ItemList {
-  get row() {
+  get isRow() {
     return true;
   }
 

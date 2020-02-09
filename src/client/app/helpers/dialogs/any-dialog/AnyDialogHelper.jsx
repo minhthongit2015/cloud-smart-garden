@@ -53,7 +53,9 @@ export default class AnyDialogHelper {
     } else {
       const { content: Content } = this.DialogsMap[dialogType];
       if (Content) {
-        this.dialogRefs[dialogType].setContent(<Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]);
+        this.dialogRefs[dialogType].setContent(
+          <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]
+        );
       } else {
         this.dialogRefs[dialogType].show(...args);
       }

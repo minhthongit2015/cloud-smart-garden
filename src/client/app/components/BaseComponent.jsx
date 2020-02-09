@@ -260,7 +260,8 @@ export default class BaseComponent extends React.Component {
 
   handleInputChange(eventOrName, value) {
     if (!eventOrName) {
-      return this.dispatchEvent(Events.change);
+      this.dispatchEvent(Events.change);
+      return Promise.resolve();
     }
     const event = typeof eventOrName === 'string'
       ? {
@@ -280,7 +281,9 @@ export default class BaseComponent extends React.Component {
     if (cached === 'true') {
       localStorage[name] = JSON.stringify(valueToUpdate);
     }
-    this.setState({ [name]: valueToUpdate });
-    return this.dispatchEvent(event);
+    this.dispatchEvent(event);
+    return new Promise(resolve => (
+      this.setState({ [name]: valueToUpdate }, resolve)
+    ));
   }
 }

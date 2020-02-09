@@ -24,7 +24,7 @@ export default class extends BaseDialog {
     if (this.isOpen) {
       HistoryHelper.replace(url, state, title);
     } else {
-      HistoryHelper.push(url, state, title);
+      HistoryHelper.push(url, state, title, true);
     }
     super.open(...args);
   }

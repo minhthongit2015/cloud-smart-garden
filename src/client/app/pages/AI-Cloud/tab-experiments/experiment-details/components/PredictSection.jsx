@@ -20,6 +20,11 @@ export default class extends BaseComponent.Pure {
       experiment: { _id: experimentId },
       editingTarget
     } = this.props;
+    if (!experimentId || !editingTarget) {
+      return;
+    }
+
+    this.predictionChartRef.current.clean();
 
     const {
       datasets
