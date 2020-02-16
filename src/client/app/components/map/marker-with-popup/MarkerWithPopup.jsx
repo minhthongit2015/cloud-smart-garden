@@ -3,7 +3,7 @@ import React from 'react';
 import { MarkerProps, InfoWindowProps } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import BaseMarker from '../base-marker/BaseMarker';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import BaseCircle from '../circle/BaseCircle';
 import BaseInfoWindow from '../base-info-window/BaseInfoWindow';
 import './DefaultStyle.scss';

@@ -18,7 +18,7 @@ import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
 import superrequest from '../../../utils/superrequest';
 import CategoryService from '../../../services/blog/CategoryService';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
 
@@ -97,7 +97,6 @@ export default class extends BaseComponent {
     super(props);
     this.thankForYourPostRef = React.createRef();
     this._handleSubmit = this._handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.close = this.close.bind(this);
 
@@ -107,7 +106,7 @@ export default class extends BaseComponent {
     };
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     window.onbeforeunload = !this.isEmpty
       ? () => true
       : undefined;
@@ -186,20 +185,13 @@ export default class extends BaseComponent {
     });
   }
 
-  handleInputChange(event) {
-    const { target: { name, value } } = event;
-    this.setState({
-      [name]: value
-    });
-  }
-
   async _handleSubmit(event) {
     if (event) {
       event.preventDefault();
     }
-    const postResult = await this.handleFormSubmit(event);
-    event.typez = 'postPosted';
-    this.dispatchEvent(event, postResult);
+    this.dispatchEvent(this.Events.submit);
+    const submitResult = await this.handleFormSubmit(event);
+    this.dispatchEvent(this.Events.submited, submitResult);
   }
 
   async validate() {
@@ -218,7 +210,7 @@ export default class extends BaseComponent {
     return true;
   }
 
-  async handleFormSubmit(event) {
+  handleFormSubmit(event) {
     return new Promise(async (resolve) => {
       const isValid = await this.validate();
       if (!isValid) return;

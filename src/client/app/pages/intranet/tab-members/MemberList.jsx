@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from '../../../components/BaseComponent';
+import BaseComponent from '../../../components/_base/BaseComponent';
 import './MemberList.scss';
 import UISounds from '../../../../assets/sounds/UISounds';
 import { getParameters } from '../../../../assets/icons/EffectHelper';

@@ -1,8 +1,10 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import NewPost from '../new-post/NewPost';
 import UserService from '../../../services/user/UserService';
 import InfinitePostList from '../infinite-post-list/InfinitePostList';
 import ContextOptions from '../ContextOptions';
+import Post from '../post/Post';
 
 
 export default class extends React.Component {
@@ -14,8 +16,20 @@ export default class extends React.Component {
     return this.props.NewPostComponent || NewPost;
   }
 
+  get newPost() {
+    return this.newPostRef.current;
+  }
+
   get PostListComponent() {
     return this.props.PostListComponent || InfinitePostList;
+  }
+
+  get postList() {
+    return this.postListRef.current;
+  }
+
+  get PostComponent() {
+    return this.props.PostComponent || Post;
   }
 
   get newPostProps() {
@@ -27,7 +41,7 @@ export default class extends React.Component {
       type,
       categories,
       hasPermission: canCreateNewPost,
-      onPostPosted: this.handlePostPosted
+      onSubmited: this.handlePostPosted
     };
   }
 
@@ -40,11 +54,20 @@ export default class extends React.Component {
     return {
       ...restProps,
       ref: this.postListRef,
+      PostComponent: this.PostComponent,
       type,
       categories,
       hasPermission: canCreateNewPost,
       onContextActions: this.handleContextActions
     };
+  }
+
+  get showCreatePost() {
+    return this.props.showCreatePost != null ? this.props.showCreatePost : true;
+  }
+
+  get showPostList() {
+    return this.props.showPostList != null ? this.props.showPostList : true;
   }
 
   constructor(props) {
@@ -64,18 +87,20 @@ export default class extends React.Component {
     if (option.value === ContextOptions.update.value) {
       this.setPost(post, postComponent);
     }
-    if (option.value === ContextOptions.deleteDone.value) {
+    if (option.value === ContextOptions.deleted.value) {
       this.refreshPostList();
     }
   }
 
   setPost(post, postComponent) {
-    this.newPostRef.current.setPost(post, postComponent);
+    if (this.newPost && this.newPost.setPost) {
+      this.newPost.setPost(post, postComponent);
+    }
   }
 
   refreshPostList() {
-    if (this.postListRef.current.refresh) {
-      this.postListRef.current.refresh();
+    if (this.postList && this.postList.refresh) {
+      this.postList.refresh();
     }
   }
 
@@ -84,8 +109,12 @@ export default class extends React.Component {
 
     return (
       <React.Fragment>
-        <NewPostComponent {...this.newPostProps} />
-        <PostListComponent {...this.postListProps} />
+        {this.showCreatePost && (
+          <NewPostComponent {...this.newPostProps} />
+        )}
+        {this.showPostList && (
+          <PostListComponent {...this.postListProps} />
+        )}
       </React.Fragment>
     );
   }

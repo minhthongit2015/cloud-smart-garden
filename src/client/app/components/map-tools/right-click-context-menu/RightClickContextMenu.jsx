@@ -3,7 +3,7 @@ import {
   MDBDropdown, MDBDropdownToggle, DropdownMenu, DropdownItem
 } from 'mdbreact';
 import classnames from 'classnames';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import './RightClickContextMenu.scss';
 
 

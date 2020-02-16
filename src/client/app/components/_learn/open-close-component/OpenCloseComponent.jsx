@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 /**
  * Thiết kế `Component` để tiện cho việc mở rộng và không phải chỉnh sửa component gốc.

@@ -2,7 +2,7 @@
 import React from 'react';
 import ApexChart from 'react-apexcharts';
 import DemoDataApexLineChart from './DemoDataApexLineChart';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 /**

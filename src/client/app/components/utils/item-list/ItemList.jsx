@@ -4,7 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import StylePropType from 'react-style-proptype';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import './ItemList.scss';
 import { groupBy } from '../../../utils';
 import TimeAgo from '../time-ago/TimeAgo';

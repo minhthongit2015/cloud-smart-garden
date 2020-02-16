@@ -2,9 +2,9 @@
 import React from 'react';
 import {
   dispatchEvent, buildEvent, bindMethods, getCachedValue, cacheValue
-} from '../utils';
-import { EventInterface } from '../utils/Interfaces';
-import Random from '../utils/Random';
+} from '../../utils';
+import { EventInterface } from '../../utils/Interfaces';
+import Random from '../../utils/Random';
 
 
 const Events = {
@@ -25,6 +25,8 @@ const Events = {
   select: { typez: 'select' },
   submit: { typez: 'submit' },
   submited: { typez: 'submited' },
+  delete: { typez: 'delete' },
+  deleted: { typez: 'deleted' },
   progress: { typez: 'progress' },
   begin: { typez: 'begin' },
   end: { typez: 'end' }
@@ -152,6 +154,12 @@ class PureComponent extends React.PureComponent {
         }
       }
       : eventOrName;
+    if (typeof eventOrName === 'string') {
+      event.target = event.currentTarget;
+    }
+    if (event.currentTarget === undefined) {
+      event.currentTarget = event.target;
+    }
     const {
       name, value: inputValue, checked, dataset: { cached } = {}
     } = event.currentTarget || {};
@@ -272,6 +280,12 @@ export default class BaseComponent extends React.Component {
         }
       }
       : eventOrName;
+    if (typeof eventOrName === 'string') {
+      event.target = event.currentTarget;
+    }
+    if (event.currentTarget === undefined) {
+      event.currentTarget = event.target;
+    }
     const {
       name, value: inputValue, checked, dataset: { cached } = {}
     } = event.currentTarget || {};

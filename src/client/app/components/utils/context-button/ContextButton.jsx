@@ -3,7 +3,7 @@ import {
   MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
 } from 'mdbreact';
 import { IconMore } from '../../../../assets/icons';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {

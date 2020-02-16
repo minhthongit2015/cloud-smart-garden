@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, MDBBtn } from 'mdbreact';
 import classNames from 'classnames';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import { sameKey } from '../../../../../utils';
 import FixedRatioImage from '../../../../../components/utils/fixed-ratio-image/FixedRatioImage';
 import './ExperimentTargets.scss';

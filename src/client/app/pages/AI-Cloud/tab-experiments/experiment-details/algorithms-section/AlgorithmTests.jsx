@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBTable } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import Checkbox from '../../../../../components/utils/checkbox/Checkbox';
 import { findByKey } from '../../../../../utils';
 

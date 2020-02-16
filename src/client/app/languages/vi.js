@@ -106,6 +106,22 @@ module.exports = {
             postButton: 'Tạo chế độ mới',
             updateButton: 'Lưu chỉnh sửa'
           }
+        },
+        trainedModels: {
+          newForm: {
+            createTitle: 'Lưu Model mới',
+            updateTitle: 'Cập nhập thông tin Model',
+            postButton: 'Lưu Model',
+            updateButton: 'Lưu chỉnh sửa'
+          }
+        },
+        datasets: {
+          newForm: {
+            createTitle: 'Tạo bộ dữ liệu mới',
+            updateTitle: 'Chỉnh sửa thông tin bộ dữ liệu',
+            postButton: 'Tạo bộ dữ liệu',
+            updateButton: 'Lưu chỉnh sửa'
+          }
         }
       }
     },
@@ -155,6 +171,10 @@ module.exports = {
         knowAllMsg6: 'bạn đã biết tất cả những gì mình biết...',
         knowAllMsg7: 'bạn đã biết tất cả những gì mình biết...'
       }
+    },
+    rating: {
+      guide: 'How much you like this?',
+      average: 'Yêu thích'
     },
     user: {
       login: '❝ Đăng Nhập ❞',

@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBBtn } from 'mdbreact';
 import classnames from 'classnames';
 import './ButtonBar.scss';
-import BaseComponent from '../BaseComponent';
+import BaseComponent from '../_base/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {

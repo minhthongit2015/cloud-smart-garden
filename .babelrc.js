@@ -6,5 +6,5 @@ const presets = [
 
 module.exports = {
   presets,
-  plugins: ["react-hot-loader/babel", '@babel/plugin-proposal-class-properties']
+  plugins: ["lodash", "react-hot-loader/babel", '@babel/plugin-proposal-class-properties']
 };

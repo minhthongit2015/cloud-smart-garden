@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBInput } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import { layersAsArray, layersAsString } from '../../../../../utils';
 
 

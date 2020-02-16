@@ -6,27 +6,31 @@ import {
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
 import { ExperimentTargets } from '../../../../utils/Constants';
 import { generateTests, updateArray, findByKey } from '../../../../utils';
-import ExperimentBaseInfo from './components/ExperimentBaseInfo';
-import BaseComponent from '../../../../components/BaseComponent';
-import AlgorithmsSelect from './components/AlgorithmsSelect';
-import DatasetsSelect from './components/DatasetsSelect';
-import AlgorithmTests from './components/AlgorithmTests';
-import ExperimentTargetsComp from './components/ExperimentTargets';
-import FeaturesSelect from './components/FeaturesSelect';
-import OutputsSelect from './components/OutputsSelect';
-import TrainingSection from './components/TrainingSection';
-import PredictSection from './components/PredictSection';
+import ExperimentBaseInfo from './info-section/ExperimentBaseInfo';
+import BaseComponent from '../../../../components/_base/BaseComponent';
+import AlgorithmsSelect from './algorithms-section/AlgorithmsSelect';
+import DatasetsSelect from './algorithms-section/DatasetsSelect';
+import AlgorithmTests from './algorithms-section/AlgorithmTests';
+import ExperimentTargetsComp from './targets-section/ExperimentTargets';
+import FeaturesSelect from './algorithms-section/FeaturesSelect';
+import OutputsSelect from './algorithms-section/OutputsSelect';
+import TrainingSection from './training-section/TrainingSection';
+import EvaluationSection from './evaluation-section/EvaluationSection';
+import NewTrainedModel from '../../tab-trained-models/trained-models-page/NewTrainedModel';
+import RouteConstants from '../../../../utils/RouteConstants';
 
 
 export default class extends BaseComponent {
   constructor(props) {
     super(props);
-    this.predictSectionRef = React.createRef();
+    this.evaluationSectionRef = React.createRef();
+    this.newTrainedModelRef = React.createRef();
     this.bind(
       this.handleTargetChange, this.toggleEditingTarget,
       this.handleAlgorithmsChange,
       this.handleTrainEnd,
-      this.togglePredictSection
+      this.toggleEvaluationSection,
+      this.handleSaveModel
     );
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
@@ -38,12 +42,12 @@ export default class extends BaseComponent {
       editingTarget,
       datasets: editingTarget.datasets,
       isOpenEditingTarget: false,
-      isOpenPredictSection: true
+      isOpenEvaluationSection: true
     };
   }
 
   componentDidMount() {
-    this.predictSectionRef.current.compare();
+    this.evaluationSectionRef.current.compare();
   }
 
   handleTargetChange(event) {
@@ -56,7 +60,7 @@ export default class extends BaseComponent {
     }));
     this.cacheValue('editingTargetKey', editingTarget.key);
     this.handleInputChange(event).then(() => {
-      this.predictSectionRef.current.compare();
+      this.evaluationSectionRef.current.compare();
     });
   }
 
@@ -66,9 +70,9 @@ export default class extends BaseComponent {
     });
   }
 
-  togglePredictSection() {
+  toggleEvaluationSection() {
     this.setState(prevState => ({
-      isOpenPredictSection: !prevState.isOpenPredictSection
+      isOpenEvaluationSection: !prevState.isOpenEvaluationSection
     }));
   }
 
@@ -86,7 +90,13 @@ export default class extends BaseComponent {
   }
 
   handleTrainEnd() {
-    this.predictSectionRef.current.compare();
+    this.evaluationSectionRef.current.compare();
+  }
+
+  handleSaveModel() {
+    this.newTrainedModelRef.current.setFormData({
+      title: 'Model 01'
+    });
   }
 
   getGuidingMessageByTarget(/* target */) {
@@ -101,7 +111,7 @@ export default class extends BaseComponent {
     const {
       experiment, targets,
       editingTarget, isOpenEditingTarget,
-      isOpenPredictSection
+      isOpenEvaluationSection
     } = this.state || {};
     const showEditingTarget = editingTarget != null && isOpenEditingTarget;
 
@@ -199,13 +209,13 @@ export default class extends BaseComponent {
           <div className="text-right">
             <MDBBtn
               className="px-2 py-1"
-              onClick={this.togglePredictSection}
-            ><i className="fas fa-minus-square" /> {isOpenPredictSection ? 'Thu gọn' : 'Mở rộng'}
+              onClick={this.toggleEvaluationSection}
+            ><i className="fas fa-minus-square" /> {isOpenEvaluationSection ? 'Thu gọn' : 'Mở rộng'}
             </MDBBtn>
           </div>
-          <MDBCollapse isOpen={isOpenPredictSection}>
-            <PredictSection
-              ref={this.predictSectionRef}
+          <MDBCollapse isOpen={isOpenEvaluationSection}>
+            <EvaluationSection
+              ref={this.evaluationSectionRef}
               experiment={experiment}
               editingTarget={editingTarget}
             />
@@ -213,12 +223,29 @@ export default class extends BaseComponent {
         </Section>
 
         <Section title="Lưu Model đã qua huấn luyện" beautyFont className="mb-4">
-          <div className="text-center">
-            <MDBBtn
-              className="px-3 py-2"
-            >Lưu Model
-            </MDBBtn>
-          </div>
+          <Row className="mb-3">
+            <Col size="6" sm="4" className="text-center offset-0 offset-sm-4">
+              <MDBBtn
+                className="px-3 py-2"
+                onClick={this.handleSaveModel}
+              >Lưu Model
+              </MDBBtn>
+            </Col>
+            <Col size="6" sm="4" className="d-flex align-items-start justify-content-end">
+              <a
+                className="hover-blue grey-text"
+                href={RouteConstants.aiTrainedModelsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Trained Models <i className="fas fa-external-link-square-alt" />
+              </a>
+            </Col>
+          </Row>
+          <NewTrainedModel
+            ref={this.newTrainedModelRef}
+            hasPermission
+          />
         </Section>
       </React.Fragment>
     );

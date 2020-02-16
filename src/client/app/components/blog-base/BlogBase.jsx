@@ -40,7 +40,7 @@ export default class extends React.PureComponent {
     if (option.value === 'update') {
       this.newPostRef.current.setPost(post, postComponent);
     }
-    if (option.value === 'delete-done') {
+    if (option.value === 'deleted') {
       this.refreshPostList();
     }
   }

@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent';
+import BaseComponent from '../_base/BaseComponent';
 
 
 export default class TabBody extends BaseComponent.Pure {

@@ -1,6 +1,6 @@
 import SiteConfig from '../../config/site';
 import { loadImage } from '../../utils';
-import BaseComponent from '../../components/BaseComponent';
+import BaseComponent from '../../components/_base/BaseComponent';
 import HistoryHelper from '../../helpers/HistoryHelper';
 
 export default class extends BaseComponent {

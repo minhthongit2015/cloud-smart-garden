@@ -3,7 +3,7 @@ import React from 'react';
 import { Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import * as jQuery from 'jquery';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import './BaseMarker.scss';
 
 

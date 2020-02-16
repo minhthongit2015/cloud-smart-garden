@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Post from '../post/Post';
 import UserService from '../../../services/user/UserService';
 import FbService from '../../../services/user/FbService';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class PostList extends BaseComponent {

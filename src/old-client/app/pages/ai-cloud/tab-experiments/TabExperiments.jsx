@@ -224,13 +224,13 @@ class TabExperiments extends Component {
           </SectionBody>
         </Section>
 
-        <ul>
+        {/* <ul>
           <li>Lựa chọn + Quan sát dataset</li>
           <li>Phân tích dataset</li>
           <li>Chọn model, thuật toán...</li>
           <li>Thử nghiệm -&gt; So sánh kết quả</li>
           <li>Cho phép Ctrl + Z</li>
-        </ul>
+        </ul> */}
       </React.Fragment>
     );
   }

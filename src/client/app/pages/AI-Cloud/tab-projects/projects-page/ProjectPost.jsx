@@ -1,4 +1,4 @@
-import Post from '../../../blog-base/post/Post';
+import Post from '../../../../components/blog-base/post/Post';
 import getContextOptions from './ProjectPostContextOptions';
 
 

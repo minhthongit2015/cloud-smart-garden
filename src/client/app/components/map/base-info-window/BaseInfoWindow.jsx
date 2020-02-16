@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as jQuery from 'jquery';
 import { InfoWindow } from 'google-maps-react';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import './BaseInfoWindow.scss';
 
 

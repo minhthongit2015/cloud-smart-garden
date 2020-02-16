@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import TrainingProgressChart from '../../../../../components/charts/TrainingProgressChart';
 
 

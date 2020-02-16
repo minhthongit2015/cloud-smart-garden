@@ -6,10 +6,11 @@ import {
 import './Rating.scss';
 import classnames from 'classnames';
 import { IconThanks } from '../../../../assets/icons';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
+import t from '../../../languages';
 
 
-export default class extends BaseComponent {
+export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
     this.iconThanksRef = React.createRef();
@@ -63,6 +64,7 @@ export default class extends BaseComponent {
     const averageRating = totalVotes !== 0
       ? totalRating / totalVotes
       : 0;
+    const isKeeping = isVisible && clickable;
 
     return (
       <div className="rating d-flex ml-2">
@@ -76,7 +78,7 @@ export default class extends BaseComponent {
           id={`rating-${id}`}
         >
           <div
-            className={`rating__toggle px-1 pt-1 ${rating ? 'rated' : ''}`}
+            className={`rating__toggle px-1 pt-1 ${rating ? 'rated' : ''} ${isKeeping ? 'rating' : ''}`}
             style={{ cursor: 'pointer' }}
             onClick={this.toggleRatingPopover}
           >
@@ -102,7 +104,7 @@ export default class extends BaseComponent {
                 </MDBBtn>
               ))}
             </div>
-            <div>Đánh giá mức quan trọng của tin tức này để mọi người chú ý hơn vào nó.</div>
+            <div>{t('components.rating.guide')}</div>
           </MDBPopoverBody>
         </MDBPopover>
         <div>
@@ -111,16 +113,16 @@ export default class extends BaseComponent {
               <MDBBtn className="py-0 px-2 m-0 rating__average" size="lg" color="link">
                 (<i className="rating__star fas fa-star" /> {averageRating.toFixed(2)})
               </MDBBtn>
-              <div>Khuyên đọc</div>
+              <div>{t('components.rating.average')}</div>
             </MDBTooltip>
             <MDBTooltip placement="top">
               <MDBBtn className="py-0 pl-2 pr-1 m-0" size="lg" color="link">{totalRating}</MDBBtn>
-              <div>tổng điểm<br />khuyên đọc</div>
+              <div>tổng điểm<br />{t('components.rating.average')}</div>
             </MDBTooltip>
             <span style={{ lineHeight: '29px' }}>/</span>
             <MDBTooltip placement="top">
               <MDBBtn className="py-0 pl-1 pr-1 m-0" size="lg" color="link">{totalVotes}</MDBBtn>
-              <div>lượt khuyên</div>
+              <div>lượt {t('components.rating.average')}</div>
             </MDBTooltip>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import RightClickContextMenu from '../../../components/map-tools/right-click-context-menu/RightClickContextMenu';
 import UserService from '../../../services/user/UserService';
 // import MapService from '../../services/MapService';
-import BaseComponent from '../../../components/BaseComponent';
+import BaseComponent from '../../../components/_base/BaseComponent';
 import { MarkerTypes } from '../../../utils/Constants';
 
 const ContextOptions = {

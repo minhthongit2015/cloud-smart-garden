@@ -7,7 +7,7 @@ import {
 import LeafLoading from '../../utils/loadings/LeafLoading';
 import MapService from '../../../services/map/MapService';
 import PostService from '../../../services/blog/PostService';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
 
 

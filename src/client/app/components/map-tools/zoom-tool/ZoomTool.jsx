@@ -1,6 +1,6 @@
 import React from 'react';
 import './ZoomTool.scss';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 const levels = {
   default: { label: 'Mặc định', value: '', icon: 'fas fa-search-plus' },

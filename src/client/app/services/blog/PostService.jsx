@@ -28,9 +28,6 @@ export default class extends PageDialogHelper {
   }
 
   static async deletePost(post, endpoint) {
-    if (!window.confirm('Bạn có chắc muốn xóa bài viết này?')) {
-      return null;
-    }
     return superrequest.agentDelete(`${endpoint || this.defaultEndpoint}/${post._id}`);
   }
 

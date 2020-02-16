@@ -5,7 +5,7 @@ import { MDBBtn, MDBTooltip } from 'mdbreact';
 import classnames from 'classnames';
 import './FloatingPanel.scss';
 import { IconPlus } from '../../../../assets/icons';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {

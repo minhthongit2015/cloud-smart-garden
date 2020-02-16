@@ -3,7 +3,7 @@ import {
   MDBInput, MDBCard, MDBCardBody, MDBCardHeader
 } from 'mdbreact';
 import { Prompt } from 'react-router-dom';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import DropUploader from '../drop-uploader/DropUploader';
 import { isZeroVariable } from '../../../utils';
 import t from '../../../languages';

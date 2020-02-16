@@ -1,19 +1,19 @@
 /* eslint-disable class-methods-use-this */
 import PostsModule from '../../../../components/blog-base/posts-module/PostsModule';
-import NewExperimentPost from './NewExperimentPost';
-import ExperimentPost from './ExperimentPost';
+import NewTrainedModel from './NewTrainedModel';
+import TrainedModelPost from './TrainedModelPost';
 
 
 export default class extends PostsModule {
   get postType() {
-    return 'Experiment';
+    return 'TrainedModel';
   }
 
   get NewPostComponent() {
-    return NewExperimentPost;
+    return NewTrainedModel;
   }
 
   get PostComponent() {
-    return ExperimentPost;
+    return TrainedModelPost;
   }
 }

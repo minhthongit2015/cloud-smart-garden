@@ -75,7 +75,7 @@ export default class {
     );
   }
 
-  static async subscribeGet(url) {
+  static observeGet(url) {
     return superagent.get(this.mapUrl(url)).withCredentials()
       .set('AccessToken', this.accessToken)
       .observe();

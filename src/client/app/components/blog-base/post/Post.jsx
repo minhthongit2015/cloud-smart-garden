@@ -31,17 +31,22 @@ export default class Post extends PostBase {
   }
 
   handleContextActions(event, option) {
-    super.handleContextActions(event, option);
     const { post } = this.props;
+    const eventCtxAction = this.Events.contextActions;
 
     switch (option) {
     case ContextOptions.delete:
-      return PostService.deletePost(post).then(() => {
-        this.dispatchEvent(event, ContextOptions.deleteDone, post, this);
-      });
+      if (window.confirm('Bạn có chắc muốn xóa bài viết này?')) {
+        this.dispatchEvent(eventCtxAction, ContextOptions.delete, post, this);
+        return PostService.deletePost(post).then(() => {
+          this.dispatchEvent(eventCtxAction, ContextOptions.deleted, post, this);
+        });
+      }
+      break;
     case ContextOptions.save: case ContextOptions.unsave:
+      this.dispatchEvent(eventCtxAction, ContextOptions.save, post, this);
       return this.handleSavingPost(event).then(() => {
-        this.dispatchEvent(event, ContextOptions.saveDone, post, this);
+        this.dispatchEvent(eventCtxAction, ContextOptions.saveDone, post, this);
       });
     // case ContextOptions.iWillDoThis:
     //   return this.handleAddIDoPost(event).then(() => {
@@ -52,6 +57,8 @@ export default class Post extends PostBase {
     default:
       break;
     }
+
+    super.handleContextActions(event, option);
     return null;
   }
 

@@ -159,9 +159,10 @@ function dispatchEvent(event = new EventInterface(), { listeners, eventTypesMap 
 }
 
 function buildEvent(event = new EventInterface(), value, name) {
-  if (!(event instanceof Event)) {
-    event = { ...event };
+  if (event instanceof Event) {
+    return event;
   }
+  event = { ...event };
   if (!event.currentTarget) {
     event.currentTarget = {};
   }

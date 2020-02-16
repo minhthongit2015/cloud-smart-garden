@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { Col, Row } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import LayersSelect from './LayersSelect';
 import { toOptions, fromOptions } from '../../../../../utils';
 

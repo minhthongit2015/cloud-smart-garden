@@ -3,9 +3,9 @@ import React from 'react';
 const ContextOptions = {
   save: { label: 'lưu bài viết', value: 'save' },
   unsave: { label: 'bỏ lưu bài viết', value: 'save' },
-  saveDone: { label: 'đã lưu bài viết', value: 'save-done' }, // virtual option
+  saved: { label: 'đã lưu bài viết', value: 'saved' }, // virtual option
   delete: { label: 'xóa bài viết', value: 'delete' },
-  deleteDone: { label: 'xóa bài viết', value: 'delete-done' }, // virtual option
+  deleted: { label: 'xóa bài viết', value: 'deleted' }, // virtual option
   update: { label: 'chỉnh sửa bài viết', value: 'update' },
   updateDone: { label: 'chỉnh sửa bài viết', value: 'update-done' }, // virtual option
   requestChange: { label: 'đề xuất chỉnh sửa', value: 'request-change' },

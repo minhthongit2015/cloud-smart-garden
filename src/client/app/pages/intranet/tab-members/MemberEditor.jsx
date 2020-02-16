@@ -4,7 +4,7 @@ import {
 } from 'mdbreact';
 import _ from 'lodash';
 import './MemberEditor.scss';
-import BaseComponent from '../../../components/BaseComponent';
+import BaseComponent from '../../../components/_base/BaseComponent';
 import MembersChartHelper from '../../../helpers/charts/MembersChartHelper';
 import MemberBadge from '../../../../assets/badges/MemberBadge';
 import UISounds from '../../../../assets/sounds/UISounds';

@@ -4,10 +4,10 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CategoryService from '../../../../services/blog/CategoryService';
-import DropUploader from '../../../utils/drop-uploader/DropUploader';
-import Composer from '../../../utils/composer/Composer';
+import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
+import Composer from '../../../../components/utils/composer/Composer';
 import { IconCommunity } from '../../../../../assets/icons';
-import NewBlogPost from '../../../blog/new-blog-post/NewBlogPost';
+import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
 import MessageDialogHelper from '../../../../helpers/dialogs/MessageDialogHelper';
 
@@ -44,8 +44,6 @@ export default class extends NewBlogPost {
   constructor(props) {
     super(props);
     this.contentRef = React.createRef();
-    this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
-
     this.state = {
       ...this.state,
       _id: null,
@@ -110,7 +108,7 @@ export default class extends NewBlogPost {
               isMulti
               value={categories}
               // defaultValue={categoryOptions[0]}
-              onChange={this.handleCategoriesChange}
+              onChange={this.handleSelectChange}
               required
               autoComplete="off"
               autofill="off"

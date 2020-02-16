@@ -6,23 +6,24 @@ import DropUploader from '../../../components/utils/drop-uploader/DropUploader';
 // import Composer from '../../../components/utils/composer/Composer';
 import CategoryService from '../../../services/blog/CategoryService';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import t from '../../../languages';
 
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Tạo bộ dữ liệu mới';
+    return t('pages.aiCloud.tabs.datasets.newForm.createTitle');
   }
 
   get updateTitle() {
-    return 'Cập nhập thông tin bộ dữ liệu';
+    return t('pages.aiCloud.tabs.datasets.newForm.updateTitle');
   }
 
   get postButtonLabel() {
-    return 'Tạo bộ dữ liệu';
+    return t('pages.aiCloud.tabs.datasets.newForm.postButton');
   }
 
   get updateButtonLabel() {
-    return 'Lưu chỉnh sửa';
+    return t('pages.aiCloud.tabs.datasets.newForm.updateButton');
   }
 
   get defaultCategories() {

@@ -1,17 +1,28 @@
 
 $color: $color-orange;
 $color-hover: $color-orange-light;
+$color-active: darken($color-orange, .5);
 
 .rating {
   position: relative;
 
   &__toggle {
     cursor: pointer;
-    &:hover {
-      color: $color;
+    & > i:first-child {
+      transition: all .2s ease-in-out;
     }
+
     &.rated {
       color: $color-orange-lighter;
+    }
+    &:hover > i:first-child {
+      color: $color-hover;
+    }
+    &.rating > i:first-child {
+      transform: scale(-1);
+    }
+    &:active > i:first-child {
+      color: $color-active;
     }
   }
 

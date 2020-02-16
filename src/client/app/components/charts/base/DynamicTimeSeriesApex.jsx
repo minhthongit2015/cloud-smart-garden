@@ -4,7 +4,7 @@ import TimeSeriesChart from './TimeSeriesChartApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import superrequest from '../../../utils/superrequest';
 import ApexchartsHelper from '../../../helpers/charts/ApexchartsHelper';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class DynamicTimeSeries extends BaseComponent.Pure {

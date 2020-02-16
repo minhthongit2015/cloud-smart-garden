@@ -3,7 +3,7 @@
 import React from 'react';
 import moment from 'moment';
 import './Calendar.scss';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class extends BaseComponent {

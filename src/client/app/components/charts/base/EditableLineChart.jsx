@@ -1,6 +1,6 @@
 import React from 'react';
 import ApexChart from 'react-apexcharts';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 
 export default class EditableLineChart extends BaseComponent {

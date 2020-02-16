@@ -8,7 +8,7 @@ import Tab from './Tab';
 import TabHeader from './TabHeader';
 import TabBody from './TabBody';
 import UISounds from '../../../assets/sounds/UISounds';
-import BaseComponent from '../BaseComponent';
+import BaseComponent from '../_base/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {

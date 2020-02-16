@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { arePathsEqual } from 'google-maps-react/dist/lib/arePathsEqual';
 import { camelize } from 'google-maps-react/dist/lib/String';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 
 const evtNames = ['click', 'mouseout', 'mouseover'];
 

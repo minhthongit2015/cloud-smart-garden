@@ -49,8 +49,6 @@ export default class extends NewPost {
   constructor(props) {
     super(props);
     this.contentRef = React.createRef();
-    this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
-
     CategoryService.useCategoriesState(this);
   }
 
@@ -66,12 +64,6 @@ export default class extends NewPost {
       this.contentRef.current.value = '';
     }
     return super.reset(extraStates);
-  }
-
-  handleCategoriesChange(value) {
-    this.setState({
-      categories: value
-    });
   }
 
   setPost(post) {
@@ -143,7 +135,7 @@ export default class extends NewPost {
               isMulti
               value={categories}
               // defaultValue={categoryOptions[0]}
-              onChange={this.handleCategoriesChange}
+              onChange={this.handleSelectChange}
               required
               autoComplete="off"
               autofill="off"

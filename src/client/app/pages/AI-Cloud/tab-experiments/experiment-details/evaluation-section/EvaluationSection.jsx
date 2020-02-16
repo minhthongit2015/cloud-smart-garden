@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Col, Row, MDBBtn } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import ItemList from '../../../../../components/utils/item-list/ItemList';
 import DatasetService from '../../../../../services/AI/DatasetService';
 import ExperimentService from '../../../../../services/AI/ExperimentService';

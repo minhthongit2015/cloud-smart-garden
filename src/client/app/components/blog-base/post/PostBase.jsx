@@ -16,7 +16,7 @@ import Rating from '../../utils/rating/Rating';
 import { IconBookmark, IconRaisedFist, IconThanks } from '../../../../assets/icons';
 import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
 
 

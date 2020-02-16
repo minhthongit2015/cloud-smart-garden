@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { MDBBtn } from 'mdbreact';
-import BaseComponent from '../../../../../components/BaseComponent';
+import BaseComponent from '../../../../../components/_base/BaseComponent';
 import TrainOptionsSelect from './TrainOptionsSelect';
 import TrainingVisualization from './TrainingVisualization';
 import ExperimentService from '../../../../../services/AI/ExperimentService';
