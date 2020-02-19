@@ -30,7 +30,7 @@ const scrollToTop = () => {
 };
 
 
-export default class extends BaseComponent {
+export default class extends BaseComponent.Pure {
   get createTitle() {
     return t('components.blogBase.newForm.createTitle');
   }
@@ -55,6 +55,9 @@ export default class extends BaseComponent {
     return t('components.blogBase.newForm.updateButton');
   }
 
+  /**
+   * Form action (submit endpoint)
+   */
   get action() {
     return '';
   }
@@ -65,7 +68,6 @@ export default class extends BaseComponent {
 
   get formData() {
     const { disabled, expanded, ...formData } = this.state;
-    delete formData[CategoryService.CATEGORIES_STATE_NAME];
     const isDraft = document.activeElement && document.activeElement.value === 'draft';
     if (isDraft) {
       formData.status = 'draft';
@@ -300,14 +302,16 @@ export default class extends BaseComponent {
           />
         </MDBCardHeader>
         <MDBCardBody>
-          <form onSubmit={this._handleSubmit}>
-            {this.renderBody()}
-            <Row>
-              <Col className="text-right">
-                {this.renderButtons()}
-              </Col>
-            </Row>
-          </form>
+          {expanded && (
+            <form onSubmit={this._handleSubmit}>
+              {this.renderBody()}
+              <Row>
+                <Col className="text-right">
+                  {this.renderButtons()}
+                </Col>
+              </Row>
+            </form>
+          )}
         </MDBCardBody>
         <LeafLoading text={this.postingMessage} overlaping={disabled} />
       </MDBCard>

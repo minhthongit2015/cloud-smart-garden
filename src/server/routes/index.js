@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Debugger = require('../services/Debugger');
 const Logger = require('../services/Logger');
 // const serverConfig = require('../config');
-const PostService = require('../services/blog/Post');
+const PostService = require('../services/blog/PostServ');
 const PlaceService = require('../services/map/Place');
 const {
   buildModel, getModel, getModelByPost, getModelByPlace

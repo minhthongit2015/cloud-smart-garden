@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const SyncService = require('../../../services/sync');
-const PostService = require('../../../services/blog/Post');
+const PostService = require('../../../services/blog/PostServ');
 const SessionService = require('../../../services/user/Session');
 
 // WS

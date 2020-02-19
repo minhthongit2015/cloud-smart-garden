@@ -18,7 +18,9 @@ module.exports = class extends SecurityService {
       'preview',
       'video',
       'categories',
-      'status'
+      'status',
+      'experiment',
+      'target'
     ];
     Object.keys(post).forEach((key) => {
       if (!allowedProps.includes(key)) {

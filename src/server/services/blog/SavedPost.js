@@ -2,7 +2,7 @@
 const { SavedPost } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
 const ApiHelper = require('../../utils/ApiHelper');
-const PostService = require('./Post');
+const PostService = require('./PostServ');
 
 module.exports = class extends CRUDService {
   static getModel() {

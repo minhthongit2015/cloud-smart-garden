@@ -1,5 +1,5 @@
 const tf = require('@tensorflow/tfjs-node');
-const PostService = require('../blog/Post');
+const PostService = require('../blog/PostServ');
 const { Experiment } = require('../../models/mongo');
 const ModelService = require('./ModelServ');
 const {

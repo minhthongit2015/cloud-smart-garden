@@ -1,7 +1,7 @@
 // const moment = require('moment');
 // const ApiHelper = require('../../utils/ApiHelper');
 const { Station } = require('../../models/mongo');
-const PostService = require('../blog/Post');
+const PostService = require('../blog/PostServ');
 
 module.exports = class extends PostService {
   static getModel() {

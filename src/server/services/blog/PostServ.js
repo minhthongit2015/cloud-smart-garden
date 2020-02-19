@@ -29,7 +29,7 @@ module.exports = class extends CRUDService {
   }
 
   static get populate() {
-    return ['categories'];
+    return ['categories', 'experiment'];
   }
 
   static async resolveListOptions(opts = { ...ApiHelper.listParams }) {

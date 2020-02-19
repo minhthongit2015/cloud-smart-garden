@@ -94,8 +94,11 @@ export default class extends BaseComponent {
   }
 
   handleSaveModel() {
+    const { experiment, editingTarget } = this.state;
     this.newTrainedModelRef.current.setFormData({
-      title: 'Model 01'
+      title: `${experiment.title} - ${editingTarget.name}`,
+      experiment,
+      target: editingTarget
     });
   }
 

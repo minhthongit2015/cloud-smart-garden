@@ -2,9 +2,8 @@
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
 import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
-import Composer from '../../../../components/utils/composer/Composer';
+// import Composer from '../../../../components/utils/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
-import CategoryService from '../../../../services/blog/CategoryService';
 import t from '../../../../languages';
 
 
@@ -29,27 +28,20 @@ export default class extends NewBlogPost {
     return this.props.type || 'TrainedModel';
   }
 
-  get excludeKeys() {
-    return ['categories', ...super.excludeKeys];
-  }
-
-  get defaultCategories() {
-    return [CategoryService.categoriesMap.Experiment.type];
-  }
-
-  get formData() {
-    const formData = super.formData;
-    formData.categories = [CategoryService.categoriesMap.Experiment];
-    return formData;
-  }
-
   validate() {
     return true;
   }
 
+  get formData() {
+    const formData = super.formData;
+    formData.experiment = formData.experiment && formData.experiment._id;
+    formData.target = formData.target && formData.target.key;
+    return formData;
+  }
+
   renderBody() {
     const {
-      title, summary, preview, video
+      title, summary, preview, video, experiment, target
     } = this.state;
 
     return (
@@ -74,6 +66,28 @@ export default class extends NewBlogPost {
               rows="2"
               autoComplete="off"
               autofill="off"
+            />
+            <MDBInput
+              label="Experiment"
+              name="experiment"
+              value={experiment && (experiment.title || experiment)}
+              // onChange={this.handleInputChange}
+              autoComplete="off"
+              autofill="off"
+              required
+              readOnly
+              disabled
+            />
+            <MDBInput
+              label="Target"
+              name="target"
+              value={target && (target.name || target)}
+              // onChange={this.handleInputChange}
+              autoComplete="off"
+              autofill="off"
+              required
+              readOnly
+              disabled
             />
           </Col>
           <Col size="12" sm="6">

@@ -1,7 +1,7 @@
 // const moment = require('moment');
 const ApiHelper = require('../../utils/ApiHelper');
 const { Dataset } = require('../../models/mongo');
-const PostService = require('../blog/Post');
+const PostService = require('../blog/PostServ');
 const RecordService = require('../garden/Record');
 
 

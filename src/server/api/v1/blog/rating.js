@@ -1,7 +1,7 @@
 const router = require('express').Router();
 // const Debugger = require('../../../services/Debugger');
 const Logger = require('../../../services/Logger');
-const PostService = require('../../../services/blog/Post');
+const PostService = require('../../../services/blog/PostServ');
 const APIResponse = require('../../../models/api-models/APIResponse');
 const SessionService = require('../../../services/user/Session');
 const PostsSecurityService = require('../../../services/security/PostsSecurity');

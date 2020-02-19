@@ -9,7 +9,9 @@ const env = process.env.NODE_ENV || 'development';
 const config = dbConfigs[env];
 
 class MongoDB {
-  static RETRY_INTERVAL = 5000;
+  static get RETRY_INTERVAL() {
+    return 5000;
+  }
 
   static get db() { return mongoose.connection; }
 

@@ -4,7 +4,6 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
 import Composer from '../../../../components/utils/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
-import CategoryService from '../../../../services/blog/CategoryService';
 import t from '../../../../languages';
 
 
@@ -31,16 +30,6 @@ export default class extends NewBlogPost {
 
   get excludeKeys() {
     return ['categories', ...super.excludeKeys];
-  }
-
-  get defaultCategories() {
-    return [CategoryService.categoriesMap.Experiment.type];
-  }
-
-  get formData() {
-    const formData = super.formData;
-    formData.categories = [CategoryService.categoriesMap.Experiment];
-    return formData;
   }
 
   validate() {

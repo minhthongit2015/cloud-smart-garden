@@ -1,7 +1,7 @@
 
 const { Rating } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
-const PostService = require('./Post');
+const PostService = require('./PostServ');
 const UserService = require('../user/User');
 
 module.exports = class extends CRUDService {
