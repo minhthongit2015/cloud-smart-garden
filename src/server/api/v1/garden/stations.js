@@ -18,7 +18,7 @@ router.post('/verify', Logger.catch(async (req, res) => {
 
   const fullSessionId = SessionService.getFullSessionId(req.sessionID);
   req.session.station = station;
-  return req.session.save(() => res.emit('accept', fullSessionId));
+  return req.session.save(() => res.emit('authorized', encodeURIComponent(fullSessionId)));
 }));
 
 router.post('/set-state', Logger.catch(async (req, res) => {

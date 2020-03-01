@@ -22,7 +22,7 @@ module.exports = class extends PostService {
       opts.targets.map(async (target) => {
         let savedModel = null;
         if (opts.continuous) {
-          savedModel = await this.load(experimentId, target);
+          savedModel = await this.loadModelByTarget(experimentId, target);
         }
         return this.buildAndTrainForTarget(target, dataset, savedModel, opts);
       })
@@ -30,7 +30,7 @@ module.exports = class extends PostService {
     if (trainedModels) {
       await Promise.all(
         trainedModels.map(
-          (trainedModel, index) => this.save(trainedModel, experimentId, opts.targets[index])
+          (trainedModel, index) => this.saveModelByTarget(trainedModel, experimentId, opts.targets[index])
         )
       );
     }
@@ -91,12 +91,16 @@ module.exports = class extends PostService {
     delete global.model;
   }
 
-  static async save(model, experimentId, target) {
+  static async saveModelByTarget(model, experimentId, target) {
     return ModelService.save(model, this._getModelPath(experimentId, target));
   }
 
-  static async load(experimentId, target) {
+  static async loadModelByTarget(experimentId, target) {
     return ModelService.load(this._getModelPath(experimentId, target));
+  }
+
+  static async loadModel(modelId) {
+    return ModelService.load(modelId);
   }
 
   static _getModelPath(experimentId, target) {
@@ -108,7 +112,7 @@ module.exports = class extends PostService {
     const dataset = await DatasetService.getWithRecords(opts.datasetId);
     const trainingSets = await Promise.all(
       opts.targets.map(async (target) => {
-        const savedModel = await this.load(experimentId, target);
+        const savedModel = await this.loadModelByTarget(experimentId, target);
         return this.compareForTarget(target, dataset, savedModel);
       })
     );
@@ -130,6 +134,17 @@ module.exports = class extends PostService {
     }
 
     return trainingSet;
+  }
+
+  static async predict(input, model) {
+    const savedModel = await this.load(experimentId, target);
+    let predict;
+    tf.tidy(() => {
+      predict = savedModel.predict(
+        tf.tensor2d(input, [trainingSet.xs.length, trainingSet.features.length])
+      ).arraySync();
+    });
+    return predict;
   }
 
   static async test(opts = {}) {
@@ -201,12 +216,12 @@ module.exports = class extends PostService {
     console.log(model.layers[1].getWeights()[0].dataSync());
     console.log(model.layers[1].getWeights()[1].dataSync());
 
-    await this.save(model, 'test');
+    await this.saveModelByTarget(model, 'test');
     return JSON.parse(JSON.parse(JSON.stringify(model)));
   }
 
   static async getTestModel(numFeatures, numOutputs, createNew = false, opts) {
-    const savedModel = (!opts.new && !createNew) && await this.load('test');
+    const savedModel = (!opts.new && !createNew) && await this.loadModelByTarget('test');
     const model = savedModel || NeuralNetwork.buildModel({
       numFeatures,
       numOutputs,
