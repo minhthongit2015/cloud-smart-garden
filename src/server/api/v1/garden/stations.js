@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const SyncService = require('../../../services/sync');
-const PostService = require('../../../services/blog/PostServ');
+const StationService = require('../../../services/garden/Station');
 const SessionService = require('../../../services/user/Session');
 
 // WS
@@ -11,7 +11,7 @@ router.post('/verify', Logger.catch(async (req, res) => {
     return res.emit('unauthorized');
   }
 
-  const station = await PostService.get(stationId);
+  const station = await StationService.get(stationId);
   if (!station) {
     return res.emit('unauthorized');
   }

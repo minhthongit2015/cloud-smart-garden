@@ -179,6 +179,10 @@ function get(object, prop) {
   return _.get(object, prop);
 }
 
+function set(object, prop, value) {
+  return _.set(object, prop, value);
+}
+
 /**
  * @param {'key'} keyProp
  */
@@ -264,6 +268,13 @@ function updateArray(oldArray, newArray, oldArrayKey = 'key', newArrayKey = 'key
   return array;
 }
 
+function valueOf(value, Type) {
+  if (Type) {
+    value = new Type(value);
+  }
+  return value.valueOf();
+}
+
 /**
  * Do not use! (not completed yet)
  */
@@ -300,6 +311,7 @@ module.exports = {
   dispatchEvent,
   buildEvent,
   get,
+  set,
   autoKey,
   sameKey,
   findByKey,
@@ -309,5 +321,6 @@ module.exports = {
   fromOptions,
   toggleByKey,
   updateArray,
+  valueOf,
   flattenObject
 };

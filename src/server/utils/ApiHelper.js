@@ -4,11 +4,16 @@ const { ObjectId } = require('mongoose').Types;
 const BlankModel = mongoose.model('BlankModel', new mongoose.Schema({
 }));
 
-function getId(id) {
-  if (typeof id === 'string') {
-    id = new ObjectId(id);
+function getId(objectOrId) {
+  if (!objectOrId) return null;
+  if (objectOrId instanceof ObjectId) {
+    return objectOrId;
   }
-  return id;
+  if (typeof objectOrId === 'string') {
+    return new ObjectId(objectOrId);
+  }
+  const id = objectOrId._id || objectOrId.id;
+  return id ? new ObjectId(id) : null;
 }
 
 const listParams = {

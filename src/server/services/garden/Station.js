@@ -7,4 +7,8 @@ module.exports = class extends PostService {
   static getModel() {
     return Station;
   }
+
+  static get populate() {
+    return ['models', 'crops'];
+  }
 };

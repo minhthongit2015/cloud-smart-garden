@@ -5,6 +5,7 @@ import DropUploader from '../../../../components/utils/drop-uploader/DropUploade
 // import Composer from '../../../../components/utils/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
+import ApiEndpoints from '../../../../utils/ApiEndpoints';
 
 
 export default class extends NewBlogPost {
@@ -26,6 +27,10 @@ export default class extends NewBlogPost {
 
   get postType() {
     return this.props.type || 'TrainedModel';
+  }
+
+  get action() {
+    return ApiEndpoints.trainedModels;
   }
 
   validate() {

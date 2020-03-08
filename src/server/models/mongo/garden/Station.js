@@ -6,8 +6,8 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
   garden: { type: ObjectId, ref: 'Garden' },
-  model: String,
-  state: Object
+  crops: [{ type: ObjectId, ref: 'Crop' }],
+  models: [{ type: ObjectId, ref: 'TrainedModel' }]
 });
 Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Station', field: 'order' });
 const Model = Post.discriminator('Station', Schema);

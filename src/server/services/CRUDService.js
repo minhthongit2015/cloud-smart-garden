@@ -31,6 +31,21 @@ module.exports = class CRUDService {
   }
 
 
+  // Utils
+
+  static async getObject(objectOrId) {
+    if (!objectOrId) return null;
+    if (typeof objectOrId === 'object') {
+      return objectOrId;
+    }
+    return this.get(ApiHelper.getId(objectOrId));
+  }
+
+  static getId(objectOrId) {
+    return ApiHelper.getId(objectOrId);
+  }
+
+
   // Create & Update
 
   static async create(doc) {
@@ -99,8 +114,7 @@ module.exports = class CRUDService {
 
   static async get(id, opts = { ...ApiHelper.listParams }) {
     const getOptions = ApiHelper.parseListParams(opts);
-    id = ApiHelper.getId(id);
-    let query = this.getModel().findById(id);
+    let query = this.getModel().findById(ApiHelper.getId(id));
     query = ([...this.populate, (getOptions.populate || [])]).reduce(
       (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
       query
@@ -131,14 +145,14 @@ module.exports = class CRUDService {
     return this.converter.convertCollection(docs);
   }
 
-  static async listIn(ids, mapFn, key = '_id', where = {}) {
+  static async listIn(ids, mapFn, idKey = '_id', where = {}) {
     if (mapFn) {
       ids = ids.map(mapFn);
     }
     return this.list({
       where: {
         ...where,
-        [key]: {
+        [idKey]: {
           $in: ids
         }
       },

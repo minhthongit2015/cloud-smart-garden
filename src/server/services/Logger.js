@@ -47,7 +47,8 @@ function _handleError(error, errorHandler, ...args) {
   const [req, res] = args;
   if (req && req.api) {
     delete error.stack; // No stack will be send to the client
-    const errorCode = error.statusCode || error.status || error.code || 400;
+    let errorCode = error.statusCode || error.status || error.code || 400;
+    errorCode = typeof errorCode === 'number' ? errorCode : 400;
     if (errorCode === 401 && req.websocket) {
       res.emit('unauthorized');
     } else {

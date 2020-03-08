@@ -8,6 +8,7 @@ const SessionService = require('../../../services/user/Session');
 const GardenSecurity = require('../../../services/security/GardenSecurity');
 const ApiHelper = require('../../../utils/ApiHelper');
 const APIResponse = require('../../../models/api-models/APIResponse');
+const TargetService = require('../../../services/AI/TargetServ');
 
 
 router.post('/', Logger.catch(async (req, res) => {
@@ -22,6 +23,10 @@ router.post('/', Logger.catch(async (req, res) => {
   if (newRecord) {
     const station1 = await PostService.get(record.station);
     SyncService.emitToOwner(station1.owner, 'stateChange', record);
+    const predicts = await TargetService.predict(newRecord, station._id);
+    if (predicts) {
+      res.emit('setState', predicts.state);
+    }
   }
   return res.end();
 }));

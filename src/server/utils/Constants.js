@@ -49,8 +49,9 @@ const ContactTypes = {
 
 // AI
 const AIConstants = require('../services/AI/utils/AIConstants');
-const AITargets = require('../services/AI/utils/AITargets');
-const DataUtils = require('../services/AI/utils/DataUtils');
+const ExperimentTargets = require('../services/AI/targets/BuiltInTargets');
+const ExperimentTargetTypes = require('../services/AI/targets/ExperimentTargetTypes');
+const DataUtils = require('../services/AI/targets/DataUtils');
 
 module.exports = {
   UserRole,
@@ -61,6 +62,7 @@ module.exports = {
 
   // AI
   ...AIConstants,
-  ...AITargets,
+  ExperimentTargets,
+  ExperimentTargetTypes,
   DataUtils
 };

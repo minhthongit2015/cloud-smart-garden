@@ -1,18 +1,17 @@
 // const tf = require('@tensorflow/tfjs-node');
-const { get } = require('../../../utils');
-const DataUtils = require('../utils/DataUtils');
-const { DatasetInterface, TrainingSet } = require('../utils/AITypes');
+const DataUtilsHelper = require('../targets/DataUtilsHelper');
+const { Dataset, TrainingSet, InputContext } = require('../utils/AITypes');
 
 
 const MapDatasetOptionsInterface = {
   features: [], // e.g: ['createdAt'] | [['createdAt', 'fromStart']]
   labels: [], // e.g: ['state.nutri']
-  mappingNodes: [DataUtils.fromStart.id]
+  mappingNodes: []
 };
 
 module.exports = class {
   static fromDataset(
-    dataset = { ...DatasetInterface },
+    dataset = new Dataset(),
     opts = { ...MapDatasetOptionsInterface }
   ) {
     if (!opts || !opts.features || !opts.labels) {
@@ -24,36 +23,20 @@ module.exports = class {
     trainingSet.labels = labels;
     trainingSet.xs = [];
     trainingSet.ys = [];
+    const context = new InputContext();
+    context.startTime = dataset.records[0].createdAt;
     dataset.records.forEach(
-      (record, index) => {
+      (record) => {
+        context.record = record;
         trainingSet.xs.push(
-          features.map(featurePath => this.mapThroughtAllNodes(record, index, featurePath, dataset))
+          features.map(featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context))
         );
         trainingSet.ys.push(
-          labels.map(labelPath => this.mapThroughtAllNodes(record, index, labelPath, dataset))
+          labels.map(labelPath => DataUtilsHelper.mapThroughtAllNodes(labelPath, context))
         );
       }
     );
 
     return trainingSet;
-  }
-
-  static mapThroughtAllNodes(record, index, inputPath, dataset) {
-    if (typeof inputPath === 'string') {
-      return get(record, inputPath);
-    }
-    return inputPath.slice(1).reduce((inputValue, node) => {
-      if (typeof node === 'function') {
-        return node(inputValue, record, index, dataset);
-      }
-      if (typeof node === 'object' && node.key) {
-        const utilNode = DataUtils[node.key];
-        return DataUtils.runUtil(utilNode, inputValue, record, index, dataset);
-      }
-      if (typeof node === 'string' && DataUtils[node]) {
-        return DataUtils.runUtil(DataUtils[node], inputValue, record, index, dataset);
-      }
-      return inputValue;
-    }, get(record, inputPath[0]));
   }
 };

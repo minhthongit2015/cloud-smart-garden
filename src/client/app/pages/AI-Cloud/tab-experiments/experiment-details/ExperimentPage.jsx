@@ -18,6 +18,7 @@ import TrainingSection from './training-section/TrainingSection';
 import EvaluationSection from './evaluation-section/EvaluationSection';
 import NewTrainedModel from '../../tab-trained-models/trained-models-page/NewTrainedModel';
 import RouteConstants from '../../../../utils/RouteConstants';
+import ExperimentService from '../../../../services/AI/ExperimentService';
 
 
 export default class extends BaseComponent {
@@ -30,7 +31,8 @@ export default class extends BaseComponent {
       this.handleAlgorithmsChange,
       this.handleTrainEnd,
       this.toggleEvaluationSection,
-      this.handleSaveModel
+      this.handleSaveModel,
+      this.handleOverwriteModel
     );
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
@@ -100,6 +102,14 @@ export default class extends BaseComponent {
       experiment,
       target: editingTarget
     });
+  }
+
+  handleOverwriteModel() {
+    const { experiment, editingTarget } = this.state;
+    ExperimentService.overwriteModel(experiment._id, editingTarget.key)
+      .then(() => {
+        alert('Overwrite Done!');
+      });
   }
 
   getGuidingMessageByTarget(/* target */) {
@@ -232,6 +242,11 @@ export default class extends BaseComponent {
                 className="px-3 py-2"
                 onClick={this.handleSaveModel}
               >Lưu Model
+              </MDBBtn>
+              <MDBBtn
+                className="px-3 py-2"
+                onClick={this.handleOverwriteModel}
+              >Cập nhập Model
               </MDBBtn>
             </Col>
             <Col size="6" sm="4" className="d-flex align-items-start justify-content-end">

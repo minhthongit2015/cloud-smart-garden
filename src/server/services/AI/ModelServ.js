@@ -1,8 +1,37 @@
 const tf = require('@tensorflow/tfjs-node');
-const fs = require('fs');
+const fs = require('fs-extra');
+const PostService = require('../blog/PostServ');
+const { TrainedModel } = require('../../models/mongo');
 
 
-module.exports = class ModelService {
+module.exports = class extends PostService {
+  static getModel() {
+    return TrainedModel;
+  }
+
+  static async createOrUpdate(model) {
+    const savedModel = await super.createOrUpdate(model);
+    this.cloneModelFromExperiment(savedModel._id, savedModel.experiment, savedModel.target);
+    return savedModel;
+  }
+
+  static async syncModelFromExperiment(experiment, target) {
+    const savedModel = await super.first({ experiment, target });
+    this.cloneModelFromExperiment(savedModel._id, experiment, target);
+    return savedModel;
+  }
+
+  static cloneModelFromExperiment(modelId, experiment, target) {
+    const source = this.getModelPath(
+      this.getModelPathForExperimentAndTarget(experiment, target)
+    );
+    if (fs.existsSync(source)) {
+      const destination = this.getModelPath(modelId);
+      fs.ensureDirSync(destination);
+      fs.copySync(source, destination, { overwrite: true });
+    }
+  }
+
   static get modelFolder() {
     return './src/server/assets/models';
   }
@@ -14,21 +43,44 @@ module.exports = class ModelService {
   }
 
   static getModelPath(fileName, toFile = false) {
-    return `file://${this.modelFolder}/${fileName.replace(/\.\.[/\\]/g, '')}${toFile ? '/model.json' : ''}`;
+    return `${this.modelFolder}/${fileName.replace(/\.\.[/\\]/g, '')}${toFile ? '/model.json' : ''}`;
+  }
+
+  static asLocalUrl(relativePath) {
+    return `file://${relativePath}`;
   }
 
   static async save(model, fileName = 'my-model') {
     if (!model) return null;
     this.ensureModelsFolder();
-    return model.save(this.getModelPath(fileName));
+    const url = this.asLocalUrl(this.getModelPath(fileName));
+    return model.save(url);
   }
 
   static async load(fileName = 'my-model') {
     try {
-      const model = await tf.loadLayersModel(this.getModelPath(fileName, true));
+      const url = this.asLocalUrl(this.getModelPath(fileName, true));
+      const model = await tf.loadLayersModel(url);
       return model;
     } catch (error) {
       return null;
     }
+  }
+
+  static async saveForExperimentAndTarget(model, experimentId, target) {
+    return this.save(model, this.getModelPathForExperimentAndTarget(experimentId, target));
+  }
+
+  static async loadForExperimentAndTarget(experimentId, target) {
+    return this.load(this.getModelPathForExperimentAndTarget(experimentId, target));
+  }
+
+  static getModelPathForExperimentAndTarget(experimentId, target) {
+    const targetKey = target && target.key ? `${target.key}` : (target || '');
+    return `${experimentId}-${targetKey}`;
+  }
+
+  static loadByModel(modelId) {
+    return this.load(modelId);
   }
 };
