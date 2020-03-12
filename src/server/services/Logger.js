@@ -40,6 +40,12 @@ function _handleError(error, errorHandler, ...args) {
   this.error(error.message, {
     stack: error.stack
   });
+  const match = error.stack.match(/at.*?\((.:.*?):(.*?)\)\n/);
+  if (match) {
+    const [firstLine, file] = match;
+    const relativePath = path.relative('.', file);
+    console.error(firstLine.replace(file, relativePath));
+  }
   if (typeof errorHandler === 'function') {
     errorHandler(error, ...args);
     return;

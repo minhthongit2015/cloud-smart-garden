@@ -29,9 +29,6 @@ function parseListParams(opts = { ...listParams }) {
   if (typeof opts.where === 'object') {
     opts.where = { ...opts.where };
   }
-  if (typeof opts.fields === 'object') {
-    opts.fields = [...opts.fields];
-  }
   if (typeof opts.populate === 'object') {
     opts.populate = [...opts.populate];
   }
@@ -41,7 +38,7 @@ function parseListParams(opts = { ...listParams }) {
   if (opts.limit != null) {
     opts.limit = parseInt(opts.limit, 10) || 0;
   }
-  if (typeof opts.fields === 'object' && opts.fields.length > 0) {
+  if (Array.isArray(opts.fields)) {
     opts.fields = opts.fields.join(' ');
   }
   // if (typeof opts.sort === 'string') {

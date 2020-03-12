@@ -113,9 +113,11 @@ module.exports = class extends PostService {
       ).arraySync();
     });
 
-    const labelSample = get(dataset.records[0], target.labels[0][0]);
+    const labelSample = get(dataset.records[0], trainingSet.labels[0][0]);
     if (typeof labelSample === 'boolean') {
-      trainingSet.predict = trainingSet.predict.map(row => (row[0] > row[1] ? 1 : 0));
+      trainingSet.predict = trainingSet.predict.map(
+        row => (row[0] > row[1] ? 1 : 0)
+      );
     }
 
     return trainingSet;

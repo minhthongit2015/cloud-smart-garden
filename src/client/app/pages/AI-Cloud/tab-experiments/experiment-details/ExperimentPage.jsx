@@ -19,9 +19,10 @@ import EvaluationSection from './evaluation-section/EvaluationSection';
 import NewTrainedModel from '../../tab-trained-models/trained-models-page/NewTrainedModel';
 import RouteConstants from '../../../../utils/RouteConstants';
 import ExperimentService from '../../../../services/AI/ExperimentService';
+import t from '../../../../languages';
 
 
-export default class extends BaseComponent {
+export default class ExperimentPage extends BaseComponent {
   constructor(props) {
     super(props);
     this.evaluationSectionRef = React.createRef();
@@ -49,7 +50,7 @@ export default class extends BaseComponent {
   }
 
   componentDidMount() {
-    this.evaluationSectionRef.current.compare();
+    // this.evaluationSectionRef.current.compare();
   }
 
   handleTargetChange(event) {
@@ -62,7 +63,7 @@ export default class extends BaseComponent {
     }));
     this.cacheValue('editingTargetKey', editingTarget.key);
     this.handleInputChange(event).then(() => {
-      this.evaluationSectionRef.current.compare();
+      // this.evaluationSectionRef.current.compare();
     });
   }
 
@@ -92,7 +93,7 @@ export default class extends BaseComponent {
   }
 
   handleTrainEnd() {
-    this.evaluationSectionRef.current.compare();
+    // this.evaluationSectionRef.current.compare();
   }
 
   handleSaveModel() {
@@ -112,12 +113,35 @@ export default class extends BaseComponent {
       });
   }
 
-  getGuidingMessageByTarget(/* target */) {
-    // const targetProp = target.labels[0];
-    // if (targetProp) {
+  getGuidingMessageByTarget(target) {
+    const firstLabel = target.labels[0];
+    const firstNode = firstLabel && firstLabel[0];
+    if (!firstNode) return 'Xác định yếu tố tác động';
 
-    // }
-    return 'Khi nào cần bật đèn quang hợp?';
+    const key = ExperimentPage.getNodeKey(firstNode);
+    const label = ExperimentPage.getNodeLabel(firstNode);
+    if (firstNode && ExperimentPage.guessingTypeByLabel(key) === Boolean) {
+      return `Khi nào cần bật ${label}?`;
+    }
+    return `Bao nhiêu ${label} là phù hợp?`;
+  }
+
+  static guessingTypeByLabel(label) {
+    const boolLabels = ['led', 'pump', 'fan', 'misting'];
+    if (boolLabels.find(boolLabel => label.includes(boolLabel))) {
+      return Boolean;
+    }
+    return Number;
+  }
+
+  static getNodeKey(node) {
+    return typeof node === 'string' ? node : node.key;
+  }
+
+  static getNodeLabel(node) {
+    return typeof node === 'string'
+      ? t(`features.${node.split('.').slice(-1)[0]}`)
+      : node.name;
   }
 
   render() {
@@ -174,11 +198,11 @@ export default class extends BaseComponent {
                 </Col>
                 <Col sm="8" md="6" className="arrow-right">
                   <div className="font-italic border-bottom mb-2">Yếu tố tác động</div>
-                  <FeaturesSelect />
+                  <FeaturesSelect editingTarget={editingTarget} />
                 </Col>
                 <Col sm="4" md="3" className="">
                   <div className="font-italic border-bottom mb-2">Yếu tố mục tiêu</div>
-                  <OutputsSelect />
+                  <OutputsSelect editingTarget={editingTarget} />
                 </Col>
               </Row>
             </SectionBody>
@@ -190,7 +214,7 @@ export default class extends BaseComponent {
             </SectionHeader>
             <SectionBody>
               <Row className="mt-3">
-                <Col sm="12" md="5">
+                <Col sm="12" md="6">
                   {showEditingTarget && (
                     <AlgorithmsSelect
                       editingTarget={editingTarget}
@@ -198,7 +222,7 @@ export default class extends BaseComponent {
                     />
                   )}
                 </Col>
-                <Col sm="12" md="7">
+                <Col sm="12" md="6">
                   <AlgorithmTests
                     editingTarget={editingTarget}
                     onChange={this.handleAlgorithmsChange}
@@ -227,11 +251,11 @@ export default class extends BaseComponent {
             </MDBBtn>
           </div>
           <MDBCollapse isOpen={isOpenEvaluationSection}>
-            <EvaluationSection
+            {/* <EvaluationSection
               ref={this.evaluationSectionRef}
               experiment={experiment}
               editingTarget={editingTarget}
-            />
+            /> */}
           </MDBCollapse>
         </Section>
 

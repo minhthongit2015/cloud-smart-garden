@@ -9,6 +9,7 @@ const DataUtils = {
     outputType: Number,
     name: 'Thời gian từ lúc bắt đầu trồng',
     description: 'Đo khoảng thời gian từ lúc bắt đầu trồng.',
+    defaultInput: { from: 'record.createdAt' },
     params: [
       {
         type: Date,
@@ -21,12 +22,12 @@ const DataUtils = {
         name: 'Tính theo',
         description: 'Đơn vị thời gian',
         options: ['minutes', 'days'],
-        defaultValue: 'minustes'
+        defaultValue: 'minutes'
       }
     ],
-    execute(inputValue, context, createdAt, unitOfTime) {
+    execute(inputValue, context, startTime, unitOfTime) {
       return moment.unix(inputValue / 1000)
-        .diff(moment.unix(createdAt / 1000), unitOfTime);
+        .diff(moment.unix(startTime / 1000), unitOfTime);
     }
   },
   minuteOfDay: {
@@ -34,6 +35,7 @@ const DataUtils = {
     outputType: Number,
     name: 'Số phút trong ngày',
     description: 'Chuyển đổi sang số phút từ lúc bắt đầu ngày',
+    defaultInput: { from: 'record.createdAt' },
     execute: (inputValue) => {
       const time = moment(inputValue);
       return time.get('hour') * 60 + time.get('minute');
@@ -44,6 +46,7 @@ const DataUtils = {
     outputType: Number,
     name: 'Độ cao mặt trời (%)',
     description: 'Độ cao mặt trời (tính theo %)',
+    defaultInput: { from: 'record.createdAt' },
     execute: (inputValue) => {
       const time = moment(inputValue);
       return time.get('hour') * 60 + time.get('minute');

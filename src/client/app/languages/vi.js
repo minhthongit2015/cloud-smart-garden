@@ -1,5 +1,10 @@
 
+let features = require('./features');
+
+features = features.default || features;
+
 module.exports = {
+  ...features,
   general: {
     buttons: {
 

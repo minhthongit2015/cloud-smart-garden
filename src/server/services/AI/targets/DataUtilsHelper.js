@@ -4,31 +4,42 @@ const { InputContext, DataUtilNode } = require('../utils/AITypes');
 
 
 module.exports = class {
-  static mapThroughtAllNodes(inputPath, inputContext = new InputContext()) {
-    if (typeof inputPath === 'string') {
-      return get(inputContext.record, inputPath);
+  static mapThroughtAllNodes(nodesOrProp, inputContext = new InputContext()) {
+    if (typeof nodesOrProp === 'string') {
+      return get(inputContext.record, nodesOrProp);
     }
-    return inputPath.slice(1).reduce((inputValue, node) => {
-      if (typeof node === 'function') {
-        return node(inputValue, inputContext);
-      }
-      let utilNode;
-      if (typeof node === 'object' && node.key) {
-        utilNode = DataUtils[node.key];
-      }
-      if (typeof node === 'string' && DataUtils[node]) {
-        utilNode = DataUtils[node];
-      }
-      return utilNode
-        ? this.runUtil(utilNode, inputValue, inputContext)
-        : inputValue;
-    }, get(inputContext.record, inputPath[0]));
+    return nodesOrProp.reduce(
+      (inputValue, node) => this.runNode(inputValue, node, inputContext),
+      null
+    );
+  }
+
+  static runNode(inputValue, node, inputContext = new InputContext()) {
+    if (inputValue == null && typeof node === 'string' && get(inputContext.record, node)) {
+      return get(inputContext.record, node);
+    }
+    if (typeof node === 'function') {
+      return node(inputValue, inputContext);
+    }
+    let utilNode;
+    if (typeof node === 'object' && node.key) {
+      utilNode = DataUtils[node.key];
+    }
+    if (typeof node === 'string' && DataUtils[node]) {
+      utilNode = DataUtils[node];
+    }
+    return utilNode
+      ? this.runUtil(utilNode, inputValue, inputContext)
+      : inputValue;
   }
 
   static runUtil(utilNode = new DataUtilNode(), inputValue, context = new InputContext()) {
     const params = utilNode.params
       ? utilNode.params.map(param => this.getParamValue(param, context))
       : [];
+    if (inputValue == null && utilNode.defaultInput && utilNode.defaultInput.from) {
+      inputValue = get(context, utilNode.defaultInput.from);
+    }
     const result = utilNode.execute(
       valueOf(inputValue, utilNode.inputType), context, ...params
     );
@@ -42,13 +53,5 @@ module.exports = class {
       paramValue = get(context, param.from);
     }
     return valueOf(paramValue, param.type);
-  }
-
-  static getOutput(predict, record, target) {
-    const labelSample = get(record, target.labels[0][0]);
-    if (typeof labelSample === 'boolean') {
-      return predict[0] > predict[1];
-    }
-    return predict[0];
   }
 };

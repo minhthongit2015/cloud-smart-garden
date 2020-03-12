@@ -32,6 +32,10 @@ export default class ItemList extends BaseComponent {
     return this.props.baseClass || 'item-list';
   }
 
+  get canAdd() {
+    return this.props.canAdd;
+  }
+
   getItemLabel(item) {
     return (this.props.labelProvider && this.props.labelProvider(item)) || item.name;
   }
@@ -143,9 +147,13 @@ export default class ItemList extends BaseComponent {
     );
   }
 
+  renderAddSection() {
+    return <div>+ Add New Item</div>;
+  }
+
   render() {
     const {
-      className, noStyle = false, style, addable
+      className, noStyle = false, style
     } = this.props;
     const { baseClass } = this;
 
@@ -160,16 +168,14 @@ export default class ItemList extends BaseComponent {
         style={style}
       >
         {this.renderItems()}
-        {addable && (
-          <div>{this.props.children}</div>
-        )}
+        {this.canAdd && this.renderAddSection()}
       </div>
     );
   }
 }
 
 ItemList.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
 
   isRow: PropTypes.bool,
   itemKey: PropTypes.string,
@@ -189,6 +195,7 @@ ItemList.propTypes = {
 };
 
 ItemList.defaultProps = {
+  items: null,
   isRow: false,
   itemKey: '',
   groupKey: '',

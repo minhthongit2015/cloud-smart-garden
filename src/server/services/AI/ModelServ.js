@@ -16,7 +16,10 @@ module.exports = class extends PostService {
   }
 
   static async syncModelFromExperiment(experiment, target) {
-    const savedModel = await super.first({ experiment, target });
+    const savedModel = await this.first({
+      where: { experiment, target },
+      sort: '-_id'
+    });
     this.cloneModelFromExperiment(savedModel._id, experiment, target);
     return savedModel;
   }
@@ -38,7 +41,7 @@ module.exports = class extends PostService {
 
   static ensureModelsFolder() {
     if (!fs.existsSync(this.modelFolder)) {
-      fs.mkdirSync(this.modelFolder);
+      fs.ensureDirSync(this.modelFolder);
     }
   }
 

@@ -272,7 +272,9 @@ function valueOf(value, Type) {
   if (Type) {
     value = new Type(value);
   }
-  return value.valueOf();
+  return value != null
+    ? value.valueOf()
+    : value;
 }
 
 /**

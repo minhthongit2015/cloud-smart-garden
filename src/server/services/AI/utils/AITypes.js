@@ -63,6 +63,9 @@ exports.DataUtilNode = class {
   outputType = Number;
   name = '';
   description = '';
+  defaultInput = {
+    from: ''
+  };
   params = [
     {
       type: Date,

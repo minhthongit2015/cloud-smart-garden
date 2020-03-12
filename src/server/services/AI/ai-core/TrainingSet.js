@@ -1,26 +1,31 @@
 // const tf = require('@tensorflow/tfjs-node');
 const DataUtilsHelper = require('../targets/DataUtilsHelper');
 const { Dataset, TrainingSet, InputContext } = require('../utils/AITypes');
+const TargetHelper = require('../targets/TargetHelper');
 
 
-const MapDatasetOptionsInterface = {
-  features: [], // e.g: ['createdAt'] | [['createdAt', 'fromStart']]
-  labels: [], // e.g: ['state.nutri']
-  mappingNodes: []
-};
+class MapDatasetOptionsInterface {
+  // e.g: ['createdAt'] | [['createdAt', 'fromStart']]
+  features = [];
+
+  // e.g: ['state.nutri']
+  labels = [];
+
+  mappingNodes = [];
+}
 
 module.exports = class {
   static fromDataset(
     dataset = new Dataset(),
-    opts = { ...MapDatasetOptionsInterface }
+    opts = new MapDatasetOptionsInterface()
   ) {
     if (!opts || !opts.features || !opts.labels) {
       return null;
     }
     const { features, labels } = opts;
     const trainingSet = new TrainingSet();
-    trainingSet.features = features;
-    trainingSet.labels = labels;
+    trainingSet.features = TargetHelper.buildFeatures(features);
+    trainingSet.labels = TargetHelper.buildLabels(labels);
     trainingSet.xs = [];
     trainingSet.ys = [];
     const context = new InputContext();

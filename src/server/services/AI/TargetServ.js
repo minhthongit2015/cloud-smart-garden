@@ -1,15 +1,16 @@
 const tf = require('@tensorflow/tfjs-node');
-const PostService = require('../blog/PostServ');
+const CRUDService = require('../CRUDService');
 const { Target } = require('../../models/mongo');
 const BuiltInTargets = require('./targets/BuiltInTargets');
 const StationService = require('../garden/Station');
-const { get, set } = require('../../utils');
+const { set } = require('../../utils');
 const ModelService = require('./ModelServ');
 const DataUtilsHelper = require('./targets/DataUtilsHelper');
+const TargetHelper = require('./targets/TargetHelper');
 const { InputContext, ExperimentTarget } = require('./utils/AITypes');
 
 
-module.exports = class extends PostService {
+module.exports = class extends CRUDService {
   static getModel() {
     return Target;
   }
@@ -27,14 +28,17 @@ module.exports = class extends PostService {
 
   static async predict(record, stationId) {
     const station = await StationService.get(stationId);
+    if (!station) return null;
 
     const { models } = station;
     if (models) {
       const predicts = {};
+      const context = new InputContext();
+      context.startTime = 0; // station.crop.createdAt;
       await Promise.all(models.map(async (model) => {
         const savedModel = await ModelService.loadByModel(model._id);
         const target = await this.getTarget(model.target);
-        this.predictWithTarget(record, station, savedModel, target, predicts);
+        this.predictWithTarget(record, context, savedModel, target, predicts);
       }));
       return predicts;
     }
@@ -42,18 +46,17 @@ module.exports = class extends PostService {
     return null;
   }
 
-  static predictWithTarget(record, station, model, target = new ExperimentTarget(), predicts) {
-    const context = new InputContext();
+  static predictWithTarget(record, context, model, target = new ExperimentTarget(), predicts) {
     context.record = record;
-    context.startTime = 0; // station.crop.createdAt;
-    const input = target.features.map(
-      featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context)
-    );
+    const features = TargetHelper.buildFeatures(target.features);
     tf.tidy(() => {
+      const input = features.map(
+        featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context)
+      );
       const predict = model.predict(
-        tf.tensor2d(input, [1, target.features.length])
+        tf.tensor2d(input, [1, features.length])
       ).arraySync();
-      const output = DataUtilsHelper.getOutput(predict[0], record, target);
+      const output = TargetHelper.getOutput(predict[0], target, record);
       set(predicts, target.labels[0][0], output);
     });
   }

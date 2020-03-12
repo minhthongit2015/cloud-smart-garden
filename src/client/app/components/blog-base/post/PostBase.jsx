@@ -210,7 +210,7 @@ export default class Post extends BaseComponent.Pure {
             {this.renderSocials()}
           </div>
           <div className="">
-            <TimeAgo time={createdAt} className="small" />
+            {/* <TimeAgo time={createdAt} className="small" /> */}
           </div>
         </CardFooter>
       </Card>
