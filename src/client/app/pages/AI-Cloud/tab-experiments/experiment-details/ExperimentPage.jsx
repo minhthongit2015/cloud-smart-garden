@@ -50,7 +50,7 @@ export default class ExperimentPage extends BaseComponent {
   }
 
   componentDidMount() {
-    // this.evaluationSectionRef.current.compare();
+    this.evaluationSectionRef.current.compare();
   }
 
   handleTargetChange(event) {
@@ -63,7 +63,7 @@ export default class ExperimentPage extends BaseComponent {
     }));
     this.cacheValue('editingTargetKey', editingTarget.key);
     this.handleInputChange(event).then(() => {
-      // this.evaluationSectionRef.current.compare();
+      this.evaluationSectionRef.current.compare();
     });
   }
 
@@ -93,7 +93,7 @@ export default class ExperimentPage extends BaseComponent {
   }
 
   handleTrainEnd() {
-    // this.evaluationSectionRef.current.compare();
+    this.evaluationSectionRef.current.compare();
   }
 
   handleSaveModel() {
@@ -251,11 +251,11 @@ export default class ExperimentPage extends BaseComponent {
             </MDBBtn>
           </div>
           <MDBCollapse isOpen={isOpenEvaluationSection}>
-            {/* <EvaluationSection
+            <EvaluationSection
               ref={this.evaluationSectionRef}
               experiment={experiment}
               editingTarget={editingTarget}
-            /> */}
+            />
           </MDBCollapse>
         </Section>
 

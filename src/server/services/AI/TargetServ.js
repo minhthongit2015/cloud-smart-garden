@@ -48,7 +48,7 @@ module.exports = class extends CRUDService {
 
   static predictWithTarget(record, context, model, target = new ExperimentTarget(), predicts) {
     context.record = record;
-    const features = TargetHelper.buildFeatures(target.features);
+    const features = TargetHelper.buildFeatures(target.features, record);
     tf.tidy(() => {
       const input = features.map(
         featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context)

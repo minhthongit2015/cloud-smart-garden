@@ -11,9 +11,17 @@ import { layersAsArray } from '../../../../../utils';
 
 
 class TrainingSection extends BaseComponent.Pure {
+  static guessingTypeByLabel(label) {
+    const boolLabels = ['led', 'pump', 'fan', 'misting'];
+    if (boolLabels.find(boolLabel => label.includes(boolLabel))) {
+      return Boolean;
+    }
+    return Number;
+  }
+
   get isAccuracy() {
     const { editingTarget: { labels } = {} } = this.props;
-    return !labels || labels.length === 2;
+    return TrainingSection.guessingTypeByLabel(labels[0][0]) === Boolean;
   }
 
   get chart() {

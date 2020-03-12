@@ -24,8 +24,8 @@ module.exports = class {
     }
     const { features, labels } = opts;
     const trainingSet = new TrainingSet();
-    trainingSet.features = TargetHelper.buildFeatures(features);
-    trainingSet.labels = TargetHelper.buildLabels(labels);
+    trainingSet.features = TargetHelper.buildFeatures(features, dataset.records[0]);
+    trainingSet.labels = TargetHelper.buildLabels(labels, dataset.records[0]);
     trainingSet.xs = [];
     trainingSet.ys = [];
     const context = new InputContext();
@@ -34,10 +34,14 @@ module.exports = class {
       (record) => {
         context.record = record;
         trainingSet.xs.push(
-          features.map(featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context))
+          trainingSet.features.map(
+            featurePath => DataUtilsHelper.mapThroughtAllNodes(featurePath, context)
+          )
         );
         trainingSet.ys.push(
-          labels.map(labelPath => DataUtilsHelper.mapThroughtAllNodes(labelPath, context))
+          trainingSet.labels.map(
+            labelPath => DataUtilsHelper.mapThroughtAllNodes(labelPath, context)
+          )
         );
       }
     );
