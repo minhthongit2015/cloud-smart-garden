@@ -8,6 +8,7 @@ import ExperimentService from '../../../../../services/AI/ExperimentService';
 import Checkbox from '../../../../../components/utils/checkbox/Checkbox';
 import DatasetService from '../../../../../services/AI/DatasetService';
 import { layersAsArray } from '../../../../../utils';
+import LanguagesHelper, { tAI } from '../LanguagesHelper';
 
 
 class TrainingSection extends BaseComponent.Pure {
@@ -46,6 +47,7 @@ class TrainingSection extends BaseComponent.Pure {
       enableChartLimit: this.getCachedValue('enableChartLimit', true),
       chartLimit: this.CachedValues.chartLimit || 100
     };
+    LanguagesHelper.useAILanguage(this);
   }
 
   componentWillUnmount() {
@@ -180,8 +182,12 @@ class TrainingSection extends BaseComponent.Pure {
               onChange={this.handleInputChange}
             />
           </div>
-          <MDBBtn onClick={this.handleStartTraining}>
-            {(continuous && trainingCount > 0) ? 'Tiếp Tục Huấn Luyện' : 'Bắt Đầu Huấn Luyện'}
+          <MDBBtn onClick={this.handleStartTraining} color="success">
+            <i className="fas fa-seedling" /> {
+              (continuous && trainingCount > 0)
+                ? tAI('continueTraining')
+                : tAI('startTraining')
+            }
           </MDBBtn>
         </div>
 
@@ -207,7 +213,7 @@ class TrainingSection extends BaseComponent.Pure {
               checked={highResolution}
               onChange={this.handleInputChange}
               data-cached
-            >High Resolution
+            >{tAI('highResolution')}
             </Checkbox>
             <span>
               <Checkbox
@@ -216,7 +222,7 @@ class TrainingSection extends BaseComponent.Pure {
                 checked={enableChartLimit}
                 onChange={this.handleInputChange}
                 data-cached
-              >Limit:
+              >{tAI('limit')}
               </Checkbox>
               <input
                 style={{ width: '70px' }}
@@ -235,7 +241,7 @@ class TrainingSection extends BaseComponent.Pure {
             onClick={this.handleStopTraining}
             disabled={!isTraining}
           >
-            <i className="fas fa-pause-circle" /> Ngừng huấn luyện
+            <i className="fas fa-pause-circle" /> {tAI('stopTraining')}
           </MDBBtn>
         </div>
         <div className="mt-2 text-center">

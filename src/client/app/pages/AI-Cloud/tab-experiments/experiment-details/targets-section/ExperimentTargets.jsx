@@ -5,13 +5,14 @@ import BaseComponent from '../../../../../components/_base/BaseComponent';
 import { sameKey } from '../../../../../utils';
 import FixedRatioImage from '../../../../../components/utils/fixed-ratio-image/FixedRatioImage';
 import './ExperimentTargets.scss';
+import LanguagesHelper, { tAI } from '../LanguagesHelper';
 
 
 const imgs = {
-  nutrient: 'https://www.gold-mann.de/en/wp-content/uploads/sites/2/2016/10/fertiliser_71360629_556x369_060.jpg',
-  light: 'https://static.manitobacooperator.ca/wp-content/uploads/2017/12/young-plant_ThinkstockPhoto.jpg',
-  temperature: 'https://cf.ltkcdn.net/garden/images/std/254882-1600x1067-watering.jpg',
-  humidity: 'https://ak2.picdn.net/shutterstock/videos/1020448882/thumb/10.jpg?ip=x480'
+  nutrient: '/images/AI/target-nutrient.jpg',
+  light: '/images/AI/target-light.jpg',
+  temperature: '/images/AI/target-temperature.jpg',
+  humidity: '/images/AI/target-humidity.jpg'
 };
 
 
@@ -19,6 +20,7 @@ export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
     this.bind(this.handleTargetFocus, this.handleTargetSetup);
+    LanguagesHelper.useAILanguage(this);
   }
 
   handleTargetFocus(event) {
@@ -54,11 +56,11 @@ export default class extends BaseComponent.Pure {
             )}
           >
             <div>
-              <h5 className="text-center text-green my-2">{name}</h5>
+              <h5 className="text-center text-green my-2">{tAI('targets', key) || name}</h5>
               <div className="cursor-pointer" data-key={key} onClick={this.handleTargetFocus}>
                 <FixedRatioImage src={imgs[key]} ratio={2 / 3} frame="rounded" />
               </div>
-              <div className="p-3">{description}</div>
+              <div className="p-3">{tAI('targetDesc', key) || description}</div>
             </div>
             <div className="text-center">
               <MDBBtn className="px-2 py-1" data-key={key} onClick={this.handleTargetSetup}>

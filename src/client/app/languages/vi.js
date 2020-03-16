@@ -1,10 +1,13 @@
 
-let features = require('./features');
+const features = require('./features');
+const AILang = require('./AILang');
 
-features = features.default || features;
+// features = features.default || features;
+// AILang = AILang.default || AILang;
 
 module.exports = {
   ...features,
+  ...AILang,
   general: {
     buttons: {
 

@@ -1,22 +1,22 @@
 import React from 'react';
 
-class Global {
+class GlobalState {
   static init() {
     this.state = {};
     this.volatileStates = new Set();
     this.listeners = {};
   }
 
-  static useState(name, initialValue, classComponent, useNativeState = false, changeListener) {
+  static useState(name, initialValue, classComponent, useForceUpdate = false, changeListener) {
     let newState;
     let newSetState;
     if (classComponent) {
       newState = this.state[name]
         || (classComponent.state ? classComponent.state[name] : null)
         || initialValue;
-      newSetState = useNativeState
-        ? value => classComponent.setState({ [name]: value })
-        : () => classComponent.forceUpdate();
+      newSetState = useForceUpdate
+        ? () => classComponent.forceUpdate()
+        : value => classComponent.setState({ [name]: value });
     } else {
       [newState, newSetState] = React.useState(this.state[name] || initialValue);
     }
@@ -85,6 +85,10 @@ class Global {
     });
 
     return newState;
+  }
+
+  static getState(name) {
+    return this.state[name];
   }
 
   static setState(name, value) {
@@ -179,4 +183,4 @@ class Global {
   }
 }
 
-export default Global;
+export default GlobalState;

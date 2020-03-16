@@ -17,7 +17,7 @@ router.post('/', Logger.catch(async (req, res) => {
   res.send(new APIResponse().setData(newTrainedModel));
 }));
 
-router.post('/overwrite', Logger.catch(async (req, res) => {
+router.post('/override', Logger.catch(async (req, res) => {
   const { experiment, target } = req.body;
   const newTrainedModel = await TrainedModelService.syncModelFromExperiment(experiment, target);
   res.send(new APIResponse().setData(newTrainedModel));

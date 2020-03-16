@@ -8,7 +8,7 @@ import LeafLoading from './components/utils/loadings/LeafLoading';
 import '../styles/main.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
+import 'mdbreact/dist/scss/mdb.scss';
 
 import 'codemirror/lib/codemirror.css';
 import 'tui-editor/dist/tui-editor.min.css';

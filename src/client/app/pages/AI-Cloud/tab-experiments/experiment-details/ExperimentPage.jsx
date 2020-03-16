@@ -1,8 +1,11 @@
+/* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import {
-  Row, Col, MDBCollapse, MDBBtn
+  Row, Col, MDBBtn
 } from 'mdbreact';
+import Select from 'react-select';
+import { debounce } from 'debounce';
 import { Section, SectionHeader, SectionBody } from '../../../../layouts/base/section';
 import { ExperimentTargets } from '../../../../utils/Constants';
 import { generateTests, updateArray, findByKey } from '../../../../utils';
@@ -20,21 +23,31 @@ import NewTrainedModel from '../../tab-trained-models/trained-models-page/NewTra
 import RouteConstants from '../../../../utils/RouteConstants';
 import ExperimentService from '../../../../services/AI/ExperimentService';
 import t from '../../../../languages';
+import LanguagesHelper, { tAI } from './LanguagesHelper';
 
 
 export default class ExperimentPage extends BaseComponent {
+  get showEditingTarget() {
+    return this.algorithmSectionRef.current && this.algorithmSectionRef.current.isOpen;
+  }
+
   constructor(props) {
     super(props);
     this.evaluationSectionRef = React.createRef();
     this.newTrainedModelRef = React.createRef();
+    this.algorithmSectionRef = React.createRef();
+    this.guidingSectionRef = React.createRef();
     this.bind(
-      this.handleTargetChange, this.toggleEditingTarget,
+      this.handleTargetChange,
       this.handleAlgorithmsChange,
       this.handleTrainEnd,
-      this.toggleEvaluationSection,
       this.handleSaveModel,
-      this.handleOverwriteModel
+      this.handleOverrideModel,
+      this.handleLanguageChange,
+      this.handleAlgorithmSectionOpened,
+      this.handleOpenGuidingSection
     );
+    this.executeEvaluation = debounce(this.executeEvaluation.bind(this), 2000);
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
     const editingTargetKey = this.getCachedValue('editingTargetKey', 'light');
@@ -43,14 +56,26 @@ export default class ExperimentPage extends BaseComponent {
       experiment: props.data,
       targets,
       editingTarget,
-      datasets: editingTarget.datasets,
-      isOpenEditingTarget: false,
-      isOpenEvaluationSection: true
+      datasets: editingTarget.datasets
     };
+
+    LanguagesHelper.useAILanguage(this);
   }
 
   componentDidMount() {
-    this.evaluationSectionRef.current.compare();
+    this.executeEvaluation();
+  }
+
+  componentWillUnmount() {
+    this.executeEvaluation.clear();
+  }
+
+  handleLanguageChange(option) {
+    LanguagesHelper.setAILanguage(option.value);
+  }
+
+  handleOpenGuidingSection() {
+    this.guidingSectionRef.current.toggle();
   }
 
   handleTargetChange(event) {
@@ -58,25 +83,23 @@ export default class ExperimentPage extends BaseComponent {
     if (!editingTarget.tests) {
       editingTarget.tests = generateTests(editingTarget);
     }
-    this.setState(prevState => ({
-      isOpenEditingTarget: prevState.isOpenEditingTarget || event.typez === this.Events.change.typez
-    }));
+    if (event.typez === 'change') {
+      if (this.state.editingTarget !== editingTarget) {
+        this.algorithmSectionRef.current.open();
+      } else {
+        this.algorithmSectionRef.current.toggle();
+      }
+    }
     this.cacheValue('editingTargetKey', editingTarget.key);
-    this.handleInputChange(event).then(() => {
-      this.evaluationSectionRef.current.compare();
-    });
+    this.handleInputChange(event).then(this.executeEvaluation);
   }
 
-  toggleEditingTarget() {
-    this.setState({
-      isOpenEditingTarget: false
-    });
+  handleAlgorithmSectionOpened() {
+    this.forceUpdate();
   }
 
-  toggleEvaluationSection() {
-    this.setState(prevState => ({
-      isOpenEvaluationSection: !prevState.isOpenEvaluationSection
-    }));
+  executeEvaluation() {
+    this.evaluationSectionRef.current.compare();
   }
 
   handleAlgorithmsChange() {
@@ -93,7 +116,7 @@ export default class ExperimentPage extends BaseComponent {
   }
 
   handleTrainEnd() {
-    this.evaluationSectionRef.current.compare();
+    this.executeEvaluation();
   }
 
   handleSaveModel() {
@@ -101,15 +124,16 @@ export default class ExperimentPage extends BaseComponent {
     this.newTrainedModelRef.current.setFormData({
       title: `${experiment.title} - ${editingTarget.name}`,
       experiment,
-      target: editingTarget
+      target: editingTarget,
+      preview: experiment.preview
     });
   }
 
-  handleOverwriteModel() {
+  handleOverrideModel() {
     const { experiment, editingTarget } = this.state;
-    ExperimentService.overwriteModel(experiment._id, editingTarget.key)
+    ExperimentService.overrideModel(experiment._id, editingTarget.key)
       .then(() => {
-        alert('Overwrite Done!');
+        alert('Cập nhập hoàn tất!');
       });
   }
 
@@ -147,20 +171,70 @@ export default class ExperimentPage extends BaseComponent {
   render() {
     const {
       experiment, targets,
-      editingTarget, isOpenEditingTarget,
-      isOpenEvaluationSection
+      editingTarget
     } = this.state || {};
-    const showEditingTarget = editingTarget != null && isOpenEditingTarget;
+    const languages = Object.entries(LanguagesHelper.AILanguages)
+      .map(([key, name]) => ({ label: name, value: key }));
+    const currentLanguage = LanguagesHelper.getAILanguage();
+    const currentLanguageOption = findByKey(currentLanguage, languages, null, 'value');
 
     return (
       <React.Fragment>
         <Section>
-          <SectionHeader>Thông tin</SectionHeader>
+          <SectionHeader className="d-flex justify-content-between">
+            <div>Thông tin</div>
+            <div className="d-flex align-items-center">
+              <MDBBtn
+                onClick={this.handleOpenGuidingSection}
+                color="none"
+                className="px-2 py-1 mr-2 text-nowrap grey-text text-normal hover-green"
+              ><i className="fas fa-info-circle" /> Xem Hướng Dẫn
+              </MDBBtn>
+              <div style={{ width: '150px' }}>
+                <Select
+                  placeholder="Chọn ngôn ngữ"
+                  options={languages}
+                  className="w-100 small"
+                  value={currentLanguageOption}
+                  onChange={this.handleLanguageChange}
+                />
+              </div>
+            </div>
+          </SectionHeader>
           <SectionBody>
             <ExperimentBaseInfo experiment={experiment} />
           </SectionBody>
         </Section>
-        <Section title="Huấn luyện chăm sóc tự động" beautyFont>
+
+        <Section
+          ref={this.guidingSectionRef}
+          title="Hướng dẫn"
+          className="mt-4"
+          beautyFont
+          togglable
+          collapseAll
+        >
+          <p>Đây là hướng dẫn để tạo ra chế độ chăm sóc tự động cho cây trồng. Bạn sẽ cần đào tạo ra 4 học sinh chuyên ở 4 lĩnh vực để có thể chăm sóc toàn diện 4 yếu tố cho cây (dinh dưỡng, ánh sáng, nhiệt độ, độ ẩm).</p>
+          <div className="d-flex">
+            <div className="flex-1">
+              <div><b>Hướng dẫn 01 - Các bước</b></div>
+              <ol>
+                <li>Chọn nhánh học sinh</li>
+                <li>Tùy chỉnh học sinh/Trường học</li>
+                <li>Đào tạo học sinh</li>
+                <li>Xét tốt nghiệp cho học sinh</li>
+              </ol>
+            </div>
+            <div className="flex-1">
+              <div><b>Hướng dẫn 02 - Hướng dẫn thêm</b></div>
+              <ol>
+                <li>Việc xét tốt nghiệp hoàn toàn phụ thuộc vào bạn. Hãy quan sát điểm số của sinh viên và xét tốt nghiệp nếu bạn hài lòng với điểm số đó.</li>
+              </ol>
+            </div>
+          </div>
+        </Section>
+
+        <Section title={tAI('targetsTitle')} beautyFont>
           <SectionBody className="mt-4">
             <ExperimentTargetsComp
               targets={targets}
@@ -171,69 +245,63 @@ export default class ExperimentPage extends BaseComponent {
           </SectionBody>
         </Section>
 
-        <MDBCollapse isOpen={showEditingTarget}>
-          <Section className="mt-4" title="Bạn muốn cây của bạn sẽ được chăm sóc như thế nào?" beautyFont>
-            <div className="text-right">
-              <MDBBtn
-                className="px-2 py-1"
-                onClick={this.toggleEditingTarget}
-              ><i className="fas fa-minus-square" /> thu gọn
-              </MDBBtn>
-            </div>
-            <h3 className="text-green text-center mt-3">{editingTarget && editingTarget.name}</h3>
-          </Section>
-
-          <Section>
-            <SectionHeader>{this.getGuidingMessageByTarget(editingTarget)}</SectionHeader>
-            <SectionBody>
-              <Row>
-                <Col sm="12" md="3">
-                  <div className="font-italic border-bottom mb-2">Dữ liệu thu thập được</div>
-                  {showEditingTarget && (
-                    <DatasetsSelect
-                      editingTarget={editingTarget}
-                      onChange={this.handleAlgorithmsChange}
-                    />
-                  )}
-                </Col>
-                <Col sm="8" md="6" className="arrow-right">
-                  <div className="font-italic border-bottom mb-2">Yếu tố tác động</div>
-                  <FeaturesSelect editingTarget={editingTarget} />
-                </Col>
-                <Col sm="4" md="3" className="">
-                  <div className="font-italic border-bottom mb-2">Yếu tố mục tiêu</div>
-                  <OutputsSelect editingTarget={editingTarget} />
-                </Col>
-              </Row>
-            </SectionBody>
-          </Section>
-
-          <Section>
-            <SectionHeader>
-              Thiết kế huấn luyện
-            </SectionHeader>
-            <SectionBody>
-              <Row className="mt-3">
-                <Col sm="12" md="6">
-                  {showEditingTarget && (
-                    <AlgorithmsSelect
-                      editingTarget={editingTarget}
-                      onChange={this.handleAlgorithmsChange}
-                    />
-                  )}
-                </Col>
-                <Col sm="12" md="6">
-                  <AlgorithmTests
+        <Section
+          ref={this.algorithmSectionRef}
+          className="mt-4"
+          title={tAI('algorithmSection')}
+          beautyFont
+          togglable
+          collapseAll
+          onOpen={this.handleAlgorithmSectionOpened}
+        >
+          <h3 className="text-green text-center mt-3">{editingTarget && editingTarget.name}</h3>
+          <SectionHeader>{this.getGuidingMessageByTarget(editingTarget)}</SectionHeader>
+          <SectionBody>
+            <Row>
+              <Col sm="12" md="3">
+                <div className="font-italic border-bottom mb-2">Dữ liệu thu thập được</div>
+                {this.showEditingTarget && (
+                  <DatasetsSelect
                     editingTarget={editingTarget}
                     onChange={this.handleAlgorithmsChange}
                   />
-                </Col>
-              </Row>
-            </SectionBody>
-          </Section>
-        </MDBCollapse>
+                )}
+              </Col>
+              <Col sm="8" md="6" className="arrow-right">
+                <div className="font-italic border-bottom mb-2">Yếu tố tác động</div>
+                <FeaturesSelect editingTarget={editingTarget} />
+              </Col>
+              <Col sm="4" md="3" className="">
+                <div className="font-italic border-bottom mb-2">Yếu tố mục tiêu</div>
+                <OutputsSelect editingTarget={editingTarget} />
+              </Col>
+            </Row>
+          </SectionBody>
 
-        <Section title={editingTarget ? editingTarget.name : 'Bắt Đầu Huấn Luyện'} beautyFont>
+          <SectionHeader className="mt-3">
+            Thiết kế huấn luyện
+          </SectionHeader>
+          <SectionBody>
+            <Row className="mt-3">
+              <Col sm="12" md="6">
+                {this.showEditingTarget && (
+                  <AlgorithmsSelect
+                    editingTarget={editingTarget}
+                    onChange={this.handleAlgorithmsChange}
+                  />
+                )}
+              </Col>
+              <Col sm="12" md="6">
+                <AlgorithmTests
+                  editingTarget={editingTarget}
+                  onChange={this.handleAlgorithmsChange}
+                />
+              </Col>
+            </Row>
+          </SectionBody>
+        </Section>
+
+        <Section title={`Huấn luyện ${tAI('targets', editingTarget.key)}`} beautyFont>
           <TrainingSection
             experiment={experiment}
             editingTarget={editingTarget}
@@ -242,45 +310,36 @@ export default class ExperimentPage extends BaseComponent {
           />
         </Section>
 
-        <Section title="Thử nghiệm model đã qua huấn luyện" beautyFont className="mb-4">
-          <div className="text-right">
-            <MDBBtn
-              className="px-2 py-1"
-              onClick={this.toggleEvaluationSection}
-            ><i className="fas fa-minus-square" /> {isOpenEvaluationSection ? 'Thu gọn' : 'Mở rộng'}
-            </MDBBtn>
-          </div>
-          <MDBCollapse isOpen={isOpenEvaluationSection}>
-            <EvaluationSection
-              ref={this.evaluationSectionRef}
-              experiment={experiment}
-              editingTarget={editingTarget}
-            />
-          </MDBCollapse>
+        <Section title={tAI('evaluationSection')} beautyFont className="mb-4" togglable>
+          <EvaluationSection
+            ref={this.evaluationSectionRef}
+            experiment={experiment}
+            editingTarget={editingTarget}
+          />
         </Section>
 
-        <Section title="Lưu Model đã qua huấn luyện" beautyFont className="mb-4">
+        <Section title={tAI('saveModelTitle')} beautyFont className="mb-4">
           <Row className="mb-3">
-            <Col size="6" sm="4" className="text-center offset-0 offset-sm-4">
+            <Col size="12" sm="6" className="text-center offset-0 offset-sm-3">
               <MDBBtn
                 className="px-3 py-2"
                 onClick={this.handleSaveModel}
-              >Lưu Model
+              ><i className="fas fa-cloud-download-alt" /> {tAI('saveModel')}
               </MDBBtn>
               <MDBBtn
                 className="px-3 py-2"
-                onClick={this.handleOverwriteModel}
-              >Cập nhập Model
+                onClick={this.handleOverrideModel}
+              ><i className="fas fa-sync-alt" /> {tAI('overrideModel')}
               </MDBBtn>
             </Col>
-            <Col size="6" sm="4" className="d-flex align-items-start justify-content-end">
+            <Col size="12" sm="3" className="d-flex align-items-start justify-content-end">
               <a
                 className="hover-blue grey-text"
                 href={RouteConstants.aiTrainedModelsLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Trained Models <i className="fas fa-external-link-square-alt" />
+                {tAI('trainedModels')} <i className="fas fa-external-link-square-alt" />
               </a>
             </Col>
           </Row>

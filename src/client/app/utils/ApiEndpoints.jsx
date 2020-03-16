@@ -165,7 +165,7 @@ const datasets = `${AI}/datasets`;
 const datasetI = _id => `${datasets}/${_id}`;
 const regenerateDatasetIRecords = _id => `${datasetI(_id)}/regenerate`;
 const trainedModels = `${AI}/trained-models`;
-const overwriteModel = `${trainedModels}/overwrite`;
+const overrideModel = `${trainedModels}/override`;
 
 export default {
   ep,
@@ -233,5 +233,5 @@ export default {
   datasetI,
   regenerateDatasetIRecords,
   trainedModels,
-  overwriteModel
+  overrideModel
 };

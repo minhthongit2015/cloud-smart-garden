@@ -11,8 +11,8 @@ export default class ExperimentService {
     return superrequest.post(ApiEndpoints.compareExperimentI(experimentId), compareOptions);
   }
 
-  static overwriteModel(experiment, target) {
-    return superrequest.post(ApiEndpoints.overwriteModel, { experiment, target });
+  static overrideModel(experiment, target) {
+    return superrequest.post(ApiEndpoints.overrideModel, { experiment, target });
   }
 
   static subscribeTrainingProgress(onProgress, onBegin, onEnd) {

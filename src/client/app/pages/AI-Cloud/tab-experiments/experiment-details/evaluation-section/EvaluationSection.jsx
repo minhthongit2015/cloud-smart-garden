@@ -2,17 +2,23 @@
 import React from 'react';
 import { Col, Row, MDBBtn } from 'mdbreact';
 import BaseComponent from '../../../../../components/_base/BaseComponent';
-import ItemList from '../../../../../components/utils/item-list/ItemList';
+// import ItemList from '../../../../../components/utils/item-list/ItemList';
 import DatasetService from '../../../../../services/AI/DatasetService';
 import ExperimentService from '../../../../../services/AI/ExperimentService';
 import PredictionChart from '../../../../../components/charts/PredictionChart';
+import LanguagesHelper, { tAI } from '../LanguagesHelper';
 
 
 export default class extends BaseComponent.Pure {
+  get predictionChart() {
+    return this.predictionChartRef.current;
+  }
+
   constructor(props) {
     super(props);
     this.predictionChartRef = React.createRef();
     this.bind(this.compare, this.handleCleanChart);
+    LanguagesHelper.useAILanguage(this);
   }
 
   async compare() {
@@ -20,11 +26,11 @@ export default class extends BaseComponent.Pure {
       experiment: { _id: experimentId },
       editingTarget
     } = this.props;
-    if (!experimentId || !editingTarget) {
+    if (!experimentId || !editingTarget || !this.predictionChart) {
       return;
     }
 
-    this.predictionChartRef.current.clean();
+    this.predictionChart.clean();
 
     const {
       datasets
@@ -70,7 +76,7 @@ export default class extends BaseComponent.Pure {
   }
 
   render() {
-    const { editingTarget, className } = this.props;
+    const { /* editingTarget, */ className } = this.props;
     const hasData = this.predictionChartRef.current && this.predictionChartRef.current.total > 0;
 
     return (
@@ -79,9 +85,9 @@ export default class extends BaseComponent.Pure {
           <Row>
             <Col size="6" sm="4" className="offset-0 offset-sm-4">
               <MDBBtn
-                className="px-3 py-2"
+                className="px-3 py-2 mb-3"
                 onClick={this.compare}
-              >So sánh
+              ><i className={tAI('compareIcon')} /> {tAI('compare')}
               </MDBBtn>
             </Col>
             <Col size="6" sm="4" className="d-flex align-items-end justify-content-end">
@@ -100,7 +106,7 @@ export default class extends BaseComponent.Pure {
           </div>
         </Col>
 
-        <Col size="3" className="arrow-right offset-3 mt-3">
+        {/* <Col size="3" className="arrow-right offset-3 mt-3">
           <div className="font-italic border-bottom mb-2">Tham số</div>
           <ItemList
             items={editingTarget.features.map(k => [k[0]])}
@@ -113,7 +119,7 @@ export default class extends BaseComponent.Pure {
             items={editingTarget.labels.map(k => [k[0]])}
             itemContentProvider={this.renderPrediction}
           />
-        </Col>
+        </Col> */}
       </Row>
     );
   }

@@ -5,6 +5,7 @@
 @import './text';
 @import './hover';
 @import './util';
+@import './layout';
 
 img {
   max-width: 100%;
@@ -53,25 +54,5 @@ $link-underline-color: $color-red-light;
 }
 
 .modern-scrollbar {
-  &::-webkit-scrollbar {
-    background: #E2E5E8;
-    width: 4px;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    display: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #A1A9B3;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-corner {
-    display: none;
-  }
-  &::-webkit-resizer {
-    display: none;
-  }
-  &::-webkit-scrollbar-button {
-    display: none;
-  }
+  @include modern-scrollbar;
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 
+
 moment.locale('vi');
 
 function getCustomTime(time) {
+  // TODO: Not using moment
   return moment(time).format('HH:mm:ss - DD/MM/YYYY');
 }
 
@@ -23,23 +25,23 @@ function getIntervalByContext(/* time */) {
   return 1000;
 }
 
-const TimeAgo = React.memo(({ time: timez, className, ...restProps }) => {
-  const time = moment(timez);
+const TimeAgo = React.memo(({ time, className, ...restProps }) => {
+  const mTime = moment(time);
   const [value, forceUpdate] = React.useState(true);
   React.useEffect(() => {
     const intervalHandle = setInterval(() => {
       forceUpdate(!value);
-    }, getIntervalByContext(time));
+    }, getIntervalByContext(mTime));
     return () => {
       clearInterval(intervalHandle);
     };
   });
   return (
     <span
-      title={getCustomTime(time)}
+      title={getCustomTime(mTime)}
       className={`time-ago text-monospace text-muted ${className || ''}`}
       {...restProps}
-    ><i className="far fa-clock" /> {time.fromNow()}
+    ><i className="far fa-clock" /> {mTime.fromNow()}
     </span>
   );
 });
