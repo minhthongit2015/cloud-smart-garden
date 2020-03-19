@@ -5,10 +5,10 @@ module.exports = {
     default: {
       targetsTitle: 'Huấn luyện chăm sóc tự động',
       targets: {
-        nutrient: 'Huấn luyện Dinh dưỡng',
-        light: 'Huấn luyện Ánh Sáng',
-        temperature: 'Huấn luyện Nhiệt Độ',
-        humidity: 'Huấn luyện Độ Ẩm'
+        nutrient: 'Dinh dưỡng',
+        light: 'Ánh Sáng',
+        temperature: 'Nhiệt Độ',
+        humidity: 'Độ Ẩm'
       },
       targetDesc: {
         nutrient: 'Tự động điều chỉnh dinh dưỡng tối ưu theo từng giai đoạn sinh trưởng của cây trồng.',
