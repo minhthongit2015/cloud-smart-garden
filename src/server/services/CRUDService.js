@@ -124,6 +124,9 @@ module.exports = class CRUDService {
   }
 
   static async first(opts = { ...ApiHelper.listParams }) {
+    if (!opts) {
+      opts = {};
+    }
     opts.limit = 1;
     const foundDocs = await this.list(opts);
     return this.converter.convert(foundDocs[0]);

@@ -10,6 +10,9 @@ export default (props) => {
     ? React.useState(props.timeout)
     : [];
 
+  if (seconds > 0 && window.key.alt) {
+    window.location.reload();
+  }
   if (seconds > 0 && !window.key.ctrl) {
     setTimeout(() => setSeconds(seconds - 1), 1000);
   } else if (seconds === 0) {

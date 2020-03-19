@@ -22,10 +22,15 @@ export default class ErrorBoundary extends React.Component {
   }
 
   render() {
-    if (this.state.hasError || this.props.reload) {
+    if (this.props.reload) {
       // You can render any custom fallback UI
       return (
         <LeafLoading overlaping text="Trang đã cập nhập phiên bản mới!" timeout={5} />
+      );
+    }
+    if (this.state.hasError) {
+      return (
+        <LeafLoading overlaping text="Trang đã cập nhập phiên bản mới!!" timeout={5} />
       );
     }
     return this.props.children;

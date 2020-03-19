@@ -3,7 +3,9 @@ import './FixedRatioImage.scss';
 import './FrameStyles.scss';
 import { MDBWaves } from 'mdbreact';
 
-
+/**
+ * @param interactive simulate 3D photo
+ */
 export default ({
   wrapperClass = '', className = '', backgroundType = 'cover', style = {},
   frame = 'none' || 'rounded' || 'slash' || 'circle', interactive = false,
@@ -19,7 +21,7 @@ export default ({
   }
   return (
     <div
-      className={`fixed-ratio-image__wrapper m-auto ${wrapperClass || ''} frame-${frame || ''}`}
+      className={`fixed-ratio-image__wrapper overflow-hidden m-auto ${wrapperClass || ''} frame-${frame || ''}`}
       onClick={handleClick}
     >
       {Icon ? (

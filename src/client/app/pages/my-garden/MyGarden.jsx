@@ -1,40 +1,49 @@
+import React from 'react';
 import t from '../../languages';
-import MainPageGroup from '../_base/MainPageGroup';
-import RouteConstants from '../../utils/RouteConstants';
-import TabMyGarden from './tab-my-garden/TabMyGarden';
-import TabStorehouse from './tab-storehouse/TabStorehouse';
-import TabHelp from './tab-help/TabHelp';
-import TabStations from './tab-stations/TabStations';
+import WithNavPage from '../_base/WithNavPage';
+import FixedRatioImage from '../../components/utils/fixed-ratio-image/FixedRatioImage';
+import GardenService from '../../services/garden/GardenService';
+import GardenModule from './tab-my-garden/GardenModule';
+// import RouteConstants from '../../utils/RouteConstants';
+// import TabMyGarden from './tab-my-garden/TabMyGarden';
+// import TabStorehouse from './tab-storehouse/TabStorehouse';
+// import TabHelp from './tab-help/TabHelp';
+// import TabStations from './tab-stations/TabStations';
 
 
-export default class extends MainPageGroup {
+export default class extends WithNavPage {
   constructor(props) {
-    super(props);
-    this.brand = {
-      name: t('pages.myGarden.nav.myGarden'),
-      link: RouteConstants.myGardenLink,
-      path: RouteConstants.myGardenPath,
-      component: TabMyGarden
-    };
-    this.tabs = [
-      {
-        name: t('pages.myGarden.nav.stations'),
-        path: RouteConstants.stationsPath,
-        link: RouteConstants.stationsLink,
-        component: TabStations
-      },
-      {
-        name: t('pages.myGarden.nav.storehouse'),
-        path: RouteConstants.storehousePath,
-        link: RouteConstants.storehouseLink,
-        component: TabStorehouse
-      },
-      {
-        name: t('pages.myGarden.nav.help'),
-        path: RouteConstants.helpMyGardenPath,
-        link: RouteConstants.helpMyGardenLink,
-        component: TabHelp
-      }
+    super(props, t('pages.myGarden.nav.myGarden'), true);
+    this.navs = [
+      'Smile City',
+      'Bạn Bè',
+      'Gia Đình'
     ];
+    this.state = {
+      ...this.state,
+      gardens: []
+    };
+  }
+
+  componentDidMount() {
+    GardenService.fetchMyGarden()
+      .then((res) => {
+        const gardens = res.data;
+        this.setState({
+          gardens: res.data,
+          brand: gardens[0] && gardens[0].title
+        });
+      });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  renderBody() {
+    const { gardens: [firstGarden] } = this.state;
+    return (
+      <div>
+        {firstGarden && <FixedRatioImage className="rounded" src={firstGarden.preview} ratio={1 / 3} />}
+        <GardenModule />
+      </div>
+    );
   }
 }

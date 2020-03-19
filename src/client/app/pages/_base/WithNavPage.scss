@@ -1,0 +1,21 @@
+
+$page-padding: 9px;
+
+.with-nav-page {
+  overflow: hidden;
+  padding: $page-padding 0;
+  display: flex;
+  flex-direction: column;
+
+  &__body {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: $page-padding;
+    padding-left: $page-padding;
+  }
+  
+  .navbar {
+    margin-bottom: $page-padding;
+  }
+}

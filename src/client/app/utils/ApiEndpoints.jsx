@@ -149,6 +149,7 @@ const savedPosts = `${blog}/saved-posts`;
 
 const garden = `${APIv1}/garden`;
 const gardens = `${garden}/gardens`;
+const myGardens = `${APIv1}/my-garden`;
 const stations = `${garden}/stations`;
 const setStationState = `${stations}/set-state`;
 const records = `${garden}/records`;
@@ -217,6 +218,7 @@ export default {
 
   garden,
   gardens,
+  myGardens,
   stations,
   setStationState,
   records,
