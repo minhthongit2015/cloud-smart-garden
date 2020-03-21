@@ -24,7 +24,7 @@
   ```console
   > nvm install node 12.13.0 && nvm use 12.13.0
   ```
-3. Cài đặt `Python 2.7`
+3. Cài đặt `Python 2.7` (Có thể bỏ qua. Sẽ được cài chung với `Windows Build Tools`)
   > https://www.python.org/downloads/windows/
 4. Cài đặt `Windows Build Tools` dưới quyền **Admin**
   ```console

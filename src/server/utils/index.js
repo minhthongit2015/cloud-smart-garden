@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable no-plusplus */
 const _ = require('lodash');
 const { EventInterface } = require('./Interfaces');

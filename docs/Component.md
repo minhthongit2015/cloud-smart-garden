@@ -80,7 +80,7 @@ export default class extends BaseComponent {
     return value.repeat(4);
   }
 
-  // 9. Render's Methods
+  // 9. Render's Methods (Follow the visible order)
   renderHeader() {
     return (
       <div>
@@ -117,7 +117,7 @@ export default class extends BaseComponent {
     );
   }
 
-  // Be remember: `render()` should go last
+  // Be remember: the main `render()` method should go last
   render() {
     return (
       <div>

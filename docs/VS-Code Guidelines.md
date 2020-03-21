@@ -29,17 +29,9 @@
    > Cài đặt phím tắt bằng [`Ctrl + K` + `Ctrl + S`]
    
    > Khôi phục phím tắt mặc định bằng cách xóa nội dung file `keybinding.json` (Mở file đó bằng `Ctrl + Shift + P` > `Open Keyboard Shortcuts (JSON)`)
-2. Tiện ích
-   - `ESLint`
-   - `Reactjs code snippets`
-   - `React PropTypes Intellisense` + `Flow language support`
-   - `vscode-icons`
-   - `Auto Close Tag`
-   - `Auto Rename Tag`
-   - `Arduino`
-4. Cài phím tắt
+2. Cài phím tắt
    - [`Ctrl + L` + `Ctrl + L`] để xóa `terminal` (`Click chuột phải` > đặt `when` thành `"terminalFocus"`)
-5. Cài đặt khác
+3. Cài đặt khác
    - Tab Size: 2 spaces (nhấn [`Ctrl` + `,`] để mở trang cài đặt)
 
 
@@ -50,3 +42,17 @@
    - [`Ctrl` + `,`] > Auto Fix On Save
 2. Arduino
    - "`c_cpp_properties.json`"
+
+
+#### [C] Extensions (Tiện ích cho VSCode)
+1. `ESLint`
+2. `GitLens`
+3. `vscode-icons`
+4. `Visual Studio IntelliCode`
+5. `React Standard Style code snippets`
+6. `Reactjs code snippets`
+7. `JavaScript (ES6) code snippets`
+8. `Auto Close Tag`
+9. `Auto Rename Tag`
+10. `Auto Import`
+11. `Arduino`

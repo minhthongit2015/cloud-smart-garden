@@ -54,20 +54,9 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    if (window.appLoaded === true) {
-      window.appLoaded = 1;
-      console.h1('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
-      window.hasNewUpdate = true;
-    }
-    if (window.appLoaded) return;
-    console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
-      .then((image) => {
-        console.group('🚀 Alpha Team wiz 💓');
-        console.h1('👩‍🔬 Welcome To The Tomorrowland! 🪐');
-        console.logImage(image);
-        console.groupEnd('🚀 Alpha Team wiz 💓');
-      });
-    window.appLoaded = true;
+    // if (this.checkForUpdate()) {
+    //   return;
+    // }
 
     HistoryHelper.init(props);
     KeyTracker();
@@ -84,6 +73,25 @@ class App extends Component {
     ]);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  checkForUpdate() {
+    if (window.appLoaded === true) {
+      window.appLoaded = 1;
+      console.h1('Phiên Bản Mới Đã Được Cập Nhập. Tải lại sau 5 giây!');
+      window.hasNewUpdate = true;
+    }
+    if (window.appLoaded) return true;
+    console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
+      .then((image) => {
+        console.group('🚀 Alpha Team wiz 💓');
+        console.h1('👩‍🔬 Welcome To The Tomorrowland! 🪐');
+        console.logImage(image);
+        console.groupEnd('🚀 Alpha Team wiz 💓');
+      });
+    window.appLoaded = true;
+    return false;
+  }
+
   render() {
     if (window.hasNewUpdate) {
       return (
@@ -97,7 +105,7 @@ class App extends Component {
           <Route exact path={RouteConstants.homePath}><HomePage /></Route>
           <Route path={RouteConstants.adminPath}><Dashboard /></Route>
           <Route path={RouteConstants.intranetPath}><Intranet /></Route>
-          <Route path={RouteConstants.myGardenPath}><MyGarden /></Route>
+          <Route path={RouteConstants.myGardenPath} component={MyGarden} />
           <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
           <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
           <Route path={RouteConstants.userNetworkPath} component={DummyUserNetwork} />

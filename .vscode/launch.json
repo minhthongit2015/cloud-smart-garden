@@ -7,19 +7,23 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "No Webpack",
+      "name": "Start Server",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/server/server.js",
       "args": [
-        "--ignore", "${workspaceFolder}/src/client",
-        "--ignore", "${workspaceFolder}/src/server/assets",
-        "--watch", "${workspaceFolder}/src/server",
-        "--delay", "1.5"
+        "--ignore",
+        "${workspaceFolder}/src/client",
+        "--ignore",
+        "${workspaceFolder}/src/server/assets",
+        "--watch",
+        "${workspaceFolder}/src/server",
+        "--delay",
+        "1.5"
       ],
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "envFile": "${workspaceFolder}/.env.dev.ini",
+      "envFile": "${workspaceFolder}/configs/.env.dev.ini",
       "env": {
         "DEBUG": "cloud:*,-express:*",
         "NODE_ENV": "development",
@@ -28,7 +32,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run Test",
+      "name": "Debug Test",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/src/test/test.js",
       "args": [
@@ -44,23 +48,6 @@
       "env": {
         "DEBUG": "cloud:*",
         "NODE_ENV": "development"
-      }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Webpack",
-      "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/dist/build/server-bundle.js",
-      "args": [
-        "-w",
-        "${workspaceFolder}/dist/build/server-bundle.js"
-      ],
-      "restart": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "env": {
-        "DEBUG": "app:server"
       }
     }
   ]
