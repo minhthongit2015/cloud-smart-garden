@@ -8,6 +8,10 @@ module.exports = class extends PostService {
     return Garden;
   }
 
+  static populate() {
+    return ['stations'];
+  }
+
   static async getMyGardens(user) {
     return this.list({
       where: {

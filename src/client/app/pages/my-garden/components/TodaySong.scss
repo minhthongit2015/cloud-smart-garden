@@ -1,0 +1,113 @@
+
+$color-lighter: rgba($color: #fff, $alpha: .1);
+$color-light: rgba($color: #fff, $alpha: .2);
+$color: rgba($color: #fff, $alpha: .5);
+$color-hover: rgba($color: #fff, $alpha: .7);
+$color-active: rgba($color: #fff, $alpha: .9);
+$color-active-dark: rgba($color: #000, $alpha: .2);
+
+.today-song {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid $color;
+  border-radius: 8px;
+  padding: 2px 5px 5px 20px;
+  background-color: $color-lighter;
+  overflow: hidden;
+  transition: all .2s ease-in-out;
+
+  &__title {
+    color: $color-hover;
+    text-align: center;
+  }
+
+  &:hover {
+    border-color: $color-active;
+    background-color: $color-light;
+  }
+  &:hover &__title {
+    color: $color-active;
+  }
+
+  &__song {
+    transition: width .3s ease-in-out;
+  }
+
+  &__toggle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 15px;
+    height: 100%;
+    background-color: $color;
+    color: #fff;
+    transition: background-color .2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-hover;
+    }
+    &:active {
+      background-color: $color-active;
+      color: $color-active-dark;
+    }
+  }
+
+  &__expand {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    top: 3px;
+    cursor: pointer;
+  }
+
+  .music-note {
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 1px #fff, 0 0 15px #fff;
+    -webkit-animation: textfly 3s infinite, heartbeat 3s ease-in-out infinite alternate, heartbeat 2s ease-in-out infinite alternate 7.9s;
+    animation: textfly 8s infinite, heartbeat 3s ease-in-out infinite alternate, heartbeat 2s ease-in-out infinite alternate 7.9s;
+  }
+}
+@-webkit-keyframes textfly {
+  0% {
+    text-shadow: 0 0 5px #fff, 0 0 1px #fff, 0 0 15px #fff;
+  }
+  30% {
+    text-shadow: 1px 2px 5px #fff, -1px -2px 1px #fff, 0 0 15px #fff;
+  }
+}
+@keyframes textfly {
+  0% {
+    text-shadow: 0 0 5px #fff, 0 0 1px #fff, 0 0 15px #fff;
+  }
+  30% {
+    text-shadow: 1px 2px 5px #fff, -1px -2px 1px #fff, 0 0 15px #fff;
+  }
+}
+
+@-webkit-keyframes heartbeat {
+	0% { transform: scale(1); opacity: 1;}
+	30% { transform: scale(1); }
+	40% { transform: scale(1.08); opacity: .74; }
+	50% { transform: scale(1); }
+  55% { opacity: 1; }
+	60% { transform: scale(1); }
+	70% { transform: scale(1.05); opacity: .74; }
+	80% { transform: scale(1); }
+	100% { transform: scale(1);  opacity: 1; }
+}
+@keyframes heartbeat {
+	0% { transform: scale(1); opacity: 1;}
+	30% { transform: scale(1); }
+	40% { transform: scale(1.08); opacity: .74; }
+	50% { transform: scale(1); }
+  55% { opacity: 1; }
+	60% { transform: scale(1); }
+	70% { transform: scale(1.05); opacity: .74; }
+	80% { transform: scale(1); }
+	100% { transform: scale(1);  opacity: 1; }
+}

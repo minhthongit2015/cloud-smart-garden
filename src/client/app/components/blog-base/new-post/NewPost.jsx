@@ -302,16 +302,16 @@ export default class extends BaseComponent.Pure {
           />
         </MDBCardHeader>
         <MDBCardBody>
-          {expanded && (
-            <form onSubmit={this._handleSubmit}>
-              {this.renderBody()}
-              <Row>
-                <Col className="text-right">
-                  {this.renderButtons()}
-                </Col>
-              </Row>
-            </form>
-          )}
+          {/* {expanded && ( */}
+          <form onSubmit={this._handleSubmit}>
+            {this.renderBody()}
+            <Row>
+              <Col className="text-right">
+                {this.renderButtons()}
+              </Col>
+            </Row>
+          </form>
+          {/* )} */}
         </MDBCardBody>
         <LeafLoading text={this.postingMessage} overlaping={disabled} />
       </MDBCard>

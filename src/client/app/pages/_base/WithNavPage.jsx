@@ -89,14 +89,14 @@ export default class extends BasePage {
     return (
       <div className="with-nav-page">
         <div className="with-nav-page__body modern-scrollbar">
-          <MDBNavbar color="indigo" dark expand="md" className="default-color">
+          {/* <MDBNavbar color="indigo" dark expand="md" className="default-color">
             {this.renderBrand()}
             {this.renderToggler()}
             <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpenNavbar} navbar>
               {this.renderLeftNavbar()}
               {this.renderRightNavbar()}
             </MDBCollapse>
-          </MDBNavbar>
+          </MDBNavbar> */}
           {this.renderBody()}
         </div>
       </div>

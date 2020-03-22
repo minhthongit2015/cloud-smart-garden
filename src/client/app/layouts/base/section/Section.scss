@@ -8,26 +8,38 @@ $section-spacing: 40px;
   &__title {
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: pre;
+    text-align: center;
     
     &.beauty-font {
       font-family: icielz-bambola;
       font-size: 1.2rem;
+      line-height: 1.3rem;
       letter-spacing: 2px;
     }
 
-    &::before, &::after {
-      content: "";
-      background: #b5b5b5;
-      height: 1px;
-      display: block;
-      flex: 1;
+    &.big-font {
+      font-size: 1.5rem;
+      line-height: 1.6rem;
     }
-    &::before {
-      margin-right: 8px;
-    }
-    &::after {
-      margin-left: 8px;
+
+    &.hr {
+      &::before, &::after {
+        content: "";
+        background: #b5b5b5;
+        height: 1px;
+        display: block;
+        flex: 1;
+      }
+      &::before {
+        margin-right: 8px;
+      }
+      &::after {
+        margin-left: 8px;
+      }
     }
   }
 }

@@ -36,7 +36,8 @@ export default class Toggleable extends BaseComponent.Pure {
     this.toggle(...args);
   }
 
-  toggle() {
+  toggle(event) {
+    this.stopEvent(event);
     this.setState(
       prevState => ({ isOpen: !prevState.isOpen }),
       this.handleToggle

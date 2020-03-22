@@ -3,7 +3,7 @@ import { Row, Col } from 'mdbreact';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import DeepMessage from '../../../components/utils/messages/DeepMessage';
-import AdminPage from '../../_base/AdminPage';
+import StandalonePage from '../../_base/StandalonePage';
 import superrequest from '../../../utils/superrequest';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import MembersSpotlightChart from '../../../components/charts/intranet/MembersSpotlightChart';
@@ -15,7 +15,7 @@ import Random from '../../../utils/Random';
 import MembersMarksChart from '../../../components/charts/intranet/MembersMarksChart';
 
 
-export default class extends AdminPage {
+export default class extends StandalonePage {
   constructor(props) {
     super(props, t('pages.intranet.title.memberSpotlight'));
     this.handleLeaveMember = this.handleLeaveMember.bind(this);

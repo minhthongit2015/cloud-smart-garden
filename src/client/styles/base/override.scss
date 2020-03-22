@@ -27,3 +27,28 @@
 
 $success-color: #a73b28;
 $success-color-dark: darken($success-color, .5);
+
+$start-div: 1;
+$end-div: 10;
+
+@for $i from $start-div to $end-div {
+  .w-#{$i} { width: (100% / $i) !important; }
+}
+
+@media (min-width: 576px) {
+  @for $i from $start-div to $end-div {
+    .w-sm-#{$i} { width: (100% / $i) !important; }
+  }
+}
+
+@media (min-width: 768px) {
+  @for $i from $start-div to $end-div {
+    .w-md-#{$i} { width: (100% / $i) !important; }
+  }
+}
+
+@media (min-width: 992px) {
+  @for $i from $start-div to $end-div {
+    .w-lg-#{$i} { width: (100% / $i) !important; }
+  }
+}

@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Section.scss';
 import { MDBCollapse, MDBBtn } from 'mdbreact';
+import classNames from 'classnames';
 import Toggleable from '../../../components/utils/toggleable/Toggleable';
+
 
 class Section extends Toggleable {
   renderSection(content) {
     const {
-      className, style, title, beautyFont, children
+      className, style, title, beautyFont, bigFont, children, hr = true
     } = this.props;
 
     return (
@@ -16,7 +18,16 @@ class Section extends Toggleable {
         style={style}
       >
         {title && (
-          <div className={`base-section__title ${beautyFont ? 'beauty-font' : ''}`}>{title}</div>
+          <div className={classNames(
+            'base-section__title',
+            {
+              hr,
+              'beauty-font': beautyFont,
+              'big-font': bigFont
+            }
+          )}
+          >{title}
+          </div>
         )}
         {content || children}
       </section>

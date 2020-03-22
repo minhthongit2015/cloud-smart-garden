@@ -1,4 +1,19 @@
 
+
+const ModelName = {
+  fields: {
+    baseOrder: 'baseOrder',
+    order: 'order'
+  },
+  user: 'User',
+  team: 'Team',
+  post: 'Post',
+  category: 'Category',
+  rating: 'Rating',
+  savedPost: 'SavedPost',
+  garden: 'Garden'
+};
+
 const UserRole = {
   Moderator: 'Moderator',
   Admin: 'Admin',
@@ -54,6 +69,7 @@ const ExperimentTargetTypes = require('../services/AI/targets/ExperimentTargetTy
 const DataUtils = require('../services/AI/targets/DataUtils');
 
 module.exports = {
+  ModelName,
   UserRole,
   PostStatus,
   MemberBadge,

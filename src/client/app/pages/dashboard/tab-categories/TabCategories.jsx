@@ -2,12 +2,12 @@ import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import DeepMessage from '../../../components/utils/messages/DeepMessage';
-import AdminPage from '../../_base/AdminPage';
+import StandalonePage from '../../_base/StandalonePage';
 import CategoryService from '../../../services/blog/CategoryService';
 import MultiDragableTree from '../../../components/utils/multi-dragable-tree/MultiDragableTree';
 
 
-export default class extends AdminPage {
+export default class extends StandalonePage {
   constructor(props) {
     super(props, t('pages.admin.title.categories'));
     this.state = {

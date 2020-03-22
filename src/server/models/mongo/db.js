@@ -29,7 +29,7 @@ class MongoDB {
       .then(() => {
         Debugger.database(`${colors.yellow('[MongoDB]')} Connected to the MongoDB database!`);
       })
-      .catch((...args) => {
+      .catch(() => {
         Debugger.database(`${colors.red('<!>')} ${colors.yellow('[MongoDB]')} Cannot connect to the MongoDB Database!`);
       });
     if (this.db && this.db.readyState === 1) {

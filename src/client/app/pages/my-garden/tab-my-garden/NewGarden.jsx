@@ -47,7 +47,7 @@ export default class extends NewBlogPost {
               required
             />
             <MDBInput
-              label="Đây sẽ là một khu vườn như thế nào?"
+              label="Giới thiệu khu vườn?"
               name="summary"
               value={summary}
               onChange={this.handleInputChange}
@@ -59,7 +59,7 @@ export default class extends NewBlogPost {
           </Col>
           <Col size="12" sm="6">
             <DropUploader
-              label="Bạn có muốn chia sẻ hình ảnh về khu vườn của bạn?"
+              label="Chia sẻ hình ảnh về khu vườn của bạn?"
               name="preview"
               value={preview}
               video={video}

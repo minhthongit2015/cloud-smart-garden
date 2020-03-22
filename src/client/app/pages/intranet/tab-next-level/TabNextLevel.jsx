@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Row, Col, MDBBtn } from 'mdbreact';
-import AdminPage from '../../_base/AdminPage';
+import StandalonePage from '../../_base/StandalonePage';
 import t from '../../../languages';
 import { SectionBody, Section, SectionHeader } from '../../../layouts/base/section';
 import DeepMessage from '../../../components/utils/messages/DeepMessage';
@@ -15,7 +15,7 @@ import RouteConstants from '../../../utils/RouteConstants';
 import HistoryHelper from '../../../helpers/HistoryHelper';
 
 
-export default class extends AdminPage {
+export default class extends StandalonePage {
   constructor(props) {
     super(props, t('pages.intranet.title.nextLevel'));
     this.bind(this.handleAddColumn, this.handleAddItem);

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
-import AdminPage from '../../_base/AdminPage';
+import StandalonePage from '../../_base/StandalonePage';
 import NewQuote from '../../../components/intranet/new-quote/NewQuote';
 import OneHundredQuotes from './100Quotes';
 import MainQuote from '../../../components/utils/messages/MainQuote';
 
 const DEFAULT_BACKGROUND = '/images/cup-coffee.jpg';
 
-export default class extends AdminPage {
+export default class extends StandalonePage {
   // eslint-disable-next-line class-methods-use-this
   get defaultQuote() {
     return {
