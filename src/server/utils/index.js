@@ -1,8 +1,29 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 /* eslint-disable no-plusplus */
 const _ = require('lodash');
 const { EventInterface } = require('./Interfaces');
 
 const Logger = console;
+
+// eslint-disable-next-line func-names
+function lazyLoad(moduleName) {
+  let module;
+  // eslint-disable-next-line func-names
+  return new Proxy(function (...args) {
+    if (!module) {
+      module = require(moduleName);
+    }
+    return module.apply(this, ...args);
+  }, {
+    get(target, name) {
+      if (!module) {
+        module = require(moduleName);
+      }
+      return module[name];
+    }
+  });
+}
 
 /**
  isNone();              // true
@@ -297,6 +318,7 @@ function flattenObject(object, matcher) {
 }
 
 module.exports = {
+  lazyLoad,
   isNotSet,
   isNone,
   isEmpty,

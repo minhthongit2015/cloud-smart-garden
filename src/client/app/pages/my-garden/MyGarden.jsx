@@ -112,6 +112,7 @@ export default class extends WithNavPage {
   // eslint-disable-next-line class-methods-use-this
   renderBody() {
     const { gardens: [firstGarden] } = this.state;
+    const { user: { name } = {} } = UserService;
     return (
       <div className="p-2 p-md-4">
         <div className="position-relative">
@@ -121,7 +122,7 @@ export default class extends WithNavPage {
           <PerchIcon src="/icons/garden/bee.svg" alt="a Bee" flip right="10px" />
           <TodaySong src="https://youtu.be/Y7BBiIZRFrc" />
         </div>
-        <Section beautyFont bigFont hr={false} title={`${UserService.user.name}\r\n~ garden ~`} className="mt-4">
+        <Section beautyFont bigFont hr={false} title={`${name || ''}\r\n~ garden ~`} className="mt-4">
           <div className="p-0 p-md-2">
             {this.renderGardens()}
             {this.renderStories()}

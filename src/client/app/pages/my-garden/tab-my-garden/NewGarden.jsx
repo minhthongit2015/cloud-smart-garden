@@ -9,11 +9,11 @@ import CategoryService from '../../../services/blog/CategoryService';
 
 export default class extends NewBlogPost {
   get createTitle() {
-    return 'Mở một khu vườn mới';
+    return 'Thêm một khu vườn mới';
   }
 
   get updateTitle() {
-    return 'Thay đổi thông tin khu vườn';
+    return 'Thay đổi thông tin vườn';
   }
 
   get postButtonLabel() {
@@ -47,7 +47,7 @@ export default class extends NewBlogPost {
               required
             />
             <MDBInput
-              label="Giới thiệu khu vườn?"
+              label="Giới thiệu khu vườn"
               name="summary"
               value={summary}
               onChange={this.handleInputChange}
@@ -59,7 +59,7 @@ export default class extends NewBlogPost {
           </Col>
           <Col size="12" sm="6">
             <DropUploader
-              label="Chia sẻ hình ảnh về khu vườn của bạn?"
+              label="Chia sẻ hình ảnh về khu vườn của bạn"
               name="preview"
               value={preview}
               video={video}
