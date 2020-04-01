@@ -73,16 +73,16 @@ export default class extends BaseDialog {
       <MDBModal
         isOpen={this.isOpen}
         toggle={this.toggle}
-        className="login-modal"
+        className="login-modal rounded"
         style={{ position: 'relative' }}
         disabled={this.disabled}
       >
         <div
-          className="modal-header peach-gradient justify-content-center mb-3 p-4 waves-effect"
+          className="modal-header peach-gradient justify-content-center mb-3 p-3 waves-effect"
           onMouseDown={this.handleClick}
           onTouchStart={this.handleClick}
         >
-          <h5 className="white-text font-weight-bolder m-0">❝Beyond Garden❞</h5>
+          <h5 className="text-1.5 text-beauty text-white m-0">❝Beyond Garden❞</h5>
           <MDBWaves
             cursorPos={this.state.cursorPos}
           />

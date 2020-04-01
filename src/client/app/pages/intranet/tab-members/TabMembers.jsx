@@ -148,7 +148,7 @@ export default class extends StandalonePage {
                   onCreateMark={this.handleMarkCreated}
                   isViewTarget={isViewTarget}
                 />
-                <RatioRect ratio={6 / 3}>
+                <RatioRect ratio={6 / 3} fluid>
                   <MembersSpotlightChart
                     {...MembersChartHelper.buildProps(viewMembers)}
                   />

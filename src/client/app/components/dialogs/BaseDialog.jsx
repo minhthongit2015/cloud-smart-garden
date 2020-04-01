@@ -20,6 +20,18 @@ export default class extends Toggleable {
     return this.state && this.state.locked;
   }
 
+  get noHeader() {
+    return this.props.noHeader;
+  }
+
+  get wavesHeader() {
+    return this.props.wavesHeader;
+  }
+
+  get title() {
+    return (this.state && this.state.title) || this.props.title;
+  }
+
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -29,7 +41,7 @@ export default class extends Toggleable {
       disabled: false,
       locked: false,
       renderContent: null,
-      title: '❝Climate Strike Vietnam❞',
+      title: '❝Beyond Garden❞',
       data: props.data
     };
   }
@@ -79,7 +91,7 @@ export default class extends Toggleable {
   }
 
   renderHeader() {
-    const { noHeader, wavesHeader } = this.props;
+    const { noHeader, wavesHeader } = this;
     if (noHeader) return null;
     return (
       wavesHeader ? (
@@ -96,7 +108,7 @@ export default class extends Toggleable {
     } = this.state;
     return (
       <div
-        className={`modal-header justify-content-center mb-3 p-4 waves-effect ${color}`}
+        className={`modal-header justify-content-center mb-3 waves-effect ${color}`}
         onMouseDown={this.handleClick}
         onTouchStart={this.handleClick}
       >
@@ -117,9 +129,8 @@ export default class extends Toggleable {
   }
 
   renderHeaderContent() {
-    const { title } = this.state;
     return (
-      <h5 className="white-text font-weight-bolder m-0">{title}</h5>
+      <span className="text-1.5 text-beauty text-white">{this.title}</span>
     );
   }
 

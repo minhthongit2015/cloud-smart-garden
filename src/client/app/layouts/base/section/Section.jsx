@@ -9,7 +9,7 @@ import Toggleable from '../../../components/utils/toggleable/Toggleable';
 class Section extends Toggleable {
   renderSection(content) {
     const {
-      className, style, title, beautyFont, bigFont, children, hr = true
+      className, style, title, beautyFont, bigFont, children, noHR
     } = this.props;
 
     return (
@@ -21,7 +21,7 @@ class Section extends Toggleable {
           <div className={classNames(
             'base-section__title',
             {
-              hr,
+              hr: !noHR,
               'beauty-font': beautyFont,
               'big-font': bigFont
             }

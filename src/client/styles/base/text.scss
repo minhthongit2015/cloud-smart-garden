@@ -27,3 +27,35 @@
 .text-normal {
   text-transform: unset !important;
 }
+
+.text-inset {
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.8), -3px 3px 8px rgba(255, 255, 255, 0.7), 0 0 0 rgba(112, 112, 112, 0.5) !important;
+  background: #ffffff !important;
+  color: transparent !important;
+  -webkit-background-clip: text !important;
+  -moz-background-clip: text !important;
+  background-clip: text !important;
+  transition: all .2s ease-in-out;
+
+  &:hover, &.active {
+    text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.8), -3px 3px 8px rgba(255, 255, 255, 0.7), 0 0 0 rgba(255, 0, 0, 0.5) !important;
+  }
+}
+
+.text-beauty {
+  font-family: Lobster;
+  font-size: 1.2rem;
+  // line-height: 1.3rem;
+  letter-spacing: 2px;
+}
+
+@for $i from 1 to 4 {
+  .text-#{$i} {
+    font-size: $i + 0rem;
+  }
+  @for $j from 1 to 9 {
+    .text-#{$i}.#{$j} {
+      font-size: ($i + $j * .1) + 0rem;
+    }
+  }
+}

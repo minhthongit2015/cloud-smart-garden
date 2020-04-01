@@ -1,42 +1,18 @@
 
 @import '../abstracts/index';
-@import './fonts/iciel-bambola';
+@import './fonts/iCiel-Bambola';
+@import './fonts/Quicksand';
+@import './fonts/Lobster';
 @import './override';
 @import './text';
 @import './background';
 @import './hover';
 @import './util';
 @import './layout';
+@import './position';
 
 img {
   max-width: 100%;
-}
-
-.overlapable {
-  position: relative;
-
-  .overlap {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-
-    &.auto-size {
-    width: auto;
-    height: auto;
-    }
-
-    &.bottom {
-      top: auto;
-      bottom: 0;
-    }
-
-    &.right {
-      left: auto;
-      right: 0;
-    }
-  }
 }
 
 .overflow-visible {

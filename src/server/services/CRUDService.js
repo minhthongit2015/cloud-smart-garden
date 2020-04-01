@@ -1,9 +1,8 @@
-/* eslint-disable prefer-rest-params */
-
 const ApiHelper = require('../utils/ApiHelper');
 const ConverterFactory = require('../models/converters/ConverterFactory');
 const { isNotSet } = require('../utils');
 const ImgurService = require('./third-party/imgur');
+const { ListParams } = require('../utils/types');
 
 // function toArray(args) {
 //   const outputArgs = [];
@@ -26,7 +25,7 @@ module.exports = class CRUDService {
     return [];
   }
 
-  static resolveListOptions(opts = { ...ApiHelper.listParams }) {
+  static resolveListOptions(opts = new ListParams()) {
     return opts;
   }
 
@@ -105,14 +104,14 @@ module.exports = class CRUDService {
 
   // Read
 
-  static async getOrList(id, opts = { ...ApiHelper.listParams }) {
+  static async getOrList(id, opts = new ListParams()) {
     if (isNotSet(id)) {
       return this.list(opts);
     }
     return this.get(id, opts);
   }
 
-  static async get(id, opts = { ...ApiHelper.listParams }) {
+  static async get(id, opts = new ListParams()) {
     const getOptions = ApiHelper.parseListParams(opts);
     let query = this.getModel().findById(ApiHelper.getId(id));
     query = ([...this.populate, (getOptions.populate || [])]).reduce(
@@ -123,7 +122,7 @@ module.exports = class CRUDService {
     return this.converter.convert(doc);
   }
 
-  static async first(opts = { ...ApiHelper.listParams }) {
+  static async first(opts = new ListParams()) {
     if (!opts) {
       opts = {};
     }
@@ -132,7 +131,7 @@ module.exports = class CRUDService {
     return this.converter.convert(foundDocs[0]);
   }
 
-  static async list(opts = { ...ApiHelper.listParams }) {
+  static async list(opts = new ListParams()) {
     const listOptions = await this.resolveListOptions(opts);
     if (!listOptions) { // null mean that is have some errors
       return [];

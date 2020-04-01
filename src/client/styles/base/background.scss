@@ -1,0 +1,41 @@
+
+
+.blend-light {
+  position: relative;
+  background-color: rgba(100,100,100, .1);
+  text-shadow: 1px 1px 2px #616161, 1px 1px 1px #616161;
+  border-radius: 8px;
+  transition: background .3s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(100,100,100, .4);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    transition: background .3s ease-in-out;
+  }
+
+  &:hover {
+    background-color: rgba(100,100,100, .4);
+    
+    &::after {
+      background-color: rgba(100,100,100, .4);
+    }
+  }
+}
+
+.blend-light-wrapper:hover {
+  .blend-light {
+    background-color: rgba(100,100,100, .4);
+    
+    &::after {
+      background-color: rgba(100,100,100, .4);
+    }
+  }
+}

@@ -3,6 +3,7 @@ const ApiHelper = require('../../utils/ApiHelper');
 const { Dataset } = require('../../models/mongo');
 const PostService = require('../blog/PostServ');
 const RecordService = require('../garden/Record');
+const { ListParams } = require('../../utils/types');
 
 
 module.exports = class extends PostService {
@@ -10,7 +11,7 @@ module.exports = class extends PostService {
     return Dataset;
   }
 
-  static resolveListOptions(opts = { ...ApiHelper.listParams }) {
+  static resolveListOptions(opts = new ListParams()) {
     if (opts.records) {
       opts.populate = ['records'];
     } else {

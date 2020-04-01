@@ -1,0 +1,14 @@
+
+
+.new-user-plant-card {
+  background: #fdfdfd;
+  transition: background .2s ease-in-out;
+
+  &:hover {
+    background: #fafffd;
+
+    .text-light {
+      color: #13c6ce !important;
+    }
+  }
+}

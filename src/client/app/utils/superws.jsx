@@ -68,7 +68,7 @@ export default class SuperWebsocket {
     return this.ws(path.join('PATCH', eventPath.toString()), body, headers);
   }
 
-  static async delete(eventPath, headers) {
-    return this.ws(path.join('DELETE', eventPath.toString()), undefined, headers);
+  static async delete(eventPath, body, headers) {
+    return this.ws(path.join('DELETE', eventPath.toString()), body, headers);
   }
 }

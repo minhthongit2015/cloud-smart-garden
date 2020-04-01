@@ -6,7 +6,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = new mongoose.Schema({
   garden: { type: ObjectId, ref: 'Garden' },
-  crops: [{ type: ObjectId, ref: 'Crop' }],
+  plants: [{ type: ObjectId, ref: 'UserPlant' }],
   models: [{ type: ObjectId, ref: 'TrainedModel' }]
 });
 Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Station', field: 'order' });

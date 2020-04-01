@@ -20,6 +20,14 @@ export default class extends PageDialogHelper {
     return ApiEndpoints.savedPosts;
   }
 
+  static async fetchPosts(endpoint, __t = null) {
+    let url = ApiEndpoints.builder(endpoint || this.defaultEndpoint);
+    if (__t) {
+      url = url.__t(__t);
+    }
+    return superrequest.get(url.toString());
+  }
+
   static async fetchPost(postOrder, endpoint) {
     if (!postOrder) return null;
     return superrequest.get(

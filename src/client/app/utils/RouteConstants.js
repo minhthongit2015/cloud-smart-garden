@@ -32,6 +32,9 @@ const aiTrainedModelsLink = `${aiCloudLink}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
 const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
+const plantLibraryPath = '/central-library';
+const plantLibraryLink = '/central-library';
+
 const myGardenPath = '/my-garden';
 const myGardenLink = '/my-garden';
 const stationsPath = `${myGardenPath}/stations`;
@@ -75,6 +78,9 @@ module.exports = {
   nextLevelLink,
 
   // Public
+  plantLibraryPath,
+  plantLibraryLink,
+
   myGardenPath,
   myGardenLink,
   stationsPath,

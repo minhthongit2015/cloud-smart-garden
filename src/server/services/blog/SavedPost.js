@@ -1,8 +1,9 @@
 
 const { SavedPost } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
-const ApiHelper = require('../../utils/ApiHelper');
 const PostService = require('./PostServ');
+const { ListParams } = require('../../utils/types');
+
 
 module.exports = class extends CRUDService {
   static getModel() {
@@ -13,7 +14,7 @@ module.exports = class extends CRUDService {
     return [];
   }
 
-  static async getOrListMin(id, opts = { ...ApiHelper.listParams }, user) {
+  static async getOrListMin(id, opts = new ListParams(), user) {
     opts = Object.assign(opts || {}, {
       where: {
         user: user._id

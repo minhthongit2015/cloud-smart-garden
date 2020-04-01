@@ -63,6 +63,17 @@ module.exports = {
         nextLevel: 'If you\'re not one of us you\'re one of them.'
       }
     },
+    plantLibrary: {
+      nav: {
+        plantLibrary: 'Central Library'
+      },
+      title: {
+        plantLibrary: 'Central Library'
+      },
+      message: {
+        plantLibrary: 'Welcome to the Central Library!'
+      }
+    },
     myGarden: {
       nav: {
         myGarden: 'My Garden',

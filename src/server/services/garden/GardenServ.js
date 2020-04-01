@@ -8,8 +8,20 @@ module.exports = class extends PostService {
     return Garden;
   }
 
-  static populate() {
-    return ['stations'];
+  static get populate() {
+    return [
+      {
+        path: 'stations',
+        populate: {
+          path: 'plants',
+          model: 'UserPlant',
+          populate: {
+            path: 'plant',
+            model: 'Plant'
+          }
+        }
+      }
+    ];
   }
 
   static async getMyGardens(user) {

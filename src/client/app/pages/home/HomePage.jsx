@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBPopper, MDBPopoverBody } from 'mdbreact';
 import NavLink from 'react-router-dom/NavLink';
 import BasePage from '../_base/BasePage';
-import './Home.scss';
+import './HomePage.scss';
 
 import UserService from '../../services/user/UserService';
 import RouteConstants from '../../utils/RouteConstants';

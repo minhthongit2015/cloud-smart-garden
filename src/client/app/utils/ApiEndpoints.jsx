@@ -149,11 +149,14 @@ const savedPosts = `${blog}/saved-posts`;
 
 const garden = `${APIv1}/garden`;
 const gardens = `${garden}/gardens`;
-const myGardens = `${APIv1}/my-garden`;
+const myGardens = `${garden}/my-garden`;
 const stations = `${garden}/stations`;
+const stationI = _id => `${stations}/${_id}`;
+const userPlants = `${stations}/user-plants`;
 const setStationState = `${stations}/set-state`;
 const records = `${garden}/records`;
 const generateRecords = `${records}/generate`;
+const plants = `${garden}/plants`;
 
 const AI = `${APIv1}/AI`;
 const projects = `${AI}/projects`;
@@ -220,9 +223,12 @@ export default {
   gardens,
   myGardens,
   stations,
+  stationI,
+  userPlants,
   setStationState,
   records,
   generateRecords,
+  plants,
 
   AI,
   projects,

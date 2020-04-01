@@ -25,9 +25,22 @@
   }
 }
 
-$success-color: #a73b28;
-$success-color-dark: darken($success-color, .5);
 
+// Form
+.md-form > input[type=date]:not(.browser-default) + label {
+  transform: translateY(-14px) scale(0.8) !important;
+  transform-origin: 0 0;
+}
+
+
+// Modal
+.modal-dialog .modal-content {
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+}
+
+
+// Extend sizing class
 $start-div: 1;
 $end-div: 10;
 

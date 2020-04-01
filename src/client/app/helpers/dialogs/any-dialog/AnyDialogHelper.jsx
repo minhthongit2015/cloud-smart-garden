@@ -50,17 +50,21 @@ export default class AnyDialogHelper {
     }
     if (!this.dialogs[dialogType]) {
       this.dialogs[dialogType] = this.getDialogByType(dialogType, ...args);
+      this.forceUpdate(() => this._open(dialogType, ...args));
     } else {
-      const { content: Content } = this.DialogsMap[dialogType];
-      if (Content) {
-        this.dialogRefs[dialogType].setContent(
-          <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]
-        );
-      } else {
-        this.dialogRefs[dialogType].show(...args);
-      }
+      this._open(dialogType, ...args);
     }
-    this.forceUpdate();
+  }
+
+  static _open(dialogType, ...args) {
+    const { content: Content } = this.DialogsMap[dialogType];
+    if (Content) {
+      this.dialogRefs[dialogType].setContent(
+        <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]
+      );
+    } else {
+      this.dialogRefs[dialogType].show(...args);
+    }
   }
 
   static close(dialogType) {
@@ -69,9 +73,9 @@ export default class AnyDialogHelper {
     dialog.close();
   }
 
-  static forceUpdate() {
+  static forceUpdate(callback) {
     if (!this.renderAreaRef.current) return;
-    this.renderAreaRef.current.forceUpdate();
+    this.renderAreaRef.current.forceUpdate(callback);
   }
 
   static render() {

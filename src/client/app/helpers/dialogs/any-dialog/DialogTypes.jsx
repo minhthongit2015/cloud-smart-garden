@@ -5,5 +5,6 @@ export default {
   guide: 'guide',
   post: 'post',
   experiment: 'experiment',
-  dataset: 'dataset'
+  dataset: 'dataset',
+  addNewPlant: 'addNewPlant'
 };

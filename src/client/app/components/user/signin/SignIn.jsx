@@ -11,7 +11,6 @@ import t from '../../../languages';
 import ProgressWithIcon from '../../utils/progres-with-icon/ProgressWithIcon';
 import { IconRankLeader, IconPlusPoint } from '../../../../assets/icons';
 import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
-import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
 import RouteConstants from '../../../utils/RouteConstants';
 import HistoryHelper from '../../../helpers/HistoryHelper';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
@@ -75,8 +74,6 @@ export default class SignIn extends Component {
       return HistoryHelper.pushRoute(RouteConstants.intranetLink);
     case 'saved-posts':
       return SavedPostsDialogHelper.openSavedPostsInNewHistory();
-    case 'i-will-do-this':
-      return IDoPostsDialogHelper.openIDoPostsInNewHistory();
     default:
       return null;
     }
@@ -132,10 +129,7 @@ export default class SignIn extends Component {
                     {!socialPoint ? (
                       <div>Bạn vẫn chưa có hoạt động nào</div>
                     ) : (
-                      <div>Đây là điểm hoạt động của bạn.
-                        <br />Cảm ơn bạn vì đã nỗ lực cùng thế giới chống biến đổi khí hậu!
-                        <br />...những việc bạn làm sẽ giúp cứu hàng triệu sinh mạng.
-                      </div>
+                      <div>Đây là điểm hoạt động của bạn khi tham gia trong cộng đồng.</div>
                     )}
                   </div>
                 </MDBTooltip>
@@ -162,19 +156,6 @@ export default class SignIn extends Component {
               </MDBDropdownItem>
             </React.Fragment>
           )}
-          <MDBDropdownItem
-            disabled={disabled}
-            className="i-will-do-this"
-            name="i-will-do-this"
-            onClick={SignIn.handleContextAction}
-          >
-            <span
-              role="img"
-              aria-label="i-do"
-              aria-labelledby="i-do"
-            >✊ Điều tôi sẽ làm
-            </span>
-          </MDBDropdownItem>
           <MDBDropdownItem
             disabled={disabled}
             className="text-gray"

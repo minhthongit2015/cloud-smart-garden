@@ -117,15 +117,15 @@ export default class {
     );
   }
 
-  static async delete(url) {
-    if (superws.connected) return superws.delete(url, this.baseHeaders);
-    return this.agentDelete(url);
+  static async delete(url, body) {
+    if (superws.connected) return superws.delete(url, body, this.baseHeaders);
+    return this.agentDelete(url, body);
   }
 
-  static async agentDelete(url) {
+  static async agentDelete(url, body) {
     return this.resolveAgentResponse(
       superagent.delete(this.mapUrl(url)).withCredentials()
-        .set('AccessToken', this.accessToken)
+        .set('AccessToken', this.accessToken).send(body)
     );
   }
 }

@@ -5,19 +5,43 @@ const plant01 = {
 };
 
 const plant02 = {
-  _id: 'plant-01',
+  _id: 'plant-02',
   title: 'Rose',
   preview: 'https://salt.tikicdn.com/ts/product/92/fd/44/3c94c0bd9092a42462ffa5a427b64945.jpg'
 };
 
-const crops = [
+const plant03 = {
+  _id: 'plant-03',
+  title: 'Phong lan',
+  preview: 'https://image.freepik.com/free-photo/beautiful-orchid-flower-morning-sun-with-natural-background_29007-633.jpg'
+};
+
+const plant04 = {
+  _id: 'plant-04',
+  title: 'Nho',
+  preview: 'https://previews.123rf.com/images/kanlayachantrakool/kanlayachantrakool1708/kanlayachantrakool170800343/84318453-vine-of-grapes-under-the-sun.jpg'
+};
+
+const plants = [
   {
+    _id: 'crop-01',
     startDate: '2019-12-28T21:03:53.888+07:00',
     plant: plant01
   },
   {
+    _id: 'crop-02',
     startDate: '2019-12-28T21:03:53.888+07:00',
     plant: plant02
+  },
+  {
+    _id: 'crop-03',
+    startDate: '2019-12-28T21:03:53.888+07:00',
+    plant: plant03
+  },
+  {
+    _id: 'crop-04',
+    startDate: '2019-12-28T21:03:53.888+07:00',
+    plant: plant04
   }
 ];
 
@@ -44,7 +68,7 @@ const station01 = {
   __v: 859,
   preview: 'https://i.imgur.com/bxV70AM.jpg',
   owner: '000000000000000000000100',
-  crops,
+  plants,
   models: [
     '5e64cd0a7cc1ae38684facfe',
     '5e650d6a964ec03868d79076'

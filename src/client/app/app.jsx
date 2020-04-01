@@ -38,9 +38,10 @@ import DummyUserNetwork from './pages/user-network/DummyUserNetwork';
 import HistoryHelper from './helpers/HistoryHelper';
 import AnyDialogChecker from './helpers/dialogs/any-dialog/AnyDialogChecker';
 
-const HomePage = React.lazy(() => import('./pages/home/Home'));
+const HomePage = React.lazy(() => import('./pages/home/HomePage'));
 const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'));
 const Intranet = React.lazy(() => import('./pages/intranet/Intranet'));
+const PlantLibrary = React.lazy(() => import('./pages/plant-library/PlantLibrary'));
 const MyGarden = React.lazy(() => import('./pages/my-garden/MyGarden'));
 const AICloud = React.lazy(() => import('./pages/AI-Cloud/AICloud'));
 const NextFeatures = React.lazy(() => import('./pages/next-features/NextFeatures'));
@@ -57,6 +58,13 @@ class App extends Component {
     // if (this.checkForUpdate()) {
     //   return;
     // }
+    console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
+      .then((image) => {
+        console.group('🚀 Alpha Team wiz 💓');
+        console.h1('👩‍🔬 Welcome To The Tomorrowland! 🪐');
+        console.logImage(image);
+        console.groupEnd('🚀 Alpha Team wiz 💓');
+      });
 
     HistoryHelper.init(props);
     KeyTracker();
@@ -81,13 +89,6 @@ class App extends Component {
       window.hasNewUpdate = true;
     }
     if (window.appLoaded) return true;
-    console.getImage(`${window.location.origin}/images/tomorrowland.jpg`, { height: 150 })
-      .then((image) => {
-        console.group('🚀 Alpha Team wiz 💓');
-        console.h1('👩‍🔬 Welcome To The Tomorrowland! 🪐');
-        console.logImage(image);
-        console.groupEnd('🚀 Alpha Team wiz 💓');
-      });
     window.appLoaded = true;
     return false;
   }
@@ -106,6 +107,7 @@ class App extends Component {
           <Route path={RouteConstants.adminPath}><Dashboard /></Route>
           <Route path={RouteConstants.intranetPath}><Intranet /></Route>
           <Route path={RouteConstants.myGardenPath} component={MyGarden} />
+          <Route path={RouteConstants.plantLibraryPath} component={PlantLibrary} />
           <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
           <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
           <Route path={RouteConstants.userNetworkPath} component={DummyUserNetwork} />

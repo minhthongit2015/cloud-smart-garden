@@ -23,7 +23,7 @@
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "envFile": "${workspaceFolder}/configs/.env.dev.ini",
+      "envFile": "${workspaceFolder}/.env.dev.ini",
       "env": {
         "DEBUG": "cloud:*,-express:*",
         "NODE_ENV": "development",

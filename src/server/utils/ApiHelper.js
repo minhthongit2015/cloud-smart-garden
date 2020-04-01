@@ -1,8 +1,10 @@
+/* eslint-disable lines-between-class-members */
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongoose').Types;
 
-const BlankModel = mongoose.model('BlankModel', new mongoose.Schema({
-}));
+const BlankModel = mongoose.model('BlankModel', new mongoose.Schema({}));
+
+const { ListParams } = require('./types');
 
 function getId(objectOrId) {
   if (!objectOrId) return null;
@@ -16,16 +18,8 @@ function getId(objectOrId) {
   return id ? new ObjectId(id) : null;
 }
 
-const listParams = {
-  where: {},
-  offset: 0,
-  limit: 0,
-  sort: '-_id',
-  fields: [''] || '',
-  populate: ['']
-};
 
-function parseListParams(opts = { ...listParams }) {
+function parseListParams(opts = new ListParams()) {
   if (typeof opts.where === 'object') {
     opts.where = { ...opts.where };
   }
@@ -44,12 +38,12 @@ function parseListParams(opts = { ...listParams }) {
   // if (typeof opts.sort === 'string') {
   //   opts.sort = JSON.parse(opts.sort);
   // }
-  const parsedOption = { ...listParams };
+  const parsedOption = new ListParams();
   Object.assign(parsedOption, opts);
   return parsedOption;
 }
 
-function find(queryObject, opts = { ...listParams }) {
+function find(queryObject, opts = new ListParams()) {
   opts = parseListParams(opts);
   let query = queryObject // model.find()...
     .sort(opts.sort)
@@ -66,12 +60,12 @@ function find(queryObject, opts = { ...listParams }) {
   return query;
 }
 
-function findWithModel(model, opts = { ...listParams }) {
+function findWithModel(model, opts = new ListParams()) {
   opts = parseListParams(opts);
   return find(model.find(opts.where), opts);
 }
 
-function findWithFunc(findFunc, opts = { ...listParams }) {
+function findWithFunc(findFunc, opts = new ListParams()) {
   opts = parseListParams(opts);
   return find(findFunc(opts.where), opts);
 }
@@ -148,8 +142,8 @@ class SortBuilder {
 module.exports = {
   mongoose,
   BlankModel,
+  ListParams,
   getId,
-  listParams,
   parseListParams,
   find,
   findWithModel,

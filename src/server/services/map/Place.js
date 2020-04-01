@@ -6,6 +6,8 @@ const {
 const CRUDService = require('../CRUDService');
 const ApiHelper = require('../../utils/ApiHelper');
 const ImgurService = require('../third-party/imgur');
+const { ListParams } = require('../../utils/types');
+
 
 const PlaceTypes = [
   Place, EventMarker,
@@ -24,7 +26,7 @@ module.exports = class extends CRUDService {
     return ['author', 'user', 'post', 'members', 'leaders'];
   }
 
-  static resolveListOptions(opts = { ...ApiHelper.listParams }) {
+  static resolveListOptions(opts = new ListParams()) {
     ApiHelper.SortBuilder.add(opts, '-createdAt');
     return opts;
   }

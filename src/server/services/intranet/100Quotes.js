@@ -3,13 +3,15 @@ const CRUDService = require('../CRUDService');
 const ApiHelper = require('../../utils/ApiHelper');
 const ImgurService = require('../third-party/imgur');
 const { PostStatus } = require('../../utils/Constants');
+const { ListParams } = require('../../utils/types');
+
 
 module.exports = class extends CRUDService {
   static getModel() {
     return OneHundredQuotes;
   }
 
-  static async resolveListOptions(opts = { ...ApiHelper.listParams }) {
+  static async resolveListOptions(opts = new ListParams()) {
     opts.where = Object.assign(opts.where || {}, {
       status: PostStatus.published
     });

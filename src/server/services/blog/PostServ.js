@@ -3,7 +3,7 @@ const xss = require('xss');
 const {
   Post,
   BlogPost,
-  Garden, Station,
+  Garden, Station, Plant,
   Project, Experiment, Dataset, TrainedModel, Team, Folder
 } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
@@ -12,11 +12,13 @@ const UserService = require('../user/User');
 const ApiHelper = require('../../utils/ApiHelper');
 const ImgurService = require('../third-party/imgur');
 const { PostStatus } = require('../../utils/Constants');
+const { ListParams } = require('../../utils/types');
+
 
 const PostTypes = [
   Post,
   BlogPost,
-  Garden, Station,
+  Garden, Station, Plant,
   Project, Experiment, Dataset, TrainedModel, Team, Folder
 ];
 
@@ -32,7 +34,7 @@ module.exports = class extends CRUDService {
     return ['categories', 'experiment'];
   }
 
-  static async resolveListOptions(opts = { ...ApiHelper.listParams }) {
+  static async resolveListOptions(opts = new ListParams()) {
     opts.where = Object.assign(opts.where || {}, {
       status: PostStatus.published
     });

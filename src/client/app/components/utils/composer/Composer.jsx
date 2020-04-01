@@ -18,7 +18,7 @@ export default class extends React.Component {
     this.inputRef = React.createRef();
     this.contentConfig = {
       previewStyle: 'tab',
-      height: '350px',
+      height: props.height || '350px',
       initialEditType: 'wysiwyg',
       useCommandShortcut: true,
       exts: [
