@@ -39,7 +39,7 @@ export default class extends Toggleable {
         className={`today-song ${className || ''} ${this.isReallyClosed ? 'cursor-pointer' : ''}`}
         onClick={this.isReallyClosed ? this.toggle : null}
       >
-        <div className="today-song__title"><i className="fas fa-music music-note" /> {'Today\'s Song'}</div>
+        <div className="today-song__title mr-2"><i className="fas fa-music music-note" /> {'Today\'s Song'}</div>
         <div className="today-song__toggle" onClick={this.toggle}>
           {this.isOpen ? (
             <i className="fas fa-caret-right" />

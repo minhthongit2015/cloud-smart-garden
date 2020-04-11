@@ -34,15 +34,15 @@ export default memo(({
   }
 
   return (
-    <RatioRect className="overlapable p-2 w-lg-7 w-md-5 w-sm-3 w-2" ratio={4 / 7}>
+    <RatioRect className="overlapable p-2 w-lg-7 w-md-5 w-sm-3 w-2 blend-light-wrapper" ratio={4 / 7}>
       {plant ? (
         <React.Fragment>
           <WavesWrapper className="cover rounded">
-            <img src={plant.preview} alt={plant.title} className="cover" />
+            <img src={plant.preview} alt={plant.title} className={`cover ${isHovering ? 'img' : ''}`} />
           </WavesWrapper>
           <div className="overlap bottom auto-size ml-1 mb-1 text-white">{plant.title}</div>
           <div
-            className="overlap right auto-size mr-1 mt-1 text-white small blend-light-wrapper"
+            className="overlap right auto-size mr-1 mt-1 text-white small"
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
           >
