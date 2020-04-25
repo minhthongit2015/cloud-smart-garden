@@ -14,7 +14,7 @@ export default class {
 
     const optsz = Object.assign({ keepQuery: false, relative: false }, opts);
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('hashtag', post.baseOrder);
+    urlParams.set('hashtag', post.order);
     let search = urlParams.toString();
     search = search ? `?${search}` : '';
     const {
@@ -24,7 +24,7 @@ export default class {
     const hostPart = optsz.relative ? '' : `${protocol}//${host}`;
     return optsz.keepQuery
       ? `${hostPart}${pathname}${search}${hash}`
-      : `${hostPart}${pathname}?hashtag=${post.baseOrder}`;
+      : `${hostPart}${pathname}?hashtag=${post.order}`;
   }
 
   static getPathnameByCategory(category) {

@@ -6,12 +6,8 @@ import {
 } from 'mdbreact';
 import './NewQuote.scss';
 import DropUploader from '../../utils/drop-uploader/DropUploader';
-import CategoryService from '../../../services/blog/CategoryService';
-import { IconCommunity } from '../../../../assets/icons';
-import t from '../../../languages';
 import NewPost from '../../blog-base/new-post/NewPost';
-import ApiEndpoints from '../../../utils/ApiEndpoints';
-import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
+import QuoteService from '../../../services/intranet/QuoteService';
 
 
 export default class extends NewPost {
@@ -31,51 +27,13 @@ export default class extends NewPost {
     return 'Lưu chỉnh sửa';
   }
 
-  get action() {
-    return ApiEndpoints.oneHundredQuotes;
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      ...this.state,
-      _id: null,
-      quote: '',
-      author: '',
-      sharedBy: '',
-      preview: '',
-      video: '',
-      audio: ''
-    };
-
-    CategoryService.useCategoriesState(this);
-  }
-
-  setQuote(quote) {
-    this.setFormData({
-      _id: quote._id,
-      quote: quote.quote,
-      author: quote.author,
-      sharedBy: quote.sharedBy,
-      preview: quote.preview,
-      video: quote.video,
-      audio: quote.audio
-    });
-  }
-
-  handleMissingPermission() {
-    MessageDialogHelper.show(
-      'Tham Gia Viết Bài',
-      <div>
-        Để tham gia cùng viết bài, bạn có thể liên hệ qua Facebook page <a href="https://www.facebook.com/Climate-Strike-Vietnam-101448167939446" target="_blank" rel="noopener noreferrer">Climate Strike Vietnam</a>. Hoặc đăng bài ở chuyên mục <IconCommunity text={t('pages.earthPicture.nav.communityShare')} />.
-      </div>
-    );
+  get service() {
+    return QuoteService;
   }
 
   renderBody() {
     const {
-      quote, author, sharedBy, preview, video, audio
+      quote, author, sharedBy, previewPhoto, previewVideo, previewAudio
     } = this.state;
 
     return (
@@ -115,13 +73,14 @@ export default class extends NewPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Tải ảnh xem trước"
-              name="preview"
-              value={preview}
-              videoName="video"
-              video={video}
+              name="previewPhoto"
+              value={previewPhoto}
+              useVideo
+              videoName="previewVideo"
+              video={previewVideo}
               useAudio
-              audioName="audio"
-              audio={audio}
+              audioName="previewAudio"
+              audio={previewAudio}
               onChange={this.handleInputChange}
               className="px-2 pb-4 pt-1"
             />

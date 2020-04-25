@@ -1,19 +1,23 @@
 import { UserRole } from './Constants';
 
-function ep(endpoint) {
+function ep(endpoint, query) {
+  if (!query) {
+    return endpoint;
+  }
+
   // eslint-disable-next-line no-nested-ternary
   return !endpoint.includes('?')
-    ? `${endpoint}?`
-    : (endpoint.endsWith('&') ? endpoint : `${endpoint}&`);
+    ? `${endpoint}?${query}`
+    : `${endpoint}&${query}`;
 }
 
 function params(endpoint, queryParams) {
-  return `${ep(endpoint)}${
-    Object.entries(queryParams)
-      .map(([key, value]) => (value ? `${key}=${value}` : null))
-      .filter(param => param)
-      .join('&')
-  }`;
+  const validParams = Object.entries(queryParams)
+    .map(([key, value]) => (value != null ? `${key}=${value}` : null))
+    .filter(param => param);
+  return validParams.length > 0
+    ? `${ep(endpoint, validParams.join('&'))}`
+    : endpoint;
 }
 
 function where(endpoint, whereCondiction) {
@@ -25,8 +29,12 @@ function whereIn(endpoint, key, inArray) {
   return where(endpoint, { [key]: { $in: inArray } });
 }
 
-function whereBaseOrder(endpoint, baseOrder) {
-  return where(endpoint, { baseOrder });
+function whereOrder(endpoint, order) {
+  return where(endpoint, { order });
+}
+
+function whereOrder2(endpoint, order2) {
+  return where(endpoint, { order2 });
 }
 
 function limit(endpoint, limitLength) {
@@ -37,16 +45,33 @@ function offset(endpoint, offsetValue) {
   return params(endpoint, { offset: offsetValue });
 }
 
+function populate(endpoint, fields) {
+  return where(endpoint, { populate: fields });
+}
+
+function model(endpoint, modelType) {
+  return params(endpoint, { model: modelType });
+}
+
 function __t(endpoint, modelType) {
   return where(endpoint, { __t: modelType });
 }
 
 /**
- * @param  {...any} keys e.g: (..., '-_id', 'baseOrder', '-createdAt')
+ * @param  {...any} keys e.g: (..., '-_id', 'order', '-createdAt')
  */
 function sort(endpoint, ...keys) {
-  if (!keys) return endpoint;
-  return params(endpoint, { sort: keys.join(' ') });
+  if (!keys || !keys.length) return endpoint;
+  if (Array.isArray(keys[0])) {
+    // eslint-disable-next-line prefer-destructuring
+    keys = keys[0];
+  }
+  keys = keys.filter(key => key);
+  return params(endpoint, {
+    sort: keys.length > 0
+      ? keys.join(' ')
+      : null
+  });
 }
 
 /**
@@ -54,6 +79,26 @@ function sort(endpoint, ...keys) {
  */
 function sortCreated(endpoint, ...keys) {
   return sort(endpoint, '-createdAt', ...keys);
+}
+
+// Utils
+
+function subRoute(endpoint, ...sub) {
+  const [path, query] = (endpoint && endpoint.split('?')) || [];
+  const [, hash] = (query && query.split('#')) || [];
+  return `${path || ''}${sub ? `/${sub.join('/')}` : ''}${query ? `?${query}` : ''}${hash ? `#${hash}` : ''}`;
+}
+
+function entityI(endpoint, ...sub) {
+  return _id => subRoute(endpoint, _id, ...sub);
+}
+
+function orderI(endpoint) {
+  return order => limit(where(endpoint, { order }), 1);
+}
+
+function order2I(endpoint) {
+  return order => limit(where(endpoint, { order }), 1);
 }
 
 class Builder {
@@ -70,6 +115,22 @@ class Builder {
     return this;
   }
 
+  subRoute(...sub) {
+    return this.endpoint(subRoute(this._endpoint, sub));
+  }
+
+  entityI(_id, ...sub) {
+    return this.endpoint(entityI(this._endpoint, ...sub)(_id));
+  }
+
+  orderI(order) {
+    return this.endpoint(orderI(this._endpoint)(order));
+  }
+
+  order2I(order2) {
+    return this.endpoint(order2I(this._endpoint)(order2));
+  }
+
   params(queryParams) {
     return this.endpoint(params(this._endpoint, queryParams));
   }
@@ -82,8 +143,8 @@ class Builder {
     return this.endpoint(whereIn(this._endpoint, key, inArray));
   }
 
-  whereBaseOrder(baseOrder) {
-    return this.endpoint(whereBaseOrder(this._endpoint, baseOrder));
+  populate(fields) {
+    return this.endpoint(populate(this._endpoint, fields));
   }
 
   limit(limitLength) {
@@ -92,6 +153,10 @@ class Builder {
 
   offset(offsetValue) {
     return this.endpoint(offset(this._endpoint, offsetValue));
+  }
+
+  model(modelType) {
+    return this.endpoint(model(this._endpoint, modelType));
   }
 
   __t(modelType) {
@@ -111,74 +176,82 @@ function builder(endpoint) {
   return new Builder(endpoint);
 }
 
+// ---
+
 const host = '';
-const APIv1 = `${host}/api/v1`;
+const APIv1 = subRoute(host, 'api', 'v1');
 
-const admin = `${APIv1}/admin`;
+const admin = subRoute(APIv1, 'admin');
 
-const intranet = `${APIv1}/intranet`;
-const oneHundredQuotes = `${intranet}/100-Quotes`;
-const quoteI = _id => `${oneHundredQuotes}/${_id}`;
-const nextLevel = `${intranet}/next-level`;
+const intranet = subRoute(APIv1, 'intranet');
+const oneHundredQuotes = subRoute(intranet, '100-Quotes');
+const quoteI = entityI(oneHundredQuotes);
+const nextLevel = subRoute(intranet, 'next-level');
 
-const users = `${APIv1}/users`;
+const users = subRoute(APIv1, 'users');
 const members = whereIn(users, 'role', Object.values(UserRole));
-const characteristics = _id => `${users}/${_id}/characteristics`;
-const targetCharacteristics = _id => `${users}/${_id}/target-characteristics`;
-const createMark = _id => `${users}/${_id}/marks`;
-const auth = `${users}/auth`;
-const signin = `${users}/signin`;
-const signout = `${users}/signout`;
-const fbAuth = `${auth}/facebook`;
+const characteristicsI = entityI(users, 'characteristics');
+const targetCharacteristicsI = entityI(users, 'target-characteristics');
+const createMark = entityI(users, 'marks');
+const auth = subRoute(users, 'auth');
+const signin = subRoute(users, 'signin');
+const signout = subRoute(users, 'signout');
+const fbAuth = subRoute(auth, 'facebook');
 
-const map = `${APIv1}/map`;
-const places = `${map}/places`;
+const social = subRoute(APIv1, 'social');
+const socialI = entityI(social);
+const socialOrderI = orderI(social);
+const categories = subRoute(social, 'categories');
+const news = subRoute(social, 'news');
+const rating = subRoute(social, 'rating');
+const ratingI = entityI(rating);
+const savedSocialEntity = subRoute(social, 'saved');
+
+const map = subRoute(APIv1, 'map');
+const places = subRoute(map, 'places');
 const placesSorted = sort(places, '-createdAt');
-const placeI = _id => `${places}/${_id}`;
-const placeOrderI = baseOrder => limit(where(places, { baseOrder }), 1);
+const placeI = entityI(places);
+const placeOrderI = orderI(places);
 
-const blog = `${APIv1}/blog`;
-const posts = `${blog}/posts`;
-const postI = _id => `${posts}/${_id}`;
-const postOrder = baseOrder => where(posts, { baseOrder });
-const news = `${posts}/news`;
-const categories = `${blog}/categories`;
-const rating = `${blog}/rating`;
-const ratingI = _id => `${rating}/${_id}`;
-const savedPosts = `${blog}/saved-posts`;
+const garden = subRoute(APIv1, 'garden');
+const gardens = subRoute(garden, 'gardens');
+const myGardens = subRoute(garden, 'my-garden');
+const stations = subRoute(garden, 'stations');
+const stationI = entityI(stations);
+const userPlants = subRoute(stations, 'user-plants');
+const setStationState = subRoute(stations, 'set-state');
+const records = subRoute(garden, 'records');
+const generateRecords = subRoute(records, 'generate');
+const plants = subRoute(garden, 'plants');
 
-const garden = `${APIv1}/garden`;
-const gardens = `${garden}/gardens`;
-const myGardens = `${garden}/my-garden`;
-const stations = `${garden}/stations`;
-const stationI = _id => `${stations}/${_id}`;
-const userPlants = `${stations}/user-plants`;
-const setStationState = `${stations}/set-state`;
-const records = `${garden}/records`;
-const generateRecords = `${records}/generate`;
-const plants = `${garden}/plants`;
-
-const AI = `${APIv1}/AI`;
-const projects = `${AI}/projects`;
-const experiments = `${AI}/experiments`;
-const experimentI = _id => `${experiments}/${_id}`;
-const buildExperimentI = _id => `${experimentI(_id)}/build`;
-const compareExperimentI = _id => `${experimentI(_id)}/compare`;
-const stopTraining = `${experiments}/stop-training`;
-const datasets = `${AI}/datasets`;
-const datasetI = _id => `${datasets}/${_id}`;
-const regenerateDatasetIRecords = _id => `${datasetI(_id)}/regenerate`;
-const trainedModels = `${AI}/trained-models`;
-const overrideModel = `${trainedModels}/override`;
+const AI = subRoute(APIv1, 'AI');
+const projects = subRoute(AI, 'projects');
+const experiments = subRoute(AI, 'experiments');
+const experimentI = entityI(experiments);
+const buildExperimentI = entityI(experiments, 'build');
+const compareExperimentI = entityI(experiments, 'compare');
+const stopTraining = subRoute(experiments, 'stop-training');
+const datasets = subRoute(AI, 'datasets');
+const datasetI = entityI(datasets);
+const regenerateDatasetIRecords = entityI(datasets, 'regenerate');
+const trainedModels = subRoute(AI, 'trained-models');
+const overrideModel = subRoute(trainedModels, 'override');
 
 export default {
   ep,
+  subRoute,
+  entityI,
+  orderI,
+  order2I,
   params,
   where,
   whereIn,
-  whereBaseOrder,
+  whereOrder,
+  whereOrder2,
   limit,
   offset,
+  populate,
+  model,
   __t,
   sort,
   sortCreated,
@@ -195,29 +268,28 @@ export default {
 
   users,
   members,
-  characteristics,
-  targetCharacteristics,
+  characteristicsI,
+  targetCharacteristicsI,
   createMark,
   signin,
   signout,
   auth,
   fbAuth,
 
+  social,
+  socialI,
+  socialOrderI,
+  categories,
+  news,
+  rating,
+  ratingI,
+  savedSocialEntity,
+
   map,
   places,
   placesSorted,
   placeI,
   placeOrderI,
-
-  blog,
-  posts,
-  postI,
-  postOrder,
-  news,
-  categories,
-  rating,
-  ratingI,
-  savedPosts,
 
   garden,
   gardens,

@@ -1,21 +1,24 @@
 
 const mongoose = require('mongoose');
-const Post = require('./Post');
-const { ModelName } = require('../../../utils/Constants');
+const { ModelName } = require('../ModelConstants');
 
 const { ObjectId } = mongoose.Schema.Types;
 
+
 const Schema = new mongoose.Schema({
-  user: { type: ObjectId, ref: ModelName.user },
-  post: { type: ObjectId, ref: ModelName.post },
-  rating: { type: Number, default: 0 }
+  user: { type: ObjectId, ref: ModelName.user, required: true },
+  social: { type: ObjectId, refPath: 'socialModel', required: true },
+  socialModel: { type: String, required: true },
+  rating: { type: Number, default: 0 },
+  type: String
 });
 
-Schema.post('save', async (doc) => {
-  const post = await Post.findById(doc.post);
-  post.totalRating = (post.totalRating || 0) + doc.rating;
-  post.totalVotes = (post.totalVotes || 0) + 1;
-  post.save();
+Schema.post('save', async (rating) => {
+  const SocialModel = mongoose.model(rating.socialModel);
+  const social = await SocialModel.findById(rating.social);
+  social.totalRating = (social.totalRating || 0) + rating.rating;
+  social.totalVotes = (social.totalVotes || 0) + 1;
+  social.save();
 }, { query: true, document: true });
 
 const Model = mongoose.model(ModelName.rating, Schema);

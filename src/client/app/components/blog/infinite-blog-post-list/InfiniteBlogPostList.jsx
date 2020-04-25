@@ -6,6 +6,6 @@ import BlogPostList from '../blog-post-list/BlogPostList';
 
 export default class extends InfinitePostList {
   renderPostList() {
-    return <BlogPostList {...this.restProps} />;
+    return <BlogPostList {...this.postListProps} />;
   }
 }

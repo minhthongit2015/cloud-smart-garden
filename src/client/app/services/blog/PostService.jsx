@@ -1,88 +1,9 @@
-import superrequest from '../../utils/superrequest';
-import UserService from '../user/UserService';
-import PageDialogHelper from '../../helpers/dialogs/PageDialogHelper';
-import t from '../../languages';
-import ApiEndpoints from '../../utils/ApiEndpoints';
-import AnyDialogHelper from '../../helpers/dialogs/any-dialog/AnyDialogHelper';
-import MessageDialogHelper from '../../helpers/dialogs/MessageDialogHelper';
+import SocialService from '../social/SocialService';
+import { ModelName } from '../../utils/Constants';
 
 
-export default class extends PageDialogHelper {
-  static get defaultEndpoint() {
-    return ApiEndpoints.posts;
-  }
-
-  static get defaultRatingEndpoint() {
-    return ApiEndpoints.rating;
-  }
-
-  static get defaultSavePostEndpoint() {
-    return ApiEndpoints.savedPosts;
-  }
-
-  static async fetchPosts(endpoint, __t = null) {
-    let url = ApiEndpoints.builder(endpoint || this.defaultEndpoint);
-    if (__t) {
-      url = url.__t(__t);
-    }
-    return superrequest.get(url.toString());
-  }
-
-  static async fetchPost(postOrder, endpoint) {
-    if (!postOrder) return null;
-    return superrequest.get(
-      ApiEndpoints.builder(endpoint || this.defaultEndpoint).limit(1).whereBaseOrder(postOrder)
-    );
-  }
-
-  static async deletePost(post, endpoint) {
-    return superrequest.agentDelete(`${endpoint || this.defaultEndpoint}/${post._id}`);
-  }
-
-  static async savePost(post, endpoint) {
-    return superrequest.agentPost(`${endpoint || this.defaultSavePostEndpoint}/${post._id}`);
-  }
-
-  static async unsavePost(post, endpoint) {
-    return superrequest.agentDelete(`${endpoint || this.defaultSavePostEndpoint}/${post._id}`);
-  }
-
-  static async iWillDoThis(/* post, endpoint */) {
-    // if (!UserService.isLoggedIn) {
-    //   return AnyDialogHelper.openLogin(t('components.loginDialog.loginToSaveIDo'));
-    // }
-    // if (post.iWillDoThis && this.props.handleActions) {
-    //   this.props.handleActions(event, {
-    //     value: 'remove-i-do-post'
-    //   }, post, this);
-    // }
-    // return this.handleAddIDoPost().then(() => {
-    //   if (!post.iWillDoThis && this.props.handleActions) {
-    //     this.props.handleActions(event, {
-    //       value: 'remove-i-do-post-done'
-    //     }, post, this);
-    //   }
-    // });
-  }
-
-  static async rating(post, rating, endpoint) {
-    return superrequest.agentPost(`${endpoint || this.defaultRatingEndpoint}/${post._id}`, {
-      rating
-    });
-  }
-
-  static async requestChange(option) {
-    if (UserService.isLoggedIn) {
-      return MessageDialogHelper.showUpComingFeature(option.value);
-    }
-    return AnyDialogHelper.openLogin(t('components.loginDialog.loginToRequestChange'));
-  }
-
-  static refreshCache() {
-    return superrequest.agent.get('https://graph.facebook.com').query({
-      id: window.location.href,
-      scrape: true,
-      access_token: UserService.fbAccessToken
-    });
+export default class extends SocialService {
+  static get model() {
+    return ModelName.post;
   }
 }

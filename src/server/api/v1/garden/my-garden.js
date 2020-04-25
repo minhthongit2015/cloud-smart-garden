@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const SessionService = require('../../../services/user/Session');
 const SecurityService = require('../../../services/security/SecurityService');
-const GardenService = require('../../../services/garden/GardenServ');
+const GardenService = require('../../../services/garden/GardenService');
 const APIResponse = require('../../../models/api-models/APIResponse');
 
 

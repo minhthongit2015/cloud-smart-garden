@@ -1,26 +1,15 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models/APIResponse');
-const PostsSecurityService = require('../../../services/security/PostsSecurity');
-// const SecurityService = require('../../../services/security/SecurityService');
+// const SocialSecurityService = require('../../../services/security/SocialSecurityService');
 // const SessionService = require('../../../services/user/Session');
-const TrainedModelService = require('../../../services/AI/ModelServ');
+const TrainedModelService = require('../../../services/AI/ModelService');
 
-
-router.post('/', Logger.catch(async (req, res) => {
-  const post = PostsSecurityService.filterUnallowedProperties(req.body);
-  await PostsSecurityService.onlyOwnerModAdmin(req, post);
-  post.newAuthor = req.session.user;
-  post.owner = req.session.user;
-  const newTrainedModel = await TrainedModelService.createOrUpdate(post);
-  // await SessionService.checkForDirtySession(req);
-  res.send(new APIResponse().setData(newTrainedModel));
-}));
 
 router.post('/override', Logger.catch(async (req, res) => {
   const { experiment, target } = req.body;
   const newTrainedModel = await TrainedModelService.syncModelFromExperiment(experiment, target);
-  res.send(new APIResponse().setData(newTrainedModel));
+  res.send(APIResponse.setData(newTrainedModel));
 }));
 
 module.exports = router;

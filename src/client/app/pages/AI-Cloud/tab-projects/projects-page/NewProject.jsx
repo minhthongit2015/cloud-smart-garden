@@ -49,7 +49,7 @@ export default class extends NewBlogPost {
       _id: null,
       title: '',
       summary: '',
-      preview: '',
+      previewPhoto: '',
       video: '',
       categories: []
     };
@@ -68,7 +68,7 @@ export default class extends NewBlogPost {
       _id: post._id,
       title: post.title,
       summary: post.summary,
-      preview: post.preview,
+      previewPhoto: post.previewPhoto,
       video: post.video
     }).then(() => {
       this.setState({
@@ -92,7 +92,7 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, summary, preview, video, categories
+      title, summary, previewPhoto, video, categories
     } = this.state;
     const { categories: categoryOptionKeys } = this.props;
     const categoryOptions = CategoryService.getCategoriesAsOptions(categoryOptionKeys);
@@ -138,8 +138,8 @@ export default class extends NewBlogPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Tải ảnh xem trước"
-              name="preview"
-              value={preview}
+              name="previewPhoto"
+              value={previewPhoto}
               videoName="video"
               video={video}
               onChange={this.handleInputChange}

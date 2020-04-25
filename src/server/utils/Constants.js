@@ -1,18 +1,6 @@
 
 
-const ModelName = {
-  fields: {
-    baseOrder: 'baseOrder',
-    order: 'order'
-  },
-  user: 'User',
-  team: 'Team',
-  post: 'Post',
-  category: 'Category',
-  rating: 'Rating',
-  savedPost: 'SavedPost',
-  garden: 'Garden'
-};
+const { ModelName, MarkerTypes, ContactTypes } = require('../models/mongo/ModelConstants');
 
 const UserRole = {
   Moderator: 'Moderator',
@@ -44,23 +32,6 @@ const MemberBadge = {
   Influencer: 'Incluencer'
 };
 
-const MarkerTypes = {
-  place: 'Place',
-  event: 'EventMarker',
-  garden: 'GardenMarker',
-  farm: 'FarmMarker',
-  toolStore: 'ToolStoreMarker',
-  foodStore: 'FoodStoreMarker',
-  charityRestaurant: 'CharityRestaurantMarker',
-  vegetarianRestaurant: 'VegetarianRestaurantMarker',
-  expert: 'ExpertMarker'
-};
-
-const ContactTypes = {
-  email: 'Email',
-  phone: 'Phone',
-  address: 'Address'
-};
 
 // AI
 const AIConstants = require('../services/AI/utils/AIConstants');
@@ -70,11 +41,11 @@ const DataUtils = require('../services/AI/targets/DataUtils');
 
 module.exports = {
   ModelName,
+  MarkerTypes,
+  ContactTypes,
   UserRole,
   PostStatus,
   MemberBadge,
-  MarkerTypes,
-  ContactTypes,
 
   // AI
   ...AIConstants,

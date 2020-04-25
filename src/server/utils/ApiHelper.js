@@ -6,16 +6,27 @@ const BlankModel = mongoose.model('BlankModel', new mongoose.Schema({}));
 
 const { ListParams } = require('./types');
 
-function getId(objectOrId) {
-  if (!objectOrId) return null;
-  if (objectOrId instanceof ObjectId) {
-    return objectOrId;
+function getId(...objectOrId) {
+  if (!objectOrId || objectOrId.length === 0) {
+    return null;
   }
-  if (typeof objectOrId === 'string') {
-    return new ObjectId(objectOrId);
+
+  const currentObjectOrId = objectOrId.shift();
+  if (!currentObjectOrId) {
+    return getId(...objectOrId);
   }
-  const id = objectOrId._id || objectOrId.id;
-  return id ? new ObjectId(id) : null;
+
+  if (currentObjectOrId instanceof ObjectId) {
+    return currentObjectOrId;
+  }
+  if (typeof currentObjectOrId === 'string') {
+    return new ObjectId(currentObjectOrId);
+  }
+
+  const id = currentObjectOrId._id || currentObjectOrId.id;
+  return id
+    ? new ObjectId(id)
+    : getId(...objectOrId);
 }
 
 

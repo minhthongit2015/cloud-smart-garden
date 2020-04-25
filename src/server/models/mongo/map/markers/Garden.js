@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
-const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
+// const mongoose = require('mongoose');
 const Place = require('./_Place');
-const { MarkerTypes } = require('../../../../utils/Constants');
+const ModelHelper = require('../../ModelHelper');
+const { MarkerTypes } = require('../../ModelConstants');
 
-const Schema = new mongoose.Schema({
+
+const Schema = {
   local_ip: String
-});
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: MarkerTypes.garden, field: 'order' });
-const Model = Place.discriminator(MarkerTypes.garden, Schema);
+};
+
+const [Model] = ModelHelper.extendsOrderedModel(Place, MarkerTypes.garden, Schema);
 
 module.exports = Model;

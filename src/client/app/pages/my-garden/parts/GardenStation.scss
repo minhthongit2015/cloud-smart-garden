@@ -1,0 +1,13 @@
+
+.garden-station {
+  &__add-new-plant {
+    // opacity: 0;
+    // visibility: hidden;
+    // transition: opacity .3s ease-in-out;
+  }
+
+  &:hover &__add-new-plant {
+    // opacity: 1;
+    // visibility: visible;
+  }
+}

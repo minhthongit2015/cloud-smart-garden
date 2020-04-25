@@ -38,7 +38,7 @@ export default memo(({
       {plant ? (
         <React.Fragment>
           <WavesWrapper className="cover rounded">
-            <img src={plant.preview} alt={plant.title} className={`cover ${isHovering ? 'img' : ''}`} />
+            <img src={plant.previewPhoto} alt={plant.title} className={`cover ${isHovering ? 'img' : ''}`} />
           </WavesWrapper>
           <div className="overlap bottom auto-size ml-1 mb-1 text-white">{plant.title}</div>
           <div

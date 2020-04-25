@@ -80,7 +80,7 @@ export default class UserNetwork extends BasePage {
 
   fetchPlaces() {
     return new Promise(async (resolve) => {
-      const places = await MapService.fetchPlaces();
+      const places = await MapService.list();
       places.forEach((place) => {
         place.marker = MapUtils.getMarkerByType(place.__t);
       });

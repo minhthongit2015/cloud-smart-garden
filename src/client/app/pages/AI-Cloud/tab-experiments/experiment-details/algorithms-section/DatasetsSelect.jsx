@@ -18,7 +18,7 @@ export default class DatasetSelect extends BaseComponent {
   }
 
   componentDidMount() {
-    DatasetService.fetchDatasets()
+    DatasetService.list()
       .then((res) => {
         const datasets = toOptions(res.data, '_id', 'title');
         this.setState({

@@ -22,7 +22,7 @@ function getModelByPost(post, model) {
     ...model,
     title: post.title || model.title,
     description: post.summary || model.description,
-    image: post.preview || model.image
+    image: post.previewPhoto || model.image
   });
 }
 

@@ -33,7 +33,7 @@ router.get('/:userId', async (req, res) => {
     if (isBlank(userId)) {
       return res.status(404).send();
     }
-    const user = await UserService.get(userId);
+    const user = await UserService.get({ id: userId });
     if (isNone(user)) {
       return res.status(404).send();
     }

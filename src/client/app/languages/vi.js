@@ -32,11 +32,13 @@ module.exports = {
     admin: {
       title: {
         dashboard: 'Bảng Điều Khiển',
-        categories: 'Quản Lý Chuyên Mục'
+        categories: 'Quản Lý Chuyên Mục',
+        manageGardens: 'Quản Lý Vườn'
       },
       nav: {
         dashboard: 'Bảng điều khiển',
-        categories: 'Quản lý chuyên mục'
+        categories: 'Quản lý chuyên mục',
+        manageGardens: 'Quản Lý Vườn'
       },
       message: {
         dashboard: 'Bảng điều khiển',

@@ -125,7 +125,7 @@ export default class ExperimentPage extends BaseComponent {
       title: `${experiment.title} - ${editingTarget.name}`,
       experiment,
       target: editingTarget,
-      preview: experiment.preview
+      previewPhoto: experiment.previewPhoto
     });
   }
 

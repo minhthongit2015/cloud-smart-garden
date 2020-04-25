@@ -38,7 +38,7 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, summary, preview, video
+      title, summary, previewPhoto, video
     } = this.state;
 
     return (
@@ -68,8 +68,8 @@ export default class extends NewBlogPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Tải ảnh xem trước"
-              name="preview"
-              value={preview}
+              name="previewPhoto"
+              value={previewPhoto}
               videoName="video"
               video={video}
               onChange={this.handleInputChange}

@@ -18,15 +18,18 @@ router.use('/profile', ProfileRoute);
 
 router.get('/:userId?', Logger.catch(async (req, res) => {
   const { userId } = req.params;
-  const users = await UserService.getOrList(userId, req.query);
+  const users = await UserService.getOrList({ id: userId, opts: req.query });
   return res.send(APIResponse.setData(users));
 }));
 
 router.post('/:userId/characteristics', Logger.catch(async (req, res) => {
   const { userId } = req.params;
   SecurityService.onlyOwnerOrModOrAdmin(req, userId);
-  const updatedUser = await UserService.update(userId, {
-    spotlight: req.body
+  const updatedUser = await UserService.update({
+    id: userId,
+    doc: {
+      spotlight: req.body
+    }
   });
   return res.send(APIResponse.setData(updatedUser));
 }));
@@ -34,15 +37,18 @@ router.post('/:userId/characteristics', Logger.catch(async (req, res) => {
 router.post('/:userId/target-characteristics', Logger.catch(async (req, res) => {
   const { userId } = req.params;
   SecurityService.onlyOwnerOrModOrAdmin(req, userId);
-  const updatedUser = await UserService.update(userId, {
-    target: req.body
+  const updatedUser = await UserService.update({
+    id: userId,
+    doc: {
+      target: req.body
+    }
   });
   return res.send(APIResponse.setData(updatedUser));
 }));
 
 router.post('/:userId/marks', Logger.catch(async (req, res) => {
   const { userId } = req.params;
-  const user = await UserService.get(userId);
+  const user = await UserService.get({ id: userId });
   SecurityService.onlyNotNullObject(user, true, APIResponse.throwError.NotFound());
   SecurityService.onlyOwnerOrModOrAdmin(req, userId);
   const updatedUser = await UserService.mark(user, req.body);

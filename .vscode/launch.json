@@ -5,6 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "timeout": 120000,
       "type": "node",
       "request": "launch",
       "name": "Start Server",

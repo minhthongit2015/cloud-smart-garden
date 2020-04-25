@@ -16,11 +16,11 @@ import UserService from '../../../services/user/UserService';
 import { IconThanks } from '../../../../assets/icons';
 import t from '../../../languages';
 import { isZeroVariable, zeroVariable } from '../../../utils';
-import superrequest from '../../../utils/superrequest';
-import CategoryService from '../../../services/blog/CategoryService';
 import BaseComponent from '../../_base/BaseComponent';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
+import { ModelName } from '../../../utils/Constants';
+import PostService from '../../../services/blog/PostService';
 
 
 const scrollToTop = () => {
@@ -55,15 +55,12 @@ export default class extends BaseComponent.Pure {
     return t('components.blogBase.newForm.updateButton');
   }
 
-  /**
-   * Form action (submit endpoint)
-   */
-  get action() {
-    return '';
+  get service() {
+    return this.props.service || PostService;
   }
 
-  get postType() {
-    return this.props.type || 'Post';
+  get model() {
+    return this.props.model || this.service.model;
   }
 
   get formData() {
@@ -125,7 +122,7 @@ export default class extends BaseComponent.Pure {
   async toggleState(state) {
     return new Promise((resolve) => {
       this.setState(prevState => ({
-        disabled: state != null ? state : prevState.disabled
+        disabled: state != null ? state : !prevState.disabled
       }), resolve);
     });
   }
@@ -178,7 +175,7 @@ export default class extends BaseComponent.Pure {
         this.setState({
           ...formData
         });
-        // wait for the form to be shown up before we set input for `react-select`
+        // wait for the form to be shown up before we set input for `react-select` (render issue)
         setTimeout(() => {
           scrollToTop();
           resolve();
@@ -218,18 +215,14 @@ export default class extends BaseComponent.Pure {
       if (!isValid) return;
       this.sayThanks();
 
-      const action = this.props.action || this.action;
-      superrequest.agentPost(action, this.formData)
-        .then((res) => {
-          if (!res || !res.ok) {
-            this.handleSubmitError(res && res.error);
-          }
-          resolve(res.data);
-          this.resetAndClose();
-        })
+      this.service.create(this.formData, { model: this.model })
         .catch((error) => {
           this.handleSubmitError(error);
           alert(`Xảy ra lỗi trong quá trình đăng bài! Xin vui lòng thử lại!\r\nChi tiết: "${error.code} - ${error.message}"`);
+        })
+        .then((res) => {
+          resolve(res.data);
+          this.resetAndClose();
         })
         .finally(() => {
           this.enable();

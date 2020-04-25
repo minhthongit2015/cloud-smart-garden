@@ -6,7 +6,7 @@ import './PostDetails.scss';
 import TimeAgo from '../../utils/time-ago/TimeAgo';
 import Video from '../../utils/video/Video';
 import ShareButton from '../../facebook/ShareButton';
-import PostService from '../../../services/blog/PostService';
+import SocialEntityService from '../../../services/blog/PostService';
 import FbService from '../../../services/user/FbService';
 import GlobalState from '../../../utils/GlobalState';
 import UserService from '../../../services/user/UserService';
@@ -59,7 +59,7 @@ export default class PostDetails extends React.PureComponent {
     post.rating = rating;
     this.forceUpdate();
 
-    PostService.rating(post, rating, this.ratingEndpoint).then((res) => {
+    SocialEntityService.rating(post, rating, this.ratingEndpoint).then((res) => {
       if (!res || !res.ok) {
         GlobalState.restoreFromSavedState(post, savedState, this);
         UserService.updateUserSocialPoint(-1);
@@ -76,7 +76,7 @@ export default class PostDetails extends React.PureComponent {
   render() {
     const { data: post = {} } = this.props;
     const {
-      _id, preview, video, title, summary, content, categories, createdAt,
+      _id, previewPhoto, video, title, summary, content, categories, createdAt,
       totalRating, totalVotes, rating
     } = post;
     const ratingInfo = {
@@ -89,7 +89,7 @@ export default class PostDetails extends React.PureComponent {
       <div className="post-details container">
         <Row>
           <Col size="12" md="8" className="mb-3">
-            {(preview || video) && (
+            {(previewPhoto || video) && (
               <React.Fragment>
                 <div className="post-details__categories mb-2 border-left pl-2">
                   <span className="post-details__categories__label">Chuyên mục: </span>
@@ -98,22 +98,22 @@ export default class PostDetails extends React.PureComponent {
                   ))}
                 </div>
                 {video ? (
-                  <Video title={title} src={video} preview={preview} />
+                  <Video title={title} src={video} preview={previewPhoto} />
                 ) : (
-                  <img alt={title} src={preview} className="w-100" />
+                  <img alt={title} src={previewPhoto} className="w-100" />
                 )}
               </React.Fragment>
             )}
             {this.renderBelowPreview()}
           </Col>
-          <Col size="12" md={preview ? '4' : '12'}>
+          <Col size="12" md={previewPhoto ? '4' : '12'}>
             <div className="post-details__title">{title}</div>
             <sup key="1" className="post-details__time text-sm mr-2"><TimeAgo time={createdAt} /></sup>
             <div className="post-details__action-buttons d-flex flex-wrap justify-content-between mt-2">
               <Rating {...ratingInfo} onRating={this.handleRating} id={_id} />
               <ShareButton url={PostHelper.buildPostUrl(post)} />
             </div>
-            {!preview && (
+            {!previewPhoto && (
               <React.Fragment>
                 <sup key="2"> | </sup>
                 <sup key="3" className="post-details__categories ml-2">

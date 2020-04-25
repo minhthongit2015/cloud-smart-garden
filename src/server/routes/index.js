@@ -3,8 +3,8 @@ const router = require('express').Router();
 const Debugger = require('../services/Debugger');
 const Logger = require('../services/Logger');
 // const serverConfig = require('../config');
-const PostService = require('../services/blog/PostServ');
-const PlaceService = require('../services/map/Place');
+const PostService = require('../services/blog/PostService');
+const PlaceService = require('../services/map/PlaceService');
 const {
   buildModel, getModel, getModelByPost, getModelByPlace
 } = require('../views/ViewUtils');
@@ -31,7 +31,7 @@ router.get('*', Logger.catch(async (req, res) => {
   //   : '';
   model.url = `https://${req.hostname}${req.url}`;
   if (req.query && req.query.hashtag) {
-    const post = await PostService.getByOrder(req.query.hashtag);
+    const post = await PostService.getByOrder({ order: req.query.hashtag });
     if (!post) {
       return res.redirect('/');
     }
@@ -40,7 +40,7 @@ router.get('*', Logger.catch(async (req, res) => {
   }
 
   if (req.query.place) {
-    const place = await PlaceService.getByOrder(req.query.place);
+    const place = await PlaceService.getByOrder({ order: req.query.place });
     if (!place) {
       return res.redirect('/');
     }

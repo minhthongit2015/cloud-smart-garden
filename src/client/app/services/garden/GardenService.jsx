@@ -1,16 +1,14 @@
-import superrequest from '../../utils/superrequest';
+import SocialService from '../social/SocialService';
+import { ModelName } from '../../utils/Constants';
 import ApiEndpoints from '../../utils/ApiEndpoints';
-import PostService from '../blog/PostService';
 
 
-export default class GardenService extends PostService {
-  static get defaultEndpoint() {
-    return ApiEndpoints.myGardens;
+export default class extends SocialService {
+  static get model() {
+    return ModelName.garden;
   }
 
-  static async fetchMyGarden() {
-    return superrequest.get(
-      ApiEndpoints.builder(this.defaultEndpoint).limit(1)
-    );
+  static get listEndpoint() {
+    return ApiEndpoints.myGardens;
   }
 }

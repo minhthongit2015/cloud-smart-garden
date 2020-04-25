@@ -150,6 +150,12 @@ function zeroVariable(variable, toNull = false) {
   return undefined;
 }
 
+function getDefault(value, defaultValue) {
+  return isNotSet(value)
+    ? defaultValue
+    : value;
+}
+
 function camelize(str) {
   return str.replace(
     /(?:^\w|[A-Z]|\b\w)/g,
@@ -325,6 +331,7 @@ module.exports = {
   isBlank,
   isString,
   isFunction,
+  getDefault,
   parseStringToNumber,
   isZeroVariable,
   zeroVariable,

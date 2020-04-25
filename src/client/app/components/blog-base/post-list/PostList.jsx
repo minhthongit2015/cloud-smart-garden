@@ -18,8 +18,16 @@ export default class PostList extends BaseComponent {
   }
 
   get postProps() {
-    const { showContextMenu, allSmall } = this.props;
-    return { onContextActions: this.handleContextActions, showContextMenu, allSmall };
+    const {
+      showContextMenu, allSmall, service, model
+    } = this.props;
+    return {
+      onContextActions: this.handleContextActions,
+      showContextMenu,
+      allSmall,
+      service,
+      model
+    };
   }
 
   constructor(props) {
@@ -31,13 +39,13 @@ export default class PostList extends BaseComponent {
   }
 
   shouldComponentUpdate(newProps) {
-    const willUpdate = !(this.props.posts && newProps.posts
+    const shouldUpdate = !(this.props.posts && newProps.posts
       && newProps.posts.length === this.props.posts.length)
       || newProps.hasPermission !== this.props.hasPermission;
-    if (willUpdate) {
+    if (shouldUpdate) {
       this.processing = null;
     }
-    return willUpdate;
+    return shouldUpdate;
   }
 
   handleContextActions(event, option, post, postComponent) {

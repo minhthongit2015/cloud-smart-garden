@@ -8,10 +8,10 @@ import Video from '../video/Video';
 export default (props) => {
   const {
     className, color, quote: {
-      _id, quote: content, author, sharedBy, video, audio
+      _id, quote: content, author, sharedBy, previewVideo, previewAudio
     } = {}, ...restProps
   } = props;
-  const audioURL = audio && new URL(audio);
+  const audioURL = previewAudio && new URL(previewAudio);
   const audioFileName = audioURL && decodeURIComponent(
     audioURL.pathname.slice(audioURL.pathname.lastIndexOf('/') + 1)
   );
@@ -48,7 +48,7 @@ export default (props) => {
         {...restProps}
       >
         <MDBRow>
-          {audio && (
+          {previewAudio && (
             <MDBCol className={`d-flex flex-column ${showNothing ? 'align-items-end' : 'align-items-center'}`}>
               <MDBBtn
                 color="none"
@@ -58,12 +58,12 @@ export default (props) => {
                 <i className="fas fa-music" />
               </MDBBtn>
               <div className={`mt-2 ${showAudio ? '' : 'd-none'}`}>
-                <a href={audio} className="text-light" target="_blank" rel="noopener noreferrer">
+                <a href={previewAudio} className="text-light" target="_blank" rel="noopener noreferrer">
                   <sub>{audioFileName}</sub>
                 </a>
                 <audio
                   ref={audioRef}
-                  src={audio}
+                  src={previewAudio}
                   controls
                   loop
                 >
@@ -77,7 +77,7 @@ export default (props) => {
               </div>
             </MDBCol>
           )}
-          {video && (
+          {previewVideo && (
             <MDBCol className={`d-flex flex-column ${showNothing ? 'align-items-start' : ''}`}>
               <MDBBtn
                 color="none"
@@ -89,7 +89,7 @@ export default (props) => {
               <Video
                 videoRef={videoRef}
                 title=""
-                src={video}
+                src={previewVideo}
                 controls
                 loop
                 className={`mt-2 ${showVideo ? '' : 'd-none'}`}

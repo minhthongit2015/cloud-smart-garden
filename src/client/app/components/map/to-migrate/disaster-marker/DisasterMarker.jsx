@@ -21,7 +21,7 @@ export default class DisasterMarker extends MarkerWithPopup {
     } = this.props;
     const { post = {}, zoom } = place;
     const {
-      title, summary, preview, video
+      title, summary, previewPhoto, video
     } = post;
 
     return (
@@ -29,9 +29,9 @@ export default class DisasterMarker extends MarkerWithPopup {
         <div className="marker__header mx-3 mt-3">
           <div className="marker__title">{name || title}</div>
           {video ? (
-            <Video title={title} preview={preview} src={video} />
+            <Video title={title} preview={previewPhoto} src={video} />
           ) : (
-            <img className="marker__banner" src={preview} alt="" />
+            <img className="marker__banner" src={previewPhoto} alt="" />
           )}
           <ZoomTool zoom={zoom} zoomTo={this.zoomTo} />
         </div>

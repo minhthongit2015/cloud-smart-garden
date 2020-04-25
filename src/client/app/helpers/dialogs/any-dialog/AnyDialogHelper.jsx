@@ -85,13 +85,13 @@ export default class AnyDialogHelper {
   }
 
   // For more flexible
-  static openPost(post) {
+  static openPost(post, model) {
     const TypeMap = {
       Post: this.Types.post,
       Experiment: this.Types.experiment,
       Dataset: this.Types.dataset
     };
-    const postType = TypeMap[post.__t] || TypeMap.Post;
+    const postType = TypeMap[post.__t] || TypeMap[model] || TypeMap.Post;
     AnyDialogHelper.open(postType, post, PostHelper.buildPostUrl(post), post.title);
   }
 

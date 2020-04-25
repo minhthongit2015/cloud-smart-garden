@@ -3,8 +3,7 @@ const random = require('random-js');
 const uuid = require('uuid');
 
 const engine = random.nativeMath;
-
-module.exports = class {
+class Random {
   static hex(length = 8, upercase = false) {
     return random.hex(upercase)(engine, length);
   }
@@ -38,4 +37,15 @@ module.exports = class {
     }
     return array[this.int(0, array.length - 1)];
   }
-};
+}
+
+function seeding() {
+  const currentMiliSeconds = Date.now() % 500;
+  for (let index = 0; index < currentMiliSeconds; index++) {
+    Random.int(0, 100);
+  }
+}
+
+seeding();
+
+module.exports = Random;

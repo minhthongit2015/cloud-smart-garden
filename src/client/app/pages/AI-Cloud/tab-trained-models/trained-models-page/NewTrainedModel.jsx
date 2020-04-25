@@ -5,10 +5,14 @@ import DropUploader from '../../../../components/utils/drop-uploader/DropUploade
 // import Composer from '../../../../components/utils/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
-import ApiEndpoints from '../../../../utils/ApiEndpoints';
+import { ModelName } from '../../../../utils/Constants';
 
 
 export default class extends NewBlogPost {
+  get model() {
+    return ModelName.trainedModel;
+  }
+
   get createTitle() {
     return t('pages.aiCloud.tabs.trainedModels.newForm.createTitle');
   }
@@ -25,14 +29,6 @@ export default class extends NewBlogPost {
     return t('pages.aiCloud.tabs.trainedModels.newForm.updateButton');
   }
 
-  get postType() {
-    return this.props.type || 'TrainedModel';
-  }
-
-  get action() {
-    return ApiEndpoints.trainedModels;
-  }
-
   validate() {
     return true;
   }
@@ -46,7 +42,7 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, summary, preview, video, experiment, target
+      title, summary, previewPhoto, video, experiment, target
     } = this.state;
 
     return (
@@ -98,8 +94,8 @@ export default class extends NewBlogPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Tải ảnh xem trước"
-              name="preview"
-              value={preview}
+              name="previewPhoto"
+              value={previewPhoto}
               videoName="video"
               video={video}
               onChange={this.handleInputChange}

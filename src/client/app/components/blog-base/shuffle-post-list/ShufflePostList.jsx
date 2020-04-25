@@ -49,14 +49,14 @@ export default class ShufflePostList extends PostList {
       if (post.previewClass) {
         return resolve(post);
       }
-      if (!post.preview) {
+      if (!post.previewPhoto) {
         post.previewClass = this.getPostSize(null, post);
         return resolve(post);
       }
 
       this.processing = true;
       const image = document.createElement('img');
-      image.src = post.preview;
+      image.src = post.previewPhoto;
 
       if (image.naturalWidth > 0 || image.complete) {
         post.previewClass = this.getPostSize(image, post);

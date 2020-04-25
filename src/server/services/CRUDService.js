@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const ApiHelper = require('../utils/ApiHelper');
 const ConverterFactory = require('../models/converters/ConverterFactory');
 const { isNotSet } = require('../utils');
@@ -13,19 +14,21 @@ const { ListParams } = require('../utils/types');
 // }
 
 module.exports = class CRUDService {
-  static getModel() {
-    return ApiHelper.BlankModel;
+  static getModel({ model /* , doc */ } = {}) {
+    return model
+      ? mongoose.model(model)
+      : ApiHelper.BlankModel;
   }
 
-  static get converter() {
-    return ConverterFactory.get(this.getModel().modelName);
+  static getConverter({ model, ...args }) {
+    return ConverterFactory.get(model || this.getModel({ model, ...args }).modelName);
   }
 
   static get populate() {
     return [];
   }
 
-  static resolveListOptions(opts = new ListParams()) {
+  static resolveListOptions({ opts = new ListParams() /* , model */ }) {
     return opts;
   }
 
@@ -44,48 +47,6 @@ module.exports = class CRUDService {
     return ApiHelper.getId(objectOrId);
   }
 
-
-  // Create & Update
-
-  static async create(doc) {
-    const model = this.getModel(doc);
-    const savedType = doc.__t;
-    delete doc.__t;
-    const newDoc = await model.create(doc);
-    doc.__t = savedType;
-    return this.converter.convert(newDoc);
-  }
-
-  static async update(id, doc) {
-    if (!doc) {
-      doc = id;
-      id = doc._id || doc.id;
-    }
-    id = ApiHelper.getId(id);
-    const { id: idz, _id, ...restProps } = doc;
-    const updatedDoc = await this.getModel(doc)
-      .findByIdAndUpdate(id, restProps, { new: true }).exec();
-    return this.converter.convert(updatedDoc);
-  }
-
-  static async updateWhere(doc, where) {
-    const { id: idz, _id, ...restProps } = doc;
-    const updatedDocs = await this.getModel(doc)
-      .updateMany(where, restProps).exec();
-    return updatedDocs;
-  }
-
-  static async createOrUpdate(doc, where) {
-    if (where) {
-      return this.getModel(doc).updateOne(where, doc,
-        { upsert: true, new: true, setDefaultsOnInsert: true }).exec();
-    }
-    if (doc._id || doc.id) {
-      return this.update(doc);
-    }
-    return this.create(doc);
-  }
-
   static async replaceImageBase64ToUrl(content) {
     const imgRegexp = /!\[(.+?)\]\((.+?)\)/g;
     const promises = [];
@@ -102,85 +63,173 @@ module.exports = class CRUDService {
   }
 
 
-  // Read
+  // Create & Update
 
-  static async getOrList(id, opts = new ListParams()) {
-    if (isNotSet(id)) {
-      return this.list(opts);
-    }
-    return this.get(id, opts);
+  static async create({ doc, model, ...args } = {}) {
+    const _model = this.getModel({ doc, model, ...args });
+    const newDoc = await _model.create(doc);
+    return this.getConverter({ newDoc, model, ...args }).convert(newDoc);
   }
 
-  static async get(id, opts = new ListParams()) {
-    const getOptions = ApiHelper.parseListParams(opts);
-    let query = this.getModel().findById(ApiHelper.getId(id));
-    query = ([...this.populate, (getOptions.populate || [])]).reduce(
-      (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
+  static async update({
+    id, doc, model, ...args
+  } = {}) {
+    const entityId = ApiHelper.getId(id, doc);
+    const { id: idz, _id, ...restProps } = doc; // remove id, _id from the doc before update
+    const _model = this.getModel({ doc, model, ...args });
+    const updatedDoc = await _model.findByIdAndUpdate(entityId, restProps, { new: true }).exec();
+    return this.getConverter({ updatedDoc, model, ...args }).convert(updatedDoc);
+  }
+
+  static async updateWhere({
+    doc, where, model, ...args
+  } = {}) {
+    const { id: idz, _id, ...restProps } = doc;
+    const _model = this.getModel({
+      doc, model, where, ...args
+    });
+    const updatedDocs = await _model.updateMany(where, restProps).exec();
+    return updatedDocs;
+  }
+
+  static async createOrUpdate({
+    doc, where, model, ...args
+  } = {}) {
+    if (where) {
+      const _model = this.getModel({
+        doc, model, where, ...args
+      });
+      return _model.updateOne(where, doc,
+        { upsert: true, new: true, setDefaultsOnInsert: true }).exec();
+    }
+    if (this.getId(doc)) {
+      return this.update({ doc, model, ...args });
+    }
+    return this.create({ doc, model, ...args });
+  }
+
+  static populateQuery(query, populateOption) {
+    const customPopulates = Array.isArray(populateOption)
+      ? populateOption
+      : [populateOption] || [];
+    const populates = [...this.populate, ...customPopulates];
+    return populates.reduce(
+      (prevQuery, relatedColection) => (Array.isArray(relatedColection)
+        ? prevQuery.populate(...relatedColection)
+        : prevQuery.populate(relatedColection)),
       query
     );
-    const doc = await query.exec();
-    return this.converter.convert(doc);
   }
 
-  static async first(opts = new ListParams()) {
+  // Read
+
+  static async getOrList({
+    id, opts = new ListParams(), model, ...args
+  } = {}) {
+    if (isNotSet(id)) {
+      return this.list({ opts, model, ...args });
+    }
+    return this.get({
+      id, opts, model, ...args
+    });
+  }
+
+  static async get({
+    id, opts = new ListParams(), model, ...args
+  } = {}) {
+    if (!id) {
+      return null;
+    }
+
+    const getOptions = ApiHelper.parseListParams(opts);
+    const _model = this.getModel({ opts, model, ...args });
+    let query = _model.findById(this.getId(id));
+    query = this.populateQuery(query, getOptions.populate);
+
+    const doc = await query.exec();
+    return this.getConverter({
+      doc, model, opts, ...args
+    }).convert(doc);
+  }
+
+  static async first({ opts = new ListParams(), model, ...args } = {}) {
     if (!opts) {
       opts = {};
     }
     opts.limit = 1;
-    const foundDocs = await this.list(opts);
-    return this.converter.convert(foundDocs[0]);
+    const docs = await this.list({ opts, model, ...args });
+    return docs[0];
   }
 
-  static async list(opts = new ListParams()) {
-    const listOptions = await this.resolveListOptions(opts);
-    if (!listOptions) { // null mean that is have some errors
+  static async list({ opts = new ListParams(), model, ...args } = {}) {
+    const listOptions = await this.resolveListOptions({ opts, model, ...args });
+    if (!listOptions) { // null mean that it have some errors
       return [];
     }
-    let query = ApiHelper.findWithModel(
-      this.getModel(opts && opts.where), listOptions
-    );
-    query = this.populate.reduce(
-      (prevQuery, relatedColection) => prevQuery.populate(relatedColection),
-      query
-    );
+    const _model = this.getModel({ opts, model, ...args });
+    let query = ApiHelper.findWithModel(_model, listOptions);
+    query = this.populateQuery(query, opts.populate);
     const docs = await query.exec();
-    return this.converter.convertCollection(docs);
+    return this.getConverter({
+      docs, opts, model, ...args
+    }).convertCollection(docs);
   }
 
-  static async listIn(ids, mapFn, idKey = '_id', where = {}) {
+  static async listIn({
+    ids, mapFn, idKey = '_id', where = {}, model, ...args
+  } = {}) {
     if (mapFn) {
       ids = ids.map(mapFn);
     }
+    if (!ids) {
+      return [];
+    }
     return this.list({
-      where: {
-        ...where,
-        [idKey]: {
-          $in: ids
-        }
+      opts: {
+        where: {
+          ...where,
+          [idKey]: {
+            $in: ids
+          }
+        },
+        limit: ids.length
       },
-      limit: ids.length
+      model,
+      ...args
+    });
+  }
+
+  static async getByOrder({
+    order, key = 'order', model, ...args
+  } = {}) {
+    return this.first({
+      opts: { where: { [key]: order } },
+      model,
+      ...args
+    });
+  }
+
+  static async getByOrder2({ order2, model, ...args } = {}) {
+    return this.getByOrder({
+      order: order2, key: 'order2', model, ...args
     });
   }
 
 
   // Delete
 
-  static async delete(id) {
-    id = ApiHelper.getId(id);
-    const deleteResult = await this.getModel()
-      .findByIdAndDelete(id).exec();
-    return deleteResult;
+  static async delete({ id, model, ...args } = {}) {
+    const _model = this.getModel({ model, ...args });
+    return _model.findByIdAndDelete(ApiHelper.getId(id)).exec();
   }
 
-  static async findOneAndDelete(where) {
-    const deleteResult = await this.getModel(where)
-      .findOneAndDelete(where).exec();
-    return deleteResult;
+  static async findOneAndDelete({ where, model, ...args } = {}) {
+    const _model = this.getModel({ where, model, ...args });
+    return _model.findOneAndDelete(where).exec();
   }
 
-  static async findAndDelete(where) {
-    const deleteResult = await this.getModel(where)
-      .deleteMany(where).exec();
-    return deleteResult;
+  static async findAndDelete({ where, model, ...args } = {}) {
+    const _model = this.getModel({ where, model, ...args });
+    return _model.deleteMany(where).exec();
   }
 };

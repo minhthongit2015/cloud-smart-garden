@@ -1,8 +1,14 @@
 import superrequest from '../../utils/superrequest';
 import ApiEndpoints from '../../utils/ApiEndpoints';
+import SocialService from '../social/SocialService';
+import { ModelName } from '../../utils/Constants';
 
 
-export default class ExperimentService {
+export default class ExperimentService extends SocialService {
+  static get model() {
+    return ModelName.experiment;
+  }
+
   static buildExperiment(experimentId, buildOptions) {
     return superrequest.post(ApiEndpoints.buildExperimentI(experimentId), buildOptions);
   }

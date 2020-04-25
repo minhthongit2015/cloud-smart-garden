@@ -17,10 +17,6 @@ const animatedComponents = makeAnimated();
 
 
 export default class extends NewPost {
-  get postType() {
-    return this.props.type || 'BlogPost';
-  }
-
   // eslint-disable-next-line class-methods-use-this
   get defaultCategories() {
     return undefined;
@@ -82,7 +78,7 @@ export default class extends NewPost {
       _id: post._id,
       title: post.title,
       summary: post.summary,
-      preview: post.preview,
+      previewPhoto: post.previewPhoto,
       video: post.video,
       audio: post.audio
     }).then(() => {
@@ -93,10 +89,10 @@ export default class extends NewPost {
   }
 
   async validate() {
-    if (this.formData.categories.length <= 0) {
-      alert('Vui lòng chọn "Chuyên mục" cho bài viết');
-      return false;
-    }
+    // if (this.formData.categories.length <= 0) {
+    //   alert('Vui lòng chọn "Chuyên mục" cho bài viết');
+    //   return false;
+    // }
     return true;
   }
 
@@ -119,7 +115,7 @@ export default class extends NewPost {
 
   renderBody() {
     const {
-      title, summary, categories, preview, video, audio
+      title, summary, previewPhoto, video, audio, categories
     } = this.state;
     const { categories: categoryOptionKeys } = this.props;
     const categoryOptions = CategoryService.getCategoriesAsOptions(categoryOptionKeys);
@@ -164,8 +160,8 @@ export default class extends NewPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Tải ảnh xem trước"
-              name="preview"
-              value={preview}
+              name="previewPhoto"
+              value={previewPhoto}
               video={video}
               audio={audio}
               onChange={this.handleInputChange}

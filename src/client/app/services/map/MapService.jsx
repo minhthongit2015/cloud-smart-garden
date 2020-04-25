@@ -3,23 +3,18 @@ import UserService from '../user/UserService';
 import ApiEndpoints from '../../utils/ApiEndpoints';
 import FbService from '../user/FbService';
 import MapGenerator from './MapGenerator';
+import CRUDService from '../CRUDService';
+import SocialService from '../social/SocialService';
+import { MarkerTypes } from '../../utils/Constants';
 
 
-export default class MapService {
-  static async fetchPlace(placeOrder) {
-    if (!placeOrder) return null;
-    return superrequest.get(ApiEndpoints.placeOrderI(placeOrder));
+export default class MapService extends SocialService {
+  static get model() {
+    return MarkerTypes.place;
   }
 
-  static extractPlaceOrder(url = window.location.href) {
-    if (!url) return null;
-    if (!Number.isNaN(+url)) return url;
-    const urlz = new URL(url || window.location.href);
-    return +urlz.searchParams.get('place');
-  }
-
-  static async fetchPlaces() {
-    return superrequest.get(ApiEndpoints.placesSorted)
+  static list(...args) {
+    return super.list(...args)
       .then((res) => {
         if (!res || !res.data) {
           return [];
@@ -29,9 +24,16 @@ export default class MapService {
       });
   }
 
+  static extractPlaceOrder(url = window.location.href) {
+    if (!url) return null;
+    if (!Number.isNaN(+url)) return url;
+    const urlz = new URL(url || window.location.href);
+    return +urlz.searchParams.get('place');
+  }
+
   static async updateOrCreatePlace(place) {
     const { marker, ref, ...placeToUpdate } = place;
-    return superrequest.agentPost(ApiEndpoints.places, placeToUpdate);
+    return this.create(placeToUpdate, { model: this.model });
   }
 
   static async deletePlace(place) {

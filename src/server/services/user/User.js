@@ -31,7 +31,7 @@ module.exports = class extends CRUDService {
       ]
     })
       .then(user => user || User.create(userToSave));
-    return this.converter.convert(newUser);
+    return this.getConverter().convert(newUser);
   }
 
   static async updatePassword({ email, oldPassword, newPassword }) {
@@ -53,7 +53,7 @@ module.exports = class extends CRUDService {
     }
 
     const updatedUser = affectedRows[0];
-    return this.converter.convert(updatedUser);
+    return this.getConverter().convert(updatedUser);
   }
 
   static async updateUserRole(userId, newRole) {
@@ -73,14 +73,17 @@ module.exports = class extends CRUDService {
     }
 
     const updatedUser = affectedRows[0];
-    return this.converter.convert(updatedUser);
+    return this.getConverter().convert(updatedUser);
   }
 
   static async updateSocialPoint(user, pointToAdd = 1) {
-    const userz = await this.get(ApiHelper.getId(user._id));
+    const userz = await this.get({ id: user._id });
     userz.socialPoint = (userz.socialPoint || 0) + pointToAdd;
-    await this.update(userz._id, {
-      socialPoint: userz.socialPoint
+    await this.update({
+      id: userz._id,
+      doc: {
+        socialPoint: userz.socialPoint
+      }
     });
     Object.assign(user, userz);
     user.dirty = true;
@@ -95,6 +98,6 @@ module.exports = class extends CRUDService {
     user.marks.push({
       spotlight
     });
-    return this.update(user);
+    return this.update({ doc: user });
   }
 };

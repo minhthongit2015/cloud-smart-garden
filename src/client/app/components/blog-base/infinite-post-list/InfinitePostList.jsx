@@ -6,9 +6,10 @@ import LeafLoading from '../../utils/loadings/LeafLoading';
 import t from '../../../languages';
 import DynamicPostList from '../dynamic-post-list/DynamicPostList';
 
+
 export default class InfinitePostList extends DynamicPostList {
-  get restProps() {
-    const { scrollableTarget, endMessage, ...restProps } = super.restProps;
+  get postListProps() {
+    const { scrollableTarget, endMessage, ...restProps } = super.postListProps;
     return restProps;
   }
 
@@ -40,7 +41,7 @@ export default class InfinitePostList extends DynamicPostList {
   renderEnd() {
     const knowAllMsg = this.getRandomEndMessage();
     const noPostMsg = this.props.noPostMsg || t('components.blog.infinitePostList.noPostMsg');
-    const isNoPost = this.state.posts.length === 0;
+    const isNoPost = !this.state.items || this.state.items.length === 0;
     const message = isNoPost
       ? noPostMsg
       : knowAllMsg;
@@ -61,13 +62,13 @@ export default class InfinitePostList extends DynamicPostList {
   }
 
   render() {
-    const { posts } = this.state;
+    const { items } = this.state;
     const { scrollableTarget = 'sidebar-layout__content' } = this.props;
 
     return (
       <InfiniteScroll
-        dataLength={posts.length}
-        next={this.fetchPosts}
+        dataLength={items.length}
+        next={this.next}
         scrollThreshold="200px"
         scrollableTarget={scrollableTarget}
         style={{ overflowX: 'hidden' }}

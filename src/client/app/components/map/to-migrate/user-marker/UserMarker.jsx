@@ -159,15 +159,15 @@ export default class UserMarker extends Component {
     const { picture = '/images/avatar.png', cover = '/images/cover-photo.jpg', owned } = this.props.entity;
     const sharedFoods = [
       {
-        preview: 'http://picfood.vn/wp-content/uploads/2016/11/1-42.jpg',
+        previewPhoto: 'http://picfood.vn/wp-content/uploads/2016/11/1-42.jpg',
         name: 'Cải chíp'
       },
       {
-        preview: 'https://hatgiongphuongnam.com/asset/upload/image/sup-lo-san-ho-2.1_.jpg',
+        previewPhoto: 'https://hatgiongphuongnam.com/asset/upload/image/sup-lo-san-ho-2.1_.jpg',
         name: 'Súp lơ san hô'
       },
       {
-        preview: 'https://massageishealthy.com/wp-content/uploads/2018/08/tac-dung-cua-ca-rot-song-luoc-voi-da-mat-lam-dep-suc-khoe-giam-can-4.jpg',
+        previewPhoto: 'https://massageishealthy.com/wp-content/uploads/2018/08/tac-dung-cua-ca-rot-song-luoc-voi-da-mat-lam-dep-suc-khoe-giam-can-4.jpg',
         name: 'Cà rốt'
       }
     ];
@@ -203,7 +203,7 @@ export default class UserMarker extends Component {
             <div className="row mx-0">
               {sharedFoods.map(food => (
                 <div className="col col-4 p-3 text-center" key={food.name}>
-                  <div className="preview-image"><img alt={food.name} src={food.preview} /></div>
+                  <div className="preview-image"><img alt={food.name} src={food.previewPhoto} /></div>
                   <div>{food.name}</div>
                   <button
                     type="button"

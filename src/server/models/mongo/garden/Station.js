@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
-const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const Post = require('../blog-base/Post');
+const SocialSchema = require('../social/Social.schema');
+const ModelHelper = require('../ModelHelper');
+const { ModelName } = require('../ModelConstants');
 
 const { ObjectId } = mongoose.Schema.Types;
 
-const Schema = new mongoose.Schema({
-  garden: { type: ObjectId, ref: 'Garden' },
-  plants: [{ type: ObjectId, ref: 'UserPlant' }],
-  models: [{ type: ObjectId, ref: 'TrainedModel' }]
-});
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Station', field: 'order' });
-const Model = Post.discriminator('Station', Schema);
+
+const Schema = {
+  ...SocialSchema,
+  garden: { type: ObjectId, ref: ModelName.garden },
+  plants: [{ type: ObjectId, ref: ModelName.userPlant }],
+  models: [{ type: ObjectId, ref: ModelName.trainedModel }]
+};
+
+const [Model] = ModelHelper.createOrderedModel(ModelName.station, Schema);
 
 module.exports = Model;

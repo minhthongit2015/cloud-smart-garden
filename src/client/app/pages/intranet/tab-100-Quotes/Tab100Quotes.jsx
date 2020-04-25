@@ -5,6 +5,7 @@ import StandalonePage from '../../_base/StandalonePage';
 import NewQuote from '../../../components/intranet/new-quote/NewQuote';
 import OneHundredQuotes from './100Quotes';
 import MainQuote from '../../../components/utils/messages/MainQuote';
+import Random from '../../../../../server/utils/random';
 
 const DEFAULT_BACKGROUND = '/images/cup-coffee.jpg';
 
@@ -36,11 +37,12 @@ export default class extends StandalonePage {
     this.oneHundredQuotesRef.current.refresh();
   }
 
-  handleQuotesLoaded(quotes) {
-    const background = (quotes && quotes[0] && quotes[0].preview) || DEFAULT_BACKGROUND;
+  handleQuotesLoaded(event, quotes) {
+    const quoteOfTheDay = quotes && Random.random(quotes);
+    const background = (quoteOfTheDay && quoteOfTheDay.previewPhoto) || DEFAULT_BACKGROUND;
     this.setBackground(background);
     this.setState({
-      quoteOfTheDay: quotes && quotes[0]
+      quoteOfTheDay
     });
   }
 
@@ -50,7 +52,7 @@ export default class extends StandalonePage {
   }
 
   handleEditQuote(event, quote) {
-    this.newQuoteRef.current.setQuote(quote);
+    this.newQuoteRef.current.setFormData(quote);
   }
 
   render() {
@@ -67,14 +69,14 @@ export default class extends StandalonePage {
         <SectionBody>
           <NewQuote
             ref={this.newQuoteRef}
-            onPosted={this.handleQuotePosted}
+            onSubmited={this.handleQuotePosted}
             hasPermission={canCreateNewPost}
           />
           <OneHundredQuotes
             ref={this.oneHundredQuotesRef}
-            onLoad={this.handleQuotesLoaded}
+            onLoaded={this.handleQuotesLoaded}
             onEdit={this.handleEditQuote}
-            onDelete={this.handleDeleteQuote}
+            onDeleted={this.handleDeleteQuote}
           />
         </SectionBody>
       </Section>

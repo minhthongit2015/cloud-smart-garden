@@ -9,6 +9,7 @@ import moment from 'moment';
 import BaseDialog from '../../../components/dialogs/BaseDialog';
 import PlantService from '../../../services/garden/PlantService';
 import FixedRatioImage from '../../../components/utils/fixed-ratio-image/FixedRatioImage';
+import UserPlantService from '../../../services/garden/UserPlantService';
 
 
 export default class extends BaseDialog {
@@ -41,7 +42,7 @@ export default class extends BaseDialog {
   }
 
   componentDidMount() {
-    PlantService.fetchPlants().then((res) => {
+    PlantService.list().then((res) => {
       const plants = this.resolvePlants(res.data);
       this.setState({
         plants,
@@ -66,7 +67,7 @@ export default class extends BaseDialog {
     const { _id, title } = (plant && plant.value) || {};
     const plantName = name != null ? name : title;
     this.disable();
-    PlantService.addUserPlant(station._id, _id, plantName)
+    UserPlantService.addUserPlant(station._id, _id, plantName)
       .then((rs) => {
         this.handleNewPlantAdded(rs.data);
         this.enable();
@@ -109,7 +110,7 @@ export default class extends BaseDialog {
       plants, plant, name, startDate
     } = this.state;
     const {
-      title, preview
+      title, previewPhoto
     } = (plant && plant.value) || {};
     const plantName = name != null ? name : title;
 
@@ -125,7 +126,7 @@ export default class extends BaseDialog {
               onChange={this.handleSelectChange}
               className="mb-2"
             />
-            <FixedRatioImage src={preview} ratio={7 / 4} frame="rounded" />
+            <FixedRatioImage src={previewPhoto} ratio={7 / 4} frame="rounded" />
           </Col>
           <Col size="8">
             {this.renderPlantInfo(plant)}
@@ -153,7 +154,7 @@ export default class extends BaseDialog {
                 gradient="peach"
                 type="submit"
                 className="px-3 py-2"
-              >Tiến Hành Trồng
+              >Bắt Đầu Trồng
               </MDBBtn>
             </div>
           </Col>

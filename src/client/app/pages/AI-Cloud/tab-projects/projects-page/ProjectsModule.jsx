@@ -5,8 +5,8 @@ import ProjectPost from './ProjectPost';
 
 
 export default class extends PostsModule {
-  get postType() {
-    return this.props.type || 'Project';
+  get model() {
+    return this.props.model || 'Project';
   }
 
   get NewPostComponent() {

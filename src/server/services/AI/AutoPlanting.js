@@ -1,5 +1,5 @@
-const ExperimentService = require('./ExperimentServ');
-const TargetService = require('./TargetServ');
+const ExperimentService = require('./ExperimentService');
+const TargetService = require('./TargetService');
 
 
 class AutoPlanting {

@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models/APIResponse');
-const StrikeService = require('../../../services/map/Strike');
+const StrikeService = require('../../../services/map/StrikeService');
 const MapSecurityService = require('../../../services/security/MapSecurity');
+
 
 router.post('/join/:strikeId', Logger.catch(async (req, res) => {
   await MapSecurityService.onlyLoggedInUser(req);

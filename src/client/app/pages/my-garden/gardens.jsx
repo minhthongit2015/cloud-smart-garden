@@ -1,25 +1,25 @@
 const plant01 = {
   _id: 'plant-01',
   title: 'Violet',
-  preview: 'https://vuonhoaviet.vn/wp-content/uploads/2017/11/53.-Hoa-h%E1%BB%93ng-ngo%E1%BA%A1i-Pas-De-Deux.jpg'
+  previewPhoto: 'https://vuonhoaviet.vn/wp-content/uploads/2017/11/53.-Hoa-h%E1%BB%93ng-ngo%E1%BA%A1i-Pas-De-Deux.jpg'
 };
 
 const plant02 = {
   _id: 'plant-02',
   title: 'Rose',
-  preview: 'https://salt.tikicdn.com/ts/product/92/fd/44/3c94c0bd9092a42462ffa5a427b64945.jpg'
+  previewPhoto: 'https://salt.tikicdn.com/ts/product/92/fd/44/3c94c0bd9092a42462ffa5a427b64945.jpg'
 };
 
 const plant03 = {
   _id: 'plant-03',
   title: 'Phong lan',
-  preview: 'https://image.freepik.com/free-photo/beautiful-orchid-flower-morning-sun-with-natural-background_29007-633.jpg'
+  previewPhoto: 'https://image.freepik.com/free-photo/beautiful-orchid-flower-morning-sun-with-natural-background_29007-633.jpg'
 };
 
 const plant04 = {
   _id: 'plant-04',
   title: 'Nho',
-  preview: 'https://previews.123rf.com/images/kanlayachantrakool/kanlayachantrakool1708/kanlayachantrakool170800343/84318453-vine-of-grapes-under-the-sun.jpg'
+  previewPhoto: 'https://previews.123rf.com/images/kanlayachantrakool/kanlayachantrakool1708/kanlayachantrakool170800343/84318453-vine-of-grapes-under-the-sun.jpg'
 };
 
 const plants = [
@@ -66,7 +66,7 @@ const station01 = {
   baseOrder: 16,
   order: 1,
   __v: 859,
-  preview: 'https://i.imgur.com/bxV70AM.jpg',
+  previewPhoto: 'https://i.imgur.com/bxV70AM.jpg',
   owner: '000000000000000000000100',
   plants,
   models: [
@@ -87,7 +87,7 @@ const gardens = [
     totalSaved: 1,
     title: 'The Beyond Garden',
     summary: '',
-    preview: 'https://i.imgur.com/dAFVbs1.png',
+    previewPhoto: 'https://i.imgur.com/dAFVbs1.png',
     video: '',
     content: null,
     status: 'published',

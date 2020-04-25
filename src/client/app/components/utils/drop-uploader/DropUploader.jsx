@@ -120,7 +120,7 @@ export default class extends React.Component {
     const {
       className, wrapperProps, innerClass,
       avatar, useImage = true, useVideo = true, useAudio = false,
-      label, name = 'preview', videoName = 'video', audioName = 'audio',
+      label, name = 'previewPhoto', videoName = 'previewVideo', audioName = 'previewAudio',
       value = '', video = '', audio = '', ...restProps
     } = this.props;
     const { uploading } = this.state;

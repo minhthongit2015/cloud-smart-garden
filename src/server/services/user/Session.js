@@ -9,6 +9,15 @@ module.exports = class SessionService {
 
   static get SSID_COOKIE_NAME() { return SSID_COOKIE_NAME; }
 
+  static async update(session, props) {
+    Object.assign(session, props);
+    return this.save(session);
+  }
+
+  static async save(session) {
+    return new Promise(resolve => session.save(resolve));
+  }
+
   static getFullSessionId(sessionId) {
     const secretPart = crypto.createHmac('sha256', this.SECRET)
       .update(sessionId)
@@ -22,18 +31,19 @@ module.exports = class SessionService {
 
   }
 
-  static async checkForDirtySession(req) {
+  static async checkForDirtySession(session) {
     let isDirty = false;
-    isDirty = isDirty || this.checkForDirtyUser(req);
+    isDirty = isDirty || this.checkForDirtyUser(session.user);
+    // TODO: update on all related sessions (sessions of the same user)
     return isDirty
-      ? new Promise(resolve => req.session.save(resolve))
+      ? this.save(session)
       : undefined;
   }
 
-  static checkForDirtyUser(req) {
-    const isDirty = req.session.user && req.session.user.dirty;
+  static checkForDirtyUser(user) {
+    const isDirty = user && user.dirty;
     if (isDirty) {
-      delete req.session.user.dirty;
+      delete user.dirty;
     }
     return isDirty;
   }

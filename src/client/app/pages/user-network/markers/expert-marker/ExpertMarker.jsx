@@ -26,8 +26,8 @@ export default class ExpertMarker extends ProfileMarker {
   }
 
   get title() {
-    const { place: { name } = {} } = this.props;
-    return `Chuyên Gia ❝${name}❞`;
+    const { place: { title } = {} } = this.props;
+    return `Chuyên Gia ❝${title}❞`;
   }
 
   renderProfile() {

@@ -45,14 +45,16 @@
 
 
 #### [C] Extensions (Tiện ích cho VSCode)
-1. `ESLint`
-2. `GitLens`
-3. `vscode-icons`
-4. `Visual Studio IntelliCode`
-5. `React Standard Style code snippets`
-6. `Reactjs code snippets`
-7. `JavaScript (ES6) code snippets`
-8. `Auto Close Tag`
-9. `Auto Rename Tag`
-10. `Auto Import`
-11. `Arduino`
+1. `ESLint` Tự động clean code
+2. `GitLens` Dễ dàng xem thay đổi từ git
+3. `vscode-icons` Đổi icon các thư mục cho đẹp hơn /=)
+4. `Visual Studio IntelliCode` 
+5. `React Standard Style code snippets` 
+6. `ES7 React/Redux/GraphQL/React-Native snippets`
+7. `Reactjs code snippets`
+8. `JavaScript (ES6) code snippets`
+9. `Auto Close Tag`
+10. `Auto Rename Tag`
+11. `Auto Import`
+12. `Arduino`
+13. `Quick Require` Hỗ trợ `require(module)` nhanh hơn

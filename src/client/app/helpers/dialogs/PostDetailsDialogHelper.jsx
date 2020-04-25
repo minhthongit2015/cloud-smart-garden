@@ -1,7 +1,7 @@
 import React from 'react';
 import PageDialogHelper from './PageDialogHelper';
 import PostDetails from '../../components/blog-base/post-details/PostDetails';
-import PostService from '../../services/blog/PostService';
+import SocialEntityService from '../../services/blog/PostService';
 import PostHelper from '../PostHelper';
 
 export default class extends PageDialogHelper {
@@ -10,7 +10,7 @@ export default class extends PageDialogHelper {
     const hashtag = params.get('hashtag');
     if (hashtag) {
       this.openPostDetailsCurrentTab(hashtag);
-      PostService.refreshCache();
+      SocialEntityService.refreshCache();
     }
   }
 
@@ -24,7 +24,7 @@ export default class extends PageDialogHelper {
 
   // Direct access
   static async openPostDetailsCurrentTab(postOrder) {
-    return PostService.fetchPost(postOrder).then((res) => {
+    return SocialEntityService.fetchPost(postOrder).then((res) => {
       const post = res.data[0];
       this.openInCurrentHistory({
         url: PostHelper.buildPostUrl(post, { keepQuery: true }),

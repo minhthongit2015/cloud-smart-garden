@@ -3,7 +3,7 @@ import getContextOptions from './ExperimentPostContextOptions';
 
 
 export default class extends Post {
-  get postType() {
+  get model() {
     return this.props.type || 'Experiment';
   }
 

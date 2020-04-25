@@ -5,11 +5,16 @@ import UserService from '../../../services/user/UserService';
 import InfinitePostList from '../infinite-post-list/InfinitePostList';
 import ContextOptions from '../ContextOptions';
 import Post from '../post/Post';
+import SocialService from '../../../services/social/SocialService';
 
 
 export default class extends React.Component {
-  get postType() {
-    return this.props.type || 'Post';
+  get service() {
+    return this.props.service || SocialService;
+  }
+
+  get model() {
+    return this.service.model;
   }
 
   get NewPostComponent() {
@@ -33,12 +38,13 @@ export default class extends React.Component {
   }
 
   get newPostProps() {
-    const { type = this.postType, categories, everyoneCanPost } = this.props;
+    const { categories, everyoneCanPost } = this.props;
     const canCreateNewPost = UserService.isAdmin || UserService.isModerator || everyoneCanPost;
 
     return {
       ref: this.newPostRef,
-      type,
+      service: this.service,
+      model: this.model,
       categories,
       hasPermission: canCreateNewPost,
       onSubmited: this.handlePostPosted
@@ -46,17 +52,14 @@ export default class extends React.Component {
   }
 
   get postListProps() {
-    const {
-      type = this.postType, categories, everyoneCanPost, ...restProps
-    } = this.props;
+    const { everyoneCanPost } = this.props;
     const canCreateNewPost = UserService.isAdmin || UserService.isModerator || everyoneCanPost;
 
     return {
-      ...restProps,
       ref: this.postListRef,
+      service: this.service,
+      model: this.model,
       PostComponent: this.PostComponent,
-      type,
-      categories,
       hasPermission: canCreateNewPost,
       onContextActions: this.handleContextActions
     };

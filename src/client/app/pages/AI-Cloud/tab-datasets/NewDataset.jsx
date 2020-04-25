@@ -4,12 +4,15 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import NewBlogPost from '../../../components/blog/new-blog-post/NewBlogPost';
 import DropUploader from '../../../components/utils/drop-uploader/DropUploader';
 // import Composer from '../../../components/utils/composer/Composer';
-import CategoryService from '../../../services/blog/CategoryService';
-import ApiEndpoints from '../../../utils/ApiEndpoints';
 import t from '../../../languages';
+import DatasetService from '../../../services/AI/DatasetService';
 
 
 export default class extends NewBlogPost {
+  get service() {
+    return DatasetService;
+  }
+
   get createTitle() {
     return t('pages.aiCloud.tabs.datasets.newForm.createTitle');
   }
@@ -26,10 +29,6 @@ export default class extends NewBlogPost {
     return t('pages.aiCloud.tabs.datasets.newForm.updateButton');
   }
 
-  get defaultCategories() {
-    return [CategoryService.categoriesMap.Dataset.type];
-  }
-
   get formData() {
     const { days } = this.state;
     const newDataset = { ...super.formData, days };
@@ -37,13 +36,9 @@ export default class extends NewBlogPost {
     return newDataset;
   }
 
-  get action() {
-    return ApiEndpoints.datasets;
-  }
-
   renderBody() {
     const {
-      title, summary, preview, video, audio, days
+      title, summary, previewPhoto, previewVideo, previewAudio, days
     } = this.state;
 
     return (
@@ -78,11 +73,11 @@ export default class extends NewBlogPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Hình ảnh từ quá trình chăm sóc?"
-              name="preview"
-              value={preview}
-              video={video}
+              name="previewPhoto"
+              value={previewPhoto}
+              video={previewVideo}
               useAudio
-              audio={audio}
+              audio={previewAudio}
               onChange={this.handleInputChange}
               className="px-2 pb-4 pt-1"
             />

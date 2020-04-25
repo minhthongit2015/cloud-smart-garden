@@ -1,19 +1,19 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
 const APIResponse = require('../../../models/api-models/APIResponse');
-const DatasetService = require('../../../services/AI/DatasetServ');
-const StationService = require('../../../services/garden/Station');
+const DatasetService = require('../../../services/AI/DatasetService');
+const StationService = require('../../../services/garden/StationService');
 
 
 router.get('/:datasetId?', Logger.catch(async (req, res) => {
-  const datasets = await DatasetService.getOrList(req.params.datasetId, req.query);
+  const datasets = await DatasetService.getOrList({ id: req.params.datasetId, opts: req.query });
   res.send(APIResponse.setData(datasets));
 }));
 
 router.post('/', Logger.catch(async (req, res) => {
   const station = await StationService.first();
   req.body.station = station._id;
-  const dataset = await DatasetService.createOrUpdate(req.body);
+  const dataset = await DatasetService.createOrUpdate({ doc: req.body, user: req.session.user });
   return res.send(APIResponse.setData(dataset));
 }));
 

@@ -4,7 +4,7 @@ import { get } from '../../../server/utils';
 export {
   isNotSet, isNone, isEmpty, isBlank,
   isFunction, isString, isZeroVariable, zeroVariable,
-  parseStringToNumber,
+  parseStringToNumber, getDefault,
   camelize, sentenceCase,
   toEventName, dispatchEvent, buildEvent,
   get, autoKey, sameKey, findByKey, findIndexByKey,
@@ -12,6 +12,27 @@ export {
   flattenObject
 } from '../../../server/utils';
 
+
+export function appendUpdateArray(oldItems = [], newItems = [], idKey = '_id') {
+  // Remove unmatched items
+  const validOldItems = oldItems.filter(
+    oldItem => newItems.find(newItem => newItem[idKey] === oldItem[idKey])
+  );
+
+  // Update old items
+  const itemsToAppend = [];
+  newItems.forEach((newItem) => {
+    const existedItem = validOldItems.find(oldItem => oldItem[idKey] === newItem[idKey]);
+    if (existedItem) {
+      Object.assign(existedItem, newItem);
+    } else {
+      itemsToAppend.push(newItem);
+    }
+  });
+
+  // Append new items
+  return validOldItems.concat(itemsToAppend);
+}
 
 export function findMethodName(target, method) {
   let object = target;
@@ -35,6 +56,7 @@ export function bindMethods(target, ...methods) {
       console.error('Undefined method!');
       return;
     }
+    // eslint-disable-next-line no-param-reassign
     target[findMethodName(target, method)] = method.bind(target);
   });
 }
@@ -85,17 +107,18 @@ export function loadImage(url) {
 }
 
 function getImage(url, { height, width, scale = 1 } = {}) {
+  let finalScale = scale;
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       if (width) {
-        scale = width / img.width;
+        finalScale = width / img.width;
       }
       if (height) {
-        scale = height / img.height;
+        finalScale = height / img.height;
       }
-      const imgWidth = img.width * scale;
-      const imgHeight = img.height * scale;
+      const imgWidth = img.width * finalScale;
+      const imgHeight = img.height * finalScale;
       const ratio = imgHeight / imgWidth;
       const imageStyle = `
         margin: 10px auto;
@@ -248,6 +271,7 @@ export function generateTests(target) {
 }
 
 export default {
+  appendUpdateArray,
   layersAsArray,
   layersAsString,
   cacheValue,

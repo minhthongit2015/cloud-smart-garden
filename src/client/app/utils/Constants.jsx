@@ -1,10 +1,11 @@
 
 export {
+  ModelName,
+  MarkerTypes,
+  ContactTypes,
   UserRole,
   PostStatus,
   MemberBadge,
-  MarkerTypes,
-  ContactTypes,
 
   // AI
   ExperimentTargets,

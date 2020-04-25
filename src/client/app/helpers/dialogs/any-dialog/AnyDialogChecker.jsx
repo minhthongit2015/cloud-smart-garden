@@ -1,4 +1,4 @@
-import PostService from '../../../services/blog/PostService';
+import SocialService from '../../../services/social/SocialService';
 import AnyDialogHelper from './AnyDialogHelper';
 import HistoryHelper from '../../HistoryHelper';
 
@@ -31,7 +31,7 @@ export default class AnyDialogChecker {
     if (window.history.state) {
       AnyDialogHelper.openPost(window.history.state);
     }
-    return PostService.fetchPost(hashtag)
+    return SocialService.fetchPost(hashtag)
       .then((res) => {
         AnyDialogHelper.openPost(res.data[0]);
       });

@@ -2,31 +2,27 @@
 /* eslint-disable class-methods-use-this */
 import './Post.scss';
 import superrequest from '../../../utils/superrequest';
-import PostService from '../../../services/blog/PostService';
 import UserService from '../../../services/user/UserService';
 import GlobalState from '../../../utils/GlobalState';
 import t from '../../../languages';
 import PostBase from './PostBase';
 import ContextOptions from '../ContextOptions';
-import ApiEndpoints from '../../../utils/ApiEndpoints';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
+import SocialService from '../../../services/social/SocialService';
+
 
 export default class Post extends PostBase {
-  get postEndpoint() {
-    return ApiEndpoints.posts;
+  get service() {
+    return this.props.service || SocialService;
   }
 
-  get ratingEndpoint() {
-    return ApiEndpoints.rating;
-  }
-
-  get savePostEndpoint() {
-    return ApiEndpoints.savedPosts;
+  get model() {
+    return this.props.model || this.service.model;
   }
 
   handlePostClick() {
     const { post } = this.props;
-    AnyDialogHelper.openPost(post);
+    AnyDialogHelper.openPost(post, this.model);
     super.handlePostClick();
   }
 
@@ -38,7 +34,7 @@ export default class Post extends PostBase {
     case ContextOptions.delete:
       if (window.confirm('Bạn có chắc muốn xóa bài viết này?')) {
         this.dispatchEvent(eventCtxAction, ContextOptions.delete, post, this);
-        return PostService.deletePost(post).then(() => {
+        return this.service.delete(post._id, { model: this.model }).then(() => {
           this.dispatchEvent(eventCtxAction, ContextOptions.deleted, post, this);
         });
       }
@@ -48,12 +44,6 @@ export default class Post extends PostBase {
       return this.handleSavingPost(event).then(() => {
         this.dispatchEvent(eventCtxAction, ContextOptions.saveDone, post, this);
       });
-    // case ContextOptions.iWillDoThis:
-    //   return this.handleAddIDoPost(event).then(() => {
-    //     this.dispatchEvent(event, { value: 'savedIDo' }, post, this);
-    //   });
-    case ContextOptions.request:
-      return PostService.requestChange(option);
     default:
       break;
     }
@@ -84,7 +74,7 @@ export default class Post extends PostBase {
     post.rating = rating;
     this.forceUpdate();
 
-    PostService.rating(post, rating, this.ratingEndpoint).then((res) => {
+    this.service.rating(post, rating, { model: this.model }).then((res) => {
       if (!res || !res.ok) {
         GlobalState.restoreFromSavedState(post, savedState, this);
         UserService.updateUserSocialPoint(-1);
@@ -110,13 +100,13 @@ export default class Post extends PostBase {
       GlobalState.updatePoint(post, 'totalSaved', 1, this).then(() => {
         this.thankForSaveRef.current.sayThanks();
       });
-      return PostService.savePost(post, this.savePostEndpoint).then(() => {
+      return this.service.save(post, { model: this.model }).then(() => {
         this.dispatchEvent(event, { value: 'saved' }, post, this);
       });
     }
 
     GlobalState.updatePoint(post, 'totalSaved', -1, this);
-    return PostService.unsavePost(post, this.savePostEndpoint).then((res) => {
+    return this.service.unsave(post, { model: this.model }).then((res) => {
       if (!res || !res.ok) {
         GlobalState.restoreFromSavedState(post, savedState, this);
       } else {

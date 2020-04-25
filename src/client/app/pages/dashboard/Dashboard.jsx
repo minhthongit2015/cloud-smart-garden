@@ -6,6 +6,7 @@ import RouteConstants from '../../utils/RouteConstants';
 import TabDashboard from './tab-dashboard/TabDashboard';
 import t from '../../languages';
 import TabCategories from './tab-categories/TabCategories';
+import TabManageGardens from './tab-manage-gardens/TabManageGardens';
 
 export default class extends React.Component {
   constructor(props) {
@@ -20,6 +21,12 @@ export default class extends React.Component {
         path: RouteConstants.categoriesPath,
         link: RouteConstants.categoriesLink,
         component: TabCategories
+      },
+      {
+        name: t('pages.admin.nav.manageGardens'),
+        path: RouteConstants.manageGardensPath,
+        link: RouteConstants.manageGardensLink,
+        component: TabManageGardens
       }
     ];
   }

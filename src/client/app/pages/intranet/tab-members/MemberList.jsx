@@ -28,6 +28,7 @@ export default class extends BaseComponent {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleSelectOne = this.handleSelectOne.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -64,6 +65,16 @@ export default class extends BaseComponent {
       };
     }, () => {
       this.dispatchEvent({ typez: 'select' }, this.selectedMembers, member);
+    });
+  }
+
+  handleSelectOne(event) {
+    UISounds.select();
+    const member = this.getMemberFromEvent(event);
+    this.setState({
+      selectedMembers: [member]
+    }, () => {
+      this.dispatchEvent(this.Events.select, this.selectedMembers, member);
     });
   }
 
@@ -124,6 +135,7 @@ export default class extends BaseComponent {
         onMouseMove={this.handleMouseMove}
         id={member._id}
         onClick={this.handleSelect}
+        onDoubleClick={this.handleSelectOne}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >

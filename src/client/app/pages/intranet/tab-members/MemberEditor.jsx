@@ -59,7 +59,7 @@ export default class extends BaseComponent {
       event.preventDefault();
     }
     const { member } = this.props;
-    this.submit((event && event.currentTarget.action) || ApiEndpoints.characteristics(member._id));
+    this.submit((event && event.currentTarget.action) || ApiEndpoints.characteristicsI(member._id));
   }
 
   submit(endpoint) {
@@ -120,8 +120,8 @@ export default class extends BaseComponent {
       <form
         className="member-editor__form p-3"
         action={isTarget
-          ? ApiEndpoints.targetCharacteristics(member._id)
-          : ApiEndpoints.characteristics(member._id)}
+          ? ApiEndpoints.targetCharacteristicsI(member._id)
+          : ApiEndpoints.characteristicsI(member._id)}
         onSubmit={this.handleSubmit}
       >
         <Row className="mx-0">

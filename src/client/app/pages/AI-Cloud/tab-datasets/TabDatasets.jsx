@@ -35,7 +35,8 @@ export default class TabDataset extends SubPageGroup {
 
   handleGenerateRecords() {
     const { selection } = this.state;
-    superrequest.agentPost(ApiEndpoints.generateRecords, selection);
+    superrequest.agentPost(ApiEndpoints.generateRecords, selection)
+      .then(rs => alert(`${rs.data.length} days's records has been generated`));
   }
 
   handleCreateDataset() {

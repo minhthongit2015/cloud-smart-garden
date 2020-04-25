@@ -29,7 +29,7 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, summary, preview, video, audio
+      title, summary, previewPhoto, video, audio
     } = this.state;
 
     return (
@@ -59,8 +59,8 @@ export default class extends NewBlogPost {
           <Col size="12" sm="6">
             <DropUploader
               label="Hình ảnh loài cây"
-              name="preview"
-              value={preview}
+              name="previewPhoto"
+              value={previewPhoto}
               video={video}
               useAudio
               audio={audio}

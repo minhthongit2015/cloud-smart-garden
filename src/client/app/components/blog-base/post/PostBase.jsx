@@ -77,12 +77,12 @@ export default class Post extends BaseComponent.Pure {
   }
 
   renderPreviewAsImage() {
-    const { preview } = this.post || {};
+    const { previewPhoto } = this.post || {};
     return (
       <div onClick={this.handlePostClick}>
         <MDBCardImage
           className="img-fluid post__preview-image"
-          src={preview}
+          src={previewPhoto}
         />
       </div>
     );
@@ -123,7 +123,7 @@ export default class Post extends BaseComponent.Pure {
     const {
       post: {
         _id,
-        preview,
+        previewPhoto,
         // video,
         title,
         summary,
@@ -167,8 +167,8 @@ export default class Post extends BaseComponent.Pure {
           onChange={this.handlePreviewPopupChange}
           id={_id}
         >
-          <span className={classnames('post__preview', { saved: isSaved, [category]: preview })}>
-            {preview
+          <span className={classnames('post__preview', { saved: isSaved, [category]: previewPhoto })}>
+            {previewPhoto
               ? this.renderPreviewAsImage()
               : this.renderPreviewAsTitle()}
             {this.contextOptions && (
@@ -201,9 +201,9 @@ export default class Post extends BaseComponent.Pure {
             </div>
           </MDBPopoverBody>
         </MDBPopover>
-        <CardBody className={!preview && !summary ? 'p-0' : 'p-2'}>
-          {preview && <div className="post__title"><b>{title}</b></div>}
-          {(!preview || !allSmall) && summary && <div className="post__summary mt-2">{summary}</div>}
+        <CardBody className={!previewPhoto && !summary ? 'p-0' : 'p-2'}>
+          {previewPhoto && <div className="post__title"><b>{title}</b></div>}
+          {(!previewPhoto || !allSmall) && summary && <div className="post__summary mt-2">{summary}</div>}
         </CardBody>
         <CardFooter className="d-flex align-items-center justify-content-stretch flex-wrap p-2">
           <div className="flex-fill post__socials">

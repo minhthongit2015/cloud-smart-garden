@@ -1,11 +1,17 @@
 import PostsModule from '../../blog-base/posts-module/PostsModule';
 import NewBlogPost from '../new-blog-post/NewBlogPost';
 import InfiniteBlogPostList from '../infinite-blog-post-list/InfiniteBlogPostList';
+import PostService from '../../../services/blog/PostService';
 
 
 export default class extends PostsModule {
-  get postType() {
-    return this.props.type || 'BlogPost';
+  // eslint-disable-next-line class-methods-use-this
+  get service() {
+    return PostService;
+  }
+
+  get model() {
+    return this.service.model;
   }
 
   get NewPostComponent() {

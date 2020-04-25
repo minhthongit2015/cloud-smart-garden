@@ -34,18 +34,21 @@ async function _tryCatch(func, errorHandler, ...args) {
 }
 
 function _handleError(error, errorHandler, ...args) {
-  Debugger.server(
-    `${colors.yellow('<!>')} ${colors.blue('Error Catched:')} ${colors.red(colors.red(error.message))}`
-  );
   this.error(error.message, {
     stack: error.stack
   });
+
+  Debugger.server(
+    `${colors.yellow('<!>')} ${colors.blue('Error Catched:')} ${colors.red(colors.red(error.message))}`
+  );
+
   const match = error.stack.match(/at.*?\((.:.*?):(.*?)\)\n/);
   if (match) {
     const [firstLine, file] = match;
     const relativePath = path.relative('.', file);
-    console.error(firstLine.replace(file, relativePath));
+    Debugger.server(firstLine.replace(file, relativePath));
   }
+
   if (typeof errorHandler === 'function') {
     errorHandler(error, ...args);
     return;
@@ -55,11 +58,11 @@ function _handleError(error, errorHandler, ...args) {
     delete error.stack; // No stack will be send to the client
     let errorCode = error.statusCode || error.status || error.code || 400;
     errorCode = typeof errorCode === 'number' ? errorCode : 400;
+    // TODO: distinguish between ws from station and ws from browser
     if (errorCode === 401 && req.websocket) {
       res.emit('unauthorized');
     } else {
-      res.status(errorCode)
-        .send(APIResponse.setError(error));
+      res.status(errorCode).send(APIResponse.setError(error));
     }
   }
 }

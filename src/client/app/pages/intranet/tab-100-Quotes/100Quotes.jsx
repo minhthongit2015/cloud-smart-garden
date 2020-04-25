@@ -5,15 +5,21 @@ import Quote from '../../../components/utils/messages/Quote';
 import './100Quotes.scss';
 import UserService from '../../../services/user/UserService';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import QuoteService from '../../../services/intranet/QuoteService';
+import BaseComponent from '../../../components/_base/BaseComponent';
 
-export default class extends React.PureComponent {
+
+export default class extends BaseComponent.Pure {
   constructor(props) {
     super(props);
-
     this.state = {
       quotes: []
     };
     UserService.useUserState(this);
+  }
+
+  refresh() {
+    this.fetch();
   }
 
   componentDidMount() {
@@ -21,44 +27,27 @@ export default class extends React.PureComponent {
   }
 
   fetch() {
-    superrequest.get(ApiEndpoints.oneHundredQuotes).then((res) => {
-      if (!res || !res.ok) {
-        return;
-      }
+    QuoteService.list().then((res) => {
       this.setState({
         quotes: res.data
       });
-      this.dispatchOnloadEvent(res.data);
+      this.dispatchEvent(this.Events.loaded, res.data);
     });
-  }
-
-  refresh() {
-    this.fetch();
-  }
-
-  dispatchOnloadEvent(quotes) {
-    if (this.props.onLoad) {
-      this.props.onLoad(quotes);
-    }
   }
 
   handleDeleteQuote(event, quote) {
     if (!window.confirm('Bạn có chắc chắn muốn xóa trích dẫn này?')) {
       return;
     }
-    superrequest.agentDelete(ApiEndpoints.quoteI(quote._id))
+    QuoteService.delete(quote._id)
       .then(() => {
         this.refresh();
-        if (this.props.onDelete) {
-          this.props.onDelete(event, quote);
-        }
+        this.dispatchEvent(this.Events.deleted, quote);
       });
   }
 
   handleEditQuote(event, quote) {
-    if (this.props.onEdit) {
-      this.props.onEdit(event, quote);
-    }
+    this.dispatchEvent(this.Events.edit, quote);
   }
 
   render() {

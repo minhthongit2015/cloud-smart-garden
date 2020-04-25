@@ -1,12 +1,16 @@
-const mongoose = require('mongoose');
-const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const Post = require('../blog-base/Post');
+// const mongoose = require('mongoose');
+const SocialSchema = require('../social/Social.schema');
+const ModelHelper = require('../ModelHelper');
+const { ModelName } = require('../ModelConstants');
 
 // const { ObjectId } = mongoose.Schema.Types;
 
-const Schema = new mongoose.Schema({
-});
-Schema.plugin(MongooseAutoIncrementID.plugin, { modelName: 'Plant', field: 'order' });
-const Model = Post.discriminator('Plant', Schema);
+
+const Schema = {
+  ...SocialSchema,
+  climate: String
+};
+
+const [Model] = ModelHelper.createOrderedModel(ModelName.plant, Schema);
 
 module.exports = Model;

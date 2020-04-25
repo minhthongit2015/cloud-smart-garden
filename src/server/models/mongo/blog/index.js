@@ -1,2 +1,2 @@
 
-module.exports.BlogPost = require('./BlogPost');
+module.exports.Post = require('./Post');

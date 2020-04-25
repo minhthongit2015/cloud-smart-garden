@@ -1,11 +1,17 @@
 import BlogPostsModule from '../../../components/blog/blog-posts-module/BlogPostsModule';
 import NewDataset from './NewDataset';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
+import DatasetService from '../../../services/AI/DatasetService';
 
 
 export default class extends BlogPostsModule {
-  get postType() {
-    return this.props.type || 'Dataset';
+  // eslint-disable-next-line class-methods-use-this
+  get service() {
+    return DatasetService;
+  }
+
+  get model() {
+    return this.service.model;
   }
 
   get NewPostComponent() {

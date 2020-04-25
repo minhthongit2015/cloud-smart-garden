@@ -1,9 +1,19 @@
 
 import superrequest from '../../utils/superrequest';
 import ApiEndpoints from '../../utils/ApiEndpoints';
+import SocialService from '../social/SocialService';
+import { ModelName } from '../../utils/Constants';
 
 
-export default class DatasetService {
+export default class DatasetService extends SocialService {
+  static get model() {
+    return ModelName.dataset;
+  }
+
+  static get createEndpoint() {
+    return ApiEndpoints.datasets;
+  }
+
   static fetchDataset(datasetId) {
     return superrequest.get(ApiEndpoints.datasetI(datasetId));
   }

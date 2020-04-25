@@ -9,6 +9,8 @@ const dashboardPath = `${adminPath}/dashboard`;
 const dashboardLink = `${adminLink}/dashboard`;
 const categoriesPath = `${adminPath}/categories`;
 const categoriesLink = `${adminLink}/categories`;
+const manageGardensPath = `${adminPath}/manage-gardens`;
+const manageGardensLink = `${adminLink}/manage-gardens`;
 
 // Intranet
 const intranetPath = '/Alpha-Team';
@@ -66,6 +68,8 @@ module.exports = {
   dashboardLink,
   categoriesPath,
   categoriesLink,
+  manageGardensPath,
+  manageGardensLink,
 
   // Intranet
   intranetPath,
