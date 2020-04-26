@@ -1,0 +1,86 @@
+.garden-story {
+  padding: 15px;
+  margin: 20px 0;
+  background: hsl(0, 0%, 90%);
+  box-shadow: inset 0 0 4px #797979, inset 0 0 8px #9e9e9e, inset 0 -7px 16px #d2d2d2;
+  border-radius: 10px;
+  position: relative;
+
+  &:nth-child(n+2) {
+    margin-top: 50px;
+
+    &::after {
+      content: "";
+      background: url(https://chicfetti.com/wp-content/uploads/2018/07/heart-vine.png) center center/auto 80% no-repeat;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      height: 50px;
+      width: 100%;
+    }
+  }
+
+  &__preview {
+    padding: 2px;
+    background: linear-gradient(300deg, #13c6ce 0, #28f19e);
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px #717171;
+
+    img {
+      border-radius: inherit;
+    }
+  }
+
+  &__content-column {
+    max-height: 300px;
+
+    &.loaded {
+      max-height: unset;
+    }
+  }
+
+  &__content {
+    height: 100%;
+    color: #a5a5a5;
+    background: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 8px 10px;
+    box-shadow: 0 0 5px #cecece, 0 0 9px #b9b9b9;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: -10px;
+      width: calc(100% + 20px);
+      background: #fff;
+      height: 10px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .garden-story {
+    padding: 4px;
+    background: hsl(0, 0%, 95%);
+    box-shadow: inset 0 0 4px #c0c0c0, inset 0 0 8px #dbdbdb, inset 0 -7px 16px #ececec;
+
+    &__preview {
+      padding: 0;
+    }
+
+    &__content-column {
+      height: auto !important;
+      margin-bottom: 0 !important;
+    }
+
+    &__content {
+      border-radius: 10px;
+
+      &::after {
+        content: initial;
+      }
+    }
+  }
+}

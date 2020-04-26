@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Row } from 'mdbreact';
-import Composer from '../../../../../components/utils/composer/Composer';
-import DropUploader from '../../../../../components/utils/drop-uploader/DropUploader';
-import BaseComponent from '../../../../../components/_base/BaseComponent';
+import Composer from '../../../../../../components/utils/composer/Composer';
+import DropUploader from '../../../../../../components/utils/drop-uploader/DropUploader';
+import BaseComponent from '../../../../../../components/_base/BaseComponent';
 
 
 export default class extends BaseComponent.Pure {

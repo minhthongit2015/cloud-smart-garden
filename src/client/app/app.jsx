@@ -14,7 +14,7 @@ import 'codemirror/lib/codemirror.css';
 import 'tui-editor/dist/tui-editor.min.css';
 import 'tui-editor/dist/tui-editor-contents.min.css';
 
-import ErrorBoundary from './components/error-boundary/ErrorBoundary';
+import ErrorBoundary from './components/utils/error-boundary/ErrorBoundary';
 import SimplestLayout from './layouts/simplest/simplest';
 
 import superws from './utils/superws';

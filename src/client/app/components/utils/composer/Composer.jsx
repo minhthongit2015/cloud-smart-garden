@@ -39,7 +39,7 @@ export default class extends React.Component {
   }
 
   render() {
-    const { initialValue } = this.props;
+    const { value } = this.props;
     const onChangeProp = {};
     // if (!this.inputRef.current) {
     //   onChangeProp.onChange = this.rerender;
@@ -48,7 +48,7 @@ export default class extends React.Component {
       <Editor
         ref={this.inputRef}
         {...this.contentConfig}
-        initialValue={initialValue}
+        initialValue={value}
         {...onChangeProp}
       />
     );

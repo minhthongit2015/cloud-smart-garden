@@ -83,7 +83,7 @@ export default class SideNav extends Component {
           classNames(
             'sidenav',
             'd-flex flex-row flex-sm-column justify-content-center align-items-center',
-            'modern-scrollbar py-0 py-md-2',
+            'modern-scrollbar-2 py-0 py-md-2',
             { hide: this.props.hide }
           )
         }

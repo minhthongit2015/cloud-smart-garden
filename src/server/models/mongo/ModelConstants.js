@@ -29,6 +29,7 @@ const ModelName = {
   record: 'Record',
   plant: 'Plant',
   userPlant: 'UserPlant',
+  gardenStory: 'GardenStory',
 
   // AI
   project: 'Project',

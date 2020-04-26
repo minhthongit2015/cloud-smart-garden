@@ -10,7 +10,7 @@ const {
   Post,
 
   // Garden
-  Garden, Station, Record, Plant,
+  Garden, Station, Record, Plant, GardenStory,
 
   // AI
   Project, Experiment, ExperimentTarget, Dataset, TrainedModel, Team, Folder,
@@ -32,7 +32,7 @@ const PostTypes = [
   Social,
   OneHundredQuotes,
   Post,
-  Garden, Station, Record, Plant,
+  Garden, Station, Record, Plant, GardenStory,
   Project, Experiment, ExperimentTarget, Dataset, TrainedModel, Team, Folder,
   Place, CharityRestaurantMarker, EventMarker, ExpertMarker, FarmMarker,
   FoodStoreMarker, GardenMarker, ToolStoreMarker

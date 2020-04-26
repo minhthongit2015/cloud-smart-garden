@@ -5,21 +5,21 @@ import {
 import { Section } from '../../../layouts/base/section';
 import LeafLoading from '../../../components/utils/loadings/LeafLoading';
 import RouteConstants from '../../../utils/RouteConstants';
-import Posts from './stories/Posts';
-import Reviews from './stories/Reviews';
-import Photos from './stories/Photos';
-import Videos from './stories/Videos';
+import GardenPostsSection from './stories/TabGardenPosts';
+import Reviews from './stories/TabGardenReviews';
+import Photos from './stories/TabGardenPhotos';
+import Videos from './stories/TabGardenVideos';
 import SmoothSize from '../../../components/utils/smooth-size/SmoothSize';
 
 
 const StoryNavs = [
   { title: 'Bài Viết', to: 'posts', icon: 'fas fa-feather-alt' },
-  { title: 'Reviews', to: 'reviews', icon: 'far fa-star' },
+  { title: 'Lời nhắn', to: 'letters', icon: 'far fa-star' },
   { title: 'Photos', to: 'photos', icon: 'fas fa-camera-retro' },
   { title: 'Videos', to: 'videos', icon: 'fas fa-film' }
 ];
 
-export default () => {
+export default ({ user }) => {
   function handleClick(event) {
     if (event) { event.stopPropagation(); event.preventDefault(); }
     if (window.historyz.location.pathname === event.currentTarget.name) {
@@ -52,14 +52,14 @@ export default () => {
           </NavLink>
         ))}
       </div>
-      <SmoothSize timeout="200">
+      <SmoothSize timeout="200" padding="0">
         <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
           <Switch>
-            <Route path={`${RouteConstants.myGardenLink}/posts`}><Posts /></Route>
-            <Route path={`${RouteConstants.myGardenLink}/reviews`}><Reviews /></Route>
-            <Route path={`${RouteConstants.myGardenLink}/photos`}><Photos /></Route>
-            <Route path={`${RouteConstants.myGardenLink}/videos`}><Videos /></Route>
-            <Route path={`${RouteConstants.myGardenLink}`}><Posts /></Route>
+            <Route path={`${RouteConstants.myGardenPath}/posts`}><GardenPostsSection user={user} /></Route>
+            <Route path={`${RouteConstants.myGardenPath}/reviews`}><Reviews /></Route>
+            <Route path={`${RouteConstants.myGardenPath}/photos`}><Photos /></Route>
+            <Route path={`${RouteConstants.myGardenPath}/videos`}><Videos /></Route>
+            <Route path={`${RouteConstants.myGardenPath}`}><GardenPostsSection user={user} /></Route>
           </Switch>
         </React.Suspense>
       </SmoothSize>

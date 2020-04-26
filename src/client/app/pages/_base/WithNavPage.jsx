@@ -88,7 +88,7 @@ export default class extends BasePage {
   render() {
     return (
       <div className="with-nav-page">
-        <div className="with-nav-page__body modern-scrollbar">
+        <div className="with-nav-page__body modern-scrollbar-2">
           {/* <MDBNavbar color="indigo" dark expand="md" className="default-color">
             {this.renderBrand()}
             {this.renderToggler()}

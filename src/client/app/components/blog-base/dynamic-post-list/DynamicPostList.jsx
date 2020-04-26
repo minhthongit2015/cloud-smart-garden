@@ -3,20 +3,16 @@
 import React from 'react';
 import ShufflePostList from '../shuffle-post-list/ShufflePostList';
 import DynamicList from '../../_base/DynamicList';
-import PostService from '../../../services/blog/PostService';
+import SocialService from '../../../services/social/SocialService';
 
 
 export default class extends DynamicList {
   get service() {
-    return this.props.service || PostService;
+    return this.props.service || SocialService;
   }
 
   get model() {
     return this.props.model || this.service.model;
-  }
-
-  get scrollableTarget() {
-    return 'sidebar-layout__content';
   }
 
   get postListProps() {

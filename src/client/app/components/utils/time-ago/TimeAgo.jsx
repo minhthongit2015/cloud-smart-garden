@@ -25,7 +25,9 @@ function getIntervalByContext(/* time */) {
   return 1000;
 }
 
-const TimeAgo = React.memo(({ time, className, ...restProps }) => {
+const TimeAgo = React.memo(({
+  time, className, color = 'text-muted', ...restProps
+}) => {
   const mTime = moment(time);
   const [value, forceUpdate] = React.useState(true);
   React.useEffect(() => {
@@ -39,7 +41,7 @@ const TimeAgo = React.memo(({ time, className, ...restProps }) => {
   return (
     <span
       title={getCustomTime(mTime)}
-      className={`time-ago text-monospace text-muted ${className || ''}`}
+      className={`time-ago text-monospace ${color} ${className || ''}`}
       {...restProps}
     ><i className="far fa-clock" /> {mTime.fromNow()}
     </span>

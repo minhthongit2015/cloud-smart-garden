@@ -1,4 +1,3 @@
-
 @import '../abstracts/index';
 @import './fonts/iCiel-Bambola';
 @import './fonts/Quicksand';
@@ -30,6 +29,7 @@ kbd {
 
 $link-underline-size: 1px;
 $link-underline-color: $color-red-light;
+
 .link {
   display: inline-block;
   background: transparent 0 100%/0 $link-underline-size no-repeat;
@@ -40,6 +40,7 @@ $link-underline-color: $color-red-light;
   &:hover {
     background-size: 100% $link-underline-size;
   }
+
   &:active {
     opacity: .5;
   }
@@ -47,4 +48,8 @@ $link-underline-color: $color-red-light;
 
 .modern-scrollbar {
   @include modern-scrollbar;
+}
+
+.modern-scrollbar-2 {
+  @include modern-scrollbar-2;
 }
