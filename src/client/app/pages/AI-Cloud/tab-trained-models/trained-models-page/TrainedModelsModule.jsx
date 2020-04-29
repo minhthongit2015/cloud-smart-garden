@@ -7,7 +7,7 @@ import { ModelName } from '../../../../utils/Constants';
 
 export default class extends PostsModule {
   get model() {
-    return this.props.model || ModelName.trainedModel;
+    return ModelName.trainedModel;
   }
 
   get NewPostComponent() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'mdbreact';
-import Composer from '../../../../../../components/utils/composer/Composer';
-import DropUploader from '../../../../../../components/utils/drop-uploader/DropUploader';
+import Composer from '../../../../../../components/form/inputs/composer/Composer';
+import DropUploader from '../../../../../../components/form/inputs/drop-uploader/DropUploader';
 import BaseComponent from '../../../../../../components/_base/BaseComponent';
 
 

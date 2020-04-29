@@ -18,7 +18,7 @@ export default class AnyDialogHelper {
   }
 
   static getDialogByType(dialogType, ...args) {
-    const Dialog = this.DialogsMap[dialogType];
+    const Dialog = this.DialogsMap[dialogType] || this.DialogsMap.Post;
     return Dialog.dialog
       ? (
         <Dialog.dialog
@@ -57,7 +57,7 @@ export default class AnyDialogHelper {
   }
 
   static _open(dialogType, ...args) {
-    const { content: Content } = this.DialogsMap[dialogType];
+    const { content: Content } = this.DialogsMap[dialogType] || this.DialogsMap.Post;
     if (Content) {
       this.dialogRefs[dialogType].setContent(
         <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]
@@ -86,20 +86,15 @@ export default class AnyDialogHelper {
 
   // For more flexible
   static openPost(post, model) {
-    const TypeMap = {
-      Post: this.Types.post,
-      Experiment: this.Types.experiment,
-      Dataset: this.Types.dataset
-    };
-    const postType = TypeMap[post.__t] || TypeMap[model] || TypeMap.Post;
+    const postType = model || 'Post';
     AnyDialogHelper.open(postType, post, PostHelper.buildPostUrl(post), post.title);
   }
 
   static openLogin(message) {
-    this.open(this.Types.login, message);
+    this.open(DialogTypes.login, message);
   }
 
   static openMessage(title, message) {
-    this.open(this.Types.message, title, message);
+    this.open(DialogTypes.message, title, message);
   }
 }

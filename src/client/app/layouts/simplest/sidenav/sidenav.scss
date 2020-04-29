@@ -1,4 +1,3 @@
-
 .simplest-layout {
   .sidenav {
     min-width: 144px;
@@ -6,6 +5,7 @@
     height: 100%;
     padding: 10px;
     overflow-x: visible;
+    overflow-y: visible;
     transition: all .3s ease-in-out;
 
     &.hide {
@@ -19,10 +19,11 @@
       font-size: 1.2em;
       line-height: 1.21em;
       text-align: center;
-      
+
       .fixed-ratio-image__wrapper {
         width: 60% !important;
       }
+
       .fixed-ratio-image {
         padding-top: 100% !important;
       }
@@ -38,7 +39,7 @@
       height: auto;
       max-height: 100px;
       box-shadow: 0 -0.1rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-      
+
       &.hide {
         min-width: inherit;
         max-width: inherit;
@@ -47,12 +48,12 @@
         transform: translate(0, 100px);
       }
 
-      & > * {
+      &>* {
         position: relative;
         top: 0;
       }
     }
-    
+
     aside.sidenav {
       .nav-icon-link {
         height: 100%;
@@ -64,6 +65,7 @@
         .fixed-ratio-image__wrapper {
           width: 100% !important;
         }
+
         span {
           display: none;
         }

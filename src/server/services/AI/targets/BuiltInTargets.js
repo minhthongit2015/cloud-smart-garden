@@ -1,84 +1,80 @@
 const {
   Algorithms, Optimizers, Losses, Activations
 } = require('../utils/AIConstants');
-const { autoKey } = require('../../../utils');
 const DataUtils = require('./DataUtils');
 const ExperimentTargetTypes = require('./ExperimentTargetTypes');
+const { generateId } = require('../../../models/mongo/test/utils');
 
 
 const ExperimentTargets = {
   nutrient: {
-    key: '',
-    name: 'Huấn luyện Dinh dưỡng',
-    description: 'Tự động điều chỉnh dinh dưỡng tối ưu theo từng giai đoạn sinh trưởng của cây trồng.',
-    type: ExperimentTargetTypes.regression,
+    title: 'nutrient',
+    content: 'Tự động điều chỉnh dinh dưỡng tối ưu theo từng giai đoạn sinh trưởng của cây trồng.',
+    type: ExperimentTargetTypes.regression.key,
     features: [
-      [DataUtils.fromStart]
+      [DataUtils.fromStart.key]
     ],
     labels: [
       ['state.nutri']
     ],
-    algorithms: [Algorithms.neuralNetwork],
-    optimizers: [Optimizers.adam],
-    losses: [Losses.absoluteDifference],
-    activations: [Activations.linear],
+    algorithms: [Algorithms.neuralNetwork.key],
+    optimizers: [Optimizers.adam.key],
+    losses: [Losses.absoluteDifference.key],
+    activations: [Activations.linear.key],
     layers: []
   },
   light: {
-    key: '',
-    name: 'Huấn luyện Ánh sáng',
-    description: 'Tự động cung cấp ánh sáng quang hợp cho cây của bạn nếu cần thiết.',
-    type: ExperimentTargetTypes.classification,
+    title: 'light',
+    content: 'Tự động cung cấp ánh sáng quang hợp cho cây của bạn nếu cần thiết.',
+    type: ExperimentTargetTypes.classification.key,
     features: [
       ['state.light'],
-      [DataUtils.minuteOfDay]
+      [DataUtils.minuteOfDay.key]
     ],
     labels: [
       ['state.led']
     ],
-    algorithms: [Algorithms.neuralNetwork],
-    optimizers: [Optimizers.adam],
-    losses: [Losses.categoricalCrossentropy],
-    activations: [Activations.relu],
+    algorithms: [Algorithms.neuralNetwork.key],
+    optimizers: [Optimizers.adam.key],
+    losses: [Losses.categoricalCrossentropy.key],
+    activations: [Activations.relu.key],
     layers: [9, 9, 9, 9, 9, 9, 9, 9, 9]
   },
   temperature: {
-    key: '',
-    name: 'Huấn luyện Nhiệt độ',
-    description: 'Tự động phun sương hoặc bật quạt làm mát cho cây của bạn khi nhiệt độ tăng cao.',
-    type: ExperimentTargetTypes.classification,
+    title: 'temperature',
+    content: 'Tự động phun sương hoặc bật quạt làm mát cho cây của bạn khi nhiệt độ tăng cao.',
+    type: ExperimentTargetTypes.classification.key,
     features: [
       ['state.temperature'],
-      [DataUtils.minuteOfDay]
+      [DataUtils.minuteOfDay.key]
     ],
     labels: [
       ['state.fan']
     ],
-    algorithms: [Algorithms.neuralNetwork],
-    optimizers: [Optimizers.adam],
-    losses: [Losses.categoricalCrossentropy],
-    activations: [Activations.relu],
+    algorithms: [Algorithms.neuralNetwork.key],
+    optimizers: [Optimizers.adam.key],
+    losses: [Losses.categoricalCrossentropy.key],
+    activations: [Activations.relu.key],
     layers: [9, 9, 9, 9, 9, 9, 9, 9, 9]
   },
   humidity: {
-    key: '',
-    name: 'Huấn luyện Độ ẩm',
-    description: 'Tự động phun sương và bật quạt thông gió để để điều chỉnh lại độ ẩm cho cây của bạn.',
-    type: ExperimentTargetTypes.classification,
+    title: 'humidity',
+    content: 'Tự động phun sương và bật quạt thông gió để để điều chỉnh lại độ ẩm cho cây của bạn.',
+    type: ExperimentTargetTypes.classification.key,
     features: [
       ['state.humidity'],
-      [DataUtils.minuteOfDay]
+      [DataUtils.minuteOfDay.key]
     ],
     labels: [
       ['state.misting']
     ],
-    algorithms: [Algorithms.neuralNetwork],
-    optimizers: [Optimizers.adam],
-    losses: [Losses.categoricalCrossentropy],
-    activations: [Activations.relu],
+    algorithms: [Algorithms.neuralNetwork.key],
+    optimizers: [Optimizers.adam.key],
+    losses: [Losses.categoricalCrossentropy.key],
+    activations: [Activations.relu.key],
     layers: [9, 9, 9, 9, 9, 9, 9, 9, 9]
   }
 };
-autoKey(ExperimentTargets);
+generateId(ExperimentTargets, 400);
 
 module.exports = ExperimentTargets;

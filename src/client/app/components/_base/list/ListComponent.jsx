@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import BaseComponent from './BaseComponent';
+import BaseComponent from '../BaseComponent';
 
 
 export default class extends BaseComponent {

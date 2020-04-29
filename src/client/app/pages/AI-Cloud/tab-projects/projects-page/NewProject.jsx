@@ -4,12 +4,13 @@ import { Row, Col, MDBInput } from 'mdbreact';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CategoryService from '../../../../services/blog/CategoryService';
-import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
-import Composer from '../../../../components/utils/composer/Composer';
+import DropUploader from '../../../../components/form/inputs/drop-uploader/DropUploader';
+import Composer from '../../../../components/form/inputs/composer/Composer';
 import { IconCommunity } from '../../../../../assets/icons';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
 import MessageDialogHelper from '../../../../helpers/dialogs/MessageDialogHelper';
+import ProjectService from '../../../../services/AI/ProjectService';
 
 const animatedComponents = makeAnimated();
 
@@ -35,10 +36,8 @@ export default class extends NewBlogPost {
     return ['categories', ...super.excludeKeys];
   }
 
-  get formData() {
-    const formData = super.formData;
-    formData.categories = [CategoryService.categoriesMap.Project];
-    return formData;
+  get service() {
+    return ProjectService;
   }
 
   constructor(props) {
@@ -92,16 +91,14 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, summary, previewPhoto, video, categories
+      title, summary, previewPhoto, video
     } = this.state;
-    const { categories: categoryOptionKeys } = this.props;
-    const categoryOptions = CategoryService.getCategoriesAsOptions(categoryOptionKeys);
 
     return (
       <React.Fragment>
         <Row>
           <Col size="12" sm="6">
-            <Select
+            {/* <Select
               placeholder="Chuyên mục"
               name="categories"
               options={categoryOptions}
@@ -114,7 +111,7 @@ export default class extends NewBlogPost {
               autofill="off"
               components={animatedComponents}
               disabled
-            />
+            /> */}
             <MDBInput
               label="Tiêu đề"
               name="title"

@@ -1,4 +1,10 @@
-function generateId(array, start = 100) {
+function generateId(arrayOrMap, start = 100) {
+  if (!arrayOrMap) {
+    return;
+  }
+  const array = Array.isArray(arrayOrMap)
+    ? arrayOrMap
+    : Object.values(arrayOrMap);
   array.forEach((element, index) => {
     element._id = (start + index).toString().padStart(24, '0');
   });

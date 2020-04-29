@@ -2,7 +2,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import ShufflePostList from '../shuffle-post-list/ShufflePostList';
-import DynamicList from '../../_base/DynamicList';
+import DynamicList from '../../_base/list/DynamicList';
 import SocialService from '../../../services/social/SocialService';
 
 
@@ -21,7 +21,9 @@ export default class extends DynamicList {
       posts: items,
       service: this.service,
       model: this.model,
-      onContextActions: this.props.onContextActions
+      PostComponent: this.props.PostComponent,
+      onContextActions: this.props.onContextActions,
+      hasPermission: this.props.hasPermission
     };
   }
 

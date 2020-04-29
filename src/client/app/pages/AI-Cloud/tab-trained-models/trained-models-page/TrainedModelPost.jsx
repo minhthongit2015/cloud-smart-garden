@@ -6,14 +6,10 @@ import { ModelName } from '../../../../utils/Constants';
 
 export default class extends Post {
   get model() {
-    return this.props.model || ModelName.trainedModel;
+    return ModelName.trainedModel;
   }
 
   get contextOptions() {
     return getContextOptions(this.post);
   }
-
-  // render() {
-  //   return this.post.title;
-  // }
 }

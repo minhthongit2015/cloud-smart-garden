@@ -5,7 +5,7 @@ import {
   Row, Col
 } from 'mdbreact';
 import './NewQuote.scss';
-import DropUploader from '../../utils/drop-uploader/DropUploader';
+import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import NewPost from '../../blog-base/new-post/NewPost';
 import QuoteService from '../../../services/intranet/QuoteService';
 

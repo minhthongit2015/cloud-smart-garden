@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable class-methods-use-this */
 import './Post.scss';
-import superrequest from '../../../utils/superrequest';
 import UserService from '../../../services/user/UserService';
 import GlobalState from '../../../utils/GlobalState';
 import t from '../../../languages';
@@ -111,42 +110,6 @@ export default class Post extends PostBase {
         GlobalState.restoreFromSavedState(post, savedState, this);
       } else {
         this.dispatchEvent(event, { value: 'unsaved' }, post, this);
-        // AnyDialogHelper.openMessage(ContextOptions.save.value, false);
-      }
-    });
-  }
-
-  handleAddIDoPost() {
-    const { post } = this.props;
-    const savedState = GlobalState.buildSavedState(
-      post, ['iWillDoThis', 'totalIDo']
-    );
-
-    post.iWillDoThis = !post.iWillDoThis;
-
-    if (post.iWillDoThis) {
-      GlobalState.updatePoint(post, 'totalIDo', 1, this)
-        .then(() => {
-          this.thankForDoItRef.current.sayThanks();
-        });
-      UserService.updateUserSocialPoint(2);
-      return superrequest.agentPost(`/api/v1/blog/i-will-do-this/${post._id}`).then((res) => {
-        if (!res || !res.ok) {
-          GlobalState.restoreFromSavedState(post, savedState, this);
-          UserService.updateUserSocialPoint(-2);
-        } else {
-          // AnyDialogHelper.openMessage(ContextOptions.save.value, true);
-        }
-      });
-    }
-
-    GlobalState.updatePoint(post, 'totalIDo', -1, this);
-    UserService.updateUserSocialPoint(-2);
-    return superrequest.agentDelete(`/api/v1/blog/i-will-do-this/${post._id}`).then((res) => {
-      if (!res || !res.ok) {
-        GlobalState.restoreFromSavedState(post, savedState, this);
-        UserService.updateUserSocialPoint(2);
-      } else {
         // AnyDialogHelper.openMessage(ContextOptions.save.value, false);
       }
     });

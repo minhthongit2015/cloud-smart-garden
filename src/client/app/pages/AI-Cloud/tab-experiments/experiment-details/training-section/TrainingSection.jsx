@@ -5,7 +5,7 @@ import BaseComponent from '../../../../../components/_base/BaseComponent';
 import TrainOptionsSelect from './TrainOptionsSelect';
 import TrainingVisualization from './TrainingVisualization';
 import ExperimentService from '../../../../../services/AI/ExperimentService';
-import Checkbox from '../../../../../components/utils/checkbox/Checkbox';
+import Checkbox from '../../../../../components/form/inputs/checkbox/Checkbox';
 import DatasetService from '../../../../../services/AI/DatasetService';
 import { layersAsArray } from '../../../../../utils';
 import LanguagesHelper, { tAI } from '../LanguagesHelper';
@@ -65,10 +65,10 @@ class TrainingSection extends BaseComponent.Pure {
     } = this.props;
 
     const {
-      algorithms: [{ key: algorithm }],
-      optimizers: [{ key: optimizer }],
-      losses: [{ key: loss }],
-      activations: [{ key: activation }],
+      algorithms: [algorithm],
+      optimizers: [optimizer],
+      losses: [loss],
+      activations: [activation],
       layers,
       datasets
     } = editingTarget;

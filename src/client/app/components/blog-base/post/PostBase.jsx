@@ -13,9 +13,8 @@ import ContextButton from '../../utils/context-button/ContextButton';
 import UserService from '../../../services/user/UserService';
 import ShareButton from '../../facebook/ShareButton';
 import Rating from '../../utils/rating/Rating';
-import { IconBookmark, IconRaisedFist, IconThanks } from '../../../../assets/icons';
+import { IconBookmark, IconThanks } from '../../../../assets/icons';
 import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
-import IDoPostsDialogHelper from '../../../helpers/dialogs/IDoPostsDialogHelper';
 import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
 
@@ -69,11 +68,6 @@ export default class Post extends BaseComponent.Pure {
   static handleOpenSavedPosts() {
     this.dispatchEvent({ typez: 'openSavedPosts' }, this.post);
     SavedPostsDialogHelper.openSavedPostsInNewHistory();
-  }
-
-  static handleOpenIWillDoThisPosts() {
-    this.dispatchEvent({ typez: 'openIDoPosts' }, this.post);
-    IDoPostsDialogHelper.openIDoPostsInNewHistory();
   }
 
   renderPreviewAsImage() {
@@ -136,9 +130,7 @@ export default class Post extends BaseComponent.Pure {
         totalVotes,
         rating,
         isSaved,
-        totalSaved,
-        iWillDoThis,
-        totalIDo
+        totalSaved
       } = {},
       allSmall
     } = this.props;
@@ -183,15 +175,6 @@ export default class Post extends BaseComponent.Pure {
                   onClick={Post.handleOpenSavedPosts}
                 />
                 <IconThanks ref={this.thankForSaveRef} text="Đã lưu bài viết" />
-              </div>
-            )}
-            {iWillDoThis && (
-              <div className="post__status-icon">
-                <IconRaisedFist
-                  totalIDo={totalIDo}
-                  onClick={Post.handleOpenIWillDoThisPosts}
-                />
-                <IconThanks ref={this.thankForDoItRef} />
               </div>
             )}
           </span>

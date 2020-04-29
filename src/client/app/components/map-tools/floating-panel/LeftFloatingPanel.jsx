@@ -1,5 +1,5 @@
 import React from 'react';
-import Checkbox from '../../utils/checkbox/Checkbox';
+import Checkbox from '../../form/inputs/checkbox/Checkbox';
 import FloatingListPanel from './FloatingListPanel';
 
 

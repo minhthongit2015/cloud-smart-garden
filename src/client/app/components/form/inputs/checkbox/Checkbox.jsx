@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IconCheckbox } from '../../../../assets/icons';
+import { IconCheckbox } from '../../../../../assets/icons';
 import './Checkbox.scss';
 
 const Checkbox = React.memo((props) => {

@@ -1,50 +1,47 @@
 const mongoose = require('mongoose');
-const { User, Category, Post } = require('../db');
+const {
+  User, Category, Post, ExperimentTarget
+} = require('../db');
 const users = require('./users');
 const categoriesMap = require('./categories');
+const experimentTargets = require('./BuiltInExperiementTargets');
 
 const { ObjectId } = mongoose.Types;
 const categories = Object.values(categoriesMap);
 
-module.exports = async () => {
-  // await User.collection.drop();
-  // await User.deleteMany({}).exec();
-  await Promise.all(
-    users.map(async (user) => {
-      const userToSave = { ...user };
-      const userId = userToSave._id;
-      delete userToSave.id;
-      const savedUser = await User.findByIdAndUpdate(
-        new ObjectId(userId),
-        userToSave,
-        { upsert: true }
-      ).exec();
-      return savedUser;
-    })
-  );
-  const savedUsers = await Promise.all(
-    users.map(user => User.findById(user.id))
-  );
+async function initData(arrayOrMap, Model, renew = false) {
+  if (!arrayOrMap) {
+    return null;
+  }
+  const docs = Array.isArray(arrayOrMap)
+    ? arrayOrMap
+    : Object.values(arrayOrMap);
 
-  // await Category.collection.drop();
-  // await Category.deleteMany({}).exec();
-  const posts = await Post.find({}).populate('categories').exec();
-  await Promise.all(
-    categories.map(async (category) => {
-      const categoryToSave = { ...category };
-      const categoryId = categoryToSave._id;
-      delete categoryToSave.id;
-      const savedCategory = await Category.findByIdAndUpdate(
-        new ObjectId(categoryId),
-        categoryToSave,
+  if (renew) {
+    await Model.deleteMany({}).exec();
+    // await Model.collection.drop();
+  }
+  return Promise.all(
+    docs.map(async (doc) => {
+      const { _id, ...docToUpdate } = doc;
+      const oldDoc = await Model.findById(_id);
+      if (!oldDoc) {
+        return Model.create(doc);
+      }
+      return Model.findByIdAndUpdate(
+        new ObjectId(_id),
+        docToUpdate,
         { upsert: true }
       ).exec();
-      return savedCategory;
     })
   );
-  const savedCategories = await Promise.all(
-    categories.map(category => Category.findById(category.id))
-  );
+}
+
+module.exports = async () => {
+  await initData(users, User);
+
+  const posts = await Post.find({}).populate('categories').exec();
+  await initData(categories, Category);
   await Promise.all(
     posts.map((post) => {
       post.categories = post.categories.map((oldCategory) => {
@@ -55,8 +52,5 @@ module.exports = async () => {
     })
   );
 
-  return {
-    users: savedUsers,
-    categories: savedCategories
-  };
+  await initData(experimentTargets, ExperimentTarget);
 };

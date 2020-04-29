@@ -56,7 +56,7 @@ export default ({ user }) => {
         <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
           <Switch>
             <Route path={`${RouteConstants.myGardenPath}/posts`}><GardenPostsSection user={user} /></Route>
-            <Route path={`${RouteConstants.myGardenPath}/reviews`}><Reviews /></Route>
+            <Route path={`${RouteConstants.myGardenPath}/letters`}><Reviews /></Route>
             <Route path={`${RouteConstants.myGardenPath}/photos`}><Photos /></Route>
             <Route path={`${RouteConstants.myGardenPath}/videos`}><Videos /></Route>
             <Route path={`${RouteConstants.myGardenPath}`}><GardenPostsSection user={user} /></Route>

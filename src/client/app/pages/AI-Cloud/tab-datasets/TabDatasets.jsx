@@ -5,7 +5,7 @@ import t from '../../../languages';
 import DatasetModule from './DatasetModule';
 import DynamicTimeSeries from '../../../components/charts/base/DynamicTimeSeriesApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
-import Calendar from '../../../components/utils/calendar/Calendar';
+import Calendar from '../../../components/form/inputs/calendar/Calendar';
 import superrequest from '../../../utils/superrequest';
 import EditableLineChart from '../../../components/charts/base/EditableLineChart';
 import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
@@ -61,7 +61,7 @@ export default class TabDataset extends SubPageGroup {
             <i className="fas fa-plus-square" /> Tạo Dataset
           </MDBBtn>
         </div>
-        <DatasetModule ref={this.postModuleRef} />
+        <DatasetModule ref={this.postModuleRef} everyoneCanPost />
         {/* <Section>
           <SectionHeader>Note</SectionHeader>
           <SectionBody>

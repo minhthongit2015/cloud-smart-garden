@@ -1,8 +1,9 @@
 import React from 'react';
 import { MDBTable } from 'mdbreact';
 import BaseComponent from '../../../../../components/_base/BaseComponent';
-import Checkbox from '../../../../../components/utils/checkbox/Checkbox';
+import Checkbox from '../../../../../components/form/inputs/checkbox/Checkbox';
 import { findByKey } from '../../../../../utils';
+import { Optimizers, Losses, Activations } from '../../../../../utils/Constants';
 
 
 export default class extends BaseComponent {
@@ -67,11 +68,11 @@ export default class extends BaseComponent {
                     {(index + 1).toString().padStart(2, '0')}
                   </td>
                   <td className="text-middle">
-                    <span className="d-inline-block m-1 p-2 border">{optimizer.name}</span>
+                    <span className="d-inline-block m-1 p-2 border">{Optimizers[optimizer].name}</span>
                     <span> <i className="fas fa-plus grey-text" /> </span>
-                    <span className="d-inline-block m-1 p-2 border">{loss.name}</span>
+                    <span className="d-inline-block m-1 p-2 border">{Losses[loss].name}</span>
                     <span> <i className="fas fa-plus grey-text" /> </span>
-                    <span className="d-inline-block m-1 p-2 border">{activation.name}</span>
+                    <span className="d-inline-block m-1 p-2 border">{Activations[activation].name}</span>
                   </td>
                 </tr>
               ))}

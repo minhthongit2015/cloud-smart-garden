@@ -1,6 +1,7 @@
 import SocialService from '../../../services/social/SocialService';
 import AnyDialogHelper from './AnyDialogHelper';
 import HistoryHelper from '../../HistoryHelper';
+import { ModelName } from '../../../utils/Constants';
 
 
 export default class AnyDialogChecker {
@@ -38,7 +39,7 @@ export default class AnyDialogChecker {
   }
 
   static closePost() {
-    AnyDialogHelper.close(AnyDialogHelper.Types.post);
-    AnyDialogHelper.close(AnyDialogHelper.Types.experiment);
+    AnyDialogHelper.close(ModelName.post);
+    AnyDialogHelper.close(ModelName.experiment);
   }
 }

@@ -4,13 +4,14 @@ import makeAnimated from 'react-select/animated';
 import { Col, Row } from 'mdbreact';
 import BaseComponent from '../../../../../components/_base/BaseComponent';
 import LayersSelect from './LayersSelect';
-import { toOptions, fromOptions } from '../../../../../utils';
+import { toOptions, findByKey } from '../../../../../utils';
+import { ExperimentTargetTypes } from '../../../../../utils/Constants';
 
 
 export default class extends BaseComponent {
   handleSelectChange(value, { name }) {
     const { editingTarget } = this.props;
-    editingTarget[name] = fromOptions(value);
+    editingTarget[name] = value.map(val => val.value);
     this.forceUpdate();
     this.dispatchEvent(this.Events.change, editingTarget);
   }
@@ -37,11 +38,21 @@ export default class extends BaseComponent {
       layersName = 'layers'
     } = this.props;
 
-    const targetType = (editingTarget && editingTarget.type) || {};
-    // const algorithmOpts = toOptions(targetType.algorithms);
-    const optimizerOpts = toOptions(targetType.optimizers);
-    const lossOpts = toOptions(targetType.losses);
-    const activationOpts = toOptions(targetType.activations);
+    const targetTypeName = (editingTarget && editingTarget.type);
+    const targetType = targetTypeName && ExperimentTargetTypes[targetTypeName];
+    const optimizerOpts = toOptions(targetType && targetType.optimizers);
+    const lossOpts = toOptions(targetType && targetType.losses);
+    const activationOpts = toOptions(targetType && targetType.activations);
+
+    const selectedOptimizers = optimizers && optimizers.map(
+      optimizer => findByKey(optimizer, optimizerOpts, null, 'value')
+    );
+    const selectedLosses = losses && losses.map(
+      loss => findByKey(loss, lossOpts, null, 'value')
+    );
+    const selectedActivations = activations && activations.map(
+      activation => findByKey(activation, activationOpts, null, 'value')
+    );
 
     return (
       <Row>
@@ -65,7 +76,7 @@ export default class extends BaseComponent {
               name={optimizerName}
               onChange={this.handleSelectChange}
               options={optimizerOpts}
-              value={toOptions(optimizers)}
+              value={selectedOptimizers}
               isMulti
               closeMenuOnSelect
               components={makeAnimated()}
@@ -79,7 +90,7 @@ export default class extends BaseComponent {
               name={lossName}
               onChange={this.handleSelectChange}
               options={lossOpts}
-              value={toOptions(losses)}
+              value={selectedLosses}
               isMulti
               closeMenuOnSelect
               components={makeAnimated()}
@@ -93,7 +104,7 @@ export default class extends BaseComponent {
               name={activationName}
               onChange={this.handleSelectChange}
               options={activationOpts}
-              value={toOptions(activations)}
+              value={selectedActivations}
               isMulti
               closeMenuOnSelect
               components={makeAnimated()}

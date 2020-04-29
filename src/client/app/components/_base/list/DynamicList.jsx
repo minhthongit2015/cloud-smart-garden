@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import PaginateList from './PaginateList';
-import CRUDService from '../../services/CRUDService';
-import { appendUpdateArray } from '../../utils';
+import CRUDService from '../../../services/CRUDService';
+import { appendUpdateArray } from '../../../utils';
 
 
 export default class extends PaginateList {

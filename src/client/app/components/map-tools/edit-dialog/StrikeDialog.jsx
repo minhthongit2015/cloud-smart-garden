@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBInput } from 'mdbreact';
 import BaseEditingDialog from './BaseEditingDialog';
-import DropUploader from '../../utils/drop-uploader/DropUploader';
+import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
 
 

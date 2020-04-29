@@ -50,8 +50,8 @@ export default class ExperimentPage extends BaseComponent {
     this.executeEvaluation = debounce(this.executeEvaluation.bind(this), 2000);
 
     const targets = this.getCachedValue('targets', { ...ExperimentTargets });
-    const editingTargetKey = this.getCachedValue('editingTargetKey', 'light');
-    const editingTarget = findByKey(editingTargetKey, targets);
+    const editingTargetId = this.getCachedValue('editingTargetId', targets.light._id);
+    const editingTarget = findByKey(editingTargetId, targets, '_id', '_id');
     this.state = {
       experiment: props.data,
       targets,
@@ -90,7 +90,7 @@ export default class ExperimentPage extends BaseComponent {
         this.algorithmSectionRef.current.toggle();
       }
     }
-    this.cacheValue('editingTargetKey', editingTarget.key);
+    this.cacheValue('editingTargetId', editingTarget._id);
     this.handleInputChange(event).then(this.executeEvaluation);
   }
 
@@ -122,7 +122,7 @@ export default class ExperimentPage extends BaseComponent {
   handleSaveModel() {
     const { experiment, editingTarget } = this.state;
     this.newTrainedModelRef.current.setFormData({
-      title: `${experiment.title} - ${editingTarget.name}`,
+      title: `${experiment.title} - ${tAI('targets', editingTarget.title)}`,
       experiment,
       target: editingTarget,
       previewPhoto: experiment.previewPhoto
@@ -301,7 +301,7 @@ export default class ExperimentPage extends BaseComponent {
           </SectionBody>
         </Section>
 
-        <Section title={`Huấn luyện ${tAI('targets', editingTarget.key)}`} beautyFont>
+        <Section title={`Huấn luyện ${tAI('targets', editingTarget.title)}`} beautyFont>
           <TrainingSection
             experiment={experiment}
             editingTarget={editingTarget}

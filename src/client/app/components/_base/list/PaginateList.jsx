@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import ListComponent from './ListComponent';
-import { getDefault } from '../../utils';
+import { getDefault } from '../../../utils';
 
 
 export default class extends ListComponent {

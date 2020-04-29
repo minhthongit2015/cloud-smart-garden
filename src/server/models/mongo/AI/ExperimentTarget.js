@@ -12,18 +12,14 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = {
   ...SocialSchema,
-
-  // key: String,
-  name: String,
-  description: String,
   dataset: { type: ObjectId, ref: ModelName.dataset },
   type: { type: String, enum: Object.keys(ExperimentTargetTypes) },
   features: [[String]],
   labels: [[String]],
-  algorithms: { type: String, enum: Object.keys(Algorithms) },
-  optimizers: { type: String, enum: Object.keys(Optimizers) },
-  losses: { type: String, enum: Object.keys(Losses) },
-  activations: { type: String, enum: Object.keys(Activations) },
+  algorithms: [{ type: String, enum: Object.keys(Algorithms) }],
+  optimizers: [{ type: String, enum: Object.keys(Optimizers) }],
+  losses: [{ type: String, enum: Object.keys(Losses) }],
+  activations: [{ type: String, enum: Object.keys(Activations) }],
   layers: [Number]
 };
 

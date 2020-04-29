@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
-import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
-import Composer from '../../../../components/utils/composer/Composer';
+import DropUploader from '../../../../components/form/inputs/drop-uploader/DropUploader';
+import Composer from '../../../../components/form/inputs/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
 

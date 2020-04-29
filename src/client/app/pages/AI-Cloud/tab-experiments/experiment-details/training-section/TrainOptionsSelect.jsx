@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBInput } from 'mdbreact';
 import BaseComponent from '../../../../../components/_base/BaseComponent';
-import Checkbox from '../../../../../components/utils/checkbox/Checkbox';
+import Checkbox from '../../../../../components/form/inputs/checkbox/Checkbox';
 import LanguagesHelper, { tAI } from '../LanguagesHelper';
 
 

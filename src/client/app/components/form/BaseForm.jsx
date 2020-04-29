@@ -3,10 +3,10 @@ import {
   MDBInput, MDBCard, MDBCardBody, MDBCardHeader
 } from 'mdbreact';
 import { Prompt } from 'react-router-dom';
-import BaseComponent from '../../_base/BaseComponent';
-import DropUploader from '../drop-uploader/DropUploader';
-import { isZeroVariable } from '../../../utils';
-import t from '../../../languages';
+import BaseComponent from '../_base/BaseComponent';
+import DropUploader from './inputs/drop-uploader/DropUploader';
+import { isZeroVariable } from '../../utils';
+import t from '../../languages';
 
 
 export default class BaseForm extends BaseComponent.Pure {

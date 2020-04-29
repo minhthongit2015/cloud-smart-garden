@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
 import NewBlogPost from '../../../../../../components/blog/new-blog-post/NewBlogPost';
-import DropUploader from '../../../../../../components/utils/drop-uploader/DropUploader';
-import Composer from '../../../../../../components/utils/composer/Composer';
+import DropUploader from '../../../../../../components/form/inputs/drop-uploader/DropUploader';
+import Composer from '../../../../../../components/form/inputs/composer/Composer';
 import GardenStoryService from '../../../../../../services/garden/GardenStoryService';
 
 

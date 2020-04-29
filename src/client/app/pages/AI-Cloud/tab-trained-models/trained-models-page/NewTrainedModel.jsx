@@ -1,11 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
-import DropUploader from '../../../../components/utils/drop-uploader/DropUploader';
-// import Composer from '../../../../components/utils/composer/Composer';
+import DropUploader from '../../../../components/form/inputs/drop-uploader/DropUploader';
+// import Composer from '../../../../components/form/inputs/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
 import { ModelName } from '../../../../utils/Constants';
+import { tAI } from '../../tab-experiments/experiment-details/LanguagesHelper';
 
 
 export default class extends NewBlogPost {
@@ -82,7 +83,7 @@ export default class extends NewBlogPost {
             <MDBInput
               label="Target"
               name="target"
-              value={target && (target.name || target)}
+              value={target && tAI('targets', target.title)}
               // onChange={this.handleInputChange}
               autoComplete="off"
               autofill="off"

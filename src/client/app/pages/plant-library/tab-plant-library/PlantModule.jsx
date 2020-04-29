@@ -5,8 +5,8 @@ import PlantService from '../../../services/garden/PlantService';
 
 export default class extends BlogPostsModule {
   // eslint-disable-next-line class-methods-use-this
-  get model() {
-    return PlantService.model;
+  get service() {
+    return PlantService;
   }
 
   get NewPostComponent() {

@@ -242,7 +242,7 @@ export function layersAsString(layers) {
 }
 
 export function buildTestKey(optimizer, loss, activation) {
-  return `${optimizer.key}-${loss.key}-${activation.key}`;
+  return `${optimizer}-${loss}-${activation}`;
 }
 
 export function generateTests(target) {

@@ -121,8 +121,6 @@ class App extends Component {
         <SimplestLayout routes={routes} />
 
         {AnyDialogHelper.render()}
-        {/* {SuperDialogHelper.render(SuperDialog)} */}
-
         {EditPlaceDialogHelper.render()}
       </ErrorBoundary>
     );
