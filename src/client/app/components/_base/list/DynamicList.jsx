@@ -55,7 +55,7 @@ export default class extends PaginateList {
     this.setState(prevState => ({
       items: this.updateItems(prevState.items, items),
       hasMore: items.length >= totalItems
-    }));
+    }), () => this.forceUpdate());
   }
 
   // Fetch current page
@@ -75,7 +75,7 @@ export default class extends PaginateList {
     this.setState(prevState => ({
       items: this.updateItems(prevState.items, items),
       hasMore: items.length >= prevState.itemsPerPage
-    }));
+    }), () => this.forceUpdate());
   }
 
   resolveFetchedData(items) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import SubPageGroup from '../../_base/SubPageGroup';
+import DynamicTrainedModels from '../tab-trained-models/trained-models-page/DynamicTrainedModels';
 
 class TabAICloud extends SubPageGroup {
   constructor(props) {
@@ -11,15 +12,16 @@ class TabAICloud extends SubPageGroup {
   render() {
     return (
       <Section>
-        <SectionHeader>AI CLoud ~ Sharing your Knowledge..</SectionHeader>
+        <SectionHeader>Sharing your Knowledge..</SectionHeader>
         <SectionBody>
-          <ul>
+          <DynamicTrainedModels />
+          {/* <ul>
             <li>Danh sách Projects</li>
             <li>Danh sách Experiments</li>
             <li>Danh sách Trained Models</li>
             <li>Danh sách Dataset</li>
             <li>Danh sách Trained Models được chia sẻ</li>
-          </ul>
+          </ul> */}
         </SectionBody>
       </Section>
     );

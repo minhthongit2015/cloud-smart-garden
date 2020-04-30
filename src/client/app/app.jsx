@@ -106,8 +106,8 @@ class App extends Component {
           <Route exact path={RouteConstants.homePath}><HomePage /></Route>
           <Route path={RouteConstants.adminPath}><Dashboard /></Route>
           <Route path={RouteConstants.intranetPath}><Intranet /></Route>
-          <Route path={RouteConstants.myGardenPath} component={MyGarden} />
-          <Route path={RouteConstants.plantLibraryPath} component={PlantLibrary} />
+          <Route path={RouteConstants.myGardenPath} render={props => <MyGarden {...props} />} />
+          <Route path={RouteConstants.plantLibraryPath} render={props => <PlantLibrary {...props} />} />
           <Route path={RouteConstants.aiCloudPath}><AICloud /></Route>
           <Route path={RouteConstants.nextFeaturesPath}><NextFeatures /></Route>
           <Route path={RouteConstants.userNetworkPath} component={DummyUserNetwork} />
@@ -120,8 +120,10 @@ class App extends Component {
       <ErrorBoundary>
         <SimplestLayout routes={routes} />
 
-        {AnyDialogHelper.render()}
-        {EditPlaceDialogHelper.render()}
+        <div className="overflow-auto">
+          {AnyDialogHelper.render()}
+          {EditPlaceDialogHelper.render()}
+        </div>
       </ErrorBoundary>
     );
   }

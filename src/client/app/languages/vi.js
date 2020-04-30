@@ -148,12 +148,12 @@ module.exports = {
     },
     nextFeatures: {
       title: {
-        nextFeatures: 'Bạn muốn điều gì?',
+        nextFeatures: 'Điều bạn yêu thích?',
         nextTech: 'Công nghệ yêu thích',
         nextSpecies: 'Loài cây yêu thích'
       },
       nav: {
-        nextFeatures: 'Bạn muốn điều gì?',
+        nextFeatures: 'Điều bạn yêu thích?',
         nextTech: 'Công nghệ yêu thích',
         nextSpecies: 'Loài cây yêu thích'
       },
@@ -183,14 +183,10 @@ module.exports = {
       infinitePostList: {
         loadingText: 'đang tải các bài viết...',
         noPostMsg: 'chưa có bài viết nào được đăng...',
-        knowAllMsg: 'bạn đã biết tất cả những gì mình biết...',
         knowAllMsg1: 'đây là tất cả bài viết đến thời điểm này.',
         knowAllMsg2: 'bạn đã đọc hết bài viết ngày hôm nay, hẹn bạn quay lại đọc tiếp vào ngày mai!',
         knowAllMsg3: 'bạn đã xem hết tất cả những bài viết.',
-        knowAllMsg4: 'đây là tất cả những gì mình biết tới thời điểm này...',
-        knowAllMsg5: 'cảm ơn bạn đã đọc hết tất cả các bài viết!',
-        knowAllMsg6: 'bạn đã biết tất cả những gì mình biết...',
-        knowAllMsg7: 'bạn đã biết tất cả những gì mình biết...'
+        knowAllMsg4: 'cảm ơn bạn đã đọc hết tất cả các bài viết!'
       }
     },
     rating: {

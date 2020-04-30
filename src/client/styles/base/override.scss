@@ -1,4 +1,3 @@
-
 .reset-button {
   background-color: transparent !important;
   box-shadow: none !important;
@@ -19,49 +18,84 @@
 
 .light-button {
   color: #f1f1f1 !important;
+
   &:hover {
     color: #fff !important;
-    background: rgba(255,255,255,.2) !important;
+    background: rgba(255, 255, 255, .2) !important;
   }
 }
 
 
 // Form
-.md-form > input[type=date]:not(.browser-default) + label {
+.md-form>input[type=date]:not(.browser-default)+label {
   transform: translateY(-14px) scale(0.8) !important;
   transform-origin: 0 0;
 }
 
 
 // Modal
-.modal-dialog .modal-content {
+.modal-dialog {
+  max-height: calc(100% - 1rem);
   border-radius: 0.5rem !important;
-  overflow: hidden;
+  background: #fff;
+  overflow: auto;
+  pointer-events: all !important;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+
+  @include modern-scrollbar-2;
+
+  .modal-content {
+    background: transparent;
+    box-shadow: none;
+  }
 }
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-height: calc(100% - 3.5rem);
+  }
+}
+
 
 
 // Extend sizing class
 $start-div: 1;
-$end-div: 10;
+$end-div: 13;
 
 @for $i from $start-div to $end-div {
-  .w-#{$i} { width: (100% / $i) !important; }
+  .w-#{$i} {
+    width: (100% / $i) !important;
+  }
 }
 
 @media (min-width: 576px) {
   @for $i from $start-div to $end-div {
-    .w-sm-#{$i} { width: (100% / $i) !important; }
+    .w-sm-#{$i} {
+      width: (100% / $i) !important;
+    }
   }
 }
 
 @media (min-width: 768px) {
   @for $i from $start-div to $end-div {
-    .w-md-#{$i} { width: (100% / $i) !important; }
+    .w-md-#{$i} {
+      width: (100% / $i) !important;
+    }
   }
 }
 
 @media (min-width: 992px) {
   @for $i from $start-div to $end-div {
-    .w-lg-#{$i} { width: (100% / $i) !important; }
+    .w-lg-#{$i} {
+      width: (100% / $i) !important;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  @for $i from $start-div to $end-div {
+    .w-xl-#{$i} {
+      width: (100% / $i) !important;
+    }
   }
 }

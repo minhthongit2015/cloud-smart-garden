@@ -10,13 +10,17 @@ import Composer from '../../form/inputs/composer/Composer';
 import UserService from '../../../services/user/UserService';
 import { IconCommunity } from '../../../../assets/icons';
 import t from '../../../languages';
-import ApiEndpoints from '../../../utils/ApiEndpoints';
 import MessageDialogHelper from '../../../helpers/dialogs/MessageDialogHelper';
+import PostService from '../../../services/blog/PostService';
 
 const animatedComponents = makeAnimated();
 
 
 export default class extends NewPost {
+  get service() {
+    return PostService;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   get defaultCategories() {
     return undefined;
@@ -36,10 +40,6 @@ export default class extends NewPost {
       || (formData.categories && formData.categories.map(cate => cate.value));
     formData.content = this.contentRef.current && this.contentRef.current.value;
     return formData;
-  }
-
-  get action() {
-    return ApiEndpoints.posts;
   }
 
   constructor(props) {

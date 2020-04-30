@@ -1,5 +1,3 @@
-
-
 .blend-light-wrapper {
   .blend-light {
     position: relative;
@@ -37,7 +35,7 @@
     img {
       filter: blur(0px) brightness(1.2) saturate(1.1);
     }
-    
+
     .img {
       filter: blur(3px) brightness(1.5) saturate(1.2);
     }
@@ -47,5 +45,20 @@
         background-color: rgba(0, 0, 0, 0.1);
       }
     }
+  }
+}
+
+.mockup-book {
+  background: linear-gradient(90deg, #ffffff 0px, #ffffff 10px, #fdd8a9 10px, #fddaa9 13px, #ffffff 10px);
+  padding-left: 1.5rem;
+  padding-right: .75rem;
+  box-shadow: 1px 1px 6px #dac487, 1px 1px 3px #f7edda;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &>* {
+    padding-left: .5rem;
   }
 }

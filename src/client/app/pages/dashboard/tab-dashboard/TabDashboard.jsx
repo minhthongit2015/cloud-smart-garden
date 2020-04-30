@@ -11,18 +11,18 @@ export default class extends StandalonePage {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    // clearTimeout(this.timer);
   }
 
   render() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.error = true;
-      this.forceUpdate();
-    }, 4000);
-    if (this.error) {
-      throw new Error('Test Crashing');
-    }
+    // clearTimeout(this.timer);
+    // this.timer = setTimeout(() => {
+    //   this.error = true;
+    //   this.forceUpdate();
+    // }, 4000);
+    // if (this.error) {
+    //   throw new Error('Test Crashing');
+    // }
 
     return (
       <Section>

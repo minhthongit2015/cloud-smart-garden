@@ -10,6 +10,15 @@
   color: $color-orange !important;
 }
 
+.text-golden {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #eba037 0, #f5ab44 8%, #ffe58a 21%, #e5a750 44%, #e9a84d 68%, #f6e480 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: bold;
+}
+
 
 
 .text-pre-wrap {

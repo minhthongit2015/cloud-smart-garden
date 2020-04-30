@@ -81,7 +81,7 @@ module.exports = class extends SocialService {
   }
 
   static getModelPathForExperimentAndTarget(experimentId, target) {
-    const targetKey = target && target.key ? `${target.key}` : (target || '');
+    const targetKey = target && target.title ? `${target.title}` : (target || '');
     return `${experimentId}-${targetKey}`;
   }
 

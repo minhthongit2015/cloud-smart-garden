@@ -39,8 +39,11 @@ export default class PostList extends BaseComponent {
   }
 
   shouldComponentUpdate(newProps) {
-    const shouldUpdate = !(this.props.posts && newProps.posts
-      && newProps.posts.length === this.props.posts.length)
+    const isPostListSizeChanged = !(this.props.posts && newProps.posts
+      && newProps.posts.length === this.props.posts.length);
+    const isPostListChanged = !isPostListSizeChanged
+      && JSON.stringify(this.props.posts) !== JSON.stringify(newProps.posts);
+    const shouldUpdate = isPostListSizeChanged || isPostListChanged
       || newProps.hasPermission !== this.props.hasPermission;
     if (shouldUpdate) {
       this.processing = null;
@@ -75,7 +78,7 @@ export default class PostList extends BaseComponent {
     const { posts } = this.props;
     return (
       <div ref={this.containerRef} className="mt-5">
-        {posts && posts.map(post => PostList.renderPostWithWrapper(post))}
+        {posts && posts.map(post => this.renderPostWithWrapper(post))}
       </div>
     );
   }

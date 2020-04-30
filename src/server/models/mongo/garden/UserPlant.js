@@ -9,6 +9,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const Schema = {
   ...SocialSchema,
   plant: { type: ObjectId, ref: ModelName.plant },
+  models: [{ type: ObjectId, ref: ModelName.trainedModel }], // override models from plant
   startDate: { type: Number, default: Date.now }
 };
 

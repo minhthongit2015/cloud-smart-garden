@@ -27,14 +27,10 @@ export default class InfinitePostList extends DynamicPostList {
       return this.props.endMessage;
     }
     return RandomItem([
-      t('components.blog.infinitePostList.knowAllMsg'),
       t('components.blog.infinitePostList.knowAllMsg1'),
       t('components.blog.infinitePostList.knowAllMsg2'),
       t('components.blog.infinitePostList.knowAllMsg3'),
-      t('components.blog.infinitePostList.knowAllMsg4'),
-      t('components.blog.infinitePostList.knowAllMsg5'),
-      t('components.blog.infinitePostList.knowAllMsg6'),
-      t('components.blog.infinitePostList.knowAllMsg7')
+      t('components.blog.infinitePostList.knowAllMsg4')
     ]);
   }
 

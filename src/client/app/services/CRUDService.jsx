@@ -16,6 +16,10 @@ export default class {
     return this.baseEndpoint;
   }
 
+  static get updateEndpoint() {
+    return this.createEndpoint;
+  }
+
   static get getEndpoint() {
     return this.baseEndpoint;
   }
@@ -28,33 +32,33 @@ export default class {
     return this.baseEndpoint;
   }
 
-  static async create(entity, { model }) {
+  static async create(entity, { model } = {}) {
     return superrequest.agentPost(
       ApiEndpoints.builder(this.createEndpoint).model(model || this.model),
       entity
     );
   }
 
-  static async update(entity, { model }) {
+  static async update(entity, { model } = {}) {
     return superrequest.agentPost(
-      ApiEndpoints.builder(this.createEndpoint).model(model || this.model),
+      ApiEndpoints.builder(this.updateEndpoint).model(model || this.model),
       entity
     );
   }
 
-  static async get(_id, { model }) {
+  static async get(_id, { model } = {}) {
     return superrequest.get(
       ApiEndpoints.builder(this.getEndpoint).entityI(_id).model(model || this.model)
     );
   }
 
-  static async getByOrder(order, { model }) {
+  static async getByOrder(order, { model } = {}) {
     return superrequest.get(
       ApiEndpoints.builder(this.getEndpoint).orderI(order).model(model || this.model)
     );
   }
 
-  static async getByOrder2(order2, { model }) {
+  static async getByOrder2(order2, { model } = {}) {
     return superrequest.get(
       ApiEndpoints.builder(this.getEndpoint).order2I(order2).model(model || this.model)
     );
@@ -71,13 +75,13 @@ export default class {
     );
   }
 
-  static async delete(_id, { model }) {
+  static async delete(_id, { model } = {}) {
     return superrequest.agentDelete(
       ApiEndpoints.builder(this.deleteEndpoint).entityI(_id).model(model || this.model)
     );
   }
 
-  static async deleteByOrder(order, { model }) {
+  static async deleteByOrder(order, { model } = {}) {
     return superrequest.agentDelete(
       ApiEndpoints.builder(this.deleteEndpoint).orderI(order).model(model || this.model)
     );

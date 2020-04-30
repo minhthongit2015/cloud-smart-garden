@@ -185,9 +185,7 @@ export default class extends BaseComponent.Pure {
   }
 
   async _handleSubmit(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    this.stopEvent(event);
     this.dispatchEvent(this.Events.submit);
     const submitResult = await this.handleFormSubmit(event);
     this.dispatchEvent(this.Events.submited, submitResult);

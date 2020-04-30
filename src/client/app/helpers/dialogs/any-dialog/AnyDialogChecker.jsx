@@ -18,21 +18,21 @@ export default class AnyDialogChecker {
     this.checkers.forEach(checker => checker(state));
   }
 
-  static checkAndOpenPost() {
+  static checkAndOpenPost(model) {
     const params = new URLSearchParams(window.location.search);
     const hashtag = params.get('hashtag');
     if (hashtag) {
-      this.openPost(hashtag);
+      this.openPost(hashtag, model);
     } else {
       this.closePost();
     }
   }
 
-  static openPost(hashtag) {
+  static openPost(hashtag, model) {
     if (window.history.state) {
       AnyDialogHelper.openPost(window.history.state);
     }
-    return SocialService.fetchPost(hashtag)
+    return SocialService.getByOrder(hashtag, { model })
       .then((res) => {
         AnyDialogHelper.openPost(res.data[0]);
       });

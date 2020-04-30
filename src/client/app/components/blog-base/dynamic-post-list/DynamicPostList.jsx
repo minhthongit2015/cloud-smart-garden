@@ -15,6 +15,10 @@ export default class extends DynamicList {
     return this.props.model || this.service.model;
   }
 
+  get PostListComponent() {
+    return this.props.PostListComponent || ShufflePostList;
+  }
+
   get postListProps() {
     const { items = [] } = this.state || {};
     return {
@@ -54,8 +58,9 @@ export default class extends DynamicList {
   }
 
   renderPostList() {
+    const { PostListComponent } = this;
     return (
-      <ShufflePostList
+      <PostListComponent
         {...this.postListProps}
       />
     );

@@ -10,7 +10,7 @@ module.exports = class extends SocialService {
   }
 
   static get populate() {
-    return [''];
+    return ['model'];
   }
 
   static async getByGarden(user) {

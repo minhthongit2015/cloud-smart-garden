@@ -30,12 +30,17 @@ module.exports = class extends SocialService {
     const station = await StationService.get({ id: stationId });
     if (!station) return null;
 
-    const { models } = station;
-    if (models) {
+    const { plants } = station;
+    if (plants) {
+      const { models } = plants[0].plant;
       const predicts = {};
       const context = new InputContext();
       context.startTime = 0; // station.crop.createdAt;
-      await Promise.all(models.map(async (model) => {
+      await Promise.all(models.map(async (modelId) => {
+        const model = await ModelService.get(modelId);
+        if (!model) {
+          return;
+        }
         const savedModel = await ModelService.loadByModel(model._id);
         const target = await this.getTarget(model.target);
         this.predictWithTarget(record, context, savedModel, target, predicts);

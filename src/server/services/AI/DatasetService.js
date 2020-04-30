@@ -41,7 +41,7 @@ module.exports = class extends SocialService {
       Object.assign(record, RecordService.generateRawRecord(record.createdAt, record.station));
       delete record.createdAt;
       delete record.station;
-      return RecordService.createOrUpdate(record);
+      return RecordService.createOrUpdate({ doc: record });
     }));
     return records;
   }

@@ -6,6 +6,7 @@ import InfinitePostList from '../infinite-post-list/InfinitePostList';
 import ContextOptions from '../ContextOptions';
 import Post from '../post/Post';
 import SocialService from '../../../services/social/SocialService';
+import ShufflePostList from '../shuffle-post-list/ShufflePostList';
 
 
 export default class extends React.Component {
@@ -27,6 +28,10 @@ export default class extends React.Component {
 
   get PostListComponent() {
     return this.props.PostListComponent || InfinitePostList;
+  }
+
+  get InnerPostListComponent() {
+    return this.props.InnerPostListComponent || ShufflePostList;
   }
 
   get postList() {
@@ -59,6 +64,7 @@ export default class extends React.Component {
       ref: this.postListRef,
       service: this.service,
       model: this.model,
+      PostListComponent: this.InnerPostListComponent,
       PostComponent: this.PostComponent,
       hasPermission: canCreateNewPost,
       onContextActions: this.handleContextActions

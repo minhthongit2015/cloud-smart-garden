@@ -15,9 +15,10 @@ import Rating from '../../utils/rating/Rating';
 import NewsTracker from '../../../services/blog/NewsTracker';
 import PostHelper from '../../../helpers/PostHelper';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
+import BaseComponent from '../../_base/BaseComponent';
 
 
-export default class PostDetails extends React.PureComponent {
+export default class PostDetails extends BaseComponent.Pure {
   constructor(props) {
     super(props);
     this.handleRating = this.handleRating.bind(this);

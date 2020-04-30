@@ -46,7 +46,8 @@ export default class extends Toggleable {
     };
   }
 
-  toggle() {
+  toggle(...args) {
+    console.log(args);
     if (this.disabled || this.locked) return;
     super.toggle();
   }
