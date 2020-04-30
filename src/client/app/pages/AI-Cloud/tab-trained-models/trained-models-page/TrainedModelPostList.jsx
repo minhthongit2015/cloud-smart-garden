@@ -11,7 +11,7 @@ export default class TrainedModelPostList extends PostList {
 
   renderPostWithWrapper(post) {
     return (
-      <div key={Math.random() + post._id} className="w-xl-7 w-lg-5 w-md-3 w-sm-3 w-2 mt-5 p-2">
+      <div key={Math.random() + post._id} className="w-xl-7 w-lg-5 w-md-3 w-sm-3 w-2 mt-2 p-2">
         {this.renderPost(post)}
       </div>
     );

@@ -11,18 +11,15 @@ class TabAICloud extends SubPageGroup {
 
   render() {
     return (
-      <Section>
-        <SectionHeader>Sharing your Knowledge..</SectionHeader>
-        <SectionBody>
-          <DynamicTrainedModels />
-          {/* <ul>
-            <li>Danh sách Projects</li>
-            <li>Danh sách Experiments</li>
-            <li>Danh sách Trained Models</li>
-            <li>Danh sách Dataset</li>
-            <li>Danh sách Trained Models được chia sẻ</li>
-          </ul> */}
-        </SectionBody>
+      <Section title="Trained Models" beautyFont>
+        <DynamicTrainedModels />
+        {/* <ul>
+          <li>Danh sách Projects</li>
+          <li>Danh sách Experiments</li>
+          <li>Danh sách Trained Models</li>
+          <li>Danh sách Dataset</li>
+          <li>Danh sách Trained Models được chia sẻ</li>
+        </ul> */}
       </Section>
     );
   }
