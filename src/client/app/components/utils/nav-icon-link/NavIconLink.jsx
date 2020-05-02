@@ -4,23 +4,25 @@ import { MDBWaves } from 'mdbreact';
 import './NavIconLink.scss';
 import FixedRatioImage from '../fixed-ratio-image/FixedRatioImage';
 
+
 export default class extends Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       cursorPos: {}
     };
   }
 
-  handleClick = (e) => {
-    e.stopPropagation();
+  handleClick(event) {
+    event.stopPropagation();
     const cursorPos = {
-      top: e.clientY,
-      left: e.clientX,
+      top: event.clientY,
+      left: event.clientX,
       time: Date.now()
     };
     this.setState({ cursorPos });
-  };
+  }
 
   render() {
     const {

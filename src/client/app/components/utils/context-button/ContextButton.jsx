@@ -28,7 +28,6 @@ export default class extends BaseComponent.Pure {
     return (
       <MDBDropdown dropright>
         <MDBDropdownToggle
-          floating
           color="link"
           className="p-0 btn-paper rounded-circle shadow-style highlight-style"
           style={{ width: '25px', height: '25px' }}

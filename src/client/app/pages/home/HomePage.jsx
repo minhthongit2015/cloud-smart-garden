@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBPopper, MDBPopoverBody } from 'mdbreact';
-import NavLink from 'react-router-dom/NavLink';
+import { NavLink } from 'react-router-dom';
 import BasePage from '../_base/BasePage';
 import './HomePage.scss';
 

@@ -71,7 +71,7 @@ export default class extends StandalonePage {
     }
     const { nextLevel: { cols = [] } } = this.state;
     const columnProps = {
-      lg: 4, md: 6, sm: 6, xs: 12, className: 'next-level__column text-center'
+      lg: '4', md: '6', sm: '6', xs: '12', className: 'next-level__column text-center'
     };
     const { user } = UserService;
 
@@ -91,7 +91,7 @@ export default class extends StandalonePage {
           </div>
           <Row className="mt-5">
             <Col {...{
-              lg: 4, md: 6, sm: 6, xs: 12, className: 'text-center'
+              lg: '4', md: '6', sm: '6', xs: '12', className: 'text-center'
             }}
             >
               <MDBBtn onClick={this.handleAddColumn}>+ Thêm Cột Mới</MDBBtn>

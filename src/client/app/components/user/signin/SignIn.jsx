@@ -93,7 +93,6 @@ export default class SignIn extends Component {
         className="sign-in"
       >
         <MDBDropdownToggle
-          floating
           color="link"
           className="p-0 btn-paper rounded-circle shadow-style highlight-style"
           style={{ width: '35px', height: '35px' }}

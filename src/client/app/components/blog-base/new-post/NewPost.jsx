@@ -312,7 +312,7 @@ export default class extends BaseComponent.Pure {
   renderWithRow() {
     return (
       <Row>
-        <Col size={12} className="d-flex justify-content-end">
+        <Col size="12" className="d-flex justify-content-end">
           {this.renderCard()}
         </Col>
       </Row>
