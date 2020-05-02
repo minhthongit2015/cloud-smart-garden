@@ -85,6 +85,9 @@ export default class MapService extends SocialService {
       this.pushState = true;
       window.history.pushState({ placeOrder: place.order }, place.title, newPlaceUrl);
     }
+    if (place.title) {
+      document.title = `${place.title} | Beyond Garden`;
+    }
   }
 
   static closePlace() {
@@ -99,6 +102,7 @@ export default class MapService extends SocialService {
     } else {
       window.history.pushState(null, 'Smile City | Beyond Garden', noPlaceUrl);
     }
+    document.title = 'Smile City | Beyond Garden';
     this.lastClose = Date.now();
   }
 
@@ -119,6 +123,7 @@ export default class MapService extends SocialService {
           selectedPlace.ref.zoomTo();
         }
         selectedPlace.ref.open();
+        this.openPlace(selectedPlace);
       }
     }
   }

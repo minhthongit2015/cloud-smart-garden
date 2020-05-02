@@ -8,7 +8,7 @@ export default class extends BaseMapController {
     super.init(userNetwork);
     bindMethods(this,
       this.handleMapClick, this.handleRightClick, this.handleZoomChange, this.handleHotkeys,
-      this.handleOpenMarker, this.handleCloseMarker,
+      this.handleOpenMarker, this.handleCloseMarker, this.handleFocusMarker,
       this.handleOpenPanel, this.handleClosePanel, this.handleClickPanel);
     this.openedMarkers = [];
     this.openedPanels = [];
@@ -59,10 +59,11 @@ export default class extends BaseMapController {
   static switchMarker() {
     const currentIndex = this.openedMarkers.findIndex(marker => marker.isFocused);
     if (!this.openedMarkers.length) {
-      return;
+      return false;
     }
     const nextIndex = (currentIndex + 1) % this.openedMarkers.length;
-    this.openedMarkers[nextIndex || 0].focus();
+    this.openedMarkers[Math.max(nextIndex, 0)].focus();
+    return true;
   }
 
   static handleOpenMarker(event, marker) {
@@ -76,7 +77,24 @@ export default class extends BaseMapController {
     if (markerIndex >= 0) {
       this.openedMarkers.splice(markerIndex, 1);
     }
+
     MapService.closePlace();
+
+    const currentFocused = this.openedMarkers.find(markerz => markerz.isFocused);
+    if (currentFocused) {
+      document.title = currentFocused.place.title
+        ? `${currentFocused.place.title} | Beyond Garden`
+        : 'Smile City | Beyond Garden';
+    } else if (!this.switchMarker()) {
+      document.title = 'Smile City | Beyond Garden';
+    }
+  }
+
+  static handleFocusMarker(/* event, marker */) {
+    const currentFocused = this.openedMarkers.find(marker => marker.isFocused);
+    if (currentFocused && currentFocused.place.title) {
+      document.title = `${currentFocused.place.title} | Beyond Garden`;
+    }
   }
 
   static handleOpenPanel(event, panelRef) {

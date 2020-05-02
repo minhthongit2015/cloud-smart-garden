@@ -65,7 +65,8 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
       children: this.props.children,
       renderContent: this.renderContent,
       onOpen: this.handleOpen,
-      onClose: this.handleClose
+      onClose: this.handleClose,
+      onFocus: this.handleFocus
     };
   }
 
@@ -83,7 +84,7 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
     this.markerRef = React.createRef();
     this.popupRef = React.createRef();
     this.bind(
-      this.handleMarkerLoad, this.handleOpen, this.handleClose,
+      this.handleMarkerLoad, this.handleOpen, this.handleClose, this.handleFocus,
       this.open, this.close, this.toggle, this.refresh, this.focus, this.remove,
       this.moveTo, this.zoomTo, this.handleGoToPost,
       this.renderContent
@@ -100,6 +101,10 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
 
   handleClose(event) {
     this.dispatchEvent(event, this);
+  }
+
+  handleFocus(event, target) {
+    this.dispatchEvent(event, this, target);
   }
 
   open() {

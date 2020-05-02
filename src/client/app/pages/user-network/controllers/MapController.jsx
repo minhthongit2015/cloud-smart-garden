@@ -35,6 +35,10 @@ export default class extends BaseMapController {
     return MapInteractionsController.handleCloseMarker;
   }
 
+  static get handleFocusMarker() {
+    return MapInteractionsController.handleFocusMarker;
+  }
+
   static get handleOpenPanel() {
     return MapInteractionsController.handleOpenPanel;
   }

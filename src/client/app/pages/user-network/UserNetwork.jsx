@@ -176,6 +176,7 @@ export default class UserNetwork extends BasePage {
                 onOpen={MapController.handleOpenMarker}
                 onClose={MapController.handleCloseMarker}
                 onSelect={MapController.handleSelectToBuy}
+                onFocus={MapController.handleFocusMarker}
               />
             );
           }

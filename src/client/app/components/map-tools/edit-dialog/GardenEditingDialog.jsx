@@ -14,14 +14,13 @@ export default class extends BaseEditingDialog {
     if (!createdBy) {
       return null;
     }
-    const { name } = createdBy;
 
     return (
       <React.Fragment>
         <MDBInput
           label="Tên vườn"
           name="title"
-          value={title || name}
+          value={title}
           onChange={this.handleInputChange}
           autoComplete="off"
           autofill="off"
