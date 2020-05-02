@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col } from 'mdbreact';
 import './GardenStory.scss';
 import TimeAgo from '../../../../../components/utils/time-ago/TimeAgo';
+import ContextButton from '../../../../../components/utils/context-button/ContextButton';
+import BlogPost from '../../../../../components/blog/blog-post/BlogPost';
 
 
-export default class extends Component {
+export default class extends BlogPost {
   constructor(props) {
     super(props);
     this.previewRef = React.createRef();
@@ -33,12 +35,24 @@ export default class extends Component {
     });
   }
 
+  renderContextButton() {
+    return (
+      <ContextButton
+        icon={<i className="fas fa-feather-alt" />}
+        color="#b9b9b9"
+        className="my-0 mr-0 border-0 hover-light-red"
+        options={this.contextOptions}
+        onSelect={this.handleContextActions}
+      />
+    );
+  }
+
   render() {
     const { loaded } = this.state;
-    const { story } = this.props;
+    const { post } = this.props;
     const {
       previewPhoto, title, content, createdAt
-    } = story || {};
+    } = post || {};
     const height = loaded && this.previewRef.current
       ? `${this.previewRef.current.offsetHeight + 15}px`
       : '';
@@ -63,15 +77,18 @@ export default class extends Component {
           >
             <div className="garden-story__content d-flex flex-column">
               <div className="pb-2">
-                <div className="text-inset text-beauty text-sm text-1 pb-2">
-                  {title}
+                <div className="pb-2 d-flex justify-content-between">
+                  <div className="text-inset text-beauty text-sm text-1">{title}</div>
+                  <div>
+                    {this.renderContextButton()}
+                  </div>
                 </div>
                 <sup>
                   <TimeAgo time={createdAt} />
                 </sup>
               </div>
               <div className="pl-2 pr-2 overflow-auto modern-scrollbar-2">
-                <i>{content}</i>
+                <i className="text-pre-wrap">{content}</i>
               </div>
               <div className="garden-story__preview my-2 d-block d-md-none">
                 <img src={previewPhoto} alt={title} onLoad={this.handleStoryLoaded} />

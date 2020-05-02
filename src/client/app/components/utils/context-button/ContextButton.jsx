@@ -2,6 +2,7 @@ import React from 'react';
 import {
   MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
 } from 'mdbreact';
+import classnames from 'classnames';
 import { IconMore } from '../../../../assets/icons';
 import BaseComponent from '../../_base/BaseComponent';
 
@@ -22,17 +23,23 @@ export default class extends BaseComponent.Pure {
 
   render() {
     const {
-      options, handler, color = '#fff', ...restProps
+      className, options, color = '#fff', icon, noShadow, ...restProps
     } = this.props;
 
     return (
       <MDBDropdown dropright>
         <MDBDropdownToggle
           color="link"
-          className="p-0 btn-paper rounded-circle shadow-style highlight-style"
-          style={{ width: '25px', height: '25px' }}
+          className={classnames(
+            'p-0 btn-paper rounded-circle highlight-style',
+            {
+              'shadow-style': !noShadow
+            },
+            className
+          )}
+          style={{ width: '25px', height: '25px', color }}
         >
-          <IconMore color={color} {...restProps} />
+          {icon || <IconMore color={color} {...restProps} />}
         </MDBDropdownToggle>
         <MDBDropdownMenu basic>
           {options && options.map(option => (

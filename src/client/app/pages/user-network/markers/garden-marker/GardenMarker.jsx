@@ -43,7 +43,7 @@ export default class GardenMarker extends PageMarker {
     return (
       <>
         <Section title="Giới Thiệu" beautyFont className="text-center" small>
-          <div className="my-2 text-pre text-1 text-dark-blue-green">
+          <div className="my-2 text-pre-wrap text-1 text-dark-blue-green">
             <i>{content}</i>
           </div>
           <div>

@@ -16,10 +16,9 @@ import Rating from '../../utils/rating/Rating';
 import { IconBookmark, IconThanks } from '../../../../assets/icons';
 import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
-import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
-export default class Post extends BaseComponent.Pure {
+export default class Post extends BaseComponent {
   get post() {
     return this.props.post;
   }
@@ -53,7 +52,7 @@ export default class Post extends BaseComponent.Pure {
   }
 
   handlePostClick() {
-    this.dispatchEvent({ type: 'postClick' }, this.post);
+    this.dispatchEvent(this.Events.click, this.post);
   }
 
   handleContextActions(event, option) {

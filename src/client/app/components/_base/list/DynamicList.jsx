@@ -53,7 +53,7 @@ export default class extends PaginateList {
     const { page, itemsPerPage, itemsFirstPage } = this.state;
     const totalItems = Math.max(page * itemsPerPage + itemsFirstPage, 0);
     this.setState(prevState => ({
-      items: this.updateItems(prevState.items, items),
+      items: this.sortItems(this.updateItems(prevState.items, items)),
       hasMore: items.length >= totalItems
     }), () => this.forceUpdate());
   }
@@ -73,7 +73,7 @@ export default class extends PaginateList {
   handleFetchedItems(res) {
     const items = this.resolveFetchedData(res.data);
     this.setState(prevState => ({
-      items: this.updateItems(prevState.items, items),
+      items: this.sortItems(this.updateItems(prevState.items, items)),
       hasMore: items.length >= prevState.itemsPerPage
     }), () => this.forceUpdate());
   }
@@ -84,6 +84,10 @@ export default class extends PaginateList {
 
   updateItems(oldItems, newItems) {
     return appendUpdateArray(oldItems, newItems);
+  }
+
+  sortItems(items) {
+    return items;
   }
 
   handleFetchError(error) {

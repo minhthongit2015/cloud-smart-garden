@@ -57,7 +57,7 @@ export default class StoreMarker extends PageMarker {
     return (
       <React.Fragment>
         {content && (
-          <div className="text-light-gray text-center text-pre mb-4">
+          <div className="text-light-gray text-center text-pre-wrap mb-4">
             <i>{content}</i>
           </div>
         )}

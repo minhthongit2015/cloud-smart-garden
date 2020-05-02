@@ -100,6 +100,7 @@ export default class PostList extends BaseComponent {
     const { PostComponent } = this;
     return (
       <PostComponent
+        key={post._id}
         post={post}
         {...this.postProps}
       />

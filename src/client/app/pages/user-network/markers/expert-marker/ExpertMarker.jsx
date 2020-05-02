@@ -34,7 +34,7 @@ export default class ExpertMarker extends ProfileMarker {
     const { place: { content } = {} } = this.props;
     return (
       <React.Fragment>
-        <div className="text-light-gray text-center text-pre my-4">
+        <div className="text-light-gray text-center text-pre-wrap my-4">
           <i>{content}</i>
         </div>
         <div className="text-center pt-3 pb-2">

@@ -22,6 +22,7 @@ export default class extends DynamicList {
   get postListProps() {
     const { items = [] } = this.state || {};
     return {
+      ref: this.postListRef,
       posts: items,
       service: this.service,
       model: this.model,
@@ -33,24 +34,31 @@ export default class extends DynamicList {
 
   constructor(props) {
     super(props);
+    this.postListRef = React.createRef();
     this.handleContextActions = this.handleContextActions.bind(this);
   }
 
   refresh() {
-    this.fetchFromBeginning();
+    this.fetchFromBeginning()
+      .then(() => {
+        this.postListRef.current.forceUpdate();
+      });
+  }
+
+  sortItems(posts) {
+    const resolvedPosts = super.resolveFetchedData(posts) || [];
+    return resolvedPosts.sort((postA, postB) => postB.createdAt - postA.createdAt);
   }
 
   handleContextActions(event, option, post, postComponent) {
     const { parentPage } = this.props;
 
-    if ((option.value === 'remove-saved-post' && parentPage === 'saved-posts')
-      || (option.value === 'remove-i-do-post' && parentPage === 'i-will-do-this')) {
+    if ((option.value === 'remove-saved-post' && parentPage === 'saved-posts')) {
       this.setState(prevState => ({
         posts: prevState.posts.filter(p => p._id !== post._id)
       }));
     }
-    if ((option.value === 'remove-saved-post-done' && parentPage === 'saved-posts')
-      || (option.value === 'remove-i-do-post-done' && parentPage === 'i-will-do-this')) {
+    if ((option.value === 'remove-saved-post-done' && parentPage === 'saved-posts')) {
       this.fetchFromBeginning();
     }
 

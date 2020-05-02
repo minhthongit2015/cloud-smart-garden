@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col, MDBInput } from 'mdbreact';
-import NewBlogPost from '../../../../../../components/blog/new-blog-post/NewBlogPost';
-import DropUploader from '../../../../../../components/form/inputs/drop-uploader/DropUploader';
-import Composer from '../../../../../../components/form/inputs/composer/Composer';
-import GardenStoryService from '../../../../../../services/garden/GardenStoryService';
+import NewBlogPost from '../../../../../components/blog/new-blog-post/NewBlogPost';
+import DropUploader from '../../../../../components/form/inputs/drop-uploader/DropUploader';
+import Composer from '../../../../../components/form/inputs/composer/Composer';
+import GardenStoryService from '../../../../../services/garden/GardenStoryService';
 
 
 export default class extends NewBlogPost {

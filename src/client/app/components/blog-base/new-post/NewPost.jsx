@@ -256,15 +256,23 @@ export default class extends BaseComponent.Pure {
     } = this.state;
 
     return (
-      <React.Fragment>
-        <Button type="button" size="sm" color="none" onClick={() => this.reset()}>Bỏ</Button>
+      <div className="mt-2">
+        <Button
+          type="button"
+          size="sm"
+          color="none"
+          className="text-gray hover-dark-gray"
+          onClick={() => this.reset()}
+        >
+          <i className="fas fa-broom" /> Bỏ
+        </Button>
         {/* <Button type="submit" name="submit" value="draft" size="sm" color="none">
           Lưu bản nháp</Button> */}
         <Button type="submit" size="sm">
-          {!this.isUpdate ? this.postButtonLabel : this.updateButtonLabel}
+          <i className="fas fa-signature" /> {!this.isUpdate ? this.postButtonLabel : this.updateButtonLabel}
           <IconThanks ref={this.thankForYourPostRef} />
         </Button>
-      </React.Fragment>
+      </div>
     );
   }
 

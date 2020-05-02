@@ -1,46 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col } from 'mdbreact';
-import GardenStoryService from '../../../../../services/garden/GardenStoryService';
+import PostList from '../../../../../components/blog-base/post-list/PostList';
 import GardenStory from './GardenStory';
 import './GardenStoryList.scss';
 
 
-export default class extends Component {
-  constructor(props) {
-    super(props);
-    this.refresh = this.refresh.bind(this);
-    this.state = {
-      stories: []
-    };
+export default class extends PostList {
+  // eslint-disable-next-line class-methods-use-this
+  get PostComponent() {
+    return GardenStory;
   }
 
-  refresh() {
-    this.fetchStories();
-  }
-
-  componentDidMount() {
-    this.fetchStories();
-  }
-
-  fetchStories() {
-    GardenStoryService.list()
-      .then((rs) => {
-        this.setState({
-          stories: rs.data
-        });
-      });
-  }
-
-  render() {
-    const { stories } = this.state;
+  renderPostList() {
+    const { posts = [] } = this.props;
 
     return (
       <Row className="garden-story-list py-3">
         <Col size="12" md="10" className="offset-md-1">
           <div>
-            {stories.map(story => (
-              <GardenStory key={story._id} story={story} />
-            ))}
+            {posts && posts.map(post => this.renderPost(post))}
           </div>
         </Col>
       </Row>

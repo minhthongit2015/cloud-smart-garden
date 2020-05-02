@@ -10,6 +10,10 @@
   color: $color-orange !important;
 }
 
+.text-gray {
+  color: $color-gray !important;
+}
+
 .text-golden {
   color: transparent;
   -webkit-text-fill-color: transparent;
@@ -36,6 +40,10 @@
 }
 
 
+
+.text-pre {
+  white-space: pre;
+}
 
 .text-pre-wrap {
   white-space: pre-wrap !important;

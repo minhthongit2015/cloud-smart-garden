@@ -74,13 +74,7 @@ export default class extends NewPost {
       this.contentRef.current.value = post.content;
     }
     this.setFormData({
-      ...post,
-      _id: post._id,
-      title: post.title,
-      summary: post.summary,
-      previewPhoto: post.previewPhoto,
-      video: post.video,
-      audio: post.audio
+      ...post
     }).then(() => {
       this.setState({
         categories: categories || this.defaultCategories
