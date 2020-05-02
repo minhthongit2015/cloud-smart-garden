@@ -1,37 +1,27 @@
 import React from 'react';
 import { MDBInput } from 'mdbreact';
-import BaseEditingDialog from './BaseEditingDialog';
 import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
-import { MarkerTypes } from '../../../utils/Constants';
+import BaseEditingDialog from './BaseEditingDialog';
 
 
-export default class ExpertDialog extends BaseEditingDialog {
-  static get type() { return MarkerTypes.expert; }
-
-  // get place() {
-  //   const originPlace = super.place;
-  //   const { place } = this.state;
-  //   const { description } = place;
-  //   return {
-  //     ...originPlace,
-  //     description
-  //   };
-  // }
-
-  renderContent() {
-    const { place = {} } = this.state;
+export default class extends BaseEditingDialog {
+  renderForm() {
+    const { place } = this.state;
     const {
-      user, author, name: placeName, description, cover, zoom, avatar
-    } = place;
-    const { name } = user || author || {};
+      createdBy, title, content, avatar, previewPhoto, zoom
+    } = place || {};
+    if (!createdBy) {
+      return null;
+    }
+    const { name } = createdBy;
 
     return (
       <React.Fragment>
         <DropUploader
           label="Tải ảnh bìa"
-          name="cover"
-          value={cover}
+          name="previewPhoto"
+          value={previewPhoto}
           useVideo={false}
           onChange={this.handleInputChange}
           className="px-2 pb-4 pt-1"
@@ -47,17 +37,16 @@ export default class ExpertDialog extends BaseEditingDialog {
         />
         <MDBInput
           label="Tên"
-          name="name"
-          value={placeName || name}
+          name="title"
+          value={title || name}
           onChange={this.handleInputChange}
           autoComplete="off"
           autofill="off"
-          required
         />
         <MDBInput
           label="Giới thiệu"
-          name="description"
-          value={description}
+          name="content"
+          value={content}
           onChange={this.handleInputChange}
           autoComplete="off"
           autofill="off"

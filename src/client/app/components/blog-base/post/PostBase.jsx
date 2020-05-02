@@ -14,9 +14,9 @@ import UserService from '../../../services/user/UserService';
 import ShareButton from '../../facebook/ShareButton';
 import Rating from '../../utils/rating/Rating';
 import { IconBookmark, IconThanks } from '../../../../assets/icons';
-import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class Post extends BaseComponent.Pure {
@@ -67,7 +67,7 @@ export default class Post extends BaseComponent.Pure {
 
   static handleOpenSavedPosts() {
     this.dispatchEvent({ typez: 'openSavedPosts' }, this.post);
-    SavedPostsDialogHelper.openSavedPostsInNewHistory();
+    // AnyDialogHelper.openSavedPostsInNewHistory();
   }
 
   renderPreviewAsImage() {

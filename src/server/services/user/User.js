@@ -1,7 +1,6 @@
 const { User } = require('../../models/mongo');
 const CRUDService = require('../CRUDService');
 const { isBlank } = require('../../utils');
-const ApiHelper = require('../../utils/ApiHelper');
 
 
 module.exports = class extends CRUDService {

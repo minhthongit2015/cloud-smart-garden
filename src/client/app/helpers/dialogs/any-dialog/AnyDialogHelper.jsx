@@ -60,7 +60,7 @@ export default class AnyDialogHelper {
     const { content: Content } = this.DialogsMap[dialogType] || this.DialogsMap.Post;
     if (Content) {
       this.dialogRefs[dialogType].setContent(
-        <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, args[1], args[2]
+        <Content data={args[0]} getDialog={() => this.dialogRefs[dialogType]} />, ...args.slice(1)
       );
     } else {
       this.dialogRefs[dialogType].show(...args);
@@ -88,6 +88,10 @@ export default class AnyDialogHelper {
   static openPost(post, model) {
     const postType = model || 'Post';
     AnyDialogHelper.open(postType, post, PostHelper.buildPostUrl(post), post.title);
+  }
+
+  static editPlace(place, marker) {
+    AnyDialogHelper.open(place.__t, place, marker);
   }
 
   static openLogin(message) {

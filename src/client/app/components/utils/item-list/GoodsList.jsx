@@ -3,6 +3,7 @@ import React from 'react';
 import { MDBBtn } from 'mdbreact';
 import RawItemList from './RawItemList';
 
+const currencyFormatter = new Intl.NumberFormat('vi-VN');
 
 export default class extends RawItemList {
   constructor(props) {
@@ -23,11 +24,11 @@ export default class extends RawItemList {
   renderAfterItem(item) {
     return (
       <MDBBtn
-        className="p-1"
+        className="py-1 px-1 mx-0"
         size="sm"
         id={item._id}
         onClick={this.handleSelectItem}
-      >miễn phí
+      >{item.price ? `${currencyFormatter.format(item.price)}đ` : 'miễn phí'}
       </MDBBtn>
     );
   }

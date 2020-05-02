@@ -19,6 +19,22 @@
   font-weight: bold;
 }
 
+.text-blue-green {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, #13c6ce 0, #28f19e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.text-dark-blue-green {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, #037c83 0, #0ca867);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 
 
 .text-pre-wrap {

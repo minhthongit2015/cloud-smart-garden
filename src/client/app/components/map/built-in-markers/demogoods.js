@@ -26,7 +26,7 @@ export default [
   },
   {
     _id: 'food-06',
-    picture: 'https://image.vtcns.com/files/ctv.suckhoe2/2016/08/25/5v3xcm526wsamza5ahp2-mon-an-bai-thuoc-tu-cu-cai-trang-0747.jpg',
+    picture: 'https://i.imgur.com/R4DV1a3.jpg',
     name: 'Củ cải trắng'
   }
 ];

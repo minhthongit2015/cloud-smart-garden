@@ -82,7 +82,7 @@ export default class extends WithNavPage {
     return (
       <div className="px-2 px-md-4 py-5">
         <GardenHeader garden={firstGarden} />
-        <Section beautyFont bigFont noHR title={`${name || ''}\r\n~ garden ~`} className="mt-5 mb-5">
+        <Section beautyFont big noHR title={`${name || ''}\r\n~ garden ~`} className="mt-5 mb-5">
           <div className="p-0 p-md-2 mt-4">
             {this.renderGardens()}
             {this.renderStories()}

@@ -22,7 +22,8 @@ export default class extends BaseMapController {
       return;
     }
     place.position = event.latLng.toJSON();
-    MapService.updateOrCreatePlace(place);
+    const { _id, position } = place;
+    MapService.update({ _id, position });
   }
 
   static handleContextActions(event, option, newPlace) {
@@ -45,7 +46,7 @@ export default class extends BaseMapController {
       marker: MapUtils.getMarkerByType(newPlace.__t)
     };
     this.userNetwork.addMarker(newMarker);
-    return MapService.updateOrCreatePlace(newPlace)
+    return MapService.create(newPlace)
       .then((res) => {
         if (!res || !res.data) {
           // rollback

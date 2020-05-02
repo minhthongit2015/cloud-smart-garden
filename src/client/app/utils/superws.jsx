@@ -25,11 +25,10 @@ export default class SuperWebsocket {
       transports: ['websocket']
     });
     this.socket.on('connect', () => {
-      // console.highlight(' >>>  Fast Connection is Established!  🚀');
-      console.badge(' >>>  Ultra Connection is Established!  🚀');
+      console.badge(' >>>  Ultra Connection was Established!  🚀');
     });
     this.socket.on('disconnect', () => {
-      console.warn('Warning: Ultra Connection is interrupted!');
+      console.warn('Warning: Ultra Connection was interrupted!');
     });
   }
 

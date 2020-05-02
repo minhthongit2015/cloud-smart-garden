@@ -5,6 +5,7 @@ import './ToolStoreMarker.scss';
 
 import { ToolStoreSrc } from '../../../../../assets/icons';
 import { ToolStoreImgSrc } from '../../../../../assets/images';
+import demoTools from './demotools';
 
 export default class ToolStoreMarker extends StoreMarker {
   get customClass() {
@@ -21,5 +22,9 @@ export default class ToolStoreMarker extends StoreMarker {
 
   get placeTypeTitle() {
     return 'cửa hàng vật dụng';
+  }
+
+  getGoods() {
+    return demoTools;
   }
 }

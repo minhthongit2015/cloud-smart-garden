@@ -1,4 +1,3 @@
-
 .drop-uploader {
   width: 100%;
   height: 100%;
@@ -16,24 +15,43 @@
     background: transparent center center/contain no-repeat;
     opacity: .5;
     transition: opacity .2s ease-in-out;
-    
+
     &:hover {
       opacity: 1;
     }
+
+    &.avatar {
+      background-image: linear-gradient(-23deg, #c5c5c5, transparent);
+      background-size: cover;
+      border: none;
+      border-radius: 50% !important;
+      width: 150px;
+      height: 150px;
+      min-height: unset;
+      overflow: hidden;
+      padding: 0;
+      margin: auto auto 20px;
+    }
   }
-  
+
   &__url-input {
     background: #f9f9f9;
     border: 2px dashed gray;
     opacity: .5;
     transition: opacity .2s ease-in-out;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       opacity: 1;
     }
 
     &:focus {
       outline: none;
     }
+  }
+
+  &__drop-zone.avatar+&__url-input {
+    width: 300px;
+    margin: auto;
   }
 }

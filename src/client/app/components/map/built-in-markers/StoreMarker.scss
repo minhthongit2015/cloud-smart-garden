@@ -10,8 +10,7 @@ $shadow: #6be8ff;
 
 @import "../marker-with-popup/StyleInjector.scss";
 
-@mixin customStyle {
-  .marker__title {
+@mixin customStyle {.marker__title {
     color: #00c5ff;
   }
 

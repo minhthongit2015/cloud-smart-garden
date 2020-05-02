@@ -35,7 +35,7 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
 
   get markerProps() {
     const {
-      name, position, icon, draggable, markerProps = {}
+      name, position, icon, draggable, onDragend, onHover, onLeave, markerProps = {}
     } = this.props;
     return {
       ...markerProps,
@@ -44,8 +44,11 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
       position,
       icon: icon || this.markerIcon,
       draggable,
+      onDragend,
+      onHover,
+      onLeave,
       onClick: this.toggle,
-      onLoad: this.handleMakerLoad
+      onLoad: this.handleMarkerLoad
     };
   }
 
@@ -80,14 +83,14 @@ export default class MarkerWithPopup extends BaseComponent.Pure {
     this.markerRef = React.createRef();
     this.popupRef = React.createRef();
     this.bind(
-      this.handleMakerLoad, this.handleOpen, this.handleClose,
+      this.handleMarkerLoad, this.handleOpen, this.handleClose,
       this.open, this.close, this.toggle, this.refresh, this.focus, this.remove,
       this.moveTo, this.zoomTo, this.handleGoToPost,
       this.renderContent
     );
   }
 
-  handleMakerLoad() {
+  handleMarkerLoad() {
     this.forceUpdate();
   }
 

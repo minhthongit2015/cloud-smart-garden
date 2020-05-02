@@ -10,7 +10,6 @@ import AuthService from '../../../services/user/Auth';
 import t from '../../../languages';
 import ProgressWithIcon from '../../utils/progres-with-icon/ProgressWithIcon';
 import { IconRankLeader, IconPlusPoint } from '../../../../assets/icons';
-import SavedPostsDialogHelper from '../../../helpers/dialogs/SavedPostsDialogHelper';
 import RouteConstants from '../../../utils/RouteConstants';
 import HistoryHelper from '../../../helpers/HistoryHelper';
 import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
@@ -73,7 +72,7 @@ export default class SignIn extends Component {
     case 'intranet':
       return HistoryHelper.pushRoute(RouteConstants.intranetLink);
     case 'saved-posts':
-      return SavedPostsDialogHelper.openSavedPostsInNewHistory();
+      // return SavedPostsDialogHelper.openSavedPostsInNewHistory();
     default:
       return null;
     }

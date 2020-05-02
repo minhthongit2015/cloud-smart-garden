@@ -25,7 +25,7 @@ export default class {
   }
 
   static get listEndpoint() {
-    return this.baseEndpoint;
+    return this.getEndpoint;
   }
 
   static get deleteEndpoint() {

@@ -27,13 +27,6 @@ import AuthService from './services/user/Auth';
 import AnyDialogHelper from './helpers/dialogs/any-dialog/AnyDialogHelper';
 import DialogsMap from './helpers/dialogs/any-dialog/DialogsMap';
 
-import EditPlaceDialogHelper from './helpers/dialogs/EditPlaceDialogHelper';
-import ExpertDialog from './components/map-tools/edit-dialog/ExpertDialog';
-import StrikeDialog from './components/map-tools/edit-dialog/StrikeDialog';
-import ActionDialog from './components/map-tools/edit-dialog/ActionDialog';
-import DisasterDialog from './components/map-tools/edit-dialog/DisasterDialog';
-import ExtinctionDialog from './components/map-tools/edit-dialog/ExtinctionDialog';
-
 import DummyUserNetwork from './pages/user-network/DummyUserNetwork';
 import HistoryHelper from './helpers/HistoryHelper';
 import AnyDialogChecker from './helpers/dialogs/any-dialog/AnyDialogChecker';
@@ -76,9 +69,6 @@ class App extends Component {
 
     AnyDialogHelper.init(DialogsMap);
     AnyDialogChecker.init();
-    EditPlaceDialogHelper.storeDialog([
-      ExpertDialog, StrikeDialog, ActionDialog, DisasterDialog, ExtinctionDialog
-    ]);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -119,11 +109,7 @@ class App extends Component {
     return (
       <ErrorBoundary>
         <SimplestLayout routes={routes} />
-
-        <div className="overflow-auto">
-          {AnyDialogHelper.render()}
-          {EditPlaceDialogHelper.render()}
-        </div>
+        {AnyDialogHelper.render()}
       </ErrorBoundary>
     );
   }

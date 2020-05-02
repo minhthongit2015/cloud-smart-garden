@@ -1,4 +1,3 @@
-
 @mixin customStyle() {
   // Override to change styles inside info-window
 }
@@ -8,39 +7,46 @@
   $base-window-class: 'custom-info-window';
   $info-window-class: $class + '-info-window';
 
-  $isNotDefault: $class != 'custom';
+  $isNotDefault: $class !='custom';
   $base-window-selector: 'div';
   $info-window-selector: '';
+
   @if $isNotDefault {
-    $base-window-selector: '.' + $info-window-class;
-    $info-window-selector: '.' + $info-window-class;
+    $base-window-selector: '.'+ $info-window-class;
+    $info-window-selector: '.'+ $info-window-class;
   }
 
   .gm-style {
     #{$base-window-selector} {
       .gm-style-iw-a#{$info-window-selector} {
         animation-duration: .3s;
+        cursor: initial;
+
         .gm-style-iw-t {
           .gm-style-iw-c.gm-style-iw {
             width: $window-width !important;
             max-width: $window-width !important;
             max-height: $window-height !important;
+
             .gm-style-iw-d {
               width: $window-width !important;
               max-width: $window-width !important;
               max-height: $window-height !important;
-              & > div {
+
+              &>div {
                 max-height: $window-height;
               }
             }
-            .gm-style-iw-d + button {
+
+            .gm-style-iw-d+button {
               background: $color !important;
             }
           }
         }
+
         @include customStyle();
       }
-  
+
       &.focused {
         .gm-style-iw-a#{$info-window-selector} {
           .gm-style-iw-t {

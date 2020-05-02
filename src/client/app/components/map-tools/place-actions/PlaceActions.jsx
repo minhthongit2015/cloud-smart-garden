@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBBtn } from 'mdbreact';
 import MapService from '../../../services/map/MapService';
 import UserService from '../../../services/user/UserService';
-import EditPlaceDialogHelper from '../../../helpers/dialogs/EditPlaceDialogHelper';
+import AnyDialogHelper from '../../../helpers/dialogs/any-dialog/AnyDialogHelper';
 
 
 export default class extends React.Component {
@@ -20,12 +20,11 @@ export default class extends React.Component {
       if (!window.confirm('Bạn có chắc chắn muốn xóa địa điểm này?')) {
         return;
       }
-      MapService.deletePlace(place);
+      MapService.delete(place._id);
       marker.remove();
       break;
     case 'edit-place':
-      EditPlaceDialogHelper.edit(place, marker);
-      // MapService.updateOrCreatePlace(place);
+      AnyDialogHelper.editPlace(place, marker);
       break;
     default:
       break;

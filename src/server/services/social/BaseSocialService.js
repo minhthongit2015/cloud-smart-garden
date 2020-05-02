@@ -115,6 +115,12 @@ module.exports = class extends CRUDService {
       });
     }
 
+    if (doc.avatar) {
+      doc.avatar = await ImgurService.create(doc.avatar, {
+        title: doc.title
+      });
+    }
+
     // Resolve content
     if (doc.content) {
       doc.content = await this.replaceImageBase64ToUrl(doc.content);

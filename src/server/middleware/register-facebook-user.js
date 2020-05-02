@@ -10,14 +10,15 @@ function RegisterFacebookUser(req, res, next) {
     try {
       if (req.session && req.session.fbUser && !req.session.user) {
         // Find again - Just for sure
-        const users = await UserService.list({
-          limit: 1,
-          where: {
-            socials: { facebook: req.session.fbUser.id }
+        const user = await UserService.first({
+          opts: {
+            where: {
+              socials: { facebook: req.session.fbUser.id }
+            }
           }
         });
-        if (users && users[0]) {
-          [req.session.user] = users;
+        if (user) {
+          req.session.user = user;
         } else {
           // Store new user
           const { id, name, email } = req.session.fbUser;

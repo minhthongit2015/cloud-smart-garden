@@ -27,8 +27,10 @@ export default class StoreMarker extends PageMarker {
   }
 
   get title() {
-    const { place: { name } = {} } = this.props;
-    return `❝${name || 'Chưa Đặt Tên'}❞`;
+    const { place: { title, createdBy: { name } = {} } = {} } = this.props;
+    return (
+      `❝${title || name || 'Chưa Đặt Tên'}❞`
+    );
   }
 
   constructor(props) {
@@ -40,21 +42,30 @@ export default class StoreMarker extends PageMarker {
     this.dispatchEvent(event, item, this);
   }
 
+  getGoods() {
+    const { place: { goods } = {} } = this.props;
+    return demogoods || goods;
+  }
+
+  getRecentBuy() {
+    const recentlyBuy = this.getGoods().slice(-4);
+    return recentlyBuy;
+  }
+
   renderBody() {
-    const { place: { description, goods } = {} } = this.props;
-    const recentlyBuy = (demogoods || goods).slice(-4);
+    const { place: { content } = {} } = this.props;
     return (
       <React.Fragment>
-        {description && (
-          <Section>
-            {description}
-          </Section>
+        {content && (
+          <div className="text-light-gray text-center text-pre mb-4">
+            <i>{content}</i>
+          </div>
         )}
         <Section title="mua gần đây" beautyFont>
-          <GoodsList items={recentlyBuy} onSelect={this.handleSelectItem} />
+          <GoodsList items={this.getRecentBuy()} onSelect={this.handleSelectItem} />
         </Section>
         <Section title="danh mục sản phẩm" beautyFont>
-          <GoodsList items={demogoods || goods} onSelect={this.handleSelectItem} />
+          <GoodsList items={this.getGoods()} onSelect={this.handleSelectItem} />
         </Section>
       </React.Fragment>
     );

@@ -67,12 +67,12 @@ export default class {
     }
   }
 
-  static async fetchProfile() {
+  static async fetchProfile(fbUserId) {
     if (!UserService.fbUser) {
       return null;
     }
     return new Promise((resolve, reject) => this.FB.api(
-      UserService.fbUserId, {
+      fbUserId || UserService.fbUserId, {
         fields: 'first_name,last_name,name,short_name,friends'
       },
       (fbProfileResult) => {

@@ -22,18 +22,15 @@ export default class PageMarker extends Place {
   }
 
   get title() {
-    const {
-      place: {
-        name
-      } = {}
-    } = this.props;
-    return name;
+    const { place: { title, createdBy: { name } = {} } = {} } = this.props;
+    return (
+      `❝${title || name || 'Chưa Đặt Tên'}❞`
+    );
   }
 
   renderHeader() {
     const {
       place: {
-        name,
         video,
         cover
       } = {}
@@ -41,10 +38,10 @@ export default class PageMarker extends Place {
     return (
       <React.Fragment>
         <div className="marker__page__before-title">{this.placeTypeTitle}</div>
-        <div className="marker__page__title">{this.title || name}</div>
+        <div className="marker__page__title">{this.title}</div>
         <div className="marker__page__banner">
           {video ? (
-            <Video title={name} preview={cover || this.defaultCoverImage} src={video} />
+            <Video title={this.title} preview={cover || this.defaultCoverImage} src={video} />
           ) : (
             <img src={cover || this.defaultCoverImage} alt="" />
           )}
@@ -55,13 +52,11 @@ export default class PageMarker extends Place {
   }
 
   renderBody() {
-    const { place: { description } = {} } = this.props;
+    const { place: { content } = {} } = this.props;
     return (
-      <React.Fragment>
-        <section>
-          {description}
-        </section>
-      </React.Fragment>
+      <section>
+        {content}
+      </section>
     );
   }
 }

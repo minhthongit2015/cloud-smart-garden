@@ -1,5 +1,3 @@
-
-
 .marker {
   &__header {
     display: flex;
@@ -18,6 +16,7 @@
       }
     }
   }
+
   &__body {
     margin: 1rem 1rem 1rem;
     // .preview-image {
@@ -28,19 +27,22 @@
     //   }
     // }
   }
-  
+
   &__section {
     &__header {
       text-align: center;
     }
+
     &__body {
       font-size: 1.2em;
     }
+
     &__summary {
       color: rgb(73, 73, 73);
       border-left: 2px solid lightgray;
       padding-left: .5rem;
     }
+
     &__actions {
       text-align: right;
       margin-top: .5rem;

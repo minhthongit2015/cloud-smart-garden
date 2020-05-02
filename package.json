@@ -65,7 +65,7 @@
     "install": "^0.13.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
-    "mdbreact": "^4.18.1",
+    "mdbreact": "^4.26.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "mongodb": "^3.2.7",

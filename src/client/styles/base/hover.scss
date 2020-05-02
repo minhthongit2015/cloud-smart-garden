@@ -1,27 +1,47 @@
-
-
-.hover-light-red:hover {
+.hover-light-red:hover,
+a.hover-light-red:hover,
+.link.hover-light-red:hover,
+a.link.hover-light-red:hover {
   color: $color-red-light !important;
 }
-.link.hover-light-red {
+
+.link.hover-light-red,
+a.link.hover-light-red {
   background-image: linear-gradient(90deg, $color-red-light 0, $color-red-light);
 }
-.link.hover-blue-green {
+
+.hover-blue-green:hover,
+a.hover-blue-green:hover,
+.link.hover-blue-green:hover,
+a.link.hover-blue-green:hover {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, #13c6ce 0, #28f19e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.link.hover-blue-green,
+a.link.hover-blue-green {
   background-image: linear-gradient(90deg, #13c6ce 0, #28f19e);
 }
 
 .hover-red:hover {
   color: $color-red !important;
 }
+
 .hover-green:hover {
   color: $color-green !important;
 }
+
 .hover-orange:hover {
   color: $color-orange !important;
 }
+
 .hover-blue:hover {
   color: $color-blue !important;
 }
+
 .hover-purple:hover {
   color: $color-purple !important;
 }

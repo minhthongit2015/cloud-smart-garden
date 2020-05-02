@@ -16,23 +16,23 @@ export default class ProfileMarker extends Place {
     const {
       place: {
         avatar,
-        cover,
-        user,
+        previewPhoto,
+        createdBy,
         author,
         zoom = 17
       } = {}
     } = this.props;
     const {
       socials: { facebook } = {}
-    } = user || author || {};
+    } = createdBy || author || {};
     const fbAvatar = facebook && FbService.buildAvatarUrl(facebook);
     const defaultCover = '/images/cover-photo.jpg';
     const defaultAvatar = UserService.fbAvatarSrc;
 
     return (
       <div className="marker__profile">
-        <div className="marker__profile__cover-photo" style={{ backgroundImage: `url(${cover || defaultCover})` }}>
-          <img alt="" src={cover || defaultCover} />
+        <div className="marker__profile__cover-photo" style={{ backgroundImage: `url(${previewPhoto || defaultCover})` }}>
+          <img alt="" src={previewPhoto || defaultCover} />
           <ZoomTool zoom={zoom} zoomTo={this.zoomTo} />
         </div>
         <div className="marker__profile__avatar">
@@ -49,17 +49,17 @@ export default class ProfileMarker extends Place {
   renderBody() {
     const {
       place: {
-        name: placeName,
-        user
+        title,
+        createdBy
       } = {}
     } = this.props;
     const {
       name = UserService.user && UserService.user.name
-    } = user || {};
+    } = createdBy || {};
 
     return (
       <div className="marker__profile">
-        <div className="marker__profile__name">{placeName || name}</div>
+        <div className="marker__profile__name">{title || name}</div>
         <div className="marker__profile__description">{this.placeTypeTitle}</div>
         <hr className="my-2 mx-5" />
         {this.renderProfile()}

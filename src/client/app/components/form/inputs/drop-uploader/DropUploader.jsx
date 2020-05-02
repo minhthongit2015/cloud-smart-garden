@@ -141,7 +141,7 @@ export default class extends React.Component {
             innerClass,
             avatar && 'avatar'
           )}
-          style={{ backgroundImage: `url(${value || ''})` }}
+          style={{ backgroundImage: value ? `url(${value || ''})` : '' }}
           {...restProps}
         >
           {uploading

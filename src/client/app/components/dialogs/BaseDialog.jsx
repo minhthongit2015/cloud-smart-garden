@@ -35,8 +35,9 @@ export default class extends Toggleable {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    const superState = this.state || super.state;
     this.state = {
-      ...this.state,
+      ...superState,
       cursorPos: {},
       disabled: false,
       locked: false,
@@ -123,7 +124,7 @@ export default class extends Toggleable {
 
   renderNormalHeader() {
     return (
-      <MDBModalHeader>
+      <MDBModalHeader className="flex-center">
         {this.renderHeaderContent()}
       </MDBModalHeader>
     );

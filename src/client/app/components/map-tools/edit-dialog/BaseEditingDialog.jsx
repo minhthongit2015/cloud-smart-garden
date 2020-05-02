@@ -1,97 +1,51 @@
 import React from 'react';
 import {
-  MDBModal, MDBModalBody,
-  MDBWaves,
-  MDBBtn
+  MDBModalBody,
+  MDBBtn,
+  MDBInput
 } from 'mdbreact';
-import LeafLoading from '../../utils/loadings/LeafLoading';
 import MapService from '../../../services/map/MapService';
 import SocialService from '../../../services/social/SocialService';
-import BaseComponent from '../../_base/BaseComponent';
 import PostHelper from '../../../helpers/PostHelper';
+import BaseDialog from '../../dialogs/BaseDialog';
+import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
+import ZoomInput from '../zoom-input/ZoomInput';
 
 
-export default class BaseEditingDialog extends BaseComponent.Pure {
-  static get type() { return 'EditingDialog'; }
-
-  get isOpen() { return this.state && this.state.isShowModal; }
-
+export default class BaseEditingDialog extends BaseDialog {
   // eslint-disable-next-line class-methods-use-this
-  get fields() {
-    return [
-      '_id', 'name', 'picture', 'cover', 'video', 'description', 'gallery',
-      'link', 'address', 'position', 'zoom', 'path', 'radius',
-      'events', 'socials'
-    ];
-  }
-
-  get place() {
-    if (!this.state || !this.state.place) return {};
-    const placeState = this.state.place;
-    const place = {};
-    this.fields.forEach((key) => {
-      place[key] = placeState[key];
-    });
-    return place;
+  get wavesHeader() {
+    return true;
   }
 
   constructor(props) {
     super(props);
     this.bind(
-      this.handleClick, // for waves effect
-      this.open, this.close, this.toggle, this.show, this.edit,
-      this.handleInputChange, this.handleSubmit, this.handleDiscard,
+      this.setContent,
+      this.handleInputChange, this.handleSubmit,
       this.handleLinkChange, this.setZoomToRecommeded, this.zoomToMap
     );
 
+    const superState = this.state || super.state;
     this.state = {
-      link: '',
-      place: {},
+      ...superState,
+      place: null,
       marker: null,
-      cursorPos: {},
-      isShowModal: false,
-      disabled: false,
-      title: '❝Climate Strike Vietnam❞'
+      content: null
     };
   }
 
-  handleClick(event) {
-    this.stopEvent(event);
-    const cursorPos = { top: event.clientY, left: event.clientX, time: Date.now() };
-    this.setState({ cursorPos });
-  }
-
-  open() {
-    if (this.isOpen) return;
-    this.toggle();
-  }
-
-  close() {
-    if (!this.isOpen) return;
-    this.toggle();
-  }
-
-  toggle() {
-    if (this.state.disabled) {
-      return;
-    }
-    this.setState(prevState => ({
-      isShowModal: !prevState.isShowModal
-    }));
-  }
-
-  show(title) {
+  setContent(content) {
     this.setState({
-      title
-    }, this.open);
+      content
+    }, this.show);
   }
 
-  edit(place, marker) {
+  show(place, marker) {
     this.setState({
       place,
-      marker,
-      isShowModal: true
-    });
+      marker
+    }, this.open);
   }
 
   handleInputChange(event) {
@@ -131,7 +85,7 @@ export default class BaseEditingDialog extends BaseComponent.Pure {
       return {
         place: prevState.place
       };
-    });
+    }, () => this.forceUpdate());
   }
 
   setZoomToRecommeded() {
@@ -159,7 +113,7 @@ export default class BaseEditingDialog extends BaseComponent.Pure {
       disabled: true
     }, () => {
       this.state.marker.refresh();
-      MapService.updateOrCreatePlace(this.place)
+      MapService.update(this.state.place)
         .then(() => {
           this.setState({
             disabled: false
@@ -173,61 +127,72 @@ export default class BaseEditingDialog extends BaseComponent.Pure {
     });
   }
 
-  handleDiscard() {
-    this.close();
-  }
-
   // eslint-disable-next-line class-methods-use-this
-  renderContent() {
-    return null;
+  renderForm() {
+    const { place } = this.state;
+    const {
+      createdBy, title, content, previewPhoto, zoom
+    } = place || {};
+    if (!createdBy) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        <MDBInput
+          label="Tên địa điểm"
+          name="title"
+          value={title}
+          onChange={this.handleInputChange}
+          autoComplete="off"
+          autofill="off"
+        />
+        <DropUploader
+          label="Tải ảnh bìa"
+          name="previewPhoto"
+          value={previewPhoto}
+          useVideo={false}
+          onChange={this.handleInputChange}
+          className="px-2 pb-4 pt-1"
+        />
+        <MDBInput
+          label="Giới thiệu"
+          name="content"
+          value={content}
+          onChange={this.handleInputChange}
+          autoComplete="off"
+          autofill="off"
+        />
+        <ZoomInput
+          hint="Độ thu phóng"
+          name="zoom"
+          value={zoom}
+          onChange={this.handleInputChange}
+          onClickRecommend={this.setZoomToRecommeded}
+          onClickZoom={this.zoomToMap}
+        />
+      </React.Fragment>
+    );
   }
 
   renderActions() {
     return (
       <div className="text-right">
-        <MDBBtn onClick={this.handleDiscard} color="light" size="sm">Bỏ</MDBBtn>
+        <MDBBtn onClick={this.close} color="light" size="sm">Bỏ</MDBBtn>
         <MDBBtn type="submit" size="sm">Lưu</MDBBtn>
       </div>
     );
   }
 
-  render() {
-    const {
-      title, cursorPos,
-      isShowModal, disabled,
-      color = 'deep-blue-gradient',
-      place
-    } = this.state;
-    const { noHeader } = this.props;
-
+  renderBody() {
+    const { content } = this.state;
     return (
-      <MDBModal
-        isOpen={isShowModal}
-        toggle={this.toggle}
-        className=""
-        style={{ position: 'relative' }}
-        disabled={disabled}
-      >
-        {!noHeader && (
-          <div
-            className={`modal-header justify-content-center mb-3 p-4 waves-effect ${color}`}
-            onMouseDown={this.handleClick}
-            onTouchStart={this.handleClick}
-          >
-            <h5 className="white-text font-weight-bolder m-0">{title}</h5>
-            <MDBWaves
-              cursorPos={cursorPos}
-            />
-          </div>
-        )}
-        <MDBModalBody>
-          <form onSubmit={this.handleSubmit}>
-            {this.renderContent(place)}
-            {this.renderActions()}
-          </form>
-        </MDBModalBody>
-        <LeafLoading overlaping={disabled} text="đang lưu thông tin..." />
-      </MDBModal>
+      <MDBModalBody>
+        <form onSubmit={this.handleSubmit}>
+          {content || this.renderForm()}
+          {this.renderActions()}
+        </form>
+      </MDBModalBody>
     );
   }
 }

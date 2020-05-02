@@ -1,16 +1,20 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
-import ApiEndpoints from '../../utils/ApiEndpoints';
 import FbService from '../user/FbService';
 import MapGenerator from './MapGenerator';
-import CRUDService from '../CRUDService';
 import SocialService from '../social/SocialService';
 import { MarkerTypes } from '../../utils/Constants';
+import ApiEndpoints from '../../utils/ApiEndpoints';
+import RouteConstants from '../../utils/RouteConstants';
 
 
 export default class MapService extends SocialService {
   static get model() {
     return MarkerTypes.place;
+  }
+
+  static get getEndpoint() {
+    return ApiEndpoints.places;
   }
 
   static list(...args) {
@@ -28,16 +32,14 @@ export default class MapService extends SocialService {
     if (!url) return null;
     if (!Number.isNaN(+url)) return url;
     const urlz = new URL(url || window.location.href);
-    return +urlz.searchParams.get('place');
+    return urlz.searchParams.has('place')
+      ? +urlz.searchParams.get('place')
+      : null;
   }
 
-  static async updateOrCreatePlace(place) {
+  static async update(place) {
     const { marker, ref, ...placeToUpdate } = place;
-    return this.create(placeToUpdate, { model: this.model });
-  }
-
-  static async deletePlace(place) {
-    return superrequest.agentDelete(ApiEndpoints.placeI(place._id));
+    return super.update(placeToUpdate, { model: this.model });
   }
 
   static mapEntities(places) {
@@ -74,14 +76,14 @@ export default class MapService extends SocialService {
   }
 
   static openPlace(place) {
-    if (!place) return;
+    if (!place || !this.isInUserNetworkPage) return;
     const currentPlaceOrder = this.extractPlaceOrder();
     const newPlaceUrl = this.buildPlaceUrl(place);
     if (currentPlaceOrder) {
-      window.history.replaceState({ placeOrder: place.baseOrder }, place.name, newPlaceUrl);
+      window.history.replaceState({ placeOrder: place.order }, place.title, newPlaceUrl);
     } else {
       this.pushState = true;
-      window.history.pushState({ placeOrder: place.baseOrder }, place.name, newPlaceUrl);
+      window.history.pushState({ placeOrder: place.order }, place.title, newPlaceUrl);
     }
   }
 
@@ -104,14 +106,14 @@ export default class MapService extends SocialService {
     const {
       protocol, host, pathname, hash
     } = window.location;
-    return `${protocol}//${host}${pathname}${place ? `?place=${place.baseOrder}` : ''}${hash}`;
+    return `${protocol}//${host}${pathname}${place ? `?place=${place.order}` : ''}${hash}`;
   }
 
   static checkOpenCurrentPlace(places) {
     const urlParams = new URLSearchParams(window.location.search);
     const placeOrder = +urlParams.get('place');
     if (placeOrder) {
-      const selectedPlace = places.find(place => place.baseOrder === placeOrder);
+      const selectedPlace = places.find(place => place.order === placeOrder);
       if (selectedPlace) {
         if (selectedPlace.zoom != null && selectedPlace.zoom !== '') {
           selectedPlace.ref.zoomTo();
@@ -119,6 +121,10 @@ export default class MapService extends SocialService {
         selectedPlace.ref.open();
       }
     }
+  }
+
+  static get isInUserNetworkPage() {
+    return window.location.pathname.startsWith(RouteConstants.userNetworkLink);
   }
 
   static async joinStrike(strike) {

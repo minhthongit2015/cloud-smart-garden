@@ -96,13 +96,13 @@ export default class HistoryHelper {
    * React routing
    */
   static pushRoute(routePath) {
-    window.historyz.push(routePath);
+    window.historyz.push(routePath.replace(/.*\w?\//g, '/'));
   }
 
   /**
    * React routing
    */
   static replaceRoute(routePath) {
-    window.historyz.replace(routePath);
+    window.historyz.replace(routePath.replace(/.*\w?\//g, '/'));
   }
 }

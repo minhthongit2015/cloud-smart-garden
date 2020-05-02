@@ -31,8 +31,12 @@ export default class ExpertMarker extends ProfileMarker {
   }
 
   renderProfile() {
+    const { place: { content } = {} } = this.props;
     return (
       <React.Fragment>
+        <div className="text-light-gray text-center text-pre my-4">
+          <i>{content}</i>
+        </div>
         <div className="text-center pt-3 pb-2">
           <h5 className="text-warning">Đánh Giá: 4.5</h5>
           <span className="text-nowrap text-warning">
