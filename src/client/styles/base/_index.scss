@@ -10,6 +10,10 @@
 @import './layout';
 @import './position';
 
+html {
+  overflow: hidden;
+}
+
 img {
   max-width: 100%;
 }

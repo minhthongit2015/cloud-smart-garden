@@ -34,25 +34,14 @@
 
 
 // Modal
-.modal-dialog {
-  max-height: calc(100% - 1rem);
-  border-radius: 0.5rem !important;
-  background: #fff;
-  overflow: auto;
-  pointer-events: all !important;
-  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+.modal {
+  // @include modern-scrollbar-2;
 
-  @include modern-scrollbar-2;
-
-  .modal-content {
-    background: transparent;
-    box-shadow: none;
-  }
-}
-
-@media (min-width: 576px) {
   .modal-dialog {
-    max-height: calc(100% - 3.5rem);
+
+    .modal-content {
+      border-radius: 0.5rem !important;
+    }
   }
 }
 
