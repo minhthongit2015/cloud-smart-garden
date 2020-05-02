@@ -44,9 +44,7 @@
     }
 
     .modal-header {
-      border-radius: inherit;
-      border-bottom-left-radius: unset;
-      border-bottom-right-radius: unset;
+      border-radius: 0.5rem 0.5rem 2px 2px !important;
     }
   }
 }

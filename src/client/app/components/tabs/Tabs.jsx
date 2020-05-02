@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import {
   MDBNav, MDBNavItem, MDBNavLink, MDBTabPane, MDBTabContent
 } from 'mdbreact';
 import './Tabs.scss';
+import classnames from 'classnames';
 import Tab from './Tab';
 import TabHeader from './TabHeader';
 import TabBody from './TabBody';
@@ -41,18 +43,23 @@ export default class extends BaseComponent.Pure {
   buildTabHeader(tabHeader, tabIndex) {
     const tabId = this.getTabId(tabIndex);
     return (
-      <MDBNavItem key={tabId}>
-        <MDBNavLink
-          to="#"
-          active={this.state.activeItem === tabId}
+      <li key={tabId} className="nav-item">
+        <a
+          href="#"
+          className={classnames(
+            'nav-link Ripple-parent',
+            {
+              active: this.state.activeItem === tabId
+            }
+          )}
           name={tabIndex}
           id={tabId}
           onClick={this.toggleTab}
           role="tab"
         >
           {tabHeader}
-        </MDBNavLink>
-      </MDBNavItem>
+        </a>
+      </li>
     );
   }
 

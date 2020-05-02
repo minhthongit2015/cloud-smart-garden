@@ -3,7 +3,7 @@ const defaultModel = {
   url: 'https://beyond-garden.herokuapp.com',
   title: 'Beyond Garden',
   description: '!',
-  image: 'https://beyond-garden.herokuapp.com/Climate-Strike-Vietnam.jpg',
+  image: 'https://beyond-garden.herokuapp.com/images/HydroponicTerminology_BlogLanding-768x411.jpg',
   site_name: 'Beyond Garden',
   type: 'website',
   fb_app_id: '415534815831116'
