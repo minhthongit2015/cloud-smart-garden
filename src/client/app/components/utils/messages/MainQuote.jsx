@@ -5,6 +5,7 @@ import {
 } from 'mdbreact';
 import Video from '../video/Video';
 
+
 export default (props) => {
   const {
     className, color, quote: {
@@ -66,6 +67,8 @@ export default (props) => {
                   src={previewAudio}
                   controls
                   loop
+                  style={{ height: '30px' }}
+                  className="mt-2"
                 >
                   <track
                     default

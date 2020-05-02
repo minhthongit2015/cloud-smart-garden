@@ -185,8 +185,8 @@ module.exports = {
         noPostMsg: 'chưa có bài viết nào được đăng...',
         knowAllMsg1: 'đây là tất cả bài viết đến thời điểm này.',
         knowAllMsg2: 'bạn đã đọc hết bài viết ngày hôm nay, hẹn bạn quay lại đọc tiếp vào ngày mai!',
-        knowAllMsg3: 'bạn đã xem hết tất cả những bài viết.',
-        knowAllMsg4: 'cảm ơn bạn đã đọc hết tất cả các bài viết!'
+        knowAllMsg3: 'bạn đã xem hết tất cả những bài viết!',
+        knowAllMsg4: 'bạn đã đọc hết tất cả những bài viết!'
       }
     },
     rating: {

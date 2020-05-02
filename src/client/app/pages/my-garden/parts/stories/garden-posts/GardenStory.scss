@@ -31,6 +31,32 @@
     }
   }
 
+  &__preview-audio {
+    max-width: calc(100% - 100px);
+    height: 25px;
+    opacity: .8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__emotions {
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    line-height: 1rem;
+    padding: 5px 8px 2px;
+
+    &>* {
+      cursor: pointer;
+      opacity: .8;
+    }
+
+    &>*:nth-child(n + 2) {
+      margin-left: 5px;
+    }
+  }
+
   &__content-column {
     max-height: 300px;
 

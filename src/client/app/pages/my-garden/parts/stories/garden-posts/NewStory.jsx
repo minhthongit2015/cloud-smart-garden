@@ -14,7 +14,7 @@ export default class extends NewBlogPost {
 
   renderBody() {
     const {
-      title, content, previewPhoto, previewVideo
+      title, content, previewPhoto, previewVideo, previewAudio
     } = this.state;
 
     return (
@@ -26,6 +26,9 @@ export default class extends NewBlogPost {
               value={previewPhoto}
               videoName="previewVideo"
               video={previewVideo}
+              useAudio
+              audioName="previewAudio"
+              audio={previewAudio}
               onChange={this.handleInputChange}
             />
           </Col>

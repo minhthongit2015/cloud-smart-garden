@@ -13,6 +13,10 @@
     top: 0;
     left: 0;
 
+    &.block {
+      line-height: 0;
+    }
+
     &.auto-size {
       width: auto;
       height: auto;
@@ -24,6 +28,7 @@
     }
 
     &.right {
+      width: auto;
       left: auto;
       right: 0;
     }

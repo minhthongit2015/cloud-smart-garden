@@ -47,11 +47,54 @@ export default class extends BlogPost {
     );
   }
 
+  renderPreview(previewRef) {
+    const { loaded } = this.state;
+    const { post } = this.props;
+    const {
+      previewPhoto, previewAudio, title, totalVotes
+    } = post || {};
+
+    // const audioURL = previewAudio && new URL(previewAudio);
+    // const audioFileName = audioURL && decodeURIComponent(
+    //   audioURL.pathname.slice(audioURL.pathname.lastIndexOf('/') + 1)
+    // );
+
+    return (
+      <div className="garden-story__preview overlapable" ref={previewRef}>
+        <img src={previewPhoto} alt={title} onLoad={this.handleStoryLoaded} />
+        {previewAudio && (
+          <div className="overlap block bottom p-2">
+            <audio
+              className="garden-story__preview-audio"
+              // ref={audioRef}
+              src={previewAudio}
+              controls
+              // loop
+            >
+              <track default kind="captions" srcLang="en" src="/media/sunday.vtt" />
+            </audio>
+          </div>
+        )}
+        <div className="overlap right bottom p-2 text-white">
+          <div className="garden-story__emotions">
+            <span className="hover-light-red">
+              <i className="fas fa-heart" /> {totalVotes || 44}
+            </span>
+
+          </div>
+        </div>
+
+        {/* Render one more tag to trigger SmoothSize component to re-calculate */}
+        {loaded && <span />}
+      </div>
+    );
+  }
+
   render() {
     const { loaded } = this.state;
     const { post } = this.props;
     const {
-      previewPhoto, title, content, createdAt
+      title, content, createdAt
     } = post || {};
     const height = loaded && this.previewRef.current
       ? `${this.previewRef.current.offsetHeight + 15}px`
@@ -61,12 +104,7 @@ export default class extends BlogPost {
       <div className="garden-story">
         <Row>
           <Col size="12" md="7" className="d-none d-md-block">
-            <div className="garden-story__preview" ref={this.previewRef}>
-              <img src={previewPhoto} alt={title} onLoad={this.handleStoryLoaded} />
-            </div>
-
-            {/* Render one more tag to trigger SmoothSize component to re-calculate */}
-            {loaded && <span />}
+            {this.renderPreview(this.previewRef)}
           </Col>
           <Col
             className={`garden-story__content-column ${loaded ? 'loaded' : ''}`}
@@ -90,8 +128,8 @@ export default class extends BlogPost {
               <div className="pl-2 pr-2 overflow-auto modern-scrollbar-2">
                 <i className="text-pre-wrap">{content}</i>
               </div>
-              <div className="garden-story__preview my-2 d-block d-md-none">
-                <img src={previewPhoto} alt={title} onLoad={this.handleStoryLoaded} />
+              <div className="d-block d-md-none my-2">
+                {this.renderPreview()}
               </div>
             </div>
           </Col>
