@@ -1,9 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'mdbreact';
+import emojiRegex from 'emoji-regex/text';
 import './GardenStory.scss';
 import TimeAgo from '../../../../../components/utils/time-ago/TimeAgo';
 import ContextButton from '../../../../../components/utils/context-button/ContextButton';
 import BlogPost from '../../../../../components/blog/blog-post/BlogPost';
+
+const emoRegex = emojiRegex();
 
 
 export default class extends BlogPost {
@@ -75,7 +78,7 @@ export default class extends BlogPost {
             </audio>
           </div>
         )}
-        <div className="overlap right bottom p-2 text-white">
+        <div className="overlap right bottom p-2 text-white hover-gray">
           <div className="garden-story__emotions">
             <span className="hover-light-red">
               <i className="fas fa-heart" /> {totalVotes || 44}
@@ -94,11 +97,14 @@ export default class extends BlogPost {
     const { loaded } = this.state;
     const { post } = this.props;
     const {
-      title, content, createdAt
+      title, content: rawContent, createdAt
     } = post || {};
     const height = loaded && this.previewRef.current
       ? `${this.previewRef.current.offsetHeight + 15}px`
       : '';
+    const content = {
+      __html: rawContent.replace(emoRegex, emoji => `<emoji>${emoji}</emoji>`)
+    };
 
     return (
       <div className="garden-story">
@@ -126,7 +132,7 @@ export default class extends BlogPost {
                 </sup>
               </div>
               <div className="pl-2 pr-2 overflow-auto modern-scrollbar-2">
-                <i className="text-pre-wrap">{content}</i>
+                <i className="text-pre-wrap" dangerouslySetInnerHTML={content} />
               </div>
               <div className="d-block d-md-none my-2">
                 {this.renderPreview()}

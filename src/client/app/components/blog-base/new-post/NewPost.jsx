@@ -23,13 +23,6 @@ import { ModelName } from '../../../utils/Constants';
 import PostService from '../../../services/blog/PostService';
 
 
-const scrollToTop = () => {
-  const scrollBox = document.getElementById('sidebar-layout__content');
-  const newForm = document.getElementsByClassName('new-form')[0].parentNode;
-  scrollBox.scrollTo({ top: newForm.offsetTop - 50, behavior: 'smooth' });
-};
-
-
 export default class extends BaseComponent.Pure {
   get createTitle() {
     return t('components.blogBase.newForm.createTitle');
@@ -94,7 +87,9 @@ export default class extends BaseComponent.Pure {
 
   constructor(props) {
     super(props);
+    this.newPostAnchorRef = React.createRef();
     this.thankForYourPostRef = React.createRef();
+    this.scrollTo = this.scrollTo.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.close = this.close.bind(this);
@@ -109,6 +104,16 @@ export default class extends BaseComponent.Pure {
     window.onbeforeunload = !this.isEmpty
       ? () => true
       : undefined;
+  }
+
+  scrollTo() {
+    const scrollBoxIds = ['#sidebar-layout__content', '.with-nav-page__body'];
+    const scrollBox = document.querySelector(
+      scrollBoxIds.find(id => document.querySelector(id))
+    );
+    const target = this.newPostAnchorRef.current;
+    const offsetTop = scrollBox.scrollTop + target.getBoundingClientRect().top;
+    scrollBox.scrollTo({ top: offsetTop - 50, behavior: 'smooth' });
   }
 
   async toggleExpand() {
@@ -177,7 +182,7 @@ export default class extends BaseComponent.Pure {
         });
         // wait for the form to be shown up before we set input for `react-select` (render issue)
         setTimeout(() => {
-          scrollToTop();
+          this.scrollTo();
           resolve();
         }, 300);
       });
@@ -285,7 +290,10 @@ export default class extends BaseComponent.Pure {
     const expanded = expandedz && this.props.hasPermission;
 
     return (
-      <MDBCard className={classnames('new-form overlapable flex-fill', { disabled, expanded })}>
+      <MDBCard
+        className={classnames('new-form overlapable flex-fill', { disabled, expanded })}
+      >
+        <div ref={this.newPostAnchorRef} />
         <Prompt
           when={!this.isEmpty}
           message={this.preventLeaveMessage}

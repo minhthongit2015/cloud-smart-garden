@@ -42,11 +42,12 @@
 
 
 .text-pre {
-  white-space: pre;
+  white-space: pre !important;
 }
 
 .text-pre-wrap {
   white-space: pre-wrap !important;
+  word-break: break-word !important;
 }
 
 .text-nowrap {

@@ -26,10 +26,10 @@ export default class extends BaseComponent {
     return this.today.month();
   }
 
-  getCellClass(date, blockIndex) {
+  getCellClass(date, month) {
     const isToday = date === this.todayDate;
     const datez = new Date(date);
-    const isOtherMonth = datez.getMonth() !== this.dates[blockIndex].month();
+    const isOtherMonth = datez.getMonth() !== month;
     const isSunday = datez.getUTCDay() === 6;
     return `bg-calendar__cell p-2
     ${isToday ? 'today' : ''}
@@ -88,84 +88,70 @@ export default class extends BaseComponent {
     return weeks;
   }
 
-  constructor(props) {
-    super(props);
-    this.monthHeader = {};
-    this.weekHeader = {};
-    this.body = {};
-  }
-
-  renderHeader(date, blockIndex) {
+  renderHeader(date) {
     return (
       <div>
-        {this.renderMonthHeader(date, blockIndex)}
-        {this.renderWeekHeader(date, blockIndex)}
+        {this.renderMonthHeader(date)}
+        {this.renderWeekHeader(date)}
       </div>
     );
   }
 
-  renderMonthHeader(date, blockIndex) {
-    if (!this.monthHeader[blockIndex]) {
-      this.monthHeader[blockIndex] = (
-        <div className="text-center text-bold text-danger">
-          Tháng {(date.month() || this.todayMonth) + 1}
-        </div>
-      );
-    }
-    return this.monthHeader[blockIndex];
+  renderMonthHeader(date) {
+    const month = date.month();
+    return (
+      <div className="text-center text-bold text-danger">
+        Tháng {(month || this.todayMonth) + 1}
+      </div>
+    );
   }
 
-  renderWeekHeader(date, blockIndex) {
-    if (!this.weekHeader[blockIndex]) {
-      const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
-      this.weekHeader[blockIndex] = (
-        <div className="d-flex">
-          {weekdays.map(day => (
-            <div
-              key={day}
-              className="bg-calendar__cell week-header p-2 text-danger"
-            >{day}
-            </div>
-          ))}
-        </div>
-      );
-    }
-    return this.weekHeader[blockIndex];
+  renderWeekHeader() {
+    const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+    return (
+      <div className="d-flex">
+        {weekdays.map(day => (
+          <div
+            key={day}
+            className="bg-calendar__cell week-header p-2 text-danger"
+          >{day}
+          </div>
+        ))}
+      </div>
+    );
   }
 
-  renderBody(date, blockIndex) {
-    if (!this.body[blockIndex]) {
-      const weeks = this.getWeeksOfMonth(date || Date.now());
-      this.body[blockIndex] = (
-        <div className="d-flex flex-column">
-          {weeks.map((week, index) => (
-            <div key={index} className="bg-calendar__week d-flex">
-              {week.map(weekday => (
-                this.renderDay(weekday, blockIndex)
-              ))}
-            </div>
-          ))}
-        </div>
-      );
-    }
-    return this.body[blockIndex];
+  renderBody(date) {
+    const month = date.month();
+    const weeks = this.getWeeksOfMonth(date || Date.now());
+    return (
+      <div className="d-flex flex-column">
+        {weeks.map((week, index) => (
+          <div key={index} className="bg-calendar__week d-flex">
+            {week.map(weekday => (
+              this.renderDay(weekday, month)
+            ))}
+          </div>
+        ))}
+      </div>
+    );
   }
 
-  renderDay(day, blockIndex) {
+  renderDay(weekday, month) {
     return (
       <div
-        key={day}
-        className={`${this.getCellClass(day, blockIndex)}`}
-      >{day}
+        key={weekday}
+        className={`${this.getCellClass(weekday, month)}`}
+      >{weekday}
       </div>
     );
   }
 
-  renderBlock(date, blockIndex) {
+  renderBlock(date) {
     return (
-      <div key={blockIndex} className="d-flex flex-column">
-        {this.renderHeader(date, blockIndex)}
-        {this.renderBody(date, blockIndex)}
+      <div key={date.format('YYYY/MM/DD')} className="d-flex flex-column flex-center flex-1">
+        {this.renderHeader(date)}
+        {this.renderBody(date)}
       </div>
     );
   }
@@ -175,20 +161,25 @@ export default class extends BaseComponent {
     if (!months) return null;
     if (typeof months === 'number') {
       const length = months * 2 - 1;
-      const start = -Math.floor(length / 2);
-      months = [...new Array(length)].map((m, i) => start + i);
+      const start = -(months - 1);
+      months = [...new Array(length)].map((month, monthIndex) => start + monthIndex);
     }
     this.dates = months.map(offset => moment().add(offset, 'months'));
     return (
       <React.Fragment>
-        {this.dates.map((date, i) => this.renderBlock(date, i))}
+        {this.dates.map((date, index) => this.renderBlock(date, index))}
+
+        {/* Padding boxes */}
+        <div className="flex-1" style={{ minWidth: '280px' }} />
+        <div className="flex-1" style={{ minWidth: '280px' }} />
+        <div className="flex-1" style={{ minWidth: '280px' }} />
       </React.Fragment>
     );
   }
 
   render() {
     return (
-      <div className="bg-calendar d-flex justify-content-around flex-wrap">
+      <div className="bg-calendar d-flex justify-content-start flex-wrap">
         {this.renderMultiBlock()}
       </div>
     );

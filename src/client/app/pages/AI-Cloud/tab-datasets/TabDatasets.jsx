@@ -1,36 +1,34 @@
 import React from 'react';
 import { MDBBtn } from 'mdbreact';
-import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
+// import { Section, SectionHeader, SectionBody } from '../../../layouts/base/section';
 import t from '../../../languages';
 import DatasetModule from './DatasetModule';
 import DynamicTimeSeries from '../../../components/charts/base/DynamicTimeSeriesApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
-import Calendar from '../../../components/form/inputs/calendar/Calendar';
 import superrequest from '../../../utils/superrequest';
 import EditableLineChart from '../../../components/charts/base/EditableLineChart';
 import AnyDialogChecker from '../../../helpers/dialogs/any-dialog/AnyDialogChecker';
 import SubPageGroup from '../../_base/SubPageGroup';
+import AdvCalendar from '../../../components/form/inputs/calendar/AdvCalendar';
 
 
 export default class TabDataset extends SubPageGroup {
+  get newPost() {
+    return this.postModuleRef.current && this.postModuleRef.current.newPostRef.current;
+  }
+
   constructor(props) {
     super(props, t('pages.aiCloud.title.datasets'));
     this.postModuleRef = React.createRef();
-    this.bind(this.handleCalendarChange, this.handleCreateDataset, this.handleGenerateRecords);
+    this.bind(this.handleCreateDataset, this.handleGenerateRecords);
     this.state = {
-      selection: null
+      selection: []
     };
   }
 
   componentDidMount() {
     super.componentDidMount();
     AnyDialogChecker.runAllChecks();
-  }
-
-  handleCalendarChange(event, selection) {
-    this.setState({
-      selection
-    });
   }
 
   handleGenerateRecords() {
@@ -40,8 +38,7 @@ export default class TabDataset extends SubPageGroup {
   }
 
   handleCreateDataset() {
-    this.postModuleRef.current.newPostRef.current.setPost({
-      title: 'Dataset 02',
+    this.newPost.setPost({
       days: this.state.selection
     });
   }
@@ -52,7 +49,11 @@ export default class TabDataset extends SubPageGroup {
       <React.Fragment>
         <DynamicTimeSeries group="test" endPoint={ApiEndpoints.records} />
         <EditableLineChart group="test" />
-        <Calendar selection={selection} onChange={this.handleCalendarChange} months={2} />
+        <AdvCalendar
+          name="selection"
+          value={selection}
+          onChange={this.handleInputChange}
+        />
         <div className="text-center mt-4 mb-3">
           <MDBBtn onClick={this.handleGenerateRecords} className="mr-3">
             <i className="fas fa-plus-square" /> Tạo dữ liệu mẫu

@@ -1,24 +1,20 @@
-import BlogPostsModule from '../../../components/blog/blog-posts-module/BlogPostsModule';
+/* eslint-disable class-methods-use-this */
 import NewDataset from './NewDataset';
-import ApiEndpoints from '../../../utils/ApiEndpoints';
 import DatasetService from '../../../services/AI/DatasetService';
+import DatasetPost from './DatasetPost';
+import PostsModule from '../../../components/blog-base/posts-module/PostsModule';
 
 
-export default class extends BlogPostsModule {
-  // eslint-disable-next-line class-methods-use-this
+export default class extends PostsModule {
   get service() {
     return DatasetService;
   }
 
-  get model() {
-    return this.service.model;
-  }
-
   get NewPostComponent() {
-    return this.props.NewPostComponent || NewDataset;
+    return NewDataset;
   }
 
-  get postListProps() {
-    return { ...super.postListProps, endPoint: ApiEndpoints.datasets };
+  get PostComponent() {
+    return DatasetPost;
   }
 }

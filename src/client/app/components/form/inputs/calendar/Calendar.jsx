@@ -24,6 +24,7 @@ export default class extends BaseCalendar {
 
   constructor(props) {
     super(props);
+    this.dispatchChangeEvent = this.dispatchChangeEvent.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -36,6 +37,11 @@ export default class extends BaseCalendar {
     };
   }
 
+  dispatchChangeEvent() {
+    const { selection } = this.state;
+    this.handleInputChange(this.props.name, selection);
+  }
+
   handleClick(event) {
     const isShiftPressed = event.shiftKey;
     const isAltPressed = event.altKey;
@@ -43,18 +49,12 @@ export default class extends BaseCalendar {
     const isRightClick = event.buttons === 2 || event.button === 2;
     if (isRightClick) {
       event.preventDefault();
-      this.setState((prevState) => {
-        if (prevState.prevDate) {
-          this.body = {};
-        }
-        return {
-          prevDate: null
-        };
+      this.setState({
+        prevDate: null
       });
       return;
     }
     const { date } = this.getCellInfo(event);
-    this.body = {};
     this.setState((prevState) => {
       let newSelection = prevState.selection;
       if (!isShiftPressed && !isAltPressed) {
@@ -80,14 +80,12 @@ export default class extends BaseCalendar {
         prevDate: isLeftClick ? date : null
       };
     }, () => {
-      this.body = {};
-      this.dispatchEvent({ typez: 'change' }, this.state.selection);
+      this.dispatchChangeEvent();
     });
   }
 
   handleMouseDown(event) {
     const { date } = this.getCellInfo(event);
-    this.body = {};
     this.setState({
       selecting: true,
       start: date
@@ -100,7 +98,6 @@ export default class extends BaseCalendar {
       return;
     }
     const { date } = this.getCellInfo(event);
-    this.body = {};
     this.setState({
       end: date,
       splicing: event.altKey || isRightClick
@@ -111,9 +108,8 @@ export default class extends BaseCalendar {
     const isRightClick = event.buttons === 2 || event.button === 2;
     const isAltPressed = event.altKey;
     if (isRightClick) {
-      event.preventDefault();
+      this.stopEvent(event);
     }
-    this.body = {};
     this.setState((prevState) => {
       const newState = {
         splicing: false,
@@ -134,8 +130,7 @@ export default class extends BaseCalendar {
       }
       return newState;
     }, () => {
-      this.body = {};
-      this.dispatchEvent({ typez: 'change' }, this.state.selection);
+      this.dispatchChangeEvent();
     });
   }
 
@@ -178,17 +173,20 @@ export default class extends BaseCalendar {
     }
   }
 
-  renderDay(date, blockIndex) {
+  renderDay(date, month) {
     const {
       start, end, selection: stateSelection, splicing, prevDate
     } = this.state;
-    const { selection: propsSelection } = this.props;
+    const { value: propsSelection } = this.props;
     const selection = propsSelection || stateSelection;
+    if (!Array.isArray(selection)) {
+      console.log(selection);
+    }
     const isInSelecting = this.isBetween(date, start, end);
     const isSelected = selection.includes(date) || isInSelecting;
     const selectedClass = splicing && isInSelecting ? 'selected-splice' : 'selected';
     const isMarked = date === prevDate;
-    const cellClass = `${this.getCellClass(date, blockIndex)}`
+    const cellClass = `${this.getCellClass(date, month)}`
       + ` ${isSelected ? selectedClass : ''}`
       + ` ${isMarked ? 'marked' : ''}`;
     return (
