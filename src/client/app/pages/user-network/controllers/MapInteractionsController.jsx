@@ -7,6 +7,7 @@ export default class extends BaseMapController {
   static init(userNetwork) {
     super.init(userNetwork);
     bindMethods(this,
+      this.openPlace, this.togglePlace,
       this.handleMapClick, this.handleRightClick, this.handleZoomChange, this.handleHotkeys,
       this.handleOpenMarker, this.handleCloseMarker, this.handleFocusMarker,
       this.handleOpenPanel, this.handleClosePanel, this.handleClickPanel);
@@ -64,6 +65,22 @@ export default class extends BaseMapController {
     const nextIndex = (currentIndex + 1) % this.openedMarkers.length;
     this.openedMarkers[Math.max(nextIndex, 0)].focus();
     return true;
+  }
+
+  static openPlace(place) {
+    const targetPlace = this.places.find(placeI => placeI._id === place._id);
+    if (targetPlace && targetPlace.ref) {
+      const marker = targetPlace.ref;
+      marker.open();
+    }
+  }
+
+  static togglePlace(place) {
+    const targetPlace = this.places.find(placeI => placeI._id === place._id);
+    if (targetPlace && targetPlace.ref) {
+      const marker = targetPlace.ref;
+      marker.toggle();
+    }
   }
 
   static handleOpenMarker(event, marker) {

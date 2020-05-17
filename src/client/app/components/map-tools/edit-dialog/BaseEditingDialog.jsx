@@ -5,14 +5,17 @@ import {
   MDBInput
 } from 'mdbreact';
 import MapService from '../../../services/map/MapService';
-import SocialService from '../../../services/social/SocialService';
-import PostHelper from '../../../helpers/PostHelper';
 import BaseDialog from '../../dialogs/BaseDialog';
 import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
 
 
 export default class BaseEditingDialog extends BaseDialog {
+  // eslint-disable-next-line class-methods-use-this
+  get model() {
+    return 'Place';
+  }
+
   // eslint-disable-next-line class-methods-use-this
   get wavesHeader() {
     return true;
@@ -38,7 +41,7 @@ export default class BaseEditingDialog extends BaseDialog {
   setContent(content) {
     this.setState({
       content
-    }, this.show);
+    }, this.open);
   }
 
   show(place, marker) {
@@ -55,28 +58,12 @@ export default class BaseEditingDialog extends BaseDialog {
   }
 
   handleLinkChange(event) {
-    const { name, value, dataset: { type } } = event.target;
-    this.setState({
-      [name]: value
-    });
-    if (!type) {
-      SocialService.getByOrder(PostHelper.extractPostOrder(value))
-        .then((res) => {
-          if (!res || !res.data) {
-            return;
-          }
-          this.setPlaceState('post', res.data[0]);
-        });
-    } else {
-      this.setPlaceState(name, value);
-      MapService.fetchPlace(MapService.extractPlaceOrder(value))
-        .then((res) => {
-          if (!res || !res.data) {
-            return;
-          }
-          this.setPlaceState(name, res.data[0]);
-        });
-    }
+    const { name, value } = event.target;
+    this.setPlaceState(name, value);
+    MapService.getByOrder(MapService.extractPlaceOrder(value), { model: this.model })
+      .then((res) => {
+        this.setPlaceState(name, res.data[0]);
+      });
   }
 
   setPlaceState(name, value) {
@@ -113,7 +100,7 @@ export default class BaseEditingDialog extends BaseDialog {
       disabled: true
     }, () => {
       this.state.marker.refresh();
-      MapService.update(this.state.place)
+      MapService.update(this.state.place, { model: this.model })
         .then(() => {
           this.setState({
             disabled: false

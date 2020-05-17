@@ -2,9 +2,9 @@ import CategoryService from '../services/blog/CategoryService';
 
 
 export default class {
-  static extractPostOrder(url) {
+  static extractPostOrder(url, prop = 'hashtag') {
     const urlz = new URL(url || window.location.href);
-    return urlz.searchParams.get('hashtag');
+    return urlz.searchParams.get(prop);
   }
 
   static buildPostUrl(post, opts = { keepQuery: false, relative: false }) {

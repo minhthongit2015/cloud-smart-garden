@@ -3,17 +3,25 @@ import { MDBInput } from 'mdbreact';
 import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
 import BaseEditingDialog from './BaseEditingDialog';
+import { MarkerTypes } from '../../../utils/Constants';
 
 
 export default class extends BaseEditingDialog {
+  // eslint-disable-next-line class-methods-use-this
+  get model() {
+    return MarkerTypes.farm;
+  }
+
   renderForm() {
     const { place } = this.state;
     const {
-      createdBy, title, content, previewPhoto, zoom
+      createdBy, title, content, previewPhoto, zoom, parent
     } = place || {};
     if (!createdBy) {
       return null;
     }
+    const { order, title: parentTitle } = parent || {};
+    const parentName = order && `#${order} ${parentTitle}`;
 
     return (
       <React.Fragment>
@@ -38,6 +46,14 @@ export default class extends BaseEditingDialog {
           name="content"
           value={content}
           onChange={this.handleInputChange}
+          autoComplete="off"
+          autofill="off"
+        />
+        <MDBInput
+          label="Nông trại liên kết"
+          name="parent"
+          value={parentName}
+          onChange={this.handleLinkChange}
           autoComplete="off"
           autofill="off"
         />

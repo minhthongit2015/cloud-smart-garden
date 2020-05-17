@@ -1,6 +1,27 @@
+import Random from '../../utils/Random';
 
 
 export default class {
+  static generatePathToPlace(fromPlace, toPlace) {
+    return this.generatePath({
+      from: fromPlace.position,
+      to: toPlace.position,
+      title: 'from A to B'
+    });
+  }
+
+  static generatePath({
+    from, to, _id, title
+  }) {
+    return {
+      _id: _id || Random.hex(8),
+      __t: 'Path',
+      type: 'Path',
+      name: title,
+      path: [from, to]
+    };
+  }
+
   static generateStrikeRoutePath(place) {
     const strikePathEntity = this.generatePathEntity(place);
     strikePathEntity.path = this.getPathFromStart(place);
@@ -40,7 +61,7 @@ export default class {
       _id: `${place && place._id}${Math.round(Math.random() * 10000000)}`,
       __t: 'Path',
       type: 'Path',
-      name: place && place.name,
+      name: place && place.title,
       path: []
     };
   }

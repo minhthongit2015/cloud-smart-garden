@@ -3,9 +3,15 @@ import { MDBInput } from 'mdbreact';
 import DropUploader from '../../form/inputs/drop-uploader/DropUploader';
 import ZoomInput from '../zoom-input/ZoomInput';
 import BaseEditingDialog from './BaseEditingDialog';
+import { MarkerTypes } from '../../../utils/Constants';
 
 
 export default class extends BaseEditingDialog {
+  // eslint-disable-next-line class-methods-use-this
+  get model() {
+    return MarkerTypes.garden;
+  }
+
   renderForm() {
     const { place } = this.state;
     const {

@@ -1,6 +1,5 @@
 import superrequest from '../../utils/superrequest';
 import UserService from '../user/UserService';
-import FbService from '../user/FbService';
 import MapGenerator from './MapGenerator';
 import SocialService from '../social/SocialService';
 import { MarkerTypes } from '../../utils/Constants';
@@ -37,9 +36,12 @@ export default class MapService extends SocialService {
       : null;
   }
 
-  static async update(place) {
+  static async update(place, { model } = {}) {
     const { marker, ref, ...placeToUpdate } = place;
-    return super.update(placeToUpdate, { model: this.model });
+    if (placeToUpdate.parent) {
+      placeToUpdate.parent = placeToUpdate.parent._id;
+    }
+    return super.update(placeToUpdate, { model });
   }
 
   static mapEntities(places) {
@@ -52,15 +54,15 @@ export default class MapService extends SocialService {
           place.joined = place.members.some(member => member._id === UserService.user._id);
         }
       }
-      if (place.__t === 'Garden') {
-        place.picture = FbService.buildAvatarUrl(place.socials.fb);
-        // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
-      }
+      // if (place.__t === 'GardenMarker') {
+      //   place.previewPhoto = FbService.buildAvatarUrl(place.socials.fb);
+      //   // entity.cover = `https://graph.facebook.com/${entity.socials.fb}/cover-photo`;
+      // }
     });
-    places.filter(place => place.__t === 'Strike')
-      .forEach((place, i, arr) => {
-        if (place.next && arr.every(pl => !pl.next || pl.next._id !== place._id)) {
-          const strikePathEntity = MapGenerator.generateStrikeRoutePath(place);
+    places.filter(place => place.__t === 'FarmMarker')
+      .forEach((place) => {
+        if (place.parent) {
+          const strikePathEntity = MapGenerator.generatePathToPlace(place.parent, place);
           paths.push(strikePathEntity);
         }
         if (place.members) {

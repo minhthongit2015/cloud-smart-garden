@@ -28,6 +28,14 @@ export default class extends BaseMapController {
     return MapInteractionsController.handleHotkeys;
   }
 
+  static get openPlace() {
+    return MapInteractionsController.openPlace;
+  }
+
+  static get togglePlace() {
+    return MapInteractionsController.togglePlace;
+  }
+
   static get handleOpenMarker() {
     return MapInteractionsController.handleOpenMarker;
   }

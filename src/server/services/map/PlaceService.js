@@ -11,7 +11,7 @@ module.exports = class extends SocialService {
   }
 
   static get populate() {
-    return ['createdBy'];
+    return ['createdBy', 'parent'];
   }
 
   static resolveListOptions({ opts = new ListParams() }) {
