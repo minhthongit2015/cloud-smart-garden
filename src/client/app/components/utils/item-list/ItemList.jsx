@@ -74,12 +74,24 @@ export default class ItemList extends BaseComponent {
       return null;
     }
     return (
-      Object.values(groupedItems).map(groupedItem => (
-        (groupedItem.length == null || groupedItem.length === 1)
-          ? this.renderItem(groupedItem[0] || groupedItem)
-          : this.renderItemGroup(groupedItem)
-      ))
+      <>
+        {this.renderBeforeItemList()}
+        {Object.values(groupedItems).map(groupedItem => (
+          (groupedItem.length == null || groupedItem.length === 1)
+            ? this.renderItem(groupedItem[0] || groupedItem)
+            : this.renderItemGroup(groupedItem)
+        ))}
+        {this.renderAfterItemList()}
+      </>
     );
+  }
+
+  renderBeforeItemList() {
+    return null;
+  }
+
+  renderAfterItemList() {
+    return null;
   }
 
   renderItemGroup(itemsInGroup) {
@@ -90,7 +102,6 @@ export default class ItemList extends BaseComponent {
           <div
             key={item._id}
             className={`${this.baseClass}__item__group__index`}
-            tabIndex="-1"
             id={item._id}
             onClick={this.handleItemClick}
             title={TimeAgo.fromNowDetailLn(item.createdAt)}
@@ -136,7 +147,6 @@ export default class ItemList extends BaseComponent {
       <React.Fragment>
         <div
           className={`${this.baseClass}__item__link`}
-          tabIndex="-1"
           id={_id || Random.hex()}
           onClick={this.handleItemClick}
         >
@@ -149,6 +159,12 @@ export default class ItemList extends BaseComponent {
 
   renderAddSection() {
     return <div>+ Add New Item</div>;
+  }
+
+  renderNoItem() {
+    return (
+      <div>There is no item in the list</div>
+    );
   }
 
   render() {
@@ -167,7 +183,9 @@ export default class ItemList extends BaseComponent {
         )}
         style={style}
       >
-        {this.renderItems()}
+        {this.items.length > 0
+          ? this.renderItems()
+          : this.renderNoItem()}
         {this.canAdd && this.renderAddSection()}
       </div>
     );

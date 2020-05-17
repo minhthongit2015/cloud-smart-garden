@@ -45,14 +45,14 @@ export default class extends BaseMapController {
       ...newPlace,
       marker: MapUtils.getMarkerByType(newPlace.__t)
     };
-    this.userNetwork.addMarker(newMarker);
+    this.addMarker(newMarker);
     return MapService.create(newPlace)
       .then((res) => {
         if (!res || !res.data) {
           // rollback
         }
         Object.assign(newMarker, res.data);
-        this.refresh();
+        this.userNetwork.refresh();
       });
   }
 

@@ -1,9 +1,9 @@
 import moment from 'moment';
-import ChartHelper from './ChartHelper';
+import ChartAdapter from './ChartAdapter';
 import Random from '../../utils/Random';
 
 
-export default class extends ChartHelper {
+export default class extends ChartAdapter {
   static Characteristics = {
     flexibility: 'Linh Hoạt',
     responsibility: 'Trách Nhiệm',

@@ -128,7 +128,7 @@ export default class extends BaseDialog {
               >
                 <i
                   className="fab fa-facebook mr-2"
-                /> đăng nhập với Facebook
+                /> Đăng nhập với Facebook
               </MDBBtn>
             </div>
             <div className="text-center mb-3">

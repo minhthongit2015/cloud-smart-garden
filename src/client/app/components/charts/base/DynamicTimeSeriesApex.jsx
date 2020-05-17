@@ -3,7 +3,7 @@ import React from 'react';
 import TimeSeriesChart from './TimeSeriesChartApex';
 import ApiEndpoints from '../../../utils/ApiEndpoints';
 import superrequest from '../../../utils/superrequest';
-import ApexchartsHelper from '../../../helpers/charts/ApexchartsHelper';
+import ApexChartAdapter from '../../../helpers/charts/ApexChartAdapter';
 import BaseComponent from '../../_base/BaseComponent';
 
 
@@ -25,10 +25,10 @@ export default class DynamicTimeSeries extends BaseComponent.Pure {
 
   fetch() {
     this.dispatchEvent(this.Events.fetch);
-    superrequest.get(`${this.endPoint}?limit=200`)
+    superrequest.get(ApiEndpoints.limit(this.endPoint, 1000))
       .then((res) => {
         this.setState({
-          chartProps: ApexchartsHelper.buildProps(res.data)
+          chartProps: ApexChartAdapter.buildProps(res.data)
         }, () => {
           this.dispatchEvent(this.Events.fetched, res.data);
         });

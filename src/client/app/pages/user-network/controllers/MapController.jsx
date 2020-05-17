@@ -6,6 +6,7 @@ import MapTradingController from './MapTradingController';
 
 export default class extends BaseMapController {
   static init(userNetwork) {
+    super.init(userNetwork);
     MapInteractionsController.init(userNetwork);
     MapActionsController.init(userNetwork);
     MapTradingController.init(userNetwork);

@@ -1,7 +1,7 @@
-import ChartHelper from './ChartHelper';
+import ChartAdapter from './ChartAdapter';
 
 
-export default class extends ChartHelper {
+export default class extends ChartAdapter {
   static buildProps(records) {
     return {
       series: this.recordsToLine(records)
@@ -12,6 +12,20 @@ export default class extends ChartHelper {
     return keys.map(key => this.splitToLine(records, key));
   }
 
+  /**
+   *
+   * @param {[
+   *  {
+   *    createdAt: 1234,
+   *    state: {
+   *      temperature: 123,
+   *      humidity: 123,
+   *      light: 123
+   *    }
+   *  }
+   * ]} records
+   * @param {'temperature' | 'humidity' | 'light' | 'nutri'} key
+   */
   static splitToLine(records, key) {
     return {
       name: key,
@@ -22,6 +36,11 @@ export default class extends ChartHelper {
     };
   }
 
+  /**
+   *
+   * @param {*} dataset
+   * @deprecated todo: migrate
+   */
   static buildDataFromDataset(dataset) {
     const { columns } = this.props;
     if (this.chartRef.chart && columns && dataset) {

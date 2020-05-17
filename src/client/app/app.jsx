@@ -105,7 +105,7 @@ class App extends Component {
           <Route path={RouteConstants.userNetworkPath} component={DummyUserNetwork} />
           <Redirect to={RouteConstants.homeLink} />
         </Switch>
-        {(this.isUserNetwork || window.myGoogleMap) && <UserNetwork />}
+        {(this.isUserNetwork || window.MyGoogleMap) && <UserNetwork />}
       </React.Suspense>
     );
     return (

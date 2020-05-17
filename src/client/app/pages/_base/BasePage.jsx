@@ -3,7 +3,7 @@ import { loadImage } from '../../utils';
 import BaseComponent from '../../components/_base/BaseComponent';
 import HistoryHelper from '../../helpers/HistoryHelper';
 
-export default class extends BaseComponent {
+export default class extends BaseComponent.Pure {
   constructor(props, title, noBaseTitle) {
     super(props);
     this.title = title;

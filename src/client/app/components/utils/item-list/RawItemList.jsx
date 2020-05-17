@@ -14,13 +14,11 @@ export default class extends ItemList {
       <div className="w-25 px-1 d-flex" key={item._id}>
         <div
           className="item-list__item d-flex flex-column justify-content-between text-center"
-          tabIndex="-1"
         >
           {beforeContent}
           {this.renderBeforeItem(item)}
           <div
             className="item-list__item__link"
-            tabIndex="-1"
             id={item._id}
             onClick={this.handleItemClick}
           >
