@@ -4,7 +4,7 @@ import {
 } from 'mdbreact';
 import RatioRect from '../../../components/utils/ratio-rect/RatioRect';
 import WavesWrapper from '../../../components/utils/waves-wrapper/WavesWrapper';
-import PlantService from '../../../services/garden/PlantService';
+import UserPlantService from '../../../services/garden/UserPlantService';
 
 
 export default memo(({
@@ -27,7 +27,7 @@ export default memo(({
   }
 
   function handleRemovePlant() {
-    PlantService.removeUserPlant(userPlantId, stationId)
+    UserPlantService.removeUserPlant(userPlantId, stationId)
       .then((rs) => {
         onPlantRemoved(rs.data);
       });

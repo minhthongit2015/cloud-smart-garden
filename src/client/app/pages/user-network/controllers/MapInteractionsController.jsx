@@ -11,6 +11,8 @@ export default class extends BaseMapController {
       this.handleMapClick, this.handleRightClick, this.handleZoomChange, this.handleHotkeys,
       this.handleOpenMarker, this.handleCloseMarker, this.handleFocusMarker,
       this.handleOpenPanel, this.handleClosePanel, this.handleClickPanel);
+    window.zoomListeners = [];
+    window.onZoom = listener => window.zoomListeners.push(listener);
     this.openedMarkers = [];
     this.openedPanels = [];
     this.focusedPlaceIndex = -1;
@@ -40,6 +42,11 @@ export default class extends BaseMapController {
 
   static handleZoomChange() {
     this.userNetwork.zoomToolRef.current.forceUpdate();
+    window.zoomListeners.forEach((listener) => {
+      if (listener && typeof listener === 'function') {
+        listener(this.map.zoom);
+      }
+    });
   }
 
   static handleHotkeys(event) {

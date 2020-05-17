@@ -44,7 +44,7 @@ export default ({ user }) => {
             to={`${RouteConstants.myGardenLink}/${nav.to}`}
             isActive={(...args) => isActive(nav, ...args)}
             name={`${RouteConstants.myGardenLink}/${nav.to}`}
-            className="px-2 my-2 w-2 w-sm-4 w-md-6 w-lg-8 d-flex align-items-center justify-content-center cursor-pointer border-right text-beauty text-inset text-1.5"
+            className="px-2 my-2 w-2 w-sm-4 w-md-4 w-lg-6 w-xl-8 d-flex align-items-center justify-content-center cursor-pointer border-right text-beauty text-inset text-1.5"
           >
             <span>
               <i className={nav.icon} /> <span className="text-nowrap">{nav.title}</span>

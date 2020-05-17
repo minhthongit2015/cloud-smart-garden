@@ -14,12 +14,36 @@ export default class PlantLibrary extends MainPageGroup {
       component: TabPlantLibrary
     };
     this.tabs = [
-      // {
-      //   name: t('pages.aiCloud.nav.projects'),
-      //   link: RouteConstants.aiProjectsLink,
-      //   path: RouteConstants.aiProjectsPath,
-      //   component: TabPlantLibrary
-      // },
+      {
+        name: t('Rau'),
+        link: RouteConstants.vegetableLink,
+        path: RouteConstants.vegetablePath,
+        component: TabPlantLibrary
+      },
+      {
+        name: t('Củ'),
+        link: RouteConstants.tubersLink,
+        path: RouteConstants.tubersPath,
+        component: TabPlantLibrary
+      },
+      {
+        name: t('Quả'),
+        link: RouteConstants.fruitsLink,
+        path: RouteConstants.fruitsPath,
+        component: TabPlantLibrary
+      },
+      {
+        name: t('Hoa'),
+        link: RouteConstants.flowersLink,
+        path: RouteConstants.flowersPath,
+        component: TabPlantLibrary
+      },
+      {
+        name: t('Nấm'),
+        link: RouteConstants.mushroomsLink,
+        path: RouteConstants.mushroomsPath,
+        component: TabPlantLibrary
+      }
     ];
   }
 }

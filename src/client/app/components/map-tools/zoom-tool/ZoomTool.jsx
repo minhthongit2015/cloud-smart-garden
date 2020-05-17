@@ -4,7 +4,7 @@ import BaseComponent from '../../_base/BaseComponent';
 
 const levels = {
   default: { label: 'Mặc định', value: '', icon: 'fas fa-search-plus' },
-  human: { label: 'Thu phóng mức Sinh vật', value: 19, icon: 'fas fa-dog' },
+  human: { label: 'Thu phóng mức Sinh vật', value: 20, icon: 'fas fa-dog' },
   house: { label: 'Thu phóng mức Nhà cửa', value: 17, icon: 'fas fa-home' },
   district: { label: 'Thu phóng mức Quận', value: 15, icon: 'fas fa-building' },
   city: { label: 'Thu phóng mức Thành phố', value: 12, icon: 'fas fa-city' },

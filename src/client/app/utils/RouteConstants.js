@@ -36,6 +36,16 @@ const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
 const plantLibraryPath = '/central-library';
 const plantLibraryLink = '/central-library';
+const vegetablePath = `${plantLibraryLink}/vegetables`;
+const vegetableLink = `${plantLibraryLink}/vegetables`;
+const tubersPath = `${plantLibraryLink}/tubers`;
+const tubersLink = `${plantLibraryLink}/tubers`;
+const fruitsPath = `${plantLibraryLink}/fruits`;
+const fruitsLink = `${plantLibraryLink}/fruits`;
+const flowersPath = `${plantLibraryLink}/flowers`;
+const flowersLink = `${plantLibraryLink}/flowers`;
+const mushroomsPath = `${plantLibraryLink}/mushrooms`;
+const mushroomsLink = `${plantLibraryLink}/mushrooms`;
 
 const myGardenPath = '/my-garden';
 const myGardenLink = '/my-garden';
@@ -84,6 +94,16 @@ module.exports = {
   // Public
   plantLibraryPath,
   plantLibraryLink,
+  vegetablePath,
+  vegetableLink,
+  tubersPath,
+  tubersLink,
+  fruitsPath,
+  fruitsLink,
+  flowersPath,
+  flowersLink,
+  mushroomsPath,
+  mushroomsLink,
 
   myGardenPath,
   myGardenLink,

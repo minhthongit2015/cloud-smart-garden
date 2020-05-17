@@ -7,6 +7,10 @@ import BaseComponent from '../../_base/BaseComponent';
 import './BaseMarker.scss';
 
 
+function rescale(val, min1, max1, min2, max2) {
+  return (val - min1) / (max1 - min1) * (max2 - min2) + min2;
+}
+
 export default class BaseMarker extends BaseComponent.Pure {
   get customClass() {
     return this.props.customClass || 'custom';
@@ -82,6 +86,12 @@ export default class BaseMarker extends BaseComponent.Pure {
   }
 
   initMarker() {
+    window.onZoom((zoom) => {
+      const icon = this.markerRef.marker.getIcon();
+      icon.size.width = rescale(zoom, 2, 20, 10, 32);
+      icon.size.height = icon.size.width;
+      this.markerRef.marker.setIcon(icon);
+    });
     const { title } = this.props;
     this.originMarkerElement
       .addClass('custom-marker')
@@ -105,14 +115,15 @@ export default class BaseMarker extends BaseComponent.Pure {
   }
 
   buildMarkerIcon() {
-    const { google, icon } = this.props;
+    const { google, icon, map } = this.props;
     if (!icon) return;
+    const iconSize = 32 || rescale(map.zoom, 2, 20, 10, 32);
     this._markerIcon = new google.maps.MarkerImage(
       icon,
       null, /* size is determined at runtime */
       null, /* origin is 0,0 */
       null, /* anchor is bottom center of the scaled image */
-      new google.maps.Size(32, 32)
+      new google.maps.Size(iconSize, iconSize)
     );
   }
 
