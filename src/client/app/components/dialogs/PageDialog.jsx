@@ -6,6 +6,7 @@ import {
 import classNames from 'classnames';
 import BaseDialog from './BaseDialog';
 import HistoryHelper from '../../helpers/HistoryHelper';
+import LeafLoading from '../utils/loadings/LeafLoading';
 
 
 export default class extends BaseDialog {
@@ -48,7 +49,9 @@ export default class extends BaseDialog {
     const { content } = this.state;
     return (
       <MDBModalBody>
-        {content}
+        <React.Suspense fallback={<LeafLoading overlaping text="Beyond Garden" />}>
+          {content}
+        </React.Suspense>
       </MDBModalBody>
     );
   }
