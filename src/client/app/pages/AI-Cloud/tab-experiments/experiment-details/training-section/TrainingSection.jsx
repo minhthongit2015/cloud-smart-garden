@@ -51,7 +51,7 @@ class TrainingSection extends BaseComponent.Pure {
   }
 
   componentWillUnmount() {
-    ExperimentService.stopTraining();
+    this.handleStopTraining();
   }
 
   async handleStartTraining(event) {

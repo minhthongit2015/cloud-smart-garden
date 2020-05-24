@@ -99,7 +99,9 @@ export default class ExperimentPage extends BaseComponent {
   }
 
   executeEvaluation() {
-    this.evaluationSectionRef.current.compare();
+    if (this.evaluationSectionRef.current) {
+      this.evaluationSectionRef.current.compare();
+    }
   }
 
   handleAlgorithmsChange() {
