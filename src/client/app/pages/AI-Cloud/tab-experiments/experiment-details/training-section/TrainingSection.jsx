@@ -73,12 +73,12 @@ class TrainingSection extends BaseComponent.Pure {
       datasets
     } = editingTarget;
 
-    let datasetId;
+    let dataset;
     if (datasets && datasets[0]) {
-      datasetId = datasets[0].key;
+      dataset = datasets[0].key;
     } else {
       const res = await DatasetService.fetchDatasets();
-      datasetId = res.data[0]._id;
+      dataset = res.data[0]._id;
     }
 
     const {
@@ -96,23 +96,33 @@ class TrainingSection extends BaseComponent.Pure {
     ExperimentService.buildExperiment(
       experimentId,
       {
-        targets: [editingTarget],
-        algorithm,
-        optimizer,
-        loss,
-        activation,
-        layers: layersAsArray(layers),
-        datasetId,
-        batchSize,
-        epochs,
-        highResolution,
-        continuous
+        target: editingTarget._id,
+        trainingSetOptions: {
+          dataset
+        },
+        modelOptions: {
+          algorithm,
+          optimizer,
+          loss,
+          activation,
+          layers: layersAsArray(layers)
+        },
+        trainOptions: {
+          epochs,
+          batchSize,
+          isContinuous: continuous,
+          highResolution
+        }
       }
     );
   }
 
   handleStopTraining() {
-    ExperimentService.stopTraining();
+    const {
+      experiment: { _id: experimentId },
+      editingTarget: { _id: targetId }
+    } = this.props;
+    ExperimentService.stopTraining(experimentId, targetId);
   }
 
   handleConnectChart() {

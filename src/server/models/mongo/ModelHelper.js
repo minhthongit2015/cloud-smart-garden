@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { MongooseAutoIncrementID } = require('mongoose-auto-increment-reworked');
-const { ModelName } = require('./ModelConstants');
+const { ModelFields } = require('./ModelConstants');
 
 
 module.exports = class {
@@ -14,7 +14,7 @@ module.exports = class {
   static createModel(name,
     schema,
     useAutoIncrement = false,
-    incrementKey = ModelName.fields.order) {
+    incrementKey = ModelFields.order) {
     const Schema = new mongoose.Schema(schema);
 
     if (useAutoIncrement) {
@@ -26,14 +26,14 @@ module.exports = class {
     return [Model, Schema];
   }
 
-  static createOrderedModel(name, schema, incrementKey = ModelName.fields.order) {
+  static createOrderedModel(name, schema, incrementKey = ModelFields.order) {
     return this.createModel(name, schema, true, incrementKey);
   }
 
   static extendsModel(
     baseModel, name, schema,
     useAutoIncrement = false,
-    incrementKey = ModelName.fields.order2
+    incrementKey = ModelFields.order2
   ) {
     const Schema = new mongoose.Schema(schema);
     if (useAutoIncrement) {
@@ -45,7 +45,7 @@ module.exports = class {
     return [Model, Schema];
   }
 
-  static extendsOrderedModel(baseModel, name, schema, incrementKey = ModelName.fields.order2) {
+  static extendsOrderedModel(baseModel, name, schema, incrementKey = ModelFields.order2) {
     return this.extendsModel(baseModel, name, schema, true, incrementKey);
   }
 };

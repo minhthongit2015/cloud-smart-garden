@@ -3,6 +3,7 @@
 const { Station } = require('../../models/mongo');
 const SocialService = require('../social/SocialService');
 const UserPlantService = require('./UserPlantService');
+const { ModelName } = require('../../utils/Constants');
 
 
 module.exports = class extends SocialService {
@@ -11,7 +12,18 @@ module.exports = class extends SocialService {
   }
 
   static get populate() {
-    return ['models', 'plants', ['garden', '_id title']];
+    return [
+      'models',
+      {
+        path: 'plants',
+        model: ModelName.userPlant,
+        populate: {
+          path: 'plant',
+          model: ModelName.plant
+        }
+      },
+      ['garden', '_id title']
+    ];
   }
 
   static async addUserPlant(stationId, plantId) {

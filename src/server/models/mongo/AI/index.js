@@ -6,3 +6,4 @@ module.exports.Dataset = require('./Dataset');
 module.exports.Experiment = require('./Experiment');
 module.exports.ExperimentTarget = require('./ExperimentTarget');
 module.exports.TrainedModel = require('./TrainedModel');
+module.exports.TrainingTask = require('./TrainingTask');

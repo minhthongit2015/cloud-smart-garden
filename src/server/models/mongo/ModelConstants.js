@@ -1,11 +1,10 @@
 
+const ModelFields = {
+  order: 'order',
+  order2: 'order2'
+};
 
 const ModelName = {
-  fields: {
-    order: 'order',
-    order2: 'order2'
-  },
-
   // Intranet
   intranet: 'Intranet',
   oneHundredQuotes: 'OneHundredQuotes',
@@ -36,7 +35,8 @@ const ModelName = {
   experiment: 'Experiment',
   experimentTarget: 'ExperimentTarget',
   trainedModel: 'TrainedModel',
-  dataset: 'Dataset'
+  dataset: 'Dataset',
+  trainingTask: 'TrainingTask'
 };
 
 // Map
@@ -60,6 +60,7 @@ const ContactTypes = {
 
 module.exports = {
   ModelName,
+  ModelFields,
   MarkerTypes,
   ContactTypes
 };

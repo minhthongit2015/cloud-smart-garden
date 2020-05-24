@@ -34,7 +34,10 @@ export default class ExperimentService extends SocialService {
     superrequest.ws.off('trainEnd');
   }
 
-  static stopTraining() {
-    return superrequest.post(ApiEndpoints.stopTraining);
+  static stopTraining(experimentId, targetId) {
+    return superrequest.post(
+      ApiEndpoints.stopTrainingI(experimentId),
+      { target: targetId }
+    );
   }
 }

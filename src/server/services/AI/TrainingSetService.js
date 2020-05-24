@@ -1,10 +1,10 @@
 // const tf = require('@tensorflow/tfjs-node');
-const DataUtilsHelper = require('../targets/DataUtilsHelper');
-const { Dataset, TrainingSet, InputContext } = require('../utils/AITypes');
-const TargetHelper = require('../targets/TargetHelper');
+const DataUtilsHelper = require('./targets/DataUtilsHelper');
+const { Dataset, TrainingSet, InputContext } = require('./utils/AITypes');
+const TargetHelper = require('./targets/TargetHelper');
 
 
-class MapDatasetOptionsInterface {
+class MapDatasetOptions {
   // e.g: ['createdAt'] | [['createdAt', 'fromStart']]
   features = [];
 
@@ -17,7 +17,7 @@ class MapDatasetOptionsInterface {
 module.exports = class {
   static fromDataset(
     dataset = new Dataset(),
-    opts = new MapDatasetOptionsInterface()
+    opts = new MapDatasetOptions()
   ) {
     if (!opts || !opts.features || !opts.labels) {
       return null;
@@ -40,7 +40,10 @@ module.exports = class {
         );
         trainingSet.ys.push(
           trainingSet.labels.map(
-            labelPath => DataUtilsHelper.mapThroughtAllNodes(labelPath, context)
+            (labelPath) => {
+              const label = DataUtilsHelper.mapThroughtAllNodes(labelPath, context);
+              return label != null ? label : 0;
+            }
           )
         );
       }

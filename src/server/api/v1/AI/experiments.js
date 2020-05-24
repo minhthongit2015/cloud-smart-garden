@@ -10,16 +10,20 @@ router.get('/test', Logger.catch(async (req, res) => {
   return res.send(APIResponse.setData(trainedModel));
 }));
 
-router.post('/stop-training', Logger.catch(async (req, res) => {
-  await ExperimentService.stopTraining();
+router.post('/:experimentId/stop-training', Logger.catch(async (req, res) => {
+  const { experimentId } = req.params;
+  const { target } = req.body;
+  await ExperimentService.stopTraining(experimentId, target);
   return res.send(APIResponse.SUCCESS);
 }));
 
 router.post('/:experimentId/build', Logger.catch(async (req, res) => {
   const { experimentId } = req.params;
-  const trainedModels = await ExperimentService.buildAndTrain(experimentId, req.body);
-  const mappedModels = trainedModels.map(model => JSON.parse(JSON.parse(JSON.stringify(model))));
-  return res.send(APIResponse.setData(mappedModels));
+  await ExperimentService.buildAndTrain({
+    experiment: experimentId,
+    ...req.body
+  });
+  return res.send(APIResponse.SUCCESS);
 }));
 
 router.post('/:experimentId/compare', Logger.catch(async (req, res) => {

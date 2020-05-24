@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const SyncService = require('../../../services/sync');
 const Logger = require('../../../services/Logger');
-const PostService = require('../../../services/blog/PostService');
 const StationService = require('../../../services/garden/StationService');
 const RecordService = require('../../../services/garden/RecordService');
 const SessionService = require('../../../services/user/Session');
@@ -20,8 +19,12 @@ router.post('/', Logger.catch(async (req, res) => {
   const newRecord = await RecordService.create({ state, station });
 
   if (newRecord) {
-    const station1 = await PostService.get({ id: station });
-    SyncService.emitToOwner(station1.owner, 'stateChange', newRecord);
+    const station1 = await StationService.get({ id: station });
+    await Promise.all(
+      station1.owners.map(
+        owner => SyncService.emitToOwner(owner, 'stateChange', newRecord)
+      )
+    );
     const predicts = await TargetService.predict(newRecord, station._id);
     if (predicts) {
       res.emit('setState', predicts.state);

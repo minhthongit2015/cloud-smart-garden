@@ -21,6 +21,11 @@
 - - - - -
 
 #### >Idea 02 - Tiêu chí lập trình mọi thời đại
+
+> Viết code theo hướng tư duy, không viết theo hướng máy móc kỹ thuật.<br>
+> Code không còn là để cho máy chạy nữa mà là để cho người đọc.<br>
+> Vậy nên hãy tư duy đơn giản, viết code đơn giản. Như vậy mọi người sẽ dễ dàng nắm bắt, tránh mắc lỗi, tốn thời gian vô ích.
+
 1. **`Code dễ hiểu nhất`** > Code đẹp<br>
    (Code dài mà dễ hiểu > Code ngắn gọn mà khó hiểu)<br>
    => `Đừng viết code quá đẹp!!!!`
@@ -46,11 +51,11 @@
       - Module cấp cao không phụ thuộc vào module cấp thấp
       - Interface không phụ thuộc vào Class implement nó
       - Các Class nên giao tiếp với nhau thông qua Interface
-      => Định hình tư duy về chức năng cần thực hiện trước
-          => Chuyển tư duy đó thành các Interface
-            => Xây dựng các Class implement các Interface đó
-      (* Trong JS k có Interface)
-*Design Pattern chỉ cần khi bạn lập trình vào chi tiết. Nhưng trước khi vào chi tiết, bạn bắt buộc phải hiểu rõ những gì mình sắp làm. Nếu tư duy chưa rõ ràng, hãy dành thời gian để hoàn thiện nó trước. Bạn có thể vẽ nó ra giấy, note lại nó ở đâu đó một cách rõ ràng trước rồi hãy bắt đầu.
+      1. => Định hình tư duy về chức năng cần thực hiện trước
+      2. => Chuyển tư duy đó thành các Interface
+      3. => Xây dựng các Class implement các Interface đó
+      <br>(* Trong JS k có Interface)
+<br>*Design Pattern chỉ cần khi bạn lập trình vào chi tiết. Nhưng trước khi vào chi tiết, bạn bắt buộc phải hiểu rõ những gì mình sắp làm. Nếu tư duy chưa rõ ràng, hãy dành thời gian để hoàn thiện nó trước. Bạn có thể vẽ nó ra giấy, note lại nó ở đâu đó một cách rõ ràng trước rồi hãy bắt đầu.
 
 - - - - -
 

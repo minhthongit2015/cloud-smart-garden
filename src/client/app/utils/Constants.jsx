@@ -1,6 +1,7 @@
 
 export {
   ModelName,
+  ModelFields,
   MarkerTypes,
   ContactTypes,
   UserRole,
@@ -8,6 +9,7 @@ export {
   MemberBadge,
 
   // AI
+  TaskStatus,
   ExperimentTargets,
   ExperimentTargetTypes,
   Algorithms,

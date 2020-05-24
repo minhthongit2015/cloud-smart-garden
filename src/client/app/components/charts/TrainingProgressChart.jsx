@@ -38,7 +38,7 @@ export default class TrainingProgressChart extends BaseChart {
             enabled: false
           },
           labels: {
-            formatter: val => val.toFixed(2)
+            formatter: val => val.toFixed(3)
           }
         }
       },

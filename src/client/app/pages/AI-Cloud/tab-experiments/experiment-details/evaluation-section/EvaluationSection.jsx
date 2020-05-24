@@ -33,6 +33,7 @@ export default class extends BaseComponent.Pure {
     this.predictionChart.clean();
 
     const {
+      _id: targetId,
       datasets
     } = editingTarget;
 
@@ -47,7 +48,7 @@ export default class extends BaseComponent.Pure {
     ExperimentService.compare(
       experimentId,
       {
-        targets: [editingTarget],
+        target: targetId,
         datasetId
       }
     ).then((res) => {

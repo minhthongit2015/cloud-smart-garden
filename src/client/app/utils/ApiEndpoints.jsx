@@ -230,7 +230,7 @@ const experiments = subRoute(AI, 'experiments');
 const experimentI = entityI(experiments);
 const buildExperimentI = entityI(experiments, 'build');
 const compareExperimentI = entityI(experiments, 'compare');
-const stopTraining = subRoute(experiments, 'stop-training');
+const stopTrainingI = entityI(experiments, 'stop-training');
 const datasets = subRoute(AI, 'datasets');
 const datasetI = entityI(datasets);
 const regenerateDatasetIRecords = entityI(datasets, 'regenerate');
@@ -308,7 +308,7 @@ export default {
   experimentI,
   buildExperimentI,
   compareExperimentI,
-  stopTraining,
+  stopTrainingI,
   datasets,
   datasetI,
   regenerateDatasetIRecords,

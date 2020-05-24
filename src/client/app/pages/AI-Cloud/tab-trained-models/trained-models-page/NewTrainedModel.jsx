@@ -5,13 +5,13 @@ import DropUploader from '../../../../components/form/inputs/drop-uploader/DropU
 // import Composer from '../../../../components/form/inputs/composer/Composer';
 import NewBlogPost from '../../../../components/blog/new-blog-post/NewBlogPost';
 import t from '../../../../languages';
-import { ModelName } from '../../../../utils/Constants';
 import { tAI } from '../../tab-experiments/experiment-details/LanguagesHelper';
+import ModelService from '../../../../services/AI/ModelService';
 
 
 export default class extends NewBlogPost {
-  get model() {
-    return ModelName.trainedModel;
+  get service() {
+    return ModelService;
   }
 
   get createTitle() {
@@ -37,7 +37,7 @@ export default class extends NewBlogPost {
   get formData() {
     const formData = super.formData;
     formData.experiment = formData.experiment && formData.experiment._id;
-    formData.target = formData.target && formData.target.key;
+    formData.target = formData.target && formData.target._id;
     return formData;
   }
 

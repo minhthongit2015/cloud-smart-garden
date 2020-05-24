@@ -1,6 +1,8 @@
 
 
-const { ModelName, MarkerTypes, ContactTypes } = require('../models/mongo/ModelConstants');
+const {
+  ModelName, ModelFields, MarkerTypes, ContactTypes
+} = require('../models/mongo/ModelConstants');
 
 const UserRole = {
   Moderator: 'Moderator',
@@ -15,6 +17,12 @@ const PostStatus = {
   scheduled: 'scheduled',
   published: 'published',
   archived: 'archived'
+};
+
+const TaskStatus = {
+  scheduled: 'scheduled',
+  running: 'running',
+  completed: 'completed'
 };
 
 const MemberBadge = {
@@ -41,6 +49,7 @@ const DataUtils = require('../services/AI/targets/DataUtils');
 
 module.exports = {
   ModelName,
+  ModelFields,
   MarkerTypes,
   ContactTypes,
   UserRole,
@@ -49,6 +58,7 @@ module.exports = {
 
   // AI
   ...AIConstants,
+  TaskStatus,
   ExperimentTargets,
   ExperimentTargetTypes,
   DataUtils

@@ -31,8 +31,8 @@ export default class DatasetSelect extends BaseComponent {
       });
   }
 
-  handleSelectChange(value, { name }) {
-    const { editingTarget } = this.props;
+  handleSelectChange(value) {
+    const { name = 'datasets', editingTarget } = this.props;
     editingTarget[name] = fromOptions(value);
     this.forceUpdate();
     this.dispatchEvent(this.Events.change, editingTarget);

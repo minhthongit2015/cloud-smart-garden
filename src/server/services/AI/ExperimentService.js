@@ -2,12 +2,14 @@ const tf = require('@tensorflow/tfjs-node');
 const SocialService = require('../social/SocialService');
 const { Experiment } = require('../../models/mongo');
 const ModelService = require('./ModelService');
-const {
-  ModelBuilder, TrainingSet, Trainer
-} = require('./ai-core');
 const DatasetService = require('./DatasetService');
-const SyncService = require('../sync');
-const { BuildExperimentRequest, ExperimentTarget } = require('./utils/AITypes');
+const TrainingTaskService = require('./TrainingTaskService');
+const Trainer = require('./training/Trainer');
+const { BuildExperimentRequest } = require('./utils/AITypes');
+const TargetService = require('./TargetService');
+const TrainingSetService = require('./TrainingSetService');
+
+
 const { get } = require('../../utils');
 
 
@@ -16,88 +18,28 @@ module.exports = class extends SocialService {
     return Experiment;
   }
 
-  static async buildAndTrain(experimentId, opts = new BuildExperimentRequest()) {
-    const dataset = await DatasetService.getWithRecords(opts.datasetId);
-    const trainedModels = await Promise.all(
-      opts.targets.map(async (target) => {
-        let savedModel = null;
-        if (opts.continuous) {
-          savedModel = await ModelService.loadForExperimentAndTarget(experimentId, target);
-        }
-        return this.buildAndTrainForTarget(target, dataset, savedModel, opts);
-      })
-    );
-    if (trainedModels) {
-      await Promise.all(
-        trainedModels.map(
-          (trainedModel, index) => ModelService.saveForExperimentAndTarget(
-            trainedModel, experimentId, opts.targets[index]
-          )
-        )
-      );
-    }
-    return trainedModels;
-  }
-
-  static async buildAndTrainForTarget(
-    target, dataset, savedModel, opts = new BuildExperimentRequest()
-  ) {
-    if (!target || !dataset) return null;
-    const trainingSet = this.buildTrainingSetForTarget(dataset, target);
-
-    opts.metrics = ['accuracy']; // Force to use accuracy for now
-    savedModel = ModelBuilder.verifyModel(savedModel, trainingSet, opts);
-    let model = (savedModel && ModelBuilder.compileModel(savedModel, opts))
-      || ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
-
-    try {
-      await this.trainModel(model, trainingSet, opts);
-    } catch {
-      model = ModelBuilder.buildForTrainingSet('neural', trainingSet, opts);
-      await this.trainModel(model, trainingSet, opts);
-    }
-
-    return model;
-  }
-
-  static buildTrainingSetForTarget(dataset, experimentTarget = new ExperimentTarget()) {
-    return TrainingSet.fromDataset(dataset, {
-      features: experimentTarget.features,
-      labels: experimentTarget.labels
+  static async buildAndTrain({
+    experiment, target, trainingSetOptions, modelOptions, trainOptions
+  } = new BuildExperimentRequest()) {
+    await TrainingTaskService.scheduleTrainingTask({
+      experiment,
+      target,
+      trainingSetOptions,
+      modelOptions,
+      trainOptions
     });
+    Trainer.notifyNewTaskScheduled();
   }
 
-  static async trainModel(model, trainingSet, opts = new BuildExperimentRequest()) {
-    return Trainer.train(model, trainingSet, opts, {
-      onBatchEnd: (event, info) => {
-        SyncService.emit('trainProgress', info);
-      },
-      onEpochEnd: (event, info) => {
-        SyncService.emit('trainProgress', info);
-      },
-      onTrainBegin: (event, info) => {
-        SyncService.emit('trainBegin', info);
-      },
-      onTrainEnd: (event, info) => {
-        SyncService.emit('trainEnd', info);
-      }
-    });
-  }
-
-  static async stopTraining() {
-    if (!global.model) return;
-    global.model.stopTraining = true;
-    await new Promise((resolve) => {
-      global.onTrainEnd = resolve;
-    });
-    delete global.model;
+  static async stopTraining(experiment, target) {
+    Trainer.stopTraining({ experiment, target });
   }
 
   static async compare(experimentId, opts = new BuildExperimentRequest()) {
     const dataset = await DatasetService.getWithRecords(opts.datasetId);
     const trainingSets = await Promise.all(
-      opts.targets.map(async (target) => {
-        const savedModel = await ModelService.loadForExperimentAndTarget(experimentId, target);
+      [opts.target].map(async (target) => {
+        const savedModel = await ModelService.loadByExperimentAndTarget(experimentId, target);
         return this.compareForTarget(target, dataset, savedModel);
       })
     );
@@ -106,7 +48,7 @@ module.exports = class extends SocialService {
 
   static async compareForTarget(target, dataset, savedModel) {
     if (!target || !dataset || !savedModel) return null;
-    const trainingSet = this.buildTrainingSetForTarget(dataset, target);
+    const trainingSet = await this.buildTrainingSetForTarget(dataset, target);
     tf.tidy(() => {
       trainingSet.predict = savedModel.predict(
         tf.tensor2d(trainingSet.xs, [trainingSet.xs.length, trainingSet.features.length])
@@ -121,5 +63,17 @@ module.exports = class extends SocialService {
     }
 
     return trainingSet;
+  }
+
+  static async buildTrainingSetForTarget(datasetId, targetId) {
+    const dataset = await DatasetService.getWithRecords(datasetId);
+    const target = await TargetService.getTarget(targetId);
+    return TrainingSetService.fromDataset(
+      dataset,
+      {
+        features: target.features,
+        labels: target.labels
+      }
+    );
   }
 };

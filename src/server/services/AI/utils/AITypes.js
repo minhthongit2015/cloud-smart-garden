@@ -2,29 +2,7 @@
 /* eslint-disable lines-between-class-members */
 
 
-exports.BuildExperimentRequest = class {
-  targets = [];
-
-  // Dataset
-  datasetId = '';
-
-  // Model
-  algorithm = '';
-  optimizer = '';
-  loss = '';
-  activation = '';
-  layers = [];
-  metrics = ['accruracy'];
-
-  // Train
-  epochs = 0;
-  batchSize = 0;
-
-  highResolution = false;
-  continuous = false;
-};
-
-exports.ExperimentTarget = class {
+class ExperimentTarget {
   key = '';
   features = [];
   labels = [];
@@ -33,31 +11,30 @@ exports.ExperimentTarget = class {
     this.features = features;
     this.labels = labels;
   }
-};
+}
 
-exports.Dataset = class {
+class Dataset {
   records = [{
     createdAt: '',
     state: {},
     station: ''
   }]
-};
+}
 
-exports.TrainingSet = class {
+class TrainingSet {
   features = [];
   labels = [];
   xs = [];
   ys = [];
-};
+}
 
-const InputContext = class {
+class InputContext {
   startTime = null;
   record = null;
   params = null;
-};
-exports.InputContext = InputContext;
+}
 
-exports.DataUtilNode = class {
+class DataUtilNode {
   key = '';
   inputType = Date;
   outputType = Number;
@@ -86,23 +63,47 @@ exports.DataUtilNode = class {
   execute(inputValue, context = new InputContext(), ...params) {
     return inputValue;
   }
-};
+}
 
-exports.BuildModelOptions = class {
-  optimizer = '';
-  loss = '';
+class BuildTrainingSetOptions {
+  dataset = '';
+}
+
+class BuildModelOptions {
   activation = '';
   layers = [];
+  loss = '';
+  optimizer = '';
   metrics = ['accruracy'];
-};
+}
 
-exports.TrainOptions = class {
+class TrainOptions {
   epochs = 0;
   batchSize = 0;
-};
+  isContinuous = false;
+}
 
-exports.TrainListeners = class {
+class TrainListeners {
   onStart = null;
   onBatchEnd = null;
   onEnd =null;
-};
+}
+
+class BuildExperimentRequest {
+  experiment = '';
+  target = '';
+  trainingSetOptions = new BuildTrainingSetOptions();
+  modelOptions = new BuildModelOptions();
+  trainOptions = new TrainOptions();
+}
+
+exports.Dataset = Dataset;
+exports.TrainingSet = TrainingSet;
+exports.TrainListeners = TrainListeners;
+exports.BuildModelOptions = BuildModelOptions;
+exports.TrainOptions = TrainOptions;
+exports.DataUtilNode = DataUtilNode;
+exports.InputContext = InputContext;
+exports.BuildTrainingSetOptions = BuildTrainingSetOptions;
+exports.BuildExperimentRequest = BuildExperimentRequest;
+exports.ExperimentTarget = ExperimentTarget;

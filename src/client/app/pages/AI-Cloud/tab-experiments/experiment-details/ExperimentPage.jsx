@@ -131,7 +131,7 @@ export default class ExperimentPage extends BaseComponent {
 
   handleOverrideModel() {
     const { experiment, editingTarget } = this.state;
-    ExperimentService.overrideModel(experiment._id, editingTarget.key)
+    ExperimentService.overrideModel(experiment._id, editingTarget._id)
       .then(() => {
         alert('Cập nhập hoàn tất!');
       });
