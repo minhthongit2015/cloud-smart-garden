@@ -1,14 +1,15 @@
 import React from 'react';
 import t from '../../languages';
-import WithNavPage from '../_base/WithNavPage';
 import Section from '../../layouts/base/section/Section';
 import UserService from '../../services/user/UserService';
 import GardenHeader from './parts/GardenHeader';
 import Garden from './parts/Garden';
 import StoriesSection from './parts/StoriesSection';
-import GardenModule from './tab-my-garden/GardenModule';
-import StationModule from './tab-stations/StationModule';
 import MyGardenService from '../../services/garden/MyGardenService';
+import RouteConstants from '../../utils/RouteConstants';
+import './MyGarden.scss';
+import WithNavPage from '../_base/WithNavPage';
+import { IconSmileCity, IconMyGarden, IconEarth } from '../../../assets/icons';
 
 
 export default class extends WithNavPage {
@@ -16,12 +17,9 @@ export default class extends WithNavPage {
     super(props, t('pages.myGarden.title.myGarden'), true);
     this.bind(this.handleNewPlantAdded);
     this.navs = [
-      'Smile City',
-      'Bạn Bè',
-      'Gia Đình',
-      'review',
-      'star',
-      'tag'
+      { title: 'Xuống Phố', link: RouteConstants.streetLink, icon: IconSmileCity },
+      { title: 'Bạn Bè', link: RouteConstants.streetLink, icon: IconMyGarden },
+      { title: 'Địa Danh Nổi Tiếng', link: RouteConstants.userNetworkLink, icon: IconEarth }
     ];
     this.state = {
       ...this.state,
@@ -66,7 +64,6 @@ export default class extends WithNavPage {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   renderStories() {
     const { gardens = [] } = this.state;
     return (
@@ -74,7 +71,6 @@ export default class extends WithNavPage {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   renderBody() {
     const { gardens: [firstGarden] } = this.state;
     const { user } = UserService;
@@ -82,6 +78,7 @@ export default class extends WithNavPage {
     return (
       <div className="px-2 px-md-4 py-5">
         <GardenHeader garden={firstGarden} />
+        {this.renderNavLinks()}
         <Section beautyFont big noHR title={`${name || ''}\r\n~ garden ~`} className="mt-5 mb-5">
           <div className="p-0 p-md-2 mt-4">
             {this.renderGardens()}

@@ -26,7 +26,7 @@ export default class extends Component {
 
   render() {
     const {
-      nav, className, imageClass, imageWrapperClass, ratio, type, noText, ...restProps
+      nav, className, imageClass, imageWrapperClass, ratio, type, noText, spacing = 0, ...restProps
     } = this.props;
 
     return (
@@ -35,7 +35,7 @@ export default class extends Component {
         to={nav.link}
         key={nav.text}
         activeClassName="active"
-        className={`nav-icon-link ${className || ''}`}
+        className={`nav-icon-link ${className || ''} space-${spacing}`}
         title={nav.title}
         onMouseDown={this.handleClick}
         onTouchStart={this.handleClick}

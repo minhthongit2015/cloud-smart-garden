@@ -29,6 +29,7 @@ export default ({
           {...restProps}
           className={`fixed-ratio-image ${className || ''}`}
           style={{
+            ...style,
             paddingTop: `${(ratio && ratio * 100) || 100}%`
           }}
         >

@@ -6,6 +6,8 @@ import {
 } from 'mdbreact';
 import BasePage from './BasePage';
 import './WithNavPage.scss';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom';
+import NavIconLink from '../../components/utils/nav-icon-link/NavIconLink';
 
 
 export default class extends BasePage {
@@ -13,7 +15,7 @@ export default class extends BasePage {
     super(props, ...args);
     this.toggleCollapse = this.toggleCollapse.bind(this);
     this.navs = [
-      'Home', 'Features', 'Pricing'
+      { title: 'Link', link: '#' }
     ];
     this.state = {
       isOpenNavbar: false,
@@ -38,15 +40,18 @@ export default class extends BasePage {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  renderLeftNavbar() {
+  renderNavLinks() {
     return (
-      <MDBNavbarNav left>
-        {this.navs.map((nav, index) => (
-          <MDBNavItem active={index === 0}>
-            <MDBNavLink to="#!">{nav}</MDBNavLink>
-          </MDBNavItem>
-        ))}
-      </MDBNavbarNav>
+      <div className="with-nav-page__links-wrapper">
+        <div className="with-nav-page__links">
+          {this.navs.map(nav => (
+            <NavIconLink nav={nav} key={nav.link} ratio={1} spacing={0} />
+            // <NavLink key={nav.link} to={nav.link}>
+            //   {nav.title}
+            // </NavLink>
+          ))}
+        </div>
+      </div>
     );
   }
 

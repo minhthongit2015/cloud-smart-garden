@@ -2,7 +2,7 @@
 const homePath = '/';
 const homeLink = '/';
 
-// Manage
+// Admin
 const adminPath = '/admin';
 const adminLink = '/admin';
 const dashboardPath = `${adminPath}/dashboard`;
@@ -22,7 +22,7 @@ const membersLink = `${intranetLink}/sparkles`;
 const nextLevelPath = `${intranetPath}/next-level`;
 const nextLevelLink = `${intranetLink}/next-level`;
 
-// Public
+// AI
 const aiCloudPath = '/ai-cloud';
 const aiCloudLink = '/ai-cloud';
 const aiProjectsPath = `${aiCloudPath}/projects`;
@@ -34,6 +34,7 @@ const aiTrainedModelsLink = `${aiCloudLink}/models`;
 const aiDatasetsPath = `${aiCloudPath}/datasets`;
 const aiDatasetsLink = `${aiCloudLink}/datasets`;
 
+// Library
 const plantLibraryPath = '/central-library';
 const plantLibraryLink = '/central-library';
 const vegetablePath = `${plantLibraryLink}/vegetables`;
@@ -47,6 +48,7 @@ const flowersLink = `${plantLibraryLink}/flowers`;
 const mushroomsPath = `${plantLibraryLink}/mushrooms`;
 const mushroomsLink = `${plantLibraryLink}/mushrooms`;
 
+// Garden
 const myGardenPath = '/my-garden';
 const myGardenLink = '/my-garden';
 const stationsPath = `${myGardenPath}/stations`;
@@ -55,10 +57,14 @@ const storehousePath = `${myGardenPath}/storehouse`;
 const storehouseLink = `${myGardenLink}/storehouse`;
 const helpMyGardenPath = `${myGardenPath}/help`;
 const helpMyGardenLink = `${myGardenLink}/help`;
+const streetPath = `${myGardenPath}/street`;
+const streetLink = `${myGardenLink}/street`;
 
+// Network
 const userNetworkPath = '/smile-city';
 const userNetworkLink = '/smile-city';
 
+// NEXT
 const nextFeaturesPath = '/next';
 const nextFeaturesLink = '/next';
 const nextTechPath = `${nextFeaturesPath}/tech`;
@@ -91,7 +97,7 @@ module.exports = {
   nextLevelPath,
   nextLevelLink,
 
-  // Public
+  // Library
   plantLibraryPath,
   plantLibraryLink,
   vegetablePath,
@@ -105,6 +111,7 @@ module.exports = {
   mushroomsPath,
   mushroomsLink,
 
+  // Garden
   myGardenPath,
   myGardenLink,
   stationsPath,
@@ -113,10 +120,14 @@ module.exports = {
   storehouseLink,
   helpMyGardenPath,
   helpMyGardenLink,
+  streetPath,
+  streetLink,
 
+  // Network
   userNetworkPath,
   userNetworkLink,
 
+  // AI
   aiCloudPath,
   aiCloudLink,
   aiProjectsPath,
@@ -128,6 +139,7 @@ module.exports = {
   aiDatasetsPath,
   aiDatasetsLink,
 
+  // NEXT
   nextFeaturesPath,
   nextFeaturesLink,
   nextTechPath,

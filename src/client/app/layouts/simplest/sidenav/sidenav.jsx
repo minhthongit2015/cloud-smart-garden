@@ -73,7 +73,7 @@ export default class SideNav extends Component {
   }
 
   static renderNav(nav) {
-    return <NavIconLink nav={nav} key={nav.link} />;
+    return <NavIconLink nav={nav} key={nav.link} spacing={10} />;
   }
 
   render() {

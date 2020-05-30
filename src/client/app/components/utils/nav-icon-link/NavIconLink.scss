@@ -1,4 +1,3 @@
-
 $nav-link-color: #000 !default;
 $nav-link-active-color: rgb(20, 156, 149) !default;
 $nav-link-font-family: 'icielz-bambola' !default;
@@ -6,18 +5,24 @@ $nav-link-font-size: 27px !default;
 $nav-link-margin-y: 10px !default;
 
 .nav-icon-link {
+  width: 100%;
   display: block;
   position: relative;
-  margin: $nav-link-margin-y auto;
   font-size: $nav-link-font-size;
   font-family: $nav-link-font-family;
   text-align: center;
   color: $nav-link-color;
   transition: all .2s ease-in-out;
-  
+  margin: $nav-link-margin-y auto;
+
+  &.space-0 {
+    margin: 0 auto;
+  }
+
   &.active {
     color: $nav-link-active-color;
   }
+
   &.active:hover {
     filter: brightness(1.05);
   }

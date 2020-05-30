@@ -37,7 +37,7 @@ module.exports = class extends SocialService {
       const context = new InputContext();
       context.startTime = 0; // station.crop.createdAt;
       await Promise.all(models.map(async (modelId) => {
-        const model = await ModelService.get(modelId);
+        const model = await ModelService.get({ id: modelId });
         if (!model) {
           return;
         }
