@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const SyncService = require('../../../services/sync');
 const Logger = require('../../../services/Logger');
 const StationService = require('../../../services/garden/StationService');
 const RecordService = require('../../../services/garden/RecordService');
@@ -7,6 +6,7 @@ const SessionService = require('../../../services/user/Session');
 const GardenSecurity = require('../../../services/security/GardenSecurity');
 const APIResponse = require('../../../models/api-models/APIResponse');
 const TargetService = require('../../../services/AI/TargetService');
+const SocialSync = require('../../../services/sync/SocialSyncService');
 
 
 router.post('/', Logger.catch(async (req, res) => {
@@ -20,15 +20,14 @@ router.post('/', Logger.catch(async (req, res) => {
 
   if (newRecord) {
     const station1 = await StationService.get({ id: station });
-    await Promise.all(
-      station1.owners.map(
-        owner => SyncService.emitToOwner(owner, 'stateChange', newRecord)
-      )
-    );
-    const predicts = await TargetService.predict(newRecord, station._id);
-    if (predicts) {
-      res.emit('setState', predicts.state);
+    if (station1.automated) {
+      const predicts = await TargetService.predict(newRecord, station._id);
+      if (predicts) {
+        res.emit('setState', predicts.state);
+      }
+      Object.assign(newRecord.state, predicts.state || {});
     }
+    SocialSync.sendToOwners(station1, `stateChange-${station1._id}`, newRecord);
   }
 
   return res.end();

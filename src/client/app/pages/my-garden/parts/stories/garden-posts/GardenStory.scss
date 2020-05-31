@@ -89,6 +89,19 @@
       background: #fff;
       height: 10px;
     }
+
+    &__text-wrapper {
+      position: relative;
+    }
+
+    &__text {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
   }
 }
 

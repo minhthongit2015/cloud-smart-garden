@@ -12,7 +12,6 @@ const emoRegex = emojiRegex();
 export default class extends BlogPost {
   constructor(props) {
     super(props);
-    this.previewRef = React.createRef();
     this.handleStoryLoaded = this.handleStoryLoaded.bind(this);
     this.resizeHandler = this.resizeHandler.bind(this);
     this.state = {
@@ -50,7 +49,7 @@ export default class extends BlogPost {
     );
   }
 
-  renderPreview(previewRef) {
+  renderPreview() {
     const { loaded } = this.state;
     const { post } = this.props;
     const {
@@ -63,7 +62,7 @@ export default class extends BlogPost {
     // );
 
     return (
-      <div className="garden-story__preview overlapable" ref={previewRef}>
+      <div className="garden-story__preview overlapable">
         <img src={previewPhoto} alt={title} onLoad={this.handleStoryLoaded} />
         {previewAudio && (
           <div className="overlap block bottom p-2">
@@ -99,9 +98,6 @@ export default class extends BlogPost {
     const {
       title, content: rawContent, createdAt
     } = post || {};
-    const height = loaded && this.previewRef.current
-      ? `${this.previewRef.current.offsetHeight + 15}px`
-      : '';
     const content = {
       __html: rawContent.replace(emoRegex, emoji => `<emoji>${emoji}</emoji>`)
     };
@@ -110,13 +106,12 @@ export default class extends BlogPost {
       <div className="garden-story">
         <Row>
           <Col size="12" md="7" className="d-none d-md-block">
-            {this.renderPreview(this.previewRef)}
+            {this.renderPreview()}
           </Col>
           <Col
             className={`garden-story__content-column ${loaded ? 'loaded' : ''}`}
             style={{
-              marginBottom: '-15px',
-              height
+              marginBottom: '-15px'
             }}
           >
             <div className="garden-story__content d-flex flex-column">
@@ -131,8 +126,8 @@ export default class extends BlogPost {
                   <TimeAgo time={createdAt} />
                 </sup>
               </div>
-              <div className="pl-2 pr-2 overflow-auto modern-scrollbar-2">
-                <i className="text-pre-wrap" dangerouslySetInnerHTML={content} />
+              <div className="garden-story__content__text-wrapper flex-fill">
+                <i className="garden-story__content__text text-pre-wrap modern-scrollbar-2 px-2" dangerouslySetInnerHTML={content} />
               </div>
               <div className="d-block d-md-none my-2">
                 {this.renderPreview()}

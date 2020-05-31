@@ -219,7 +219,7 @@ const myGardens = subRoute(garden, 'my-garden');
 const stations = subRoute(garden, 'stations');
 const stationI = entityI(stations);
 const userPlants = subRoute(stations, 'user-plants');
-const setStationState = subRoute(stations, 'set-state');
+const setStationStateI = entityI(stations, 'set-state');
 const records = subRoute(garden, 'records');
 const generateRecords = subRoute(records, 'generate');
 const plants = subRoute(garden, 'plants');
@@ -297,7 +297,7 @@ export default {
   stations,
   stationI,
   userPlants,
-  setStationState,
+  setStationStateI,
   records,
   generateRecords,
   plants,

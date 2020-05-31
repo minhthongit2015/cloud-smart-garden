@@ -55,8 +55,12 @@ export default class {
     return superws.emit(...args);
   }
 
-  static async on(...args) {
-    return superws.on(...args);
+  static async on(event, callback) {
+    return superws.on(event, callback);
+  }
+
+  static async removeListener(event, listener) {
+    return superws.socket.removeListener(event, listener);
   }
 
   static async removeAllListeners() {

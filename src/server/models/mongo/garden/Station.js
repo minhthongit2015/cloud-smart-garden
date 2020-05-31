@@ -8,6 +8,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const Schema = {
   ...SocialSchema,
+  automated: { type: Boolean, default: true },
   garden: { type: ObjectId, ref: ModelName.garden },
   plants: [{ type: ObjectId, ref: ModelName.userPlant }],
   models: [{ type: ObjectId, ref: ModelName.trainedModel }]

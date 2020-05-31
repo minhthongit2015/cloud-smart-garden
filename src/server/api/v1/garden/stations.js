@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const Logger = require('../../../services/Logger');
-const SyncService = require('../../../services/sync');
 const StationService = require('../../../services/garden/StationService');
 const SecurityService = require('../../../services/security/SecurityService');
 const SessionService = require('../../../services/user/Session');
 const APIResponse = require('../../../models/api-models/APIResponse');
 const GardenService = require('../../../services/garden/GardenService');
+const GardenSyncService = require('../../../services/sync/GardenSyncService');
 
 
 router.post('/', Logger.catch(async (req, res) => {
@@ -60,8 +60,9 @@ router.post('/verify', Logger.catch(async (req, res) => {
   return res.emit('authorized', encodeURIComponent(fullSessionId));
 }));
 
-router.post('/set-state', Logger.catch(async (req, res) => {
-  SyncService.broadcast(req.socket, 'command', req.body);
+router.post('/:stationId/set-state', Logger.catch(async (req, res) => {
+  const { stationId } = req.params;
+  GardenSyncService.sendToStation(stationId, 'setState', req.body);
   return res.end();
 }));
 

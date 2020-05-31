@@ -18,7 +18,7 @@ export default class extends WithNavPage {
     this.bind(this.handleNewPlantAdded);
     this.navs = [
       { title: 'Xuống Phố', link: RouteConstants.streetLink, icon: IconSmileCity },
-      { title: 'Bạn Bè', link: RouteConstants.streetLink, icon: IconMyGarden },
+      // { title: 'Bạn Bè', link: RouteConstants.streetLink, icon: IconMyGarden },
       { title: 'Địa Danh Nổi Tiếng', link: RouteConstants.userNetworkLink, icon: IconEarth }
     ];
     this.state = {

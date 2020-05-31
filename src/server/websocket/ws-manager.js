@@ -11,19 +11,4 @@ module.exports = class WebsocketManager extends WebsocketManagerCore {
       Logger.error({ message: setupError.message, stack: setupError.stack });
     }
   }
-
-  static sendToClient(event, client, ...agrs) {
-    const receiver = typeof client === 'object'
-      ? client
-      : WebsocketManager.getClientById(client.id);
-    return receiver.emit(event, ...agrs);
-  }
-
-  static sendToRoom(roomId, event, ...agrs) {
-    return WebsocketManager.io.to(roomId).emit(event, ...agrs);
-  }
-
-  static sendToAll(event, ...agrs) {
-    return WebsocketManager.io.emit(event, ...agrs);
-  }
 };

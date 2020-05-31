@@ -3,9 +3,6 @@ const Logger = require('../services/Logger');
 const Debugger = require('../services/Debugger');
 
 module.exports = class WebsocketManagerCore {
-  /**
-   * alias of `.wsServer`
-   */
   static get app() {
     return websocketCoreApp;
   }
@@ -30,10 +27,10 @@ module.exports = class WebsocketManagerCore {
     return this.clientsMap[socketId];
   }
 
-  static setup(wsServer) {
+  static setup(io) {
     Debugger.wsSetup('Setup Websocket Core');
-    this.wsServer = wsServer;
-    wsServer.on('connection', (socket) => {
+    this.wsServer = io;
+    io.on('connection', (socket) => {
       try {
         Debugger.wsCore('Client connected: ', socket.handshake.sessionID, socket.conn.remoteAddress);
         this.accept(socket);

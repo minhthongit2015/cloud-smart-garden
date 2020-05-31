@@ -4,7 +4,7 @@ const TrainingTask = require('./TrainingTask');
 const TrainingTaskService = require('../TrainingTaskService');
 const { TrainEvents } = require('../utils/AIEvents');
 const random = require('../../../utils/random');
-const SyncService = require('../../sync');
+const SyncService = require('../../sync/SyncService');
 const ModelBuilder = require('../ai-core/ModelBuilder');
 const ModelService = require('../ModelService');
 const DatasetService = require('../DatasetService');
@@ -85,10 +85,10 @@ module.exports = class {
       onTrainBegin: (event, taskz) => {
         SyncService.emit('trainBegin', taskz);
       },
-      onBatchEnd: (event, info, taskz) => {
+      onBatchEnd: (event, info/* , taskz */) => {
         SyncService.emit('trainProgress', info);
       },
-      onEpochEnd: (event, info, taskz) => {
+      onEpochEnd: (event, info/* , taskz */) => {
         SyncService.emit('trainProgress', info);
       },
       onTrainEnd: async (event, info, taskz) => {
