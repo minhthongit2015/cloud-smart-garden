@@ -4,12 +4,15 @@ const TrainingTask = require('./TrainingTask');
 const TrainingTaskService = require('../TrainingTaskService');
 const { TrainEvents } = require('../utils/AIEvents');
 const random = require('../../../utils/random');
-const SyncService = require('../../sync/SyncService');
+const SocialSyncService = require('../../sync/SocialSyncService');
 const ModelBuilder = require('../ai-core/ModelBuilder');
 const ModelService = require('../ModelService');
 const DatasetService = require('../DatasetService');
 const TargetService = require('../TargetService');
 const TrainingSetService = require('../TrainingSetService');
+const ExperimentService = require('../ExperimentService');
+const { BuildExperimentRequest } = require('../utils/AITypes');
+const { get } = require('../../../utils');
 
 
 module.exports = class {
@@ -55,6 +58,61 @@ module.exports = class {
       : null;
   }
 
+  static async buildAndTrain({
+    experiment, target, trainingSetOptions, modelOptions, trainOptions
+  } = new BuildExperimentRequest()) {
+    await TrainingTaskService.scheduleTrainingTask({
+      experiment,
+      target,
+      trainingSetOptions,
+      modelOptions,
+      trainOptions
+    });
+    this.notifyNewTaskScheduled();
+  }
+
+  static async compare(experimentId, opts = new BuildExperimentRequest()) {
+    const dataset = await DatasetService.getWithRecords(opts.datasetId);
+    const trainingSets = await Promise.all(
+      [opts.target].map(async (target) => {
+        const savedModel = await ModelService.loadByExperimentAndTarget(experimentId, target);
+        return this.compareForTarget(target, dataset, savedModel);
+      })
+    );
+    return trainingSets;
+  }
+
+  static async compareForTarget(target, dataset, savedModel) {
+    if (!target || !dataset || !savedModel) return null;
+    const trainingSet = await this.buildTrainingSetForTarget(dataset, target);
+    tf.tidy(() => {
+      trainingSet.predict = savedModel.predict(
+        tf.tensor2d(trainingSet.xs, [trainingSet.xs.length, trainingSet.features.length])
+      ).arraySync();
+    });
+
+    const labelSample = get(dataset.records[0], trainingSet.labels[0][0]);
+    if (typeof labelSample === 'boolean') {
+      trainingSet.predict = trainingSet.predict.map(
+        row => (row[0] > row[1] ? 1 : 0)
+      );
+    }
+
+    return trainingSet;
+  }
+
+  static async buildTrainingSetForTarget(datasetId, targetId) {
+    const dataset = await DatasetService.getWithRecords(datasetId);
+    const target = await TargetService.getTarget(targetId);
+    return TrainingSetService.fromDataset(
+      dataset,
+      {
+        features: target.features,
+        labels: target.labels
+      }
+    );
+  }
+
   static async notifyNewTaskScheduled() {
     await this.runNextTask();
   }
@@ -82,19 +140,23 @@ module.exports = class {
 
   static async runTrainingTask(task = new TrainingTask()) {
     const listeners = {
-      onTrainBegin: (event, taskz) => {
-        SyncService.emit('trainBegin', taskz);
+      onTrainBegin: async (event, taskz) => {
+        const experiment = await ExperimentService.get({ id: taskz.experiment });
+        SocialSyncService.sendToOwners(experiment, 'trainBegin', taskz);
       },
-      onBatchEnd: (event, info/* , taskz */) => {
-        SyncService.emit('trainProgress', info);
+      onBatchEnd: async (event, info, taskz) => {
+        const experiment = await ExperimentService.get({ id: taskz.experiment });
+        SocialSyncService.sendToOwners(experiment, 'trainProgress', info);
       },
-      onEpochEnd: (event, info/* , taskz */) => {
-        SyncService.emit('trainProgress', info);
+      onEpochEnd: async (event, info, taskz) => {
+        const experiment = await ExperimentService.get({ id: taskz.experiment });
+        SocialSyncService.sendToOwners(experiment, 'trainProgress', info);
       },
       onTrainEnd: async (event, info, taskz) => {
         await ModelService.saveTemporaryModel(taskz.model, taskz._id);
         await this.handleTaskCompleted(taskz);
-        SyncService.emit('trainEnd', info);
+        const experiment = await ExperimentService.get({ id: taskz.experiment });
+        SocialSyncService.sendToOwners(experiment, 'trainEnd', info);
       }
     };
     await this.prepareTrainingSet(task);
