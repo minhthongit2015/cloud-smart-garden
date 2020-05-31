@@ -2,7 +2,11 @@ const SocialSyncService = require('./SocialSyncService');
 
 
 module.exports = class extends SocialSyncService {
-  static sendToStation(stationId, event, data) {
+  static setStationState(stationId, state = {}) {
+    this.sendToStation(stationId, 'setState', state);
+  }
+
+  static sendToStation(stationId, event, data = {}) {
     return this.manager.clients
       .filter(client => (
         client.handshake.session.station && client.handshake.session.station._id === stationId

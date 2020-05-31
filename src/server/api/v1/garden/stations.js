@@ -62,8 +62,16 @@ router.post('/verify', Logger.catch(async (req, res) => {
 
 router.post('/:stationId/set-state', Logger.catch(async (req, res) => {
   const { stationId } = req.params;
-  GardenSyncService.sendToStation(stationId, 'setState', req.body);
+  GardenSyncService.setStationState(stationId, req.body);
   return res.end();
+}));
+
+router.post('/:stationId/set-automated', Logger.catch(async (req, res) => {
+  const { stationId } = req.params;
+  const doc = { _id: stationId, automated: req.body.automated };
+  const updatedStation = await StationService.update({ doc });
+  GardenSyncService.setStationState(stationId); // Trigger to re-caculate state
+  return res.send(APIResponse.setData(updatedStation));
 }));
 
 router.post('/user-plants', Logger.catch(async (req, res) => {

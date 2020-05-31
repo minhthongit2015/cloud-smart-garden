@@ -41,7 +41,7 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
   }
   function handleToggleAutomated() {
     station.automated = !station.automated;
-    StationService.update(station);
+    StationService.setAutomated(station._id, station.automated);
     forceUpdate();
   }
 
