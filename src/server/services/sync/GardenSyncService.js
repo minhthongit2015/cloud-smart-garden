@@ -6,6 +6,10 @@ module.exports = class extends SocialSyncService {
     this.sendToStation(stationId, 'setState', state);
   }
 
+  static requestStationState(stationId) {
+    this.sendToStation(stationId, 'requestState');
+  }
+
   static sendToStation(stationId, event, data = {}) {
     return this.manager.clients
       .filter(client => (
