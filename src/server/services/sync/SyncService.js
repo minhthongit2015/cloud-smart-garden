@@ -22,6 +22,8 @@ module.exports = class {
       .filter(target => target);
   }
 
+  // --- Send
+
   static send({
     users = [''] || '',
     rooms = [''] || '',
@@ -104,5 +106,11 @@ module.exports = class {
 
   static sendVolatileToClient(client, event, data) {
     return client.volatile.emit(event, data);
+  }
+
+  // --- Join
+
+  static joinToRoom(client, roomId) {
+    return client.join(roomId);
   }
 };

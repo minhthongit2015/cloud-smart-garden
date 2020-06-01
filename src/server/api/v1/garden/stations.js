@@ -62,8 +62,7 @@ router.post('/verify', Logger.catch(async (req, res) => {
 
 router.post('/:stationId/set-state', Logger.catch(async (req, res) => {
   const { stationId } = req.params;
-  GardenSyncService.setStationState(stationId, req.body);
-  GardenSyncService.requestStationState(stationId); // Trigger to re-caculate state
+  GardenSyncService.manualSetStationState(stationId, req.body);
   return res.end();
 }));
 

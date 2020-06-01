@@ -6,7 +6,7 @@ const SessionService = require('../../../services/user/Session');
 const GardenSecurity = require('../../../services/security/GardenSecurity');
 const APIResponse = require('../../../models/api-models/APIResponse');
 const TargetService = require('../../../services/AI/TargetService');
-const SocialSync = require('../../../services/sync/SocialSyncService');
+const GardenSyncService = require('../../../services/sync/GardenSyncService');
 
 
 router.post('/', Logger.catch(async (req, res) => {
@@ -27,7 +27,7 @@ router.post('/', Logger.catch(async (req, res) => {
       }
       Object.assign(newRecord.state, predicts.state || {});
     }
-    SocialSync.sendToOwners(station1, `stateChange-${station1._id}`, newRecord);
+    GardenSyncService.dispatchStationStateToViewers(station1, newRecord);
   }
 
   return res.end();

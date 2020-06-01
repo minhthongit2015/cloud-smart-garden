@@ -1,13 +1,22 @@
 const SocialSyncService = require('./SocialSyncService');
+const SyncEvents = require('./SyncEvents');
 
 
 module.exports = class extends SocialSyncService {
   static setStationState(stationId, state = {}) {
-    this.sendToStation(stationId, 'setState', state);
+    this.sendToStation(stationId, SyncEvents.setState, state);
+  }
+
+  static manualSetStationState(stationId, state = {}) {
+    this.sendToStation(stationId, SyncEvents.manualSetState, state);
   }
 
   static requestStationState(stationId) {
-    this.sendToStation(stationId, 'requestState');
+    this.sendToStation(stationId, SyncEvents.requestState);
+  }
+
+  static dispatchStationStateToViewers(station, state) {
+    this.sendToOwners(station, SyncEvents.stateChange(station._id), state);
   }
 
   static sendToStation(stationId, event, data = {}) {
