@@ -18,7 +18,7 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
   const [latestRecord, setLatestRecord] = React.useState({});
 
   const forceUpdate = useForceUpdate();
-  SyncService.useEvent(`stateChange-${station._id}`, (record) => {
+  SyncService.useEvent(`StateChange-${station._id}`, (record) => {
     setLatestRecord(record);
     if (ledState == null
       || station.automated

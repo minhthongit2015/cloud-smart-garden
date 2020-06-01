@@ -16,7 +16,7 @@ module.exports = class extends SocialSyncService {
   }
 
   static dispatchStationStateToViewers(station, state) {
-    this.sendToOwners(station, SyncEvents.stateChange(station._id), state);
+    this.sendToAll(SyncEvents.stateChange(station._id), state);
   }
 
   static sendToStation(stationId, event, data = {}) {
