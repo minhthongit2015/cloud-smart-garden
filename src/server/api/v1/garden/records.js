@@ -23,7 +23,7 @@ router.post('/', Logger.catch(async (req, res) => {
     if (station1.automated) {
       const predicts = await TargetService.predict(newRecord, station._id);
       if (predicts) {
-        res.emit('setState', predicts.state);
+        res.emit('SetState', predicts.state);
       }
       Object.assign(newRecord.state, predicts.state || {});
     }
