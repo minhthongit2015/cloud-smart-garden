@@ -14,8 +14,8 @@ function useForceUpdate() {
 
 export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
   const [ledState, setLedState] = React.useState(null);
-  const [bumpState, setBumpState] = React.useState(null);
-  const [lastToggleBump, setLastToggleBump] = React.useState(0);
+  const [pumpState, setPumpState] = React.useState(null);
+  const [lastTogglePump, setLastTogglePump] = React.useState(0);
   const [lastToggleLed, setLastToggleLed] = React.useState(0);
   const [latestRecord, setLatestRecord] = React.useState({});
 
@@ -27,10 +27,10 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
       || Date.now() - lastToggleLed > 2000) {
       setLedState(record.state.led);
     }
-    if (bumpState == null
+    if (pumpState == null
       || station.automated
-      || Date.now() - lastToggleBump > 2000) {
-      setBumpState(record.state.bump);
+      || Date.now() - lastTogglePump > 2000) {
+      setPumpState(record.state.pump);
     }
   });
   const {
@@ -48,10 +48,10 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
     setLastToggleLed(Date.now());
   }
 
-  function handleToggleBump() {
-    superrequest.post(ApiEndpoints.setStationStateI(station._id), { bump: !bumpState });
-    setBumpState(!bumpState);
-    setLastToggleBump(Date.now());
+  function handleTogglePump() {
+    superrequest.post(ApiEndpoints.setStationStateI(station._id), { pump: !pumpState });
+    setPumpState(!pumpState);
+    setLastTogglePump(Date.now());
   }
 
   function handleToggleAutomated() {
@@ -81,8 +81,8 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
               ? <i className="far fa-lightbulb text-orange" />
               : <i className="fas fa-lightbulb text-light-gray" />}
           </span>
-          <span className="mx-2 text-nowrap cursor-pointer" onClick={handleToggleBump}>
-            {bumpState
+          <span className="mx-2 text-nowrap cursor-pointer" onClick={handleTogglePump}>
+            {pumpState
               ? <i className="fas fa-tint text-orange" />
               : <i className="fas fa-tint text-light-gray" />}
           </span>

@@ -66,7 +66,7 @@ export default function TaskInput({ task, onChange, onRemove }) {
                 <MenuItem value="">
                   <em>- - - - - - - -</em>
                 </MenuItem>
-                <MenuItem value="bump">Tưới Nước</MenuItem>
+                <MenuItem value="pump">Tưới Nước</MenuItem>
                 <MenuItem value="led">Bật Đèn</MenuItem>
               </Select>
             </FormControl>
