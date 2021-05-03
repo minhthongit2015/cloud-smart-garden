@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { Row, Col } from 'mdbreact';
 import ReactMarkdown from 'react-markdown';
+import { Box, Button } from '@material-ui/core';
 import PostDetails from '../../../components/blog-base/post-details/PostDetails';
 import Video from '../../../components/utils/video/Video';
 import Rating from '../../../components/utils/rating/Rating';
@@ -12,12 +13,37 @@ import TimeAgo from '../../../components/utils/time-ago/TimeAgo';
 import ModelService from '../../../services/AI/ModelService';
 import { toOptions } from '../../../utils';
 import PlantService from '../../../services/garden/PlantService';
+import TaskInput from './components/task-input/TaskInput';
 
 
 export default class extends PostDetails {
   constructor(props) {
     super(props);
     this.handleModelChange = this.handleModelChange.bind(this);
+    this.handleTaskChange = this.handleTaskChange.bind(this);
+    this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleSaveTasks = this.handleSaveTasks.bind(this);
+    this.state = {
+      tasks: []
+    };
+  }
+
+  handleTaskChange(value, name, task) {
+    task[name] = value;
+    this.setState(prevState => ({
+      tasks: [...prevState.tasks]
+    }));
+  }
+
+  handleAddTask() {
+    this.setState(prevState => ({
+      tasks: [{}, ...prevState.tasks]
+    }));
+  }
+
+  handleSaveTasks() {
+    const { data: post = {} } = this.props;
+    PlantService.update({ _id: post._id, tasks: this.state.tasks });
   }
 
   handleModelChange(options) {
@@ -60,7 +86,8 @@ export default class extends PostDetails {
     const {
       selectedModels = models && post.models && post.models.map(
         model => models.find(option => option.value === model)
-      )
+      ),
+      tasks
     } = this.state || {};
 
     return (
@@ -109,6 +136,18 @@ export default class extends PostDetails {
                 onChange={this.handleModelChange}
                 isMulti
               />
+            </div>
+            <div>
+              <div>Chế độ chăm sóc thủ công:</div>
+              <div>
+                {tasks.map(task => (
+                  <TaskInput task={task} onChange={this.handleTaskChange} />
+                ))}
+                <Box textAlign="center">
+                  <Button onClick={this.handleAddTask}>+ Thêm Task</Button>
+                  <Button onClick={this.handleSaveTasks}>Lưu Lại</Button>
+                </Box>
+              </div>
             </div>
             <hr className="my-3" />
             {summary && (

@@ -9,6 +9,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const Schema = {
   ...SocialSchema,
   models: [{ type: ObjectId, ref: ModelName.trainedModel }],
+  tasks: Object,
   climate: String
 };
 

@@ -66,3 +66,4 @@ typings/
 /.env.prod.ini
 
 /src/server/assets/models
+db

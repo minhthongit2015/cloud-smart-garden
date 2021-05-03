@@ -58,3 +58,4 @@
 11. `Auto Import`
 12. `Arduino`
 13. `Quick Require` Hỗ trợ `require(module)` nhanh hơn
+14. `SCSS Formatter`
