@@ -25,7 +25,7 @@ export default class extends PostDetails {
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleSaveTasks = this.handleSaveTasks.bind(this);
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
-    const tasks = this.props.data.post && this.props.data.post.tasks;
+    const tasks = this.props.data && this.props.data.tasks;
     this.state = {
       tasks: tasks || []
     };
