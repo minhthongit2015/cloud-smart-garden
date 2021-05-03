@@ -14,6 +14,7 @@ import ModelService from '../../../services/AI/ModelService';
 import { toOptions } from '../../../utils';
 import PlantService from '../../../services/garden/PlantService';
 import TaskInput from './components/task-input/TaskInput';
+import Random from '../../../../../server/utils/random';
 
 
 export default class extends PostDetails {
@@ -23,8 +24,10 @@ export default class extends PostDetails {
     this.handleTaskChange = this.handleTaskChange.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleSaveTasks = this.handleSaveTasks.bind(this);
+    this.handleRemoveTask = this.handleRemoveTask.bind(this);
+    const tasks = this.props.data.post && this.props.data.post.tasks;
     this.state = {
-      tasks: []
+      tasks: tasks || []
     };
   }
 
@@ -37,13 +40,23 @@ export default class extends PostDetails {
 
   handleAddTask() {
     this.setState(prevState => ({
-      tasks: [{}, ...prevState.tasks]
+      tasks: [...prevState.tasks, { key: Random.hex() }]
+    }));
+  }
+
+  handleRemoveTask(task) {
+    this.setState(prevState => ({
+      tasks: prevState.tasks.filter(taskI => taskI !== task)
     }));
   }
 
   handleSaveTasks() {
     const { data: post = {} } = this.props;
-    PlantService.update({ _id: post._id, tasks: this.state.tasks });
+    const tasks = this.state.tasks || [];
+    tasks.forEach((task) => {
+      task.beginTime = new Date(task.beginTime || Date.now()).getTime();
+    });
+    PlantService.update({ _id: post._id, tasks });
   }
 
   handleModelChange(options) {
@@ -141,7 +154,12 @@ export default class extends PostDetails {
               <div>Chế độ chăm sóc thủ công:</div>
               <div>
                 {tasks.map(task => (
-                  <TaskInput task={task} onChange={this.handleTaskChange} />
+                  <TaskInput
+                    key={task.key}
+                    task={task}
+                    onChange={this.handleTaskChange}
+                    onRemove={this.handleRemoveTask}
+                  />
                 ))}
                 <Box textAlign="center">
                   <Button onClick={this.handleAddTask}>+ Thêm Task</Button>

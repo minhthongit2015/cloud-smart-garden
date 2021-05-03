@@ -14,6 +14,8 @@ function useForceUpdate() {
 
 export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
   const [ledState, setLedState] = React.useState(null);
+  const [bumpState, setBumpState] = React.useState(null);
+  const [lastToggleBump, setLastToggleBump] = React.useState(0);
   const [lastToggleLed, setLastToggleLed] = React.useState(0);
   const [latestRecord, setLatestRecord] = React.useState({});
 
@@ -25,6 +27,11 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
       || Date.now() - lastToggleLed > 2000) {
       setLedState(record.state.led);
     }
+    if (bumpState == null
+      || station.automated
+      || Date.now() - lastToggleBump > 2000) {
+      setBumpState(record.state.bump);
+    }
   });
   const {
     state: {
@@ -34,11 +41,19 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
       // led = false
     } = {}
   } = latestRecord;
+
   function handleToggleLed() {
     superrequest.post(ApiEndpoints.setStationStateI(station._id), { led: !ledState });
     setLedState(!ledState);
     setLastToggleLed(Date.now());
   }
+
+  function handleToggleBump() {
+    superrequest.post(ApiEndpoints.setStationStateI(station._id), { bump: !bumpState });
+    setBumpState(!bumpState);
+    setLastToggleBump(Date.now());
+  }
+
   function handleToggleAutomated() {
     station.automated = !station.automated;
     StationService.setAutomated(station._id, station.automated);
@@ -65,6 +80,11 @@ export default memo(({ station, onNewPlantAdded, onPlantRemoved }) => {
             {ledState
               ? <i className="far fa-lightbulb text-orange" />
               : <i className="fas fa-lightbulb text-light-gray" />}
+          </span>
+          <span className="mx-2 text-nowrap cursor-pointer" onClick={handleToggleBump}>
+            {bumpState
+              ? <i className="fas fa-tint text-orange" />
+              : <i className="fas fa-tint text-light-gray" />}
           </span>
         </div>
         <div onClick={handleToggleAutomated} className="mx-2 text-orange cursor-pointer">

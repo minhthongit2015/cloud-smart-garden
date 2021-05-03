@@ -25,7 +25,7 @@ export default class {
     React.useEffect(() => {
       this.on(event, callback);
       return () => superrequest.removeListener(event, callback);
-    });
+    }, []);
   }
 
   static on(event, callback, prevListenerId) {

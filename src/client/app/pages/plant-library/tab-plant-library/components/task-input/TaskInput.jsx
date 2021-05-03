@@ -2,6 +2,7 @@ import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   Box,
+  Button,
   Card,
   FormControl, InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core';
@@ -23,13 +24,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TaskInput({ task, onChange }) {
+export default function TaskInput({ task, onChange, onRemove }) {
   const classes = useStyles();
 
   const handleChange = React.useCallback((event) => {
     const { target: { name, value } } = event;
     onChange(value, name, task);
   }, [task, onChange]);
+
+  const handleRemove = React.useCallback(() => {
+    onRemove(task);
+  }, [task, onRemove]);
 
   return (
     <Box mb={2}>
@@ -43,6 +48,8 @@ export default function TaskInput({ task, onChange }) {
               name="every"
               variant="outlined"
               value={task.every}
+              onChange={handleChange}
+              autoComplete="off"
             />
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">Hành Động</InputLabel>
@@ -60,7 +67,7 @@ export default function TaskInput({ task, onChange }) {
                   <em>- - - - - - - -</em>
                 </MenuItem>
                 <MenuItem value="bump">Tưới Nước</MenuItem>
-                <MenuItem value="light">Bật Đèn</MenuItem>
+                <MenuItem value="led">Bật Đèn</MenuItem>
               </Select>
             </FormControl>
             <TextField
@@ -70,21 +77,27 @@ export default function TaskInput({ task, onChange }) {
               type="text"
               name="duration"
               value={task.duration}
+              onChange={handleChange}
+              autoComplete="off"
             />
             <TextField
               label="Từ thời điểm"
               type="datetime-local"
               name="beginTime"
-              value={task.beginTime}
-              defaultValue={moment().format('YYYY-MM-DDThh:mm')}
+              value={moment(task.beginTime).format('YYYY-MM-DDThh:mm')}
+              defaultValue={moment(task.beginTime).format('YYYY-MM-DDThh:mm')}
               onChange={handleChange}
               className={classes.textField}
               margin="dense"
+              autoComplete="off"
               InputLabelProps={{
                 shrink: true
               }}
             />
           </form>
+          <Box textAlign="right">
+            <Button onClick={handleRemove} size="small" style={{ color: '#faa' }}>Xóa</Button>
+          </Box>
         </Box>
       </Card>
     </Box>
